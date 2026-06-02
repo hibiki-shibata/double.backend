@@ -23,24 +23,24 @@
     - Wallet Transaction History
         - unique_id
         - wallet_id
-        - position_id
+        - bet_id
         - type (deposit, withdraw, bet, payout, refund, cancel)
         - amount
         - balance_before
         - balance_after
         - created_at
-    - Position
+    - Bet
         - unique_id
         - user_id
         - market_id
-        - outcome_id
+        - prediction_id
         - bet_amount
         - payout_amount
         - status (pending, locked, won, lost, payout, cancelled)
         - version
         - created_at
         - updated_at      
-    - Outcome
+    - Prediction
         - unique_id
         - market_id
         - name
@@ -52,9 +52,9 @@
         - created_at
         - updated_at
         - resolved_at
-    - Outcome Transaction History
+    - Prediction Transaction History
         - unique_id
-        - position_id
+        - bet_id
         - bet_amount
         - type (bet, refund, cancel)
         - bet_sum_before
@@ -99,11 +99,11 @@ Input total bet amount for performance? or sum up from bet amount from user's be
     - Market list
         - Search bar
     - Market page
-        - Positions' data
+        - bets' data
         - Checkout
     - Account details
         - Edit Account info
-    - Position History
+    - bet History
         - cancel button
         - estimated payout
 - Admin
