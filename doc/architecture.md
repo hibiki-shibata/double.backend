@@ -1,0 +1,118 @@
+## Architecture
+
+1. DB tables (Postgres & Mongo?)
+  - User Profile 
+        - unique_id
+        - user_name
+        - display_name
+        - email address
+        - password_hash
+        - status (active, suspend, deleted)
+        - roles (user, admin)
+        - created_at
+        - updated_at 
+    - Wallet
+        - unique_id
+        - user_id
+        - balance
+        - currency
+        - reserved_amount
+        - status (active, suspend)
+        - version
+        - updated_at
+    - Wallet Transaction History
+        - unique_id
+        - wallet_id
+        - position_id
+        - type (deposit, withdraw, bet, payout, refund, cancel)
+        - amount
+        - balance_before
+        - balance_after
+        - created_at
+    - Position
+        - unique_id
+        - user_id
+        - market_id
+        - outcome_id
+        - bet_amount
+        - payout_amount
+        - status (pending, locked, won, lost, payout, cancelled)
+        - version
+        - created_at
+        - updated_at      
+    - Outcome
+        - unique_id
+        - market_id
+        - name
+        - bet_sum
+        - is_winner
+        - resolved_by
+        - is_resolved
+        - version
+        - created_at
+        - updated_at
+        - resolved_at
+    - Outcome Transaction History
+        - unique_id
+        - position_id
+        - bet_amount
+        - type (bet, refund, cancel)
+        - bet_sum_before
+        - bet_sum_after
+        - created_at  
+    - Market
+        - unique_id
+        - title
+        - status(upcoming, opened, closed, resolved, payout, cancelled)
+        - close_at
+        - created_at
+        - updated_at
+        - resolved_at
+Input total bet amount for performance? or sum up from bet amount from user's bet histories to ensure consistency?
+
+### 2. Controller/Service
+- Users
+    - Auth endpoint(login/logout Google Oauth)
+    - Post betting
+    - Get user profile
+    - Get bet history
+    - Get bet board list
+    - Get bet history
+    - Get current bet status
+    - Get your estimated profit status
+    - Get wallet balance
+    - Put change user profile
+    - Put top up wallet balance
+    - Put withdraw balance
+    - Post register bank account
+- Admin
+    - Post create bet topic
+    - Put win or lose
+    - Put edit bet topic
+    - Payout corrections
+    - Suspend user/wallet
+
+### 3. View
+- User
+    - Login / OAuth
+    - Wallet page
+    - Market list
+        - Search bar
+    - Market page
+        - Positions' data
+        - Checkout
+    - Account details
+        - Edit Account info
+    - Position History
+        - cancel button
+        - estimated payout
+- Admin
+    - Market list
+        - Search Bar
+    - Market page
+        - Edit Market info
+        - Resolve button
+    - Notification Page
+        - 
+    - User List
+        - Edit Account Info
