@@ -1,4 +1,4 @@
-import type { User } from "../../account/model/user.type.js"
+import type { User } from "../../user/model/user.type.js"
 import type { Currency } from "../../wallet/model/wallet.type.js"
 
 enum BetStatus {

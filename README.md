@@ -7,19 +7,6 @@
 
 
 Implementation plan
-1. server, router, cors, auth, password encoder, exception, rate limit,  exceptions
-2. logger
-3. db / repository / circuit breaker
-3. router, controller
-4. dto, mapper
-6. service 
-7. Frontend
-8. cache
-9. ci/cd
-10. datadog
-11. queue
-
-
 - Foundation
     - pnpm init + tsconfig
     ESM, NodeNext, strict — do this before anything else
