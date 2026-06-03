@@ -3,6 +3,12 @@ export enum WalletStatus {
     suspended
 }
 
+export enum Currency {
+    USD,
+    EUR,
+    JPY
+}
+
 export type Wallet = {
     id: string
     user_id: string
@@ -28,6 +34,7 @@ export type WalletTransaction = {
     wallet_id: string
     prediction_id: string
     transaction_type: WalletTransactionType
+    currency: Currency
     amount: number
     balance_before: number
     balance_after: number

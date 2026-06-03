@@ -3,7 +3,7 @@
 1. DB tables (Postgres & Mongo?)
   - User Profile 
         - unique_id
-        - user_name
+        - name
         - display_name
         - email address
         - password_hash

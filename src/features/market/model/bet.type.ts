@@ -1,3 +1,5 @@
+import type { User } from "../../account/model/user.type.js"
+import type { Currency } from "../../wallet/model/wallet.type.js"
 
 enum BetStatus {
     pending,
@@ -10,9 +12,10 @@ enum BetStatus {
 
 export type Bet = {
     id: string
-    user_id: string
+    user: User
     market_id: string
-    outcome_id: string
+    prediction_id: string
+    currency: Currency
     bet_amount: number
     payout_amount: number
     status: BetStatus

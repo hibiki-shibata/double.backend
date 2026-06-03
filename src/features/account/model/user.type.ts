@@ -14,10 +14,10 @@ export type User = {
     id: string
     name: string
     display_name: string
-    email_address: string
+    email_address: string | null
     password_hash: string
     status: UserStatus
-    role: UserRoles
+    roles: UserRoles[]
     created_at: Date
     updated_at: Date
 }
