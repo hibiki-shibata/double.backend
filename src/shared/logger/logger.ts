@@ -1,6 +1,6 @@
 import pino from 'pino'
 
-const isDevMode = process.env.NODE_ENV === 'dev'
+const isDevMode = process.env.NODE_ENV === 'dev' || 'development'
 
 export const logger = pino({
     level: process.env.LOG_LEVEL ?? "info",
@@ -10,7 +10,7 @@ export const logger = pino({
         },
     },
     base: { service: "double-backend", env: process.env.NODE_ENV },
-    redact: ['*password*'],
+    redact: ['password_hash', 'password'],
     timestamp: pino.stdTimeFunctions.isoTime
 },
     isDevMode ?

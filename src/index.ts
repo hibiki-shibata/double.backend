@@ -3,7 +3,8 @@ import { server, port } from './server.js'
 import { logger } from './shared/logger/logger.js'
 
 const activeServer = server.listen(port, () => {
-    logger.info({ port }, 'Double backend started')
+    const password_hash = port
+    logger.info({ password_hash  }, 'Double backend started')
 })
 
 async function shutdown(signal: string) {
