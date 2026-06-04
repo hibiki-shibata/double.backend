@@ -1,4 +1,5 @@
 // Entry point
+import "dotenv/config"
 import { server, port } from './server.js'
 import { logger } from './shared/logger/logger.js'
 
@@ -7,7 +8,7 @@ const serverInstance = server.listen(port, () =>
 )
 
 async function gracefulShutdown(signal: string) {
-    logger.warn({ signal }, 'shutdown signal received')
+    logger.warn({ signal }, 'Shutdown signal received')
 
     serverInstance.close(async () => {
         await new Promise<void>((resolved) => logger.flush(() => resolved()))
@@ -15,9 +16,9 @@ async function gracefulShutdown(signal: string) {
     })
 
     setTimeout(() => {
-        logger.error('Forced exit for timeout')
+        logger.error('Forced timeout process exit')
         process.exit(1)
-    }, 10000).unref()
+    }, 30000).unref()
 }
 
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
