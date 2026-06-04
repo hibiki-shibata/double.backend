@@ -1,4 +1,3 @@
-// feature index
 import { Router } from 'express'
 import { userRouter } from './user/user.router.js'
 import { walletRouter } from './wallet/wallet.router.js'

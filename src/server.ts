@@ -1,6 +1,6 @@
 import express from 'express'
 import { type Express } from 'express'
-import { featuresRouter } from "./features/featuresRouter.js"
+import { featuresRouter } from "./features/features.router.js"
 import { globalExceptionHandler } from "./shared/middleware/globalExceptionHandler.js"
 import { addTraceHeader } from './shared/middleware/addTraceHeader.js'
 
