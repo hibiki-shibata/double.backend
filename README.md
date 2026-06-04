@@ -17,29 +17,29 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
 
 ### Implementation plan
 - Foundation
-    - pnpm init + tsconfig
+    - pnpm init + tsconfig✅
     ESM, NodeNext, strict — do this before anything else
     - env config (zod)
     config.ts validates all env vars on startup — needed before DB
     - DB connection pool
     pg pool in shared/db/pool.ts — test the connection before writing routes
-    - migrations setup
+    - migrations setup✅
     ⚠️ missing in your plan — use node-pg-migrate or Flyway from day 1, not hand-run SQL
-    - logger (pino)
+    - logger (pino)✅
     needed from the start — everything else logs through it
-    - app.ts + index.ts
+    - app.ts + index.ts✅
     server boot + graceful shutdown wired before any feature work
 
 - Middleware
-    - CORS
+    - CORS✅
     configure origins explicitly — never use wildcard * in prod
-    - rate limiter
+    - rate limiter✅
     express-rate-limit — apply globally first, then tighten per-route
-    - request ID middleware
+    - request ID middleware✅
     ⚠️ missing — attach x-request-id to every request via AsyncLocalStorage for log correlation
-    - global error handler
+    - global error handler✅
     registered last in app.ts — centralizes all next(err) calls
-    - request logger middleware
+    - request logger middleware✅
     ⚠️ missing — log every req/res with method, path, status, duration
     - helmet
     ⚠️ missing — sets secure HTTP headers in one line

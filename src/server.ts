@@ -1,8 +1,9 @@
 import express from 'express'
 import { type Express } from 'express'
-import { rateLimit } from 'express-rate-limit'
 import cors from 'cors'
+import { rateLimit } from 'express-rate-limit'
 import { rateLimitConfig } from './shared/config/rateLimit.config.js'
+import helmet from 'helmet'
 import { corsConfig } from './shared/config/cors.config.js'
 import { addTraceHeader } from './shared/middleware/addTraceHeader.js'
 import { featuresRouter } from "./features/features.router.js"
@@ -13,6 +14,7 @@ export const server: Express = express()
 
 server.use(rateLimit(rateLimitConfig))
 server.use(cors(corsConfig))
+server.use(helmet())
 server.use(addTraceHeader)
 server.use(express.json())
 server.use('/api', featuresRouter)

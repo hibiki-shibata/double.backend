@@ -3,7 +3,7 @@ import { type Options } from 'express-rate-limit'
 
 export const rateLimitConfig: Partial<Options> = {
     windowMs: 10 * 60 * 1000, // 10 mins
-    limit: 100, // 100 req/windowsMs per IP
+    limit: 100, // limit per OP
     standardHeaders: 'draft-8',
     legacyHeaders: false,
     ipv6Subnet: 56,
