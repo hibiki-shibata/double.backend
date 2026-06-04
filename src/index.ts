@@ -2,25 +2,23 @@
 import { server, port } from './server.js'
 import { logger } from './shared/logger/logger.js'
 
-const activeServer = server.listen(port, () => {
-    const password_hash = port
-    logger.info({ password_hash  }, 'Double backend started')
-})
+const serverInstance = server.listen(port, () =>
+    logger.info({ port }, 'Double backend started')
+)
 
-async function shutdown(signal: string) {
-    logger.warn({ signal }, 'shutdown received')
-    
-    activeServer.close(async () => {
-        // await db.end();
+async function gracefulShutdown(signal: string) {
+    logger.warn({ signal }, 'shutdown signal received')
+
+    serverInstance.close(async () => {
         await new Promise<void>((resolved) => logger.flush(() => resolved()))
         process.exit(0)
     })
 
     setTimeout(() => {
-        logger.error('Forced shutdown - Graceful shutdown failed')
+        logger.error('Forced exit for timeout')
         process.exit(1)
     }, 10000).unref()
 }
 
-process.on('SIGTERM', () => shutdown('SIGTERM'))
-process.on('SIGINT', () => shutdown('SIGINT'))
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
+process.on('SIGINT', () => gracefulShutdown('SIGINT'))
