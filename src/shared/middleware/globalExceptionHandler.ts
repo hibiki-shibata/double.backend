@@ -14,20 +14,20 @@ export function globalExceptionHandler(
     res: Response,
     _next: NextFunction
 ): void {
-    const requestId = req.headers['x-request-id'] as string
+    const requestId: string = req.requestId
 
     if (err instanceof HttpException) {
-        const handledErrBody: ErrorResponse = {
+        logger.error({ requestId, err, }, 'httpException was thrown')
+        const httpExceptionBody: ErrorResponse = {
             code: err.code,
             message: err.message,
             requestId: requestId
         }
-        res.status(err.statusCode).json(handledErrBody)
+        res.status(err.statusCode).json(httpExceptionBody)
         return
     }
 
-    logger.error({ err }, 'Unexpected Server Error')
-
+    logger.error({ requestId, err, }, 'Unexpected Error was thrown')
     const unexpectedErrBody: ErrorResponse = {
         code: 'INTERNAL_ERROR',
         message: 'Unexpected Server Error',
