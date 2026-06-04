@@ -1,4 +1,4 @@
-// src/types/express.d.ts
+// To insert request ID in the ../shared/middleware/addTraceHeader.ts
 declare namespace Express {
     interface Request {
         requestId: string;
