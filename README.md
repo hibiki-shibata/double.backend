@@ -5,8 +5,17 @@
 - [Features & Future plan](https://github.com/hibiki-shibata/double.backend/main/doc/features.md)
 - [Challenges](https://github.com/hibiki-shibata/double.backend/main/doc/challenges.md)
 
+### Locally start server
+#### 1. Add .env file
+```.env
+NODE_ENV= dev or prod
+PORT_NUMBER=
 
-Implementation plan
+DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
+```
+
+
+### Implementation plan
 - Foundation
     - pnpm init + tsconfig
     ESM, NodeNext, strict — do this before anything else
