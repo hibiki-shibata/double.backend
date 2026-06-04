@@ -1,19 +1,17 @@
-// entry point / gracefulshut down
-
-// server.get('/', (req: any, res: any) => {
-//     res.send('Double Server Receive Get Requestion\nReq Content:' + req);
-// })
-
-export class UserAuthController {
-    public login(): void {
+export const UserAuthController = {
+    login(): void {
         return
-    }
+    },
 
-    public signup(): void {
+    signup(): void {
         return
-    }
+    },
 
-    public refreshToken(): void {
+    logout(): void {
         return
-    }
+    },
+
+    refreshToken(): void {
+        return
+    },
 }
