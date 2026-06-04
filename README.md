@@ -1,4 +1,7 @@
-## Double - Prediction Market Backend Server
+## Double 
+#### ~ Prediction Market Backend Server ~
+
+[Instagram](https://www.instagram.com/double.app.co/)
 
 - [Service & Tech Stack](https://github.com/hibiki-shibata/double.backend/main/doc/overview.md)
 - [System Architecture](https://github.com/hibiki-shibata/double.backend/main/doc/architecture.md)
@@ -41,7 +44,7 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
     registered last in app.ts — centralizes all next(err) calls
     - request logger middleware✅
     ⚠️ missing — log every req/res with method, path, status, duration
-    - helmet
+    - helmet✅
     ⚠️ missing — sets secure HTTP headers in one line
 
 - Auth feature

@@ -8,6 +8,7 @@
     "build": "pnpm tsc --project tsconfig.json",
     "lint": "pnpm dlx eslint ./src/",
     "lint:fix": "pnpm dlx eslint ./src/",
+    "migrate:dev": "pnpm dlx prisma migrate dev --name local-migration",
     "start": "pnpm tsc --project tsconfig.json && node dist/index.js"
   },
   "keywords": [],
