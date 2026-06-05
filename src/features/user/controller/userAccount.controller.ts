@@ -1,5 +1,5 @@
 import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
-import { UserAccountSerivce } from "../service/userAccount.service.js"
+import { userAccountService } from "../service/userAccount.service.js"
 import type { Request, Response } from 'express'
 
 // Delete later
@@ -17,7 +17,7 @@ export const UserAccountController = {
         _req: Request,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const user: UserAccountResponse = await UserAccountSerivce.getMyAccount('userId')
+        const user: UserAccountResponse = await userAccountService.getMyAccount('userId')
         res.status(200).json(user)
     },
 
@@ -25,7 +25,7 @@ export const UserAccountController = {
         _req: Request<UserAccountRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const updatedUser: UserAccountResponse = await UserAccountSerivce.updateMyAccount(exampleDto)
+        const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(exampleDto)
         res.status(200).json(updatedUser)
     },
 
@@ -33,7 +33,7 @@ export const UserAccountController = {
         _req: Request,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        await UserAccountSerivce.deleteMyAccount('userId')
+        await userAccountService.deleteMyAccount('userId')
         res.status(200)
     }
     // Note: Separate endpoint for Admin page

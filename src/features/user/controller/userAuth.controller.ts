@@ -1,6 +1,6 @@
 import type { Response, Request } from "express"
 import type { UserAccountResponse } from "../dto/userAccount.dto.js"
-import { UserAuthService } from "../service/userAuth.service.js"
+import { userAuthService } from "../service/userAuth.service.js"
 import type { UserSignupRequest, UserLoginRequest } from "../dto/userAuth.dto.js"
 import type { UserAccountRequest } from "../dto/userAccount.dto.js"
 
@@ -27,7 +27,7 @@ export const UserAuthController = {
         _req: Request<UserLoginRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const user: UserAccountResponse = await UserAuthService.login(exampleULoginUser)
+        const user: UserAccountResponse = await userAuthService.login(exampleULoginUser)
         res.status(200).json(user)
     },
 
@@ -35,7 +35,7 @@ export const UserAuthController = {
         _req: Request<UserSignupRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const user: UserAccountResponse = await UserAuthService.signup(exampleSignupUser)
+        const user: UserAccountResponse = await userAuthService.signup(exampleSignupUser)
         res.status(201).json(user)
     },
 
@@ -43,7 +43,7 @@ export const UserAuthController = {
         _req: Request,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        await UserAuthService.logout(exampleDto)
+        await userAuthService.logout(exampleDto)
         res.status(200)
     },
 
@@ -51,7 +51,7 @@ export const UserAuthController = {
         _req: Request,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        await UserAuthService.refreshToken('refreshToken')
+        await userAuthService.refreshToken('refreshToken')
         res.status(201)
     },
 }

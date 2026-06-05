@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs'
 
-export const PasswordService = {
+class PasswordService {
     async hashPassword(password: string): Promise<string> {
         return await bcrypt.hash(password, process.env.BYCRYPT_SALT_ROUNDS ?? 12)
-    },
+    }
 
     async isPasswordValid(
         inputPassword: string,
@@ -12,3 +12,5 @@ export const PasswordService = {
         return await bcrypt.compare(inputPassword, storedHashedPassword)
     }
 }
+
+export const passwordService = new PasswordService

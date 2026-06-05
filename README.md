@@ -50,7 +50,7 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
     ⚠️ missing — sets secure HTTP headers in one line
 
 - Auth feature
-    - password hashing
+    - password hashing✅
     bcrypt in auth.service — never store plaintext or md5
     - JWT sign + verify
     short-lived access token (15m) + refresh token (7d)
