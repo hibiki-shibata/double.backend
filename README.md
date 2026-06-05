@@ -13,6 +13,8 @@
 ```.env
 NODE_ENV= dev or prod
 PORT_NUMBER=
+BYCRYPT_SALT_ROUNDS=
+RATE_LIMIT=
 
 DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
 ```

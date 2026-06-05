@@ -5,12 +5,14 @@ import { UserRepository } from "../repository/user.repository.js"
 import { toUserAccountResponse } from "../mapper/toUserAccountResponse.js"
 import type { JwtToken } from "../../../shared/auth/jwtToken.type.js"
 import { PasswordService } from "../../../shared/auth/password.service.js"
+import { InvalidInput } from "../../../shared/exception/invalidInput.js"
 
 export const UserAuthService = {
     async signup(
         req: UserSignupRequest
     ): Promise<UserAccountResponse> {
-        const passwordHash: string = PasswordService.hashPassword(req.password)
+        if (!req.password) throw new InvalidInput('Password is required to signup')
+        const passwordHash: string = await PasswordService.hashPassword(req.password)
         const newUser: CreateUserDto = {
             userName: req.userName,
             displayName: req.userName,
@@ -25,6 +27,7 @@ export const UserAuthService = {
     async login(
         req: UserLoginRequest
     ): Promise<UserAccountResponse> {
+        if (!req.password) throw new InvalidInput('Password is required to login')
         const existingUser: User = await UserRepository.getUserByUserName(req.userName)
         if (!PasswordService.isPasswordValid(req.password, existingUser.password_hash!)) {
             throw new Error
