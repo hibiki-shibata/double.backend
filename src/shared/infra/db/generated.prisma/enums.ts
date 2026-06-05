@@ -20,7 +20,8 @@ export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 export const UserRoles = {
   user: 'user',
-  admin: 'admin'
+  admin: 'admin',
+  deleted: 'deleted'
 } as const
 
 export type UserRoles = (typeof UserRoles)[keyof typeof UserRoles]
