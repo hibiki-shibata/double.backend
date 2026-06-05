@@ -14,16 +14,16 @@ const exampleDto: UserAccountRequest = {
 export const UserAccountController = {
 
     async getMyAccountData(
-        _req: Request<UserAccountRequest>,
+        _req: Request,
         res: Response<UserAccountResponse>
     ): Promise<void> {
         const user: UserAccountResponse
-            = await UserAccountSerivce.getMyAccount(exampleDto)
+            = await UserAccountSerivce.getMyAccount('userId')
         res.status(200).json(user)
     },
 
     async putUpdatedMyAccount(
-        _req: Request,
+        _req: Request<UserAccountRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
         const updatedUser: UserAccountResponse
@@ -35,7 +35,7 @@ export const UserAccountController = {
         _req: Request,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        await UserAccountSerivce.deleteMyAccount(exampleDto)
+        await UserAccountSerivce.deleteMyAccount('userId')
         res.status(200)
     }
     // Note: Separate endpoint for Admin page

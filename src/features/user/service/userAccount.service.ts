@@ -1,42 +1,27 @@
-import {
-    //  type User,
-    UserStatus
-} from "../../../shared/infra/db/generated.prisma/client.js"
+import { type User, UserStatus } from "../../../shared/infra/db/generated.prisma/client.js"
 import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
-// import { userRepository } from "../repository/user.repository.js"
+import { toUserAccountResponse } from "../mapper/toUserAccountResponse.js"
+import { UserRepository } from "../repository/user.repository.js"
 
 export const UserAccountSerivce = {
 
     async getMyAccount(
-        user: UserAccountRequest
+        userId: string
     ): Promise<UserAccountResponse> {
-        const updatedUser: UserAccountResponse = {
-            id: user.id,
-            name: 'string',
-            display_name: 'string',
-            email_address: 'string',
-            status: UserStatus.active,
-        }
-        return updatedUser
+        const user: User = await UserRepository.getUserById(userId)
+        return toUserAccountResponse(user)
     },
 
     async updateMyAccount(
         user: UserAccountRequest
     ): Promise<UserAccountResponse> {
-        const updatedUser: UserAccountResponse = {
-            id: user.id,
-            name: 'string',
-            display_name: 'string',
-            email_address: 'string',
-            status: UserStatus.active,
-        }
-        return updatedUser
+        const updatedUser: User = await UserRepository.updateUser(user)
+        return toUserAccountResponse(updatedUser)
     },
 
     async deleteMyAccount(
-        user: UserAccountRequest
+        userId: string
     ): Promise<void> {
-        console.log(user)
-        return
+        await UserRepository.deleteUserById(userId)
     },
 }

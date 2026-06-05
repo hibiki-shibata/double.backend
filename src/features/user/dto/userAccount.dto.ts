@@ -1,4 +1,4 @@
-import { UserStatus } from "../../../shared/infra/db/generated.prisma/enums.js"
+import { UserStatus, UserRoles } from "../../../shared/infra/db/generated.prisma/enums.js"
 
 export type UserAccountRequest = {
     id: string,
@@ -13,4 +13,12 @@ export type UserAccountResponse = {
     display_name: string,
     email_address: string,
     status: UserStatus
+}
+
+export type CreateUserDto = {
+    userName: string,
+    displayName: string,
+    passwordHash: string,
+    status: UserStatus,
+    roles: UserRoles[]
 }

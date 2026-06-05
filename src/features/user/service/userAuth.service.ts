@@ -1,34 +1,35 @@
-import { UserStatus } from "../../../shared/infra/db/generated.prisma/client.js"
+import { type User, UserStatus, UserRoles } from "../../../shared/infra/db/generated.prisma/client.js"
 import type { UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
-import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
+import type { CreateUserDto, UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
+import { UserRepository } from "../repository/user.repository.js"
+import { toUserAccountResponse } from "../mapper/toUserAccountResponse.js"
 import type { JwtToken } from "../../../shared/auth/jwtToken.type.js"
-// import { userRepository } from "../repository/user.repository.js"
+import { PasswordService } from "../../../shared/auth/password.service.js"
 
 export const UserAuthService = {
     async signup(
         req: UserSignupRequest
     ): Promise<UserAccountResponse> {
-        const createdUser: UserAccountResponse = {
-            id: 'stringify',
-            name: req.userName,
-            display_name: 'string',
-            email_address: 'string',
+        const passwordHash: string = PasswordService.hashPassword(req.password)
+        const newUser: CreateUserDto = {
+            userName: req.userName,
+            displayName: req.userName,
+            passwordHash: passwordHash,
             status: UserStatus.active,
+            roles: [UserRoles.user],
         }
-        return createdUser
+        const createdUser: User = await UserRepository.createUser(newUser)
+        return toUserAccountResponse(createdUser)
     },
 
     async login(
         req: UserLoginRequest
     ): Promise<UserAccountResponse> {
-        const createdUser: UserAccountResponse = {
-            id: 'stringify',
-            name: req.userName,
-            display_name: 'string',
-            email_address: 'string',
-            status: UserStatus.active,
+        const existingUser: User = await UserRepository.getUserByUserName(req.userName)
+        if (!PasswordService.isPasswordValid(req.password, existingUser.password_hash!)) {
+            throw new Error
         }
-        return createdUser
+        return toUserAccountResponse(existingUser)
     },
 
     async logout(

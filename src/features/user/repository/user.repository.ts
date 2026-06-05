@@ -1,14 +1,29 @@
-import { type User, UserStatus, UserRoles } from '../../../shared/infra/db/generated.prisma/client.js'
 import { prisma } from '../../../shared/infra/db/postgresClient.js'
+import { type User, UserStatus, UserRoles } from '../../../shared/infra/db/generated.prisma/client.js'
+import type { UserAccountRequest, CreateUserDto } from '../dto/userAccount.dto.js'
 
 
-export const userRepository = {
+export const UserRepository = {
     async createUser(
-        newUser: User
+        user: CreateUserDto
     ): Promise<User> {
         return await prisma.user.create({
-            data: newUser,
+            data: {
+                name: user.userName,
+                display_name: user.displayName,
+                password_hash: user.passwordHash,
+                status: user.status,
+                roles: user.roles
+            },
             include: { wallets: true }
+        })
+    },
+
+    async getUserById(
+        userId: string
+    ): Promise<User> {
+        return await prisma.user.findUniqueOrThrow({
+            where: { id: userId }
         })
     },
 
@@ -29,7 +44,7 @@ export const userRepository = {
     },
 
     async updateUser(
-        user: User
+        user: UserAccountRequest
     ): Promise<User> {
         return await prisma.user.update({
             where: { id: user.id },
@@ -37,11 +52,11 @@ export const userRepository = {
         })
     },
 
-    async deleteUser(
-        user: User
+    async deleteUserById(
+        userId: string
     ): Promise<User> {
         return await prisma.user.update({
-            where: { id: user.id },
+            where: { id: userId },
             data: {
                 name: null,
                 display_name: 'deleted',
