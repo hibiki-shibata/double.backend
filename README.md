@@ -24,7 +24,7 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
     ESM, NodeNext, strict — do this before anything else
     - env config (zod)
     config.ts validates all env vars on startup — needed before DB
-    - DB connection pool
+    - DB connection pool✅
     pg pool in shared/db/pool.ts — test the connection before writing routes
     - migrations setup✅
     ⚠️ missing in your plan — use node-pg-migrate or Flyway from day 1, not hand-run SQL

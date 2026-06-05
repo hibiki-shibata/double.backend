@@ -1,4 +1,4 @@
-import { type User, UserStatus } from "../../../shared/infra/db/generated.prisma/client.js"
+import { type User } from "../../../shared/infra/db/generated.prisma/client.js"
 import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
 import { toUserAccountResponse } from "../mapper/toUserAccountResponse.js"
 import { UserRepository } from "../repository/user.repository.js"

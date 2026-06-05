@@ -17,8 +17,7 @@ export const UserAccountController = {
         _req: Request,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const user: UserAccountResponse
-            = await UserAccountSerivce.getMyAccount('userId')
+        const user: UserAccountResponse = await UserAccountSerivce.getMyAccount('userId')
         res.status(200).json(user)
     },
 
@@ -26,8 +25,7 @@ export const UserAccountController = {
         _req: Request<UserAccountRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const updatedUser: UserAccountResponse
-            = await UserAccountSerivce.updateMyAccount(exampleDto)
+        const updatedUser: UserAccountResponse = await UserAccountSerivce.updateMyAccount(exampleDto)
         res.status(200).json(updatedUser)
     },
 

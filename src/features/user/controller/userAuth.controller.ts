@@ -27,8 +27,7 @@ export const UserAuthController = {
         _req: Request<UserLoginRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const user: UserAccountResponse
-            = await UserAuthService.login(exampleULoginUser)
+        const user: UserAccountResponse = await UserAuthService.login(exampleULoginUser)
         res.status(200).json(user)
     },
 
@@ -36,8 +35,7 @@ export const UserAuthController = {
         _req: Request<UserSignupRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const user: UserAccountResponse
-            = await UserAuthService.signup(exampleSignupUser)
+        const user: UserAccountResponse = await UserAuthService.signup(exampleSignupUser)
         res.status(201).json(user)
     },
 
