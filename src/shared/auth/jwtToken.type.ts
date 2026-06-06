@@ -5,7 +5,13 @@ export type JwtTokenResponse = {
     refreshToken: string
 }
 
+export enum TokenType {
+    accessToken,
+    refreshToken
+}
+
 export type AccessTokenClaim = {
+    type: TokenType.accessToken
     userId: string,
     userName: string,
     roles: UserRoles
@@ -15,6 +21,7 @@ export type AccessTokenClaim = {
 }
 
 export type RefreshTokenClaim = {
+    type: TokenType.refreshToken
     tokenId: string,
     userId: string,
     exp: string,

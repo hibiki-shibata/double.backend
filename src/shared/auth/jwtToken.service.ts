@@ -1,49 +1,73 @@
-import { NotFound } from "../exception/notFound.js"
-import type { JwtTokenResponse } from "./jwtToken.type.js"
+import jwt from 'jsonwebtoken'
+import type { JwtPayload, SignOptions, VerifyOptions } from "jsonwebtoken"
+import { type JwtTokenResponse, type AccessTokenClaim, type RefreshTokenClaim, TokenType } from "./jwtToken.type.js"
+import { UnAuthorized } from "../exception/unAuthorized.js"
+import { jwtConfig } from '../config/jwt.config.js'
 
 class JwtTokenService {
-    public getJwtAuthToken(): JwtTokenResponse {
-        const freshJwtToken: JwtTokenResponse = {
-            accessToken: 'example',
-            refreshToken: 'example'
+
+    getFreshTokens(
+        accessTokenClaim: AccessTokenClaim,
+        refreshTokenClaim: RefreshTokenClaim,
+    ): JwtTokenResponse {
+        const freshJwtTokens: JwtTokenResponse = {
+            accessToken: this.generateAccessToken(accessTokenClaim),
+            refreshToken: this.generateRefreshToken(refreshTokenClaim),
         }
-        return freshJwtToken
+        return freshJwtTokens
     }
 
-    public isTokenValid(token: string): boolean {
-        return this.isTokenExpired(token)
+    getAccessTokenClaim(token: string): AccessTokenClaim {
+        const payload: JwtPayload = this.verifyToken(token)
+        if (payload.type !== TokenType.accessToken) throw new UnAuthorized('Failed to get AccessToken')
+        return payload as unknown as AccessTokenClaim
     }
 
-    public getAccessTokenClaim() {
-        // Implement later
+    getRefreshTokenClaim(token: string): RefreshTokenClaim {
+        const payload: JwtPayload = this.verifyToken(token)
+        if (payload.type !== TokenType.refreshToken) throw new UnAuthorized('Failed to get RefreshToekn')
+        return payload as unknown as RefreshTokenClaim
     }
 
-    public getRefreshTokenClaim() {
-        // Implement later
+    private verifyToken(token: string): JwtPayload {
+        const verifyOptions: VerifyOptions = {
+            issuer: jwtConfig.issuer,
+            algorithms: [jwtConfig.algorithm]
+        }
+        try {
+            const payload: JwtPayload | string = jwt.verify(token, this.getSecret(), verifyOptions)
+            if (typeof payload === 'string') throw new Error('Unexpected string payload')
+            return payload
+
+        } catch (err) {
+            throw new UnAuthorized('Invalid Jwt token')
+        }
     }
 
-
-    private generateAccessToken() {
-        // Implement later
+    private generateAccessToken(claim: AccessTokenClaim): string {
+        const signOptions: SignOptions = {
+            expiresIn: jwtConfig.accessTokenExpiry,
+            algorithm: jwtConfig.algorithm,
+            issuer: jwtConfig.issuer,
+        }
+        return jwt.sign(claim, this.getSecret(), signOptions)
     }
 
-    private generateRefreshToken() {
-        // Implement later
-    }
-
-    private isTokenExpired(token: string): boolean {
-        return token ? true : false
-    }
-
-    private extractTokenClaim() {
-        // Implement later
+    private generateRefreshToken(claim: RefreshTokenClaim): string {
+        const signOptions: SignOptions = {
+            expiresIn: jwtConfig.refreshTokenExpiry,
+            algorithm: jwtConfig.algorithm,
+            issuer: jwtConfig.issuer,
+        }
+        return jwt.sign(claim, this.getSecret(), signOptions)
     }
 
     private getSecret(): string {
-        const secret: string = process.env.JWT_SECRET_KEY ?? ''
-        if (!secret) throw new NotFound('JWT token secret')
+        const secret = process.env.JWT_SECRET_KEY ?? ''
+        if (!secret) throw new Error('JWT_SECRET_KEY environment variable is not set')
+        if (secret.length < 32) throw new Error('JWT_SECRET_KEY must be at least 32 characters')
         return secret
     }
 }
 
-export const JWtTokenService = new JwtTokenService
+export const jwtTokenService = new JwtTokenService()

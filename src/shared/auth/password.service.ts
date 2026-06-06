@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 
 class PasswordService {
     async hashPassword(password: string): Promise<string> {
-        return await bcrypt.hash(password, process.env.BYCRYPT_SALT_ROUNDS ?? 12)
+        return await bcrypt.hash(password, Number(process.env.BYCRYPT_SALT_ROUNDS) ?? 12)
     }
 
     async isPasswordValid(

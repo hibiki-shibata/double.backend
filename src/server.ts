@@ -1,10 +1,9 @@
-import express from 'express'
-import { type Express } from 'express'
+import express, { type Express } from 'express'
 import cors from 'cors'
 import { rateLimit } from 'express-rate-limit'
 import { rateLimitConfig } from './shared/config/rateLimit.config.js'
-import helmet from 'helmet'
 import { corsConfig } from './shared/config/cors.config.js'
+import helmet from 'helmet'
 import { addTraceHeader } from './shared/middleware/addTraceHeader.js'
 import { featuresRouter } from "./features/features.router.js"
 import { globalExceptionHandler } from "./shared/middleware/globalExceptionHandler.js"
