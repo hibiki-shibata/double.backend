@@ -1,57 +1,58 @@
-## Double - Prediction Market Backend Server
+## Double 
+#### ~ Prediction Market Backend Server ~
+
+[Instagram](https://www.instagram.com/double.app.co/)
 
 - [Service & Tech Stack](https://github.com/hibiki-shibata/double.backend/main/doc/overview.md)
 - [System Architecture](https://github.com/hibiki-shibata/double.backend/main/doc/architecture.md)
 - [Features & Future plan](https://github.com/hibiki-shibata/double.backend/main/doc/features.md)
 - [Challenges](https://github.com/hibiki-shibata/double.backend/main/doc/challenges.md)
 
+### Locally start server
+#### 1. Add .env file
+```.env
+NODE_ENV= dev or prod
+PORT_NUMBER=
+BYCRYPT_SALT_ROUNDS=
+RATE_LIMIT=
 
-Implementation plan
-1. server, router, cors, auth, password encoder, exception, rate limit,  exceptions
-2. logger
-3. db / repository / circuit breaker
-3. router, controller
-4. dto, mapper
-6. service 
-7. Frontend
-8. cache
-9. ci/cd
-10. datadog
-11. queue
+DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
+```
 
 
+### Implementation plan
 - Foundation
-    - pnpm init + tsconfig
+    - pnpm init + tsconfig✅
     ESM, NodeNext, strict — do this before anything else
     - env config (zod)
     config.ts validates all env vars on startup — needed before DB
-    - DB connection pool
+    - DB connection pool✅
     pg pool in shared/db/pool.ts — test the connection before writing routes
-    - migrations setup
+    - migrations setup✅
     ⚠️ missing in your plan — use node-pg-migrate or Flyway from day 1, not hand-run SQL
-    - logger (pino)
+    - logger (pino)✅
     needed from the start — everything else logs through it
-    - app.ts + index.ts
+    - app.ts + index.ts✅
     server boot + graceful shutdown wired before any feature work
 
 - Middleware
-    - CORS
+    - CORS✅
     configure origins explicitly — never use wildcard * in prod
-    - rate limiter
+    - rate limiter✅
     express-rate-limit — apply globally first, then tighten per-route
-    - request ID middleware
+    - request ID middleware✅
     ⚠️ missing — attach x-request-id to every request via AsyncLocalStorage for log correlation
-    - global error handler
+    - global error handler✅
     registered last in app.ts — centralizes all next(err) calls
-    - request logger middleware
+    - request logger middleware✅
     ⚠️ missing — log every req/res with method, path, status, duration
-    - helmet
+    - helmet✅
     ⚠️ missing — sets secure HTTP headers in one line
 
 - Auth feature
-    - password hashing
+    - password hashing✅
     bcrypt in auth.service — never store plaintext or md5
-    - JWT sign + verify
+    - JWT sign + verify✅
     short-lived access token (15m) + refresh token (7d)
     - authenticate middleware
     verifies JWT, attaches user to req — applied per-router not globally
