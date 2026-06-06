@@ -1,6 +1,6 @@
 // Doc: https://nodejs.org/learn/test-runner/using-test-runner
 import assert from 'node:assert/strict';
-import { describe, it, test } from 'node:test';
+import { describe, test } from 'node:test';
 
 describe('Password Service Test', () => {
     test('Password Generic Test', () =>
