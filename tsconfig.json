@@ -41,8 +41,8 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "typeRoots": ["./node_modules/@types", "app/src/types"],
+    "typeRoots": ["./node_modules/@types", "app/src/shared/types"],
   },
-    "include": ["app/src"],
+    "include": ["app/src", "app/src/shared/types"],
     "exclude": ["node_modules", "dist"],
 }
