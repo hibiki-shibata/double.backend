@@ -1,13 +1,12 @@
+// passwordService.ts
 import bcrypt from 'bcryptjs'
 import { UnexpectedEnvVar } from '../exception/serverException.js'
 
-class PasswordService {
-    private readonly saltRounds: number
-
-    constructor() {
-        const parsed = parseInt(process.env.BCRYPT_SALT_ROUNDS ?? '', 10)
-        this.saltRounds = Number.isInteger(parsed) ? parsed : 12
-        if (this.saltRounds < 10) throw new UnexpectedEnvVar('BCRYPT_SALT_ROUNDS must be at least 10')
+export class PasswordService {
+    constructor(private readonly saltRounds: number) {
+        if (!Number.isInteger(saltRounds) || saltRounds < 10) {
+            throw new UnexpectedEnvVar('BCRYPT_SALT_ROUNDS must be an integer >= 10')
+        }
     }
 
     async hashPassword(password: string): Promise<string> {
@@ -22,4 +21,6 @@ class PasswordService {
     }
 }
 
-export const passwordService = new PasswordService()
+const parsed: number = parseInt(process.env.BCRYPT_SALT_ROUNDS ?? '', 10)
+const saltRounds: number = Number.isInteger(parsed) ? parsed : 12
+export const passwordService = new PasswordService(saltRounds)
