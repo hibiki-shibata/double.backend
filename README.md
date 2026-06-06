@@ -52,7 +52,7 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
 - Auth feature
     - password hashing✅
     bcrypt in auth.service — never store plaintext or md5
-    - JWT sign + verify
+    - JWT sign + verify✅
     short-lived access token (15m) + refresh token (7d)
     - authenticate middleware
     verifies JWT, attaches user to req — applied per-router not globally
