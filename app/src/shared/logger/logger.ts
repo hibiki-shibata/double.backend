@@ -1,28 +1,7 @@
 import pino from 'pino'
+import { destinationStreamConfig, loggerConfig } from '../config/logger.config.js'
 
-const isDevMode = process.env.NODE_ENV === 'dev' || 'development'
-
-export const logger = pino({
-    level: process.env.LOG_LEVEL ?? "info",
-    formatters: {
-        level(label) {
-            return { level: label }
-        },
-    },
-    base: { service: "double-backend", env: process.env.NODE_ENV },
-    redact: ['password_hash', 'password'],
-    timestamp: pino.stdTimeFunctions.isoTime
-},
-    isDevMode ?
-        pino.transport({
-            target: 'pino-pretty',
-            options: {
-                colorize: true,
-                ignore: 'pid,hostname,service',
-                translateTime: 'SYS:HH:MM:ss',
-            },
-        })
-        : pino.destination({
-            sync: false
-        })
+export const logger = pino(
+    loggerConfig,
+    destinationStreamConfig
 )
