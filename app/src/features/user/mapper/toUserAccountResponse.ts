@@ -1,6 +1,6 @@
 import type { User } from "../../../shared/infra/db/generated.prisma/client.js";
 import type { UserAccountResponse } from "../dto/userAccount.dto.js";
-import { NotFound } from "../../../shared/exception/notFound.js";
+import { NotFound } from "../../../shared/exception/httpException.js"
 
 export function toUserAccountResponse(
     user: User

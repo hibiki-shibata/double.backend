@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express'
-import { logger } from '../logger/logger.js'
-import { HttpException } from '../exception/httpException.js'
+import { HttpBaseException } from '../exception/httpException.js'
+import { InternalServerBaseException } from '../exception/serverException.js'
 
 type ErrorResponse = {
     code: string
@@ -14,24 +14,29 @@ export function globalExceptionHandler(
     res: Response,
     _next: NextFunction
 ): void {
-    const requestId: string = req.requestId
+    let resBody: ErrorResponse = {
+        code: 'INTERNAL_ERROR',
+        message: 'Internal Server Error',
+        requestId: req.requestId
+    }
 
-    if (err instanceof HttpException) {
-        logger.error({ requestId, err, }, 'httpException was thrown')
-        const httpExceptionBody: ErrorResponse = {
+    if (err instanceof HttpBaseException) {
+        req.logger.error({ err }, 'httpException was handled')
+        resBody = {
             code: err.code,
             message: err.message,
-            requestId: requestId
+            requestId: req.requestId
         }
-        res.status(err.statusCode).json(httpExceptionBody)
+        res.status(err.statusCode).json(resBody)
         return
     }
 
-    logger.error({ requestId, err, }, 'Unexpected Error was thrown')
-    const unexpectedErrBody: ErrorResponse = {
-        code: 'INTERNAL_ERROR',
-        message: 'Unexpected Server Error',
-        requestId: requestId
+    if (err instanceof InternalServerBaseException) {
+        req.logger.error({ err }, 'InternalServerException was handled')
+        res.status(err.statusCode).json(resBody)
+        return
     }
-    res.status(500).json(unexpectedErrBody)
+
+    req.logger.error({ err }, 'Unexpected Exception was thrown')
+    res.status(500).json(resBody)
 }

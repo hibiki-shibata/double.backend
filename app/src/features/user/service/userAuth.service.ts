@@ -5,7 +5,7 @@ import { userRepository } from "../repository/user.repository.js"
 import { toUserAccountResponse } from "../mapper/toUserAccountResponse.js"
 import type { JwtTokenResponse } from "../../../shared/auth/jwtToken.type.js"
 import { passwordService } from "../../../shared/auth/password.service.js"
-import { InvalidInput } from "../../../shared/exception/invalidInput.js"
+import { InvalidInput } from "../../../shared/exception/httpException.js"
 
 class UserAuthService {
     public async signup(req: UserSignupRequest): Promise<UserAccountResponse> {
@@ -26,7 +26,7 @@ class UserAuthService {
         if (!req.password) throw new InvalidInput('Password is required to login')
         const existingUser: User = await userRepository.getUserByUserName(req.userName)
         if (!passwordService.isPasswordValid(req.password, existingUser.password_hash!)) {
-            throw new Error
+            throw new InvalidInput('Invalid Password')
         }
         return toUserAccountResponse(existingUser)
     }

@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken'
 import type { JwtPayload, SignOptions, VerifyOptions } from "jsonwebtoken"
 import { type JwtTokenResponse, type AccessTokenClaim, type RefreshTokenClaim, TokenType } from "./jwtToken.type.js"
-import { UnAuthorized } from "../exception/unAuthorized.js"
+import { Unauthenticated } from "../exception/httpException.js"
 import { jwtConfig } from '../config/jwt.config.js'
+import { UnexpectedEnvVar } from '../exception/serverException.js'
 
 class JwtTokenService {
 
@@ -19,13 +20,13 @@ class JwtTokenService {
 
     getAccessTokenClaim(token: string): AccessTokenClaim {
         const payload: JwtPayload = this.verifyToken(token)
-        if (payload.type !== TokenType.accessToken) throw new UnAuthorized('Failed to get AccessToken')
+        if (payload.type !== TokenType.accessToken) throw new Unauthenticated('Failed to get AccessToken')
         return payload as unknown as AccessTokenClaim
     }
 
     getRefreshTokenClaim(token: string): RefreshTokenClaim {
         const payload: JwtPayload = this.verifyToken(token)
-        if (payload.type !== TokenType.refreshToken) throw new UnAuthorized('Failed to get RefreshToekn')
+        if (payload.type !== TokenType.refreshToken) throw new Unauthenticated('Failed to get RefreshToekn')
         return payload as unknown as RefreshTokenClaim
     }
 
@@ -36,11 +37,11 @@ class JwtTokenService {
         }
         try {
             const payload: JwtPayload | string = jwt.verify(token, this.getSecret(), verifyOptions)
-            if (typeof payload === 'string') throw new Error('Unexpected string payload')
+            if (typeof payload === 'string') throw new Unauthenticated('Unexpected string payload')
             return payload
 
         } catch (err) {
-            throw new UnAuthorized('Invalid Jwt token')
+            throw new Unauthenticated('Invalid Jwt token')
         }
     }
 
@@ -64,8 +65,8 @@ class JwtTokenService {
 
     private getSecret(): string {
         const secret = process.env.JWT_SECRET_KEY ?? ''
-        if (!secret) throw new Error('JWT_SECRET_KEY environment variable is not set')
-        if (secret.length < 32) throw new Error('JWT_SECRET_KEY must be at least 32 characters')
+        if (!secret) throw new UnexpectedEnvVar('JWT_SECRET_KEY environment variable is not set')
+        if (secret.length < 32) throw new UnexpectedEnvVar('JWT_SECRET_KEY must be at least 32 characters')
         return secret
     }
 }
