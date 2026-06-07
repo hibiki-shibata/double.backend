@@ -4,7 +4,7 @@
   "description": "This is a prediction market backend server, which handle core logics",
   "main": "index.js",
   "scripts": {
-    "test": "node --import tsx/esm --test 'app/test/**/*.test.ts'",
+    "test": "vitest run",
     "build": "pnpm tsc --project tsconfig.build.json",
     "lint": "pnpm dlx eslint ./app/src/",
     "lint:fix": "pnpm dlx eslint ./app/src/",
@@ -47,8 +47,8 @@
     "jiti": "^2.7.0",
     "pino-pretty": "^13.1.3",
     "prisma": "^7.8.0",
-    "tsx": "^4.22.4",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.60.0"
+    "typescript-eslint": "^8.60.0",
+    "vitest": "^4.1.8"
   }
 }
