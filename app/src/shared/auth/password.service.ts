@@ -2,12 +2,11 @@
 import bcrypt from 'bcryptjs'
 import { UnexpectedEnvVar } from '../exception/serverException.js'
 import { encryptionConfig } from '../config/encryption.config.js'
+import { InvalidInput } from '../exception/httpException.js'
 
 export class PasswordService {
     constructor(private readonly saltRounds: number) {
-        console.log('CHECK HEREEEE')
-        console.log(saltRounds)
-        if (            
+        if (
             !Number.isInteger(saltRounds) ||
             saltRounds <= encryptionConfig.min_salt_rounds ||
             saltRounds >= encryptionConfig.max_salt_round
@@ -17,14 +16,14 @@ export class PasswordService {
     }
 
     async hashPassword(password: string): Promise<string> {
-        return bcrypt.hash(password, this.saltRounds)
+        return await bcrypt.hash(password, this.saltRounds)
     }
 
     async isPasswordValid(
         inputPassword: string,
         storedHashedPassword: string
     ): Promise<boolean> {
-        return bcrypt.compare(inputPassword, storedHashedPassword)
+        return await bcrypt.compare(inputPassword, storedHashedPassword)
     }
 }
 

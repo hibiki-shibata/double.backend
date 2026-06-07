@@ -11,6 +11,3 @@ export const encryptionConfig: EncryptionConfig = {
     max_salt_round: 15,
     saltRound: parseInt(process.env.BCRYPT_SALT_ROUNDS ?? '', 10)
 }
-
-console.log("HHHHHHH")
-console.log(process.env.BCRYPT_SALT_ROUNDS)
