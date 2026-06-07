@@ -1,3 +1,5 @@
+import "dotenv/config"
+
 type EncryptionConfig = {
     min_salt_rounds: number,
     max_salt_round: number,
@@ -10,3 +12,5 @@ export const encryptionConfig: EncryptionConfig = {
     saltRound: parseInt(process.env.BCRYPT_SALT_ROUNDS ?? '', 10)
 }
 
+console.log("HHHHHHH")
+console.log(process.env.BCRYPT_SALT_ROUNDS)

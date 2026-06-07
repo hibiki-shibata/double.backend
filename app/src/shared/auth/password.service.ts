@@ -5,7 +5,9 @@ import { encryptionConfig } from '../config/encryption.config.js'
 
 export class PasswordService {
     constructor(private readonly saltRounds: number) {
-        if (
+        console.log('CHECK HEREEEE')
+        console.log(saltRounds)
+        if (            
             !Number.isInteger(saltRounds) ||
             saltRounds <= encryptionConfig.min_salt_rounds ||
             saltRounds >= encryptionConfig.max_salt_round

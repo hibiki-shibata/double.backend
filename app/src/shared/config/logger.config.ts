@@ -1,3 +1,4 @@
+import "dotenv/config"
 import pino, { type DestinationStream, type LoggerOptions } from "pino"
 import { isDevMode } from "./env.config.js"
 
@@ -8,7 +9,7 @@ export const loggerConfig: LoggerOptions = {
             return { level: label }
         },
     },
-    base: { service: "double-backend", env: process.env.NODE_ENV },
+    base: { service: "double-backend", isDevMode: isDevMode },
     redact: ['password_hash', 'password'],
     timestamp: pino.stdTimeFunctions.isoTime,
 }

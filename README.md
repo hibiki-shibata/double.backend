@@ -13,8 +13,10 @@
 ```.env
 NODE_ENV= dev or prod
 PORT_NUMBER=
-BYCRYPT_SALT_ROUNDS=
+BCRYPT_SALT_ROUNDS=
 RATE_LIMIT=
+LOG_LEVEL=info
+JWT_SECRET_KEY=
 
 DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
 ```
