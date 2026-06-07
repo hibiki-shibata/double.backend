@@ -28,7 +28,6 @@ describe('JwtTokenService instanciation edge cases', () => {
     })
 })
 
-
 const accessTokenClaim: AccessTokenClaim = {
     type: TokenType.accessToken,
     userId: 'user-id',

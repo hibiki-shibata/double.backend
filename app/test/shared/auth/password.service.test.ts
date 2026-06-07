@@ -1,6 +1,6 @@
 import { vi, describe, test, expect, afterEach } from 'vitest'
 import bcrypt from 'bcryptjs'
-import { passwordService, PasswordService } from '../../../src/shared/auth/password.service.js'
+import { PasswordService } from '../../../src/shared/auth/password.service.js'
 import { UnexpectedEnvVar } from '../../../src/shared/exception/serverException.js'
 
 afterEach(() => {
