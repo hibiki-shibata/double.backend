@@ -1,11 +1,16 @@
 // passwordService.ts
 import bcrypt from 'bcryptjs'
 import { UnexpectedEnvVar } from '../exception/serverException.js'
+import { encryptionConfig } from '../config/encryption.config.js'
 
 export class PasswordService {
     constructor(private readonly saltRounds: number) {
-        if (!Number.isInteger(saltRounds) || saltRounds < 10) {
-            throw new UnexpectedEnvVar('BCRYPT_SALT_ROUNDS must be an integer >= 10')
+        if (
+            !Number.isInteger(saltRounds) ||
+            saltRounds <= encryptionConfig.min_salt_rounds ||
+            saltRounds >= encryptionConfig.max_salt_round
+        ) {
+            throw new UnexpectedEnvVar('BCRYPT_SALT_ROUNDS must be 10 <= integer <= 15')
         }
     }
 
@@ -21,6 +26,4 @@ export class PasswordService {
     }
 }
 
-const parsed: number = parseInt(process.env.BCRYPT_SALT_ROUNDS ?? '', 10)
-const saltRounds: number = Number.isInteger(parsed) ? parsed : 12
-export const passwordService = new PasswordService(saltRounds)
+export const passwordService = new PasswordService(encryptionConfig.saltRound)

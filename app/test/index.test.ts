@@ -1,5 +1,6 @@
-import { expect, test } from 'vitest'
+// https://vitest.dev/guide/learn/matchers.html
 
+import { expect, test } from 'vitest'
 
 test('adds 1 + 2 to equal 3', () => {
   expect('afa').toBe('afa')
