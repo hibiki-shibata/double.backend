@@ -14,9 +14,7 @@ export type AccessTokenClaim = {
     type: TokenType.accessToken
     userId: string,
     userName: string,
-    roles: UserRoles
-    issuer: string,
-    exp: Date,
+    roles: UserRoles[]
     iat: Date
 }
 
@@ -24,5 +22,4 @@ export type RefreshTokenClaim = {
     type: TokenType.refreshToken
     tokenId: string,
     userId: string,
-    exp: string,
 }

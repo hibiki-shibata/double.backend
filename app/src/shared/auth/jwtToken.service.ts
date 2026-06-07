@@ -5,7 +5,12 @@ import { Unauthenticated } from "../exception/httpException.js"
 import { jwtConfig } from '../config/jwt.config.js'
 import { UnexpectedEnvVar } from '../exception/serverException.js'
 
-class JwtTokenService {
+export class JwtTokenService {
+
+    constructor(private readonly secretKey: string) {
+        if (!secretKey || secretKey.length < 32 || secretKey.length > 70)
+            throw new UnexpectedEnvVar('JWT_SECRET_KEY must be at least 32 characters')
+    }
 
     getFreshTokens(
         accessTokenClaim: AccessTokenClaim,
@@ -36,7 +41,7 @@ class JwtTokenService {
             algorithms: [jwtConfig.algorithm]
         }
         try {
-            const payload: JwtPayload | string = jwt.verify(token, this.getSecret(), verifyOptions)
+            const payload: JwtPayload | string = jwt.verify(token, this.secretKey, verifyOptions)
             if (typeof payload === 'string') throw new Unauthenticated('Unexpected string payload')
             return payload
 
@@ -51,7 +56,7 @@ class JwtTokenService {
             algorithm: jwtConfig.algorithm,
             issuer: jwtConfig.issuer,
         }
-        return jwt.sign(claim, this.getSecret(), signOptions)
+        return jwt.sign(claim, this.secretKey, signOptions)
     }
 
     private generateRefreshToken(claim: RefreshTokenClaim): string {
@@ -60,15 +65,8 @@ class JwtTokenService {
             algorithm: jwtConfig.algorithm,
             issuer: jwtConfig.issuer,
         }
-        return jwt.sign(claim, this.getSecret(), signOptions)
-    }
-
-    private getSecret(): string {
-        const secret = process.env.JWT_SECRET_KEY ?? ''
-        if (!secret) throw new UnexpectedEnvVar('JWT_SECRET_KEY environment variable is not set')
-        if (secret.length < 32) throw new UnexpectedEnvVar('JWT_SECRET_KEY must be at least 32 characters')
-        return secret
+        return jwt.sign(claim, this.secretKey, signOptions)
     }
 }
 
-export const jwtTokenService = new JwtTokenService()
+export const jwtTokenService = new JwtTokenService(jwtConfig.secretKey)

@@ -2,7 +2,6 @@
 import bcrypt from 'bcryptjs'
 import { UnexpectedEnvVar } from '../exception/serverException.js'
 import { encryptionConfig } from '../config/encryption.config.js'
-import { InvalidInput } from '../exception/httpException.js'
 
 export class PasswordService {
     constructor(private readonly saltRounds: number) {
