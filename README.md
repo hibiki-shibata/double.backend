@@ -11,12 +11,12 @@
 ### Locally start server
 #### 1. Add .env file
 ```.env
-NODE_ENV= dev or prod
-PORT_NUMBER=
-BCRYPT_SALT_ROUNDS=
-RATE_LIMIT=
-LOG_LEVEL=info
-JWT_SECRET_KEY=
+NODE_ENV=< dev | stage | prod>
+PORT_NUMBER=<e.g,. 3000>
+BCRYPT_SALT_ROUNDS=<10 ~ 15>
+RATE_LIMIT=<limit per 15 mins>
+LOG_LEVEL=<info | warn | error | debug>
+JWT_SECRET_KEY=<31 ~ 50 letters>
 
 DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
 ```
