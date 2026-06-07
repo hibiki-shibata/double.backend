@@ -9,7 +9,7 @@ export class JwtTokenService {
 
     constructor(private readonly secretKey: string) {
         if (!secretKey || secretKey.length < 32 || secretKey.length > 70)
-            throw new UnexpectedEnvVar('JWT_SECRET_KEY must be at least 32 characters')
+            throw new UnexpectedEnvVar('JWT_SECRET_KEY must be 32 < characters < 70')
     }
 
     getFreshTokens(

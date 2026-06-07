@@ -15,11 +15,15 @@ export type AccessTokenClaim = {
     userId: string,
     userName: string,
     roles: UserRoles[]
-    iat: Date
+    iat: number
+    exp?: number,
+    iss?: string
 }
 
 export type RefreshTokenClaim = {
     type: TokenType.refreshToken
     tokenId: string,
     userId: string,
+    exp?: number,
+    iss?: string
 }
