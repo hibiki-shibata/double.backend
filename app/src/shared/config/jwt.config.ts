@@ -1,13 +1,16 @@
+import jwt from 'jsonwebtoken'
+import ms from 'ms'
+
 type JwtConfig = {
-    accessTokenExpiry: string,
-    refreshTokenExpiry: string | number,
+    accessTokenExpiry: number | ms.StringValue,
+    refreshTokenExpiry: number | ms.StringValue,
     issuer: string
-    algorithm: string
+    algorithm: jwt.Algorithm
 }
 
 export const jwtConfig: JwtConfig = {
     accessTokenExpiry: '15m',
     refreshTokenExpiry: '30d',
     issuer: 'double-backend',
-    algorithm: 'HS256' as const,
-} as const
+    algorithm: 'HS256',
+}
