@@ -8,8 +8,15 @@ import { UnexpectedEnvVar } from '../../exception/serverException.js'
 export class JwtTokenService {
 
     constructor(private readonly secretKey: string) {
-        if (!secretKey || secretKey.length < 32 || secretKey.length > 70)
-            throw new UnexpectedEnvVar('JWT_SECRET_KEY must be 32 < characters < 70')
+        if (
+            !secretKey ||
+            secretKey.length > jwtConfig.maxSecretLength ||
+            secretKey.length < jwtConfig.minSecretLength
+        ) {
+            throw new UnexpectedEnvVar(
+                `JWT_SECRET_KEY must be between ${jwtConfig.minSecretLength} and ${jwtConfig.maxSecretLength} characters`
+            )
+        }
     }
 
     getFreshTokens(
