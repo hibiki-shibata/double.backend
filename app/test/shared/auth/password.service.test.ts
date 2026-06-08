@@ -45,8 +45,8 @@ describe('PasswordService.hashPassword edge cases', () => {
     })
 
     test('should propagate bcrypt hash errors', async () => {
-        vi.spyOn(bcrypt, 'hash').mockImplementationOnce(() => new Error('Faild hashing password'))
-        expect(passwordService.hashPassword(inputPassword)).toThrow(Error)
+        vi.spyOn(bcrypt, 'hash').mockRejectedValueOnce(new Error('Faild hashing password'))
+        expect(passwordService.hashPassword(inputPassword)).rejects.toThrow(Error)
     })
 })
 
