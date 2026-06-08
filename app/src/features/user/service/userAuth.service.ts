@@ -4,7 +4,7 @@ import type { CreateUserDto, UserAccountRequest, UserAccountResponse } from "../
 import { userRepository } from "../repository/user.repository.js"
 import { toUserAccountResponse } from "../mapper/toUserAccountResponse.js"
 import type { JwtTokenResponse } from "../../../shared/auth/jwtToken.type.js"
-import { passwordService } from "../../../shared/auth/password.service.js"
+import { passwordService } from "../../../shared/auth/service/password.service.js"
 import { InvalidInput } from "../../../shared/exception/httpException.js"
 
 class UserAuthService {
