@@ -1,10 +1,16 @@
 import { UserStatus, UserRoles } from "../../../shared/infra/db/generated.prisma/enums.js"
 
 export type UserAccountRequest = {
-    id: string,
     name: string,
     display_name: string,
     email_address: string
+}
+
+export type UpdateUserAccountDTO = {
+    userId: string
+    userName: string,
+    displayName: string,
+    emailAddress: string
 }
 
 export type UserAccountResponse = {
@@ -15,7 +21,7 @@ export type UserAccountResponse = {
     status: UserStatus
 }
 
-export type CreateDbUserDto = {
+export type CreateDbUserDTO = {
     userName: string,
     displayName: string,
     passwordHash: string,

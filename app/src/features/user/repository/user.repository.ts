@@ -1,13 +1,13 @@
 import { prisma } from '../../../shared/infra/db/postgresClient.js'
 import type { PrismaClient } from '@prisma/client/extension'
 import { type User, UserStatus, UserRoles } from '../../../shared/infra/db/generated.prisma/client.js'
-import type { UserAccountRequest, CreateUserDto } from '../dto/userAccount.dto.js'
+import type { CreateDbUserDTO, UpdateUserAccountDTO } from '../dto/userAccount.dto.js'
 
 
 export class UserRepository {
     constructor(private readonly db: PrismaClient) { }
 
-    async createUser(user: CreateUserDto): Promise<User> {
+    async createUser(user: CreateDbUserDTO): Promise<User> {
         return await this.db.user.create({
             data: {
                 name: user.userName,
@@ -38,9 +38,9 @@ export class UserRepository {
         })
     }
 
-    async updateUser(user: UserAccountRequest): Promise<User> {
+    async updateUser(user: UpdateUserAccountDTO): Promise<User> {
         return await this.db.user.update({
-            where: { id: user.id },
+            where: { id: user.userId },
             data: { user }
         })
     }
