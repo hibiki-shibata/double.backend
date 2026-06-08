@@ -7,8 +7,8 @@ export class PasswordService {
     constructor(private readonly saltRounds: number) {
         if (
             !Number.isInteger(saltRounds) ||
-            saltRounds <= passwordEncoderConfig.min_salt_rounds ||
-            saltRounds >= passwordEncoderConfig.max_salt_round
+            saltRounds < passwordEncoderConfig.min_salt_rounds ||
+            saltRounds > passwordEncoderConfig.max_salt_round
         ) {
             throw new UnexpectedEnvVar('BCRYPT_SALT_ROUNDS must be 10 <= integer <= 15')
         }

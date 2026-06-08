@@ -10,8 +10,8 @@ export class JwtTokenService {
     constructor(private readonly secretKey: string) {
         if (
             !secretKey ||
-            secretKey.length > jwtConfig.maxSecretLength ||
-            secretKey.length < jwtConfig.minSecretLength
+            secretKey.length < jwtConfig.minSecretLength ||
+            secretKey.length > jwtConfig.maxSecretLength
         ) {
             throw new UnexpectedEnvVar(
                 `JWT_SECRET_KEY must be between ${jwtConfig.minSecretLength} and ${jwtConfig.maxSecretLength} characters`

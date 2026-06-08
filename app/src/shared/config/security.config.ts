@@ -4,7 +4,6 @@ import type { CorsOptions } from "cors"
 import jwt from 'jsonwebtoken'
 import ms from 'ms'
 import { type Options } from 'express-rate-limit'
-import { UnexpectedEnvVar } from "../exception/serverException.js"
 
 type PasswordEncoderConfig = {
     min_salt_rounds: number,
@@ -42,7 +41,7 @@ export const jwtConfig: JwtConfig = {
     minSecretLength: 32,
     secretKey: (() => {
         const secret = process.env.JWT_SECRET_KEY ?? undefined
-        if (!secret || secret.length < 30 || secret.length > 70) throw new Error('JWT_SECRET_KEY must be between 32 and 70 characters')
+        if (!secret || secret.length <= 30 || secret.length >= 70) throw new Error('JWT_SECRET_KEY must be between 32 and 70 characters')
         return secret
     })()
 }
