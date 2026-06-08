@@ -30,13 +30,13 @@ export class JwtTokenService {
         return freshJwtTokens
     }
 
-    getAccessTokenClaim(token: string): AccessTokenClaim {
+    verifyAccessToken(token: string): AccessTokenClaim {
         const payload: JwtPayload = this.verifyToken(token)
         if (payload.type !== TokenType.accessToken) throw new Unauthenticated('Failed to get AccessToken')
         return payload as unknown as AccessTokenClaim
     }
 
-    getRefreshTokenClaim(token: string): RefreshTokenClaim {
+    verifyRefreshToken(token: string): RefreshTokenClaim {
         const payload: JwtPayload = this.verifyToken(token)
         if (payload.type !== TokenType.refreshToken) throw new Unauthenticated('Failed to get RefreshToekn')
         return payload as unknown as RefreshTokenClaim

@@ -60,20 +60,20 @@ describe('JwtTokenService.getFreshToken edge cases', () => {
     })
 })
 
-describe('JwtToken.getAccessTokenClaim', () => {
+describe('JwtToken.verifyAccessToken', () => {
     const validJwtTokens: JwtTokenResponse = jwtTokenService.getFreshTokens(accessTokenClaim, refreshTokenClaim)
 
     test('throw Error when token was invalid', () => {
-        expect(() => jwtTokenService.getAccessTokenClaim('invalid-token')).toThrow(Unauthenticated)
+        expect(() => jwtTokenService.verifyAccessToken('invalid-token')).toThrow(Unauthenticated)
     })
 
     test('throw Error when claim was invalid while token is valid', () => {
-        expect(() => jwtTokenService.getAccessTokenClaim(validJwtTokens.refreshToken)).toThrow(Unauthenticated)
-        expect(() => jwtTokenService.getRefreshTokenClaim(validJwtTokens.accessToken)).toThrow(Unauthenticated)
+        expect(() => jwtTokenService.verifyAccessToken(validJwtTokens.refreshToken)).toThrow(Unauthenticated)
+        expect(() => jwtTokenService.verifyRefreshToken(validJwtTokens.accessToken)).toThrow(Unauthenticated)
     })
 
     test('retrieve AccessTokenClaim when Token was valid', () => {
-        const retrievedClaim: AccessTokenClaim = jwtTokenService.getAccessTokenClaim(validJwtTokens.accessToken)
+        const retrievedClaim: AccessTokenClaim = jwtTokenService.verifyAccessToken(validJwtTokens.accessToken)
         expect(retrievedClaim.userId).toEqual(accessTokenClaim.userId)
         expect(retrievedClaim.roles).toEqual(accessTokenClaim.roles)
         expect(retrievedClaim.type).toEqual(accessTokenClaim.type)
@@ -81,7 +81,7 @@ describe('JwtToken.getAccessTokenClaim', () => {
     })
 
     test('retrieve RefreshTokenClaim when Token was valid', () => {
-        const retrievedClaim: RefreshTokenClaim = jwtTokenService.getRefreshTokenClaim(validJwtTokens.refreshToken)
+        const retrievedClaim: RefreshTokenClaim = jwtTokenService.verifyRefreshToken(validJwtTokens.refreshToken)
         expect(retrievedClaim.userId).toEqual(refreshTokenClaim.userId)
         expect(retrievedClaim.tokenId).toEqual(refreshTokenClaim.tokenId)
         expect(retrievedClaim.type).toEqual(refreshTokenClaim.type)

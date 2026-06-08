@@ -8,9 +8,7 @@ const serverInstance = server.listen(port, () =>
     logger.info({ port }, 'Double backend started')
 )
 
-function gracefulShutdown(
-    signal: string
-): void {
+function gracefulShutdown(signal: string): void {
     logger.warn({ signal }, 'Shutdown signal received')
 
     serverInstance.close(async () => {

@@ -7,9 +7,9 @@ export function addTraceHeader(
     res: Response,
     next: NextFunction
 ): void {
-    const requestId: string = (req.headers['x-request-id'] as string) ?? uuidv4()
-    req.logger = logger.child({ requestId: requestId })
+    const requestId: string = req.header('x-request-id') ?? uuidv4()
     req.requestId = requestId
+    req.logger = logger.child({ requestId: requestId })
     res.setHeader('x-request-id', requestId)
     next()
 }

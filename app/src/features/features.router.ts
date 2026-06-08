@@ -1,10 +1,12 @@
 import { Router } from 'express'
-import { userRouter } from './user/user.router.js'
+import { userRouter, userAuthRouter } from './user/user.router.js'
 import { walletRouter } from './wallet/wallet.router.js'
 import { marketRouter } from './market/market.router.js'
+import { authValidation } from '../shared/middleware/authValidation.js'
 
 export const featuresRouter: Router = Router()
 
-featuresRouter.use('/v1/user', userRouter)
-featuresRouter.use('/v1/wallet', walletRouter)
-featuresRouter.use('/v1/market', marketRouter)
+featuresRouter.use('/user/auth', userAuthRouter)
+featuresRouter.use('/user', authValidation, userRouter)
+featuresRouter.use('/wallet', authValidation, walletRouter)
+featuresRouter.use('/market', authValidation, marketRouter)

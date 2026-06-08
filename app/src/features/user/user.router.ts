@@ -2,13 +2,14 @@ import { Router } from 'express'
 import { UserAuthController } from './controller/userAuth.controller.js'
 import { UserAccountController } from './controller/userAccount.controller.js'
 
+export const userAuthRouter: Router = Router()
 export const userRouter: Router = Router()
 
-userRouter.post('/auth/login', UserAuthController.login)
-userRouter.post('/auth/signup', UserAuthController.signup)
-userRouter.post('/auth/logout', UserAuthController.logout)
-userRouter.post('/auth/refreshToken', UserAuthController.refreshToken)
+userAuthRouter.post('/login', UserAuthController.login)
+userAuthRouter.post('/signup', UserAuthController.signup)
+userAuthRouter.post('/logout', UserAuthController.logout)
+userAuthRouter.post('/refreshToken', UserAuthController.refreshToken)
 
-userRouter.get('/account/me', UserAccountController.getMyAccountData)
-userRouter.put('/account/me', UserAccountController.putUpdatedMyAccount)
-userRouter.delete('/account/me', UserAccountController.deleteMyAccount)
+userRouter.get('/me', UserAccountController.getMyAccountData)
+userRouter.put('/me', UserAccountController.putUpdatedMyAccount)
+userRouter.delete('/me', UserAccountController.deleteMyAccount)

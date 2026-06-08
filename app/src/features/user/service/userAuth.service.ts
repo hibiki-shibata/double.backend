@@ -3,8 +3,8 @@ import type { UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js
 import type { CreateUserDto, UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
 import { userRepository } from "../repository/user.repository.js"
 import { toUserAccountResponse } from "../mapper/toUserAccountResponse.js"
-import type { JwtTokenResponse } from "../../../shared/auth/jwtToken.type.js"
-import { passwordService } from "../../../shared/auth/service/password.service.js"
+import type { JwtTokenResponse } from "../../../shared/auth/type/jwtToken.type.js"
+import { passwordService } from "../../../shared/auth/index.js"
 import { InvalidInput } from "../../../shared/exception/httpException.js"
 
 class UserAuthService {

@@ -3,5 +3,6 @@ declare namespace Express {
     interface Request {
         requestId: string
         logger: pino.Logger
+        accessTokenClaim: AccessTokenClaim
     }
 }
