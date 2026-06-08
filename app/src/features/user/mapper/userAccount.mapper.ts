@@ -1,6 +1,19 @@
+import type { Request } from "express";
 import type { User } from "../../../shared/infra/db/generated.prisma/client.js";
-import type { UserAccountResponse } from "../dto/userAccount.dto.js";
+import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js";
 import { NotFound } from "../../../shared/exception/httpException.js"
+
+export function toUserAccountRequest(
+    req: Request
+): UserAccountRequest {
+    const userAccountRequest: UserAccountRequest = {
+        id: req.accessTokenClaim.userId,
+        name: 'string',
+        display_name: 'string',
+        email_address: 'string',
+    }
+    return userAccountRequest
+}
 
 export function toUserAccountResponse(
     user: User
@@ -15,3 +28,5 @@ export function toUserAccountResponse(
     }
     return userAccountResponse
 }
+
+

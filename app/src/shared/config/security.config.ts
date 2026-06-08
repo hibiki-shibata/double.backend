@@ -21,11 +21,6 @@ type JwtConfig = {
     secretKey: string
 }
 
-export const corsConfig: CorsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200,
-}
-
 export const passwordEncoderConfig: PasswordEncoderConfig = {
     min_salt_rounds: 10,
     max_salt_round: 15,
@@ -54,3 +49,14 @@ export const rateLimitConfig: Partial<Options> = {
     ipv6Subnet: 56,
     // store: ... , // Note: Implement Redis later
 }
+
+export const corsConfig: CorsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200,
+}
+
+export const cookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+} as const

@@ -15,7 +15,7 @@ export type UserAccountResponse = {
     status: UserStatus
 }
 
-export type CreateUserDto = {
+export type CreateDbUserDto = {
     userName: string,
     displayName: string,
     passwordHash: string,

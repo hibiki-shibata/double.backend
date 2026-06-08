@@ -2,6 +2,7 @@
 import bcrypt from 'bcryptjs'
 import { UnexpectedEnvVar } from '../../exception/serverException.js'
 import { passwordEncoderConfig } from '../../config/security.config.js'
+import { InvalidInput } from '../../exception/httpException.js'
 
 export class PasswordService {
     constructor(private readonly saltRounds: number) {
@@ -14,14 +15,19 @@ export class PasswordService {
         }
     }
 
-    async hashPassword(password: string): Promise<string> {
+    public async hashPassword(password: string): Promise<string> {
         return await bcrypt.hash(password, this.saltRounds)
     }
 
-    async isPasswordValid(
+    public async verifyPassword(
         inputPassword: string,
         storedHashedPassword: string
-    ): Promise<boolean> {
-        return await bcrypt.compare(inputPassword, storedHashedPassword)
+    ): Promise<void> {
+        try {
+            const isPasswordValid = await bcrypt.compare(inputPassword, storedHashedPassword)
+            if (!isPasswordValid) throw new InvalidInput('Input password was invalid')
+        } catch {
+            throw new InvalidInput('Password validation failed')
+        }
     }
 }

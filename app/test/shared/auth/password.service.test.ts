@@ -2,6 +2,7 @@ import { vi, describe, test, expect, afterEach } from 'vitest'
 import bcrypt from 'bcryptjs'
 import { PasswordService } from '../../../src/shared/auth/service/password.service.js'
 import { UnexpectedEnvVar } from '../../../src/shared/exception/serverException.js'
+import { InvalidInput, Unauthenticated } from '../../../src/shared/exception/httpException.js'
 
 afterEach(() => {
     vi.restoreAllMocks()
@@ -50,18 +51,18 @@ describe('PasswordService.hashPassword edge cases', () => {
 })
 
 
-describe('PasswordService.isPasswordValid edge cases', () => {
+describe('PasswordService.verifyPassword edge cases', () => {
     const inputPassword: string = 'secret1234'
     const saltRound: number = 12
     const passwordService = new PasswordService(saltRound)
 
     test('should return true when password was valid', async () => {
         const hashedPassword: string = await passwordService.hashPassword(inputPassword)
-        expect(await passwordService.isPasswordValid(inputPassword, hashedPassword)).toBeTruthy()
+        expect(async () => await passwordService.verifyPassword(inputPassword, hashedPassword)).not.toThrow()
     })
 
-    test('should return false when password was valid', async () => {
+    test('should throw error when password was valid', async () => {
         const hashedPassword: string = await passwordService.hashPassword(inputPassword)
-        expect(await passwordService.isPasswordValid('wrong-password', hashedPassword)).not.toBeTruthy()
+        expect(async () => await passwordService.verifyPassword('wrong-password', hashedPassword)).toThrow(InvalidInput)
     })
 })

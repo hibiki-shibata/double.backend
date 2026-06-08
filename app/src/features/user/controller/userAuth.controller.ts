@@ -1,57 +1,58 @@
 import type { Response, Request } from "express"
-import type { UserAccountResponse } from "../dto/userAccount.dto.js"
+import type { JwtTokensDto } from "../../../shared/auth/type/jwtToken.type.js"
+import { Unauthenticated } from "../../../shared/exception/httpException.js"
+import { cookieOptions } from "../../../shared/config/security.config.js"
+import { toUserLoginRequest, toUserSignupRequest } from "../mapper/userAuth.mapper.js"
 import { userAuthService } from "../service/userAuth.service.js"
-import type { UserSignupRequest, UserLoginRequest } from "../dto/userAuth.dto.js"
-import type { UserAccountRequest } from "../dto/userAccount.dto.js"
+import type { AccessTokenResponse } from "../dto/accessTokenResponse.dto.js"
 
-// Delete later
-const exampleULoginUser: UserLoginRequest = {
-    userName: 'string',
-    password: 'string'
-}
-const exampleSignupUser: UserSignupRequest = {
-    userName: 'string',
-    password: 'string'
-}
-
-const exampleDto: UserAccountRequest = {
-    id: 'string',
-    name: 'string',
-    display_name: 'string',
-    email_address: 'string',
-}
+const REFRESH_TOKEN_COOKIE = 'refreshToken'
 
 export const UserAuthController = {
 
-    async login(
-        _req: Request<UserLoginRequest>,
-        res: Response<UserAccountResponse>
+    async signup(
+        req: Request,
+        res: Response<AccessTokenResponse>
     ): Promise<void> {
-        const user: UserAccountResponse = await userAuthService.login(exampleULoginUser)
-        res.status(200).json(user)
+        const jwtToken: JwtTokensDto = await userAuthService.signup(toUserSignupRequest(req))
+        res
+            .cookie(REFRESH_TOKEN_COOKIE, jwtToken.refreshToken, cookieOptions)
+            .status(201)
+            .json({ accessToken: jwtToken.accessToken })
     },
 
-    async signup(
-        _req: Request<UserSignupRequest>,
-        res: Response<UserAccountResponse>
+    async login(
+        req: Request,
+        res: Response<AccessTokenResponse>
     ): Promise<void> {
-        const user: UserAccountResponse = await userAuthService.signup(exampleSignupUser)
-        res.status(201).json(user)
+        const jwtToken: JwtTokensDto = await userAuthService.login(toUserLoginRequest(req))
+        res
+            .cookie(REFRESH_TOKEN_COOKIE, jwtToken.refreshToken, cookieOptions)
+            .status(200)
+            .json({ accessToken: jwtToken.accessToken })
+    },
+
+    async refreshToken(
+        req: Request,
+        res: Response<AccessTokenResponse>
+    ): Promise<void> {
+        const refreshToken: string | undefined = req.header(REFRESH_TOKEN_COOKIE)
+        if (!refreshToken) throw new Unauthenticated('Request header is missing refreshToken')
+        const jwtToken: JwtTokensDto = await userAuthService.refreshToken(refreshToken)
+        res
+            .cookie(REFRESH_TOKEN_COOKIE, jwtToken.refreshToken, cookieOptions)
+            .status(200)
+            .json({ accessToken: jwtToken.accessToken })
     },
 
     async logout(
         _req: Request,
-        res: Response<UserAccountResponse>
+        res: Response
     ): Promise<void> {
-        await userAuthService.logout(exampleDto)
-        res.status(200)
-    },
-
-    async refreshToken(
-        _req: Request,
-        res: Response<UserAccountResponse>
-    ): Promise<void> {
-        await userAuthService.refreshToken('refreshToken')
-        res.status(201)
+        res.removeHeader(REFRESH_TOKEN_COOKIE)
+        res
+            .clearCookie(REFRESH_TOKEN_COOKIE, cookieOptions)
+            .status(200)
+            .end()
     },
 }

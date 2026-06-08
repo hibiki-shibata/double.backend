@@ -56,7 +56,7 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
     bcrypt in auth.service — never store plaintext or md5
     - JWT sign + verify✅
     short-lived access token (15m) + refresh token (7d)
-    - authenticate middleware
+    - authenticate middleware✅
     verifies JWT, attaches user to req — applied per-router not globally
     - refresh token rotation
     ⚠️ missing — store refresh tokens in DB, rotate on use, invalidate on logout

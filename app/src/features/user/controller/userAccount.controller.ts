@@ -1,40 +1,33 @@
-import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
+import type { UserAccountResponse } from "../dto/userAccount.dto.js"
+import { toUserAccountRequest } from "../mapper/userAccount.mapper.js"
 import { userAccountService } from "../service/userAccount.service.js"
 import type { Request, Response } from 'express'
-
-// Delete later
-const exampleDto: UserAccountRequest = {
-    id: 'string',
-    name: 'string',
-    display_name: 'string',
-    email_address: 'string',
-}
 
 // Implement zod
 export const UserAccountController = {
 
     async getMyAccountData(
-        _req: Request,
+        req: Request,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const user: UserAccountResponse = await userAccountService.getMyAccount('userId')
+        const user: UserAccountResponse = await userAccountService.getMyAccount(toUserAccountRequest(req))
         res.status(200).json(user)
     },
 
     async putUpdatedMyAccount(
-        _req: Request<UserAccountRequest>,
+        req: Request,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(exampleDto)
+        const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(toUserAccountRequest(req))
         res.status(200).json(updatedUser)
     },
 
     async deleteMyAccount(
-        _req: Request,
-        res: Response<UserAccountResponse>
+        req: Request,
+        res: Response
     ): Promise<void> {
-        await userAccountService.deleteMyAccount('userId')
-        res.status(200)
+        await userAccountService.deleteMyAccount(toUserAccountRequest(req))
+        res.status(204).end()
     }
     // Note: Separate endpoint for Admin page
     // public getAccountList(): void {
