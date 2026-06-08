@@ -2,7 +2,7 @@ import { vi, describe, test, expect, afterEach } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { JwtTokenService } from '../../../src/shared/auth/service/jwtToken.service.js'
 import { UnexpectedEnvVar } from '../../../src/shared/exception/serverException.js'
-import { TokenType, type AccessTokenClaim, type JwtTokenResponse, type RefreshTokenClaim } from '../../../src/shared/auth/type/jwtToken.type.js'
+import { TokenType, type AccessTokenClaim, type RefreshTokenClaim } from '../../../src/shared/auth/type/jwtToken.type.js'
 import { UserRoles } from '../../../src/shared/infra/db/generated.prisma/enums.js'
 import { Unauthenticated } from '../../../src/shared/exception/httpException.js'
 
@@ -48,32 +48,36 @@ const jwtTokenService = new JwtTokenService(validSecretKey)
 
 describe('JwtTokenService.getFreshToken edge cases', () => {
 
-    test('should return JwtToken issured by jsonWebToken', () => {
-        const generatedJwtToken = 'generated-token'
-        vi.spyOn(jwt, 'sign').mockImplementation(() => generatedJwtToken)
+    test('should return AccessToken issured by jsonWebToken', () => {
+        const expectedJwtToken = 'generated-token'
+        vi.spyOn(jwt, 'sign').mockImplementation(() => expectedJwtToken)
 
-        const expectedResult: JwtTokenResponse = {
-            accessToken: generatedJwtToken,
-            refreshToken: generatedJwtToken
-        }
-        expect(jwtTokenService.getFreshTokens(accessTokenClaim, refreshTokenClaim)).toEqual(expectedResult)
+        expect(jwtTokenService.generateAccessToken(accessTokenClaim)).toEqual(expectedJwtToken)
+    })
+
+    test('should return Refresh issured by jsonWebToken', () => {
+        const expectedJwtToken = 'generated-token'
+        vi.spyOn(jwt, 'sign').mockImplementation(() => expectedJwtToken)
+
+        expect(jwtTokenService.generateRefreshToken(refreshTokenClaim)).toEqual(expectedJwtToken)
     })
 })
 
 describe('JwtToken.verifyAccessToken', () => {
-    const validJwtTokens: JwtTokenResponse = jwtTokenService.getFreshTokens(accessTokenClaim, refreshTokenClaim)
+    const validAccessToken: string = jwtTokenService.generateAccessToken(accessTokenClaim)
+    const validRefreshToken: string = jwtTokenService.generateRefreshToken(refreshTokenClaim)
 
     test('throw Error when token was invalid', () => {
         expect(() => jwtTokenService.verifyAccessToken('invalid-token')).toThrow(Unauthenticated)
     })
 
     test('throw Error when claim was invalid while token is valid', () => {
-        expect(() => jwtTokenService.verifyAccessToken(validJwtTokens.refreshToken)).toThrow(Unauthenticated)
-        expect(() => jwtTokenService.verifyRefreshToken(validJwtTokens.accessToken)).toThrow(Unauthenticated)
+        expect(() => jwtTokenService.verifyAccessToken(validRefreshToken)).toThrow(Unauthenticated)
+        expect(() => jwtTokenService.verifyRefreshToken(validAccessToken)).toThrow(Unauthenticated)
     })
 
     test('retrieve AccessTokenClaim when Token was valid', () => {
-        const retrievedClaim: AccessTokenClaim = jwtTokenService.verifyAccessToken(validJwtTokens.accessToken)
+        const retrievedClaim: AccessTokenClaim = jwtTokenService.verifyAccessToken(validAccessToken)
         expect(retrievedClaim.userId).toEqual(accessTokenClaim.userId)
         expect(retrievedClaim.roles).toEqual(accessTokenClaim.roles)
         expect(retrievedClaim.type).toEqual(accessTokenClaim.type)
@@ -81,7 +85,7 @@ describe('JwtToken.verifyAccessToken', () => {
     })
 
     test('retrieve RefreshTokenClaim when Token was valid', () => {
-        const retrievedClaim: RefreshTokenClaim = jwtTokenService.verifyRefreshToken(validJwtTokens.refreshToken)
+        const retrievedClaim: RefreshTokenClaim = jwtTokenService.verifyRefreshToken(validRefreshToken)
         expect(retrievedClaim.userId).toEqual(refreshTokenClaim.userId)
         expect(retrievedClaim.tokenId).toEqual(refreshTokenClaim.tokenId)
         expect(retrievedClaim.type).toEqual(refreshTokenClaim.type)

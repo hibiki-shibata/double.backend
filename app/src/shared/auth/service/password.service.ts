@@ -24,7 +24,10 @@ export class PasswordService {
         storedHashedPassword: string
     ): Promise<void> {
         try {
-            const isPasswordValid = await bcrypt.compare(inputPassword, storedHashedPassword)
+            const isPasswordValid: boolean = await bcrypt.compare(inputPassword, storedHashedPassword)
+            console.log("isPasswordValid")
+            console.log(inputPassword)
+            console.log(isPasswordValid)
             if (!isPasswordValid) throw new InvalidInput('Input password was invalid')
         } catch {
             throw new InvalidInput('Password validation failed')
