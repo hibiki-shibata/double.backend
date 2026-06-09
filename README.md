@@ -58,22 +58,22 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
     short-lived access token (15m) + refresh token (7d)
     - authenticate middleware✅
     verifies JWT, attaches user to req — applied per-router not globally
-    - refresh token rotation
+    - refresh token rotation✅
     ⚠️ missing — store refresh tokens in DB, rotate on use, invalidate on logout
     - token blacklist / revocation
     ⚠️ missing — needed for logout to actually work with JWTs
 
 - Feature layer
-    - router + controller 
+    - router + controller✅❗️
     one feature at a time — users first as it's referenced by everything else
     - DTO + zod validation
     validate request body in middleware before it hits the controller
-    - mapper
-    DB row → response DTO — never return raw DB objects to clients
-    - service + domain errors
+    - mapper✅❗️
+    DB row → response DTO — never return raw DB objects to clients. Remove validation logic
+    - service + domain errors✅❗️
     custom error classes (NotFoundError, ConflictError) caught by global handler
-    - repository
-    parameterized queries only — never string-interpolate user input into SQL
+    - repository✅❗️
+    parameterized queries only — never string-interpolate user input into SQL. Error
     - integration tests
     ⚠️ missing — test each feature with supertest against a real test DB, not mocks
 

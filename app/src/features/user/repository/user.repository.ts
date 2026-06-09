@@ -38,20 +38,6 @@ export class UserRepository {
             data: { userUpdateInput }
         })
     }
-
-    // async deleteUserById(userId: string): Promise<User> {
-    //     return await this.db.user.update({
-    //         where: { id: userId },
-    //         data: {
-    //             name: null,
-    //             display_name: 'deleted',
-    //             email_address: null,
-    //             password_hash: null,
-    //             status: UserStatus.deleted,
-    //             roles: [UserRoles.deleted]
-    //         }
-    //     })
-    // }
 }
 
 export const userRepository = new UserRepository(prisma)
