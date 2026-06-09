@@ -1,6 +1,5 @@
 import { logger } from "../../../shared/logger/logger.js"
-import type { UpdateUserAccountDTO, UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
-import { toUpdateUserAccountDTO } from "../mapper/userAccount.mapper.js"
+import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
 import { userAccountService } from "../service/userAccount.service.js"
 import type { Request, Response } from 'express'
 
@@ -12,8 +11,7 @@ export const UserAccountController = {
         res: Response<UserAccountResponse>
     ): Promise<void> {
         logger.info("Get account data request arrived")
-        const dto: UpdateUserAccountDTO = toUpdateUserAccountDTO(req)
-        const user: UserAccountResponse = await userAccountService.getMyAccount(dto)
+        const user: UserAccountResponse = await userAccountService.getMyAccount(req.accessTokenClaim.userId)
         logger.info("Account data response dispatched")
         res.status(200).json(user)
     },
@@ -23,8 +21,7 @@ export const UserAccountController = {
         res: Response<UserAccountResponse>
     ): Promise<void> {
         logger.info("Update account data request arrived")
-        // const dto: UpdateUserAccountDTO = toUpdateUserAccountDTO(req)
-        const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(req)
+        const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(req.accessTokenClaim.userId, req.body)
         logger.info("Updated Account data response dispatched")
         res.status(200).json(updatedUser)
     },
@@ -34,8 +31,7 @@ export const UserAccountController = {
         res: Response
     ): Promise<void> {
         logger.info("Delete account data request arrived")
-        const dto: UpdateUserAccountDTO = toUpdateUserAccountDTO(req)
-        await userAccountService.deleteMyAccount(dto)
+        await userAccountService.deleteMyAccount(req.accessTokenClaim.userId)
         logger.info("Account deletion success response dispatched")
         res.status(204).end()
     }

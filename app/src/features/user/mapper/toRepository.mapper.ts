@@ -24,3 +24,4 @@ export function toDBUserCreateInput(hashedPassword: string, user: UserSignupRequ
         roles: [UserRoles.user],
     }
 }
+

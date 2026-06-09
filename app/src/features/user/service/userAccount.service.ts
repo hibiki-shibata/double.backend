@@ -3,8 +3,8 @@ import { UserRoles, UserStatus, type User } from "../../../shared/infra/db/gener
 import type { UserUpdateInput } from "../../../shared/infra/db/generated.prisma/models.js"
 import { logger } from "../../../shared/logger/logger.js"
 import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
-import { toDBUserUpdateInput } from "../mapper/toDBUserUpdateInput.js"
-import { toUserAccountResponse } from "../mapper/userAccount.mapper.js"
+import { toDBUserUpdateInput } from "../mapper/toRepository.mapper.js"
+import { toUserAccountResponse } from "../mapper/toController.mapper.js"
 import { userRepository } from "../repository/user.repository.js"
 
 class UserAccountService {
@@ -36,13 +36,14 @@ class UserAccountService {
         await this.verifyNonDeletedUser(userId)
         const deletedUserState: UserUpdateInput = {
             name: null,
-            display_name: 'deleted', email_address: null,
+            display_name: 'deleted',
+            email_address: null,
             password_hash: null,
             status: UserStatus.deleted,
             roles: [UserRoles.deleted]
         }
-        logger.info("User deleted from DB")
         await userRepository.updateUserById(userId, deletedUserState)
+        logger.info("User deleted from DB")
     }
 
     private async verifyNonDeletedUser(
