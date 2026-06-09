@@ -59,4 +59,5 @@ export const cookieOptions = {
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
+    maxage: '900000'
 } as const

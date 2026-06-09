@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express"
 import { Unauthenticated } from "../exception/httpException.js"
 import { jwtTokenService } from "../auth/index.js"
 import type { AccessTokenClaim } from "../auth/type/jwtToken.type.js"
+import { logger } from "../logger/logger.js"
 
 const BEARER_PREFIX = 'Bearer '
 
@@ -17,5 +18,7 @@ export function authValidation(
         rawToken.slice(BEARER_PREFIX.length)
     )
     req.accessTokenClaim = accessTokenClaim
+
+    logger.child({ userId: req.accessTokenClaim.userId })
     next()
 }
