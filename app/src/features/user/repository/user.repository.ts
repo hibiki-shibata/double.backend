@@ -1,21 +1,15 @@
 import { prisma } from '../../../shared/infra/db/postgresClient.js'
 import type { PrismaClient } from '@prisma/client/extension'
-import { type User, UserStatus, UserRoles } from '../../../shared/infra/db/generated.prisma/client.js'
-import type { CreateDbUserDTO, UpdateUserAccountDTO } from '../dto/userAccount.dto.js'
+import { type User } from '../../../shared/infra/db/generated.prisma/client.js'
+import type { UserCreateInput, UserUpdateInput } from '../../../shared/infra/db/generated.prisma/models.js'
 
 
 export class UserRepository {
     constructor(private readonly db: PrismaClient) { }
 
-    async createUser(user: CreateDbUserDTO): Promise<User> {
+    async createUser(user: UserCreateInput): Promise<User> {
         return await this.db.user.create({
-            data: {
-                name: user.userName,
-                display_name: user.displayName,
-                password_hash: user.passwordHash,
-                status: user.status,
-                roles: user.roles
-            },
+            data: user,
             include: { wallets: true }
         })
     }
@@ -38,26 +32,26 @@ export class UserRepository {
         })
     }
 
-    async updateUser(user: UpdateUserAccountDTO): Promise<User> {
+    async updateUserById(userId: string, userUpdateInput: UserUpdateInput): Promise<User> {
         return await this.db.user.update({
-            where: { id: user.userId },
-            data: { user }
+            where: { id: userId },
+            data: { userUpdateInput }
         })
     }
 
-    async deleteUserById(userId: string): Promise<User> {
-        return await this.db.user.update({
-            where: { id: userId },
-            data: {
-                name: null,
-                display_name: 'deleted',
-                email_address: null,
-                password_hash: null,
-                status: UserStatus.deleted,
-                roles: [UserRoles.deleted]
-            }
-        })
-    }
+    // async deleteUserById(userId: string): Promise<User> {
+    //     return await this.db.user.update({
+    //         where: { id: userId },
+    //         data: {
+    //             name: null,
+    //             display_name: 'deleted',
+    //             email_address: null,
+    //             password_hash: null,
+    //             status: UserStatus.deleted,
+    //             roles: [UserRoles.deleted]
+    //         }
+    //     })
+    // }
 }
 
 export const userRepository = new UserRepository(prisma)

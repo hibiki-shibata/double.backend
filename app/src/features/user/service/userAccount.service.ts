@@ -1,25 +1,56 @@
-import { type User } from "../../../shared/infra/db/generated.prisma/client.js"
+import { InvalidInput } from "../../../shared/exception/httpException.js"
+import { UserRoles, UserStatus, type User } from "../../../shared/infra/db/generated.prisma/client.js"
+import type { UserUpdateInput } from "../../../shared/infra/db/generated.prisma/models.js"
 import { logger } from "../../../shared/logger/logger.js"
-import type { UserAccountResponse, UpdateUserAccountDTO } from "../dto/userAccount.dto.js"
+import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
+import { toDBUserUpdateInput } from "../mapper/toDBUserUpdateInput.js"
 import { toUserAccountResponse } from "../mapper/userAccount.mapper.js"
 import { userRepository } from "../repository/user.repository.js"
 
 class UserAccountService {
 
-    public async getMyAccount(user: UpdateUserAccountDTO): Promise<UserAccountResponse> {
-        logger.info({ statusCode: 204 }, "Account deletion success response dispatched")
-        const dbUser: User = await userRepository.getUserById(user.userId)
-        logger.info( `User data retrieved from DB`)
+    public async getMyAccount(
+        userId: string
+    ): Promise<UserAccountResponse> {
+        logger.info("Fetching User from DB")
+        const dbUser: User = await this.verifyNonDeletedUser(userId)
+        logger.info(`Fetched User from DB`)
         return toUserAccountResponse(dbUser)
     }
 
-    public async updateMyAccount(user: UpdateUserAccountDTO): Promise<UserAccountResponse> {
-        const updatedUser: User = await userRepository.updateUser(user)
+    public async updateMyAccount(
+        userId: string,
+        dto: UserAccountRequest
+    ): Promise<UserAccountResponse> {
+        logger.info("Updating User from DB")
+        await this.verifyNonDeletedUser(userId)
+        const updatedUser: User = await userRepository.updateUserById(userId, toDBUserUpdateInput(dto))
+        logger.info("Updated User from DB")
         return toUserAccountResponse(updatedUser)
     }
 
-    public async deleteMyAccount(user: UpdateUserAccountDTO): Promise<void> {
-        await userRepository.deleteUserById(user.userId)
+    public async deleteMyAccount(
+        userId: string
+    ): Promise<void> {
+        logger.info("Deleting User from DB")
+        await this.verifyNonDeletedUser(userId)
+        const deletedUserState: UserUpdateInput = {
+            name: null,
+            display_name: 'deleted', email_address: null,
+            password_hash: null,
+            status: UserStatus.deleted,
+            roles: [UserRoles.deleted]
+        }
+        logger.info("User deleted from DB")
+        await userRepository.updateUserById(userId, deletedUserState)
+    }
+
+    private async verifyNonDeletedUser(
+        userId: string
+    ): Promise<User> {
+        const dbUser: User = await userRepository.getUserById(userId)
+        if (dbUser.status === UserStatus.deleted) throw new InvalidInput('User has already been deleted')
+        return dbUser
     }
 }
 

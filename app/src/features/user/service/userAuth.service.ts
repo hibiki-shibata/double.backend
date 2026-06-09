@@ -1,41 +1,59 @@
-import { type User, UserStatus, UserRoles } from "../../../shared/infra/db/generated.prisma/client.js"
 import type { UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
-import type { CreateDbUserDTO } from "../dto/userAccount.dto.js"
 import { userRepository } from "../repository/user.repository.js"
+import { toAccessTokenClaim, toRefreshTokenClaim } from "../mapper/toJwtTokenClaims.js"
+import { toDBUserCreateInput } from "../mapper/toDBUserUpdateInput.js"
+import { UserStatus, type User } from "../../../shared/infra/db/generated.prisma/client.js"
 import type { JwtTokensDTO, RefreshTokenClaim } from "../../../shared/auth/type/jwtToken.type.js"
 import { jwtTokenService, passwordService } from "../../../shared/auth/index.js"
-import { InvalidInput, Unauthenticated } from "../../../shared/exception/httpException.js"
-import { toAccessTokenClaim, toRefreshTokenClaim } from "../mapper/toJwtTokenClaims.js"
+import { InvalidInput } from "../../../shared/exception/httpException.js"
+import { logger } from "../../../shared/logger/logger.js"
 
 class UserAuthService {
-    public async signup(dto: UserSignupRequest): Promise<JwtTokensDTO> {
+
+    public async signup(
+        dto: UserSignupRequest
+    ): Promise<JwtTokensDTO> {
         const dbUser: User = await userRepository.getUserByUserName(dto.userName)
         if (dbUser.name) throw new InvalidInput('Input username is already taken')
-        const creatingDbUser: CreateDbUserDTO = {
-            userName: dto.userName,
-            displayName: dto.userName,
-            passwordHash: await passwordService.hashPassword(dto.password),
-            status: UserStatus.active,
-            roles: [UserRoles.user],
-        }
-        const createdUser: User = await userRepository.createUser(creatingDbUser)
-        return this.getJwtTokensFrom(createdUser)
+
+        const hashedPassword: string = await passwordService.hashPassword(dto.password)
+
+        const createdUser: User = await userRepository.createUser(toDBUserCreateInput(hashedPassword, dto))
+
+        logger.info({ userId: createdUser.id }, "User signup success")
+        return this.getJwtTokensFor(createdUser)
     }
 
-    public async login(dto: UserLoginRequest): Promise<JwtTokensDTO> {
+    public async login(
+        dto: UserLoginRequest
+    ): Promise<JwtTokensDTO> {
+        logger.info({ userId: dto.userName }, "Attempting user login")
+
         const dbUser: User = await userRepository.getUserByUserName(dto.userName)
-        if (!dbUser.password_hash) throw new Unauthenticated('Password_hash is missing for this user')
+        if (!dbUser.password_hash || dbUser.status === UserStatus.deleted) {
+            throw new InvalidInput('Password is not registered or User is already deleted')
+        }
+
         await passwordService.verifyPassword(dto.password, dbUser.password_hash)
-        return this.getJwtTokensFrom(dbUser)
+
+        logger.info({ userId: dbUser.id }, "User login success")
+        return this.getJwtTokensFor(dbUser)
     }
 
-    public async refreshToken(refreshToken: string): Promise<JwtTokensDTO> {
+    public async refreshToken(
+        refreshToken: string
+    ): Promise<JwtTokensDTO> {
         const refreshTokenClaim: RefreshTokenClaim = jwtTokenService.verifyRefreshToken(refreshToken)
+
         const dbUser: User = await userRepository.getUserById(refreshTokenClaim.userId)
-        return this.getJwtTokensFrom(dbUser)
+        if (dbUser.status === UserStatus.deleted) throw new InvalidInput('User has already been deleted')
+
+        return this.getJwtTokensFor(dbUser)
     }
 
-    private getJwtTokensFrom(user: User): JwtTokensDTO {
+    private getJwtTokensFor(
+        user: User
+    ): JwtTokensDTO {
         const accessToken = jwtTokenService.generateAccessToken(toAccessTokenClaim(user))
         const refreshToken = jwtTokenService.generateRefreshToken(toRefreshTokenClaim(user))
         return { accessToken, refreshToken }

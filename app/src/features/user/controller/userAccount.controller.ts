@@ -23,8 +23,8 @@ export const UserAccountController = {
         res: Response<UserAccountResponse>
     ): Promise<void> {
         logger.info("Update account data request arrived")
-        const dto: UpdateUserAccountDTO = toUpdateUserAccountDTO(req)
-        const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(dto)
+        // const dto: UpdateUserAccountDTO = toUpdateUserAccountDTO(req)
+        const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(req)
         logger.info("Updated Account data response dispatched")
         res.status(200).json(updatedUser)
     },
