@@ -5,9 +5,9 @@ import { BetController } from './controller/bet.controller.js'
 
 export const marketRouter: Router = Router()
 
-marketRouter.get('/market/list', MarketController.getMarketList)
-marketRouter.get('/market/:marketId', MarketController.getMarketDetails)
+marketRouter.get('/list', MarketController.getMarketList)
+marketRouter.get('/:marketId', MarketController.getMarketDetails)
 
-marketRouter.get('/market/history/me', BetController.getBetHistory)
-marketRouter.post('/market/bet', BetController.postBet)
-marketRouter.delete('/market/bet', BetController.deleteBet)
+marketRouter.get('/history/me', BetController.getBetHistory)
+marketRouter.post('/bet', BetController.postBet)
+marketRouter.delete('/bet', BetController.deleteBet)

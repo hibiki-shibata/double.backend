@@ -1,17 +1,74 @@
-// import { mock } from 'node:test'
+import { describe, test, expect, vi } from 'vitest'
+import type { Request, Response, NextFunction } from 'express'
+import { globalExceptionHandler } from '../../../src/shared/middleware/globalExceptionHandler.js'
+import { Unauthenticated } from '../../../src/shared/exception/httpException.js'
+import { UnexpectedEnvVar } from '../../../src/shared/exception/serverException.js'
 
+function createReq(): Request {
+  return {
+    requestId: 'request-id',
+    logger: {
+      error: vi.fn()
+    }
+  } as unknown as Request
+}
 
-// function makeMocks() {
-//     const json = mock.fn<Response['json']>()
-//     const status = mock.fn<Response['status']>(() => ({ json }) as Response)
+function createRes(): Response {
+  const res = {
+    status: vi.fn(),
+    json: vi.fn()
+  }
 
-//     const req = {
-//         requestId: 'req-123',
-//         logger: { error: mock.fn() },
-//     } as unknown as Request
+  res.status.mockReturnValue(res)
 
-//     const res = { status } as unknown as Response
-//     const next = mock.fn<NextFunction>()
+  return res as unknown as Response
+}
 
-//     return { req, res, next, json, status }
-// }
+describe('globalExceptionHandler', () => {
+  test('handle HttpBaseException', () => {
+    const req = createReq()
+    const res = createRes()
+    const err = new Unauthenticated('Invalid token')
+    globalExceptionHandler(err, req, res, vi.fn() as NextFunction)
+
+    expect(req.logger.error).toHaveBeenCalledWith({ err }, 'httpException was handled')
+    expect(res.status).toHaveBeenCalledWith(err.statusCode)
+    expect(res.json).toHaveBeenCalledWith({
+      code: err.code,
+      message: err.message,
+      requestId: 'request-id'
+    })
+  })
+
+  test('handle InternalServerBaseException', () => {
+    const req = createReq()
+    const res = createRes()
+    const err = new UnexpectedEnvVar('JWT_SECRET')
+
+    globalExceptionHandler(err, req, res, vi.fn() as NextFunction)
+
+    expect(req.logger.error).toHaveBeenCalledWith({ err }, 'InternalServerException was handled')
+    expect(res.status).toHaveBeenCalledWith(err.statusCode)
+    expect(res.json).toHaveBeenCalledWith({
+      code: 'INTERNAL_ERROR',
+      message: 'Internal Server Error',
+      requestId: 'request-id'
+    })
+  })
+
+  test('handle unexpected Error', () => {
+    const req = createReq()
+    const res = createRes()
+    const err = new Error('unexpected')
+
+    globalExceptionHandler(err, req, res, vi.fn() as NextFunction)
+
+    expect(req.logger.error).toHaveBeenCalledWith({ err }, 'Unexpected Exception was thrown')
+    expect(res.status).toHaveBeenCalledWith(500)
+    expect(res.json).toHaveBeenCalledWith({
+      code: 'INTERNAL_ERROR',
+      message: 'Internal Server Error',
+      requestId: 'request-id'
+    })
+  })
+})

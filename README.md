@@ -11,10 +11,12 @@
 ### Locally start server
 #### 1. Add .env file
 ```.env
-NODE_ENV= dev or prod
-PORT_NUMBER=
-BYCRYPT_SALT_ROUNDS=
-RATE_LIMIT=
+NODE_ENV=< dev | stage | prod>
+PORT_NUMBER=<e.g,. 3000>
+BCRYPT_SALT_ROUNDS=<10 ~ 15>
+RATE_LIMIT=<limit per 15 mins>
+LOG_LEVEL=<info | warn | error | debug>
+JWT_SECRET_KEY=<31 ~ 50 letters>
 
 DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
 ```
@@ -54,7 +56,7 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
     bcrypt in auth.service — never store plaintext or md5
     - JWT sign + verify✅
     short-lived access token (15m) + refresh token (7d)
-    - authenticate middleware
+    - authenticate middleware✅
     verifies JWT, attaches user to req — applied per-router not globally
     - refresh token rotation
     ⚠️ missing — store refresh tokens in DB, rotate on use, invalidate on logout

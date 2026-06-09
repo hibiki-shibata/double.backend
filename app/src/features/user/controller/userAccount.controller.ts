@@ -1,40 +1,39 @@
-import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
+import { logger } from "../../../shared/logger/logger.js"
+import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
 import { userAccountService } from "../service/userAccount.service.js"
 import type { Request, Response } from 'express'
-
-// Delete later
-const exampleDto: UserAccountRequest = {
-    id: 'string',
-    name: 'string',
-    display_name: 'string',
-    email_address: 'string',
-}
 
 // Implement zod
 export const UserAccountController = {
 
     async getMyAccountData(
-        _req: Request,
+        req: Request<{}, {}, UserAccountRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const user: UserAccountResponse = await userAccountService.getMyAccount('userId')
+        logger.info("Get account data request arrived")
+        const user: UserAccountResponse = await userAccountService.getMyAccount(req.accessTokenClaim.userId)
+        logger.info("Account data response dispatched")
         res.status(200).json(user)
     },
 
     async putUpdatedMyAccount(
-        _req: Request<UserAccountRequest>,
+        req: Request<{}, {}, UserAccountRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(exampleDto)
+        logger.info("Update account data request arrived")
+        const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(req.accessTokenClaim.userId, req.body)
+        logger.info("Updated Account data response dispatched")
         res.status(200).json(updatedUser)
     },
 
     async deleteMyAccount(
-        _req: Request,
-        res: Response<UserAccountResponse>
+        req: Request<{}, {}, UserAccountRequest>,
+        res: Response
     ): Promise<void> {
-        await userAccountService.deleteMyAccount('userId')
-        res.status(200)
+        logger.info("Delete account data request arrived")
+        await userAccountService.deleteMyAccount(req.accessTokenClaim.userId)
+        logger.info("Account deletion success response dispatched")
+        res.status(204).end()
     }
     // Note: Separate endpoint for Admin page
     // public getAccountList(): void {
