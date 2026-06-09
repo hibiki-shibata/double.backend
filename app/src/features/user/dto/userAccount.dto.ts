@@ -6,13 +6,6 @@ export type UserAccountRequest = {
     emailAddress: string
 }
 
-// export type UpdateUserAccountDTO = {
-//     userId: string
-//     userName: string,
-//     displayName: string,
-//     emailAddress: string
-// }
-
 export type UserAccountResponse = {
     id: string,
     name: string,
@@ -20,11 +13,3 @@ export type UserAccountResponse = {
     emailAddress: string,
     status: UserStatus
 }
-
-// export type CreateDbUserDTO = {
-//     userName: string,
-//     displayName: string,
-//     passwordHash: string,
-//     status: UserStatus,
-//     roles: UserRoles[]
-// }
