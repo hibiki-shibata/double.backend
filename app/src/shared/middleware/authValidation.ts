@@ -12,13 +12,15 @@ export function authValidation(
     next: NextFunction
 ): void {
     const rawToken: string | undefined = req.header('Authorization')
-    if (!rawToken?.startsWith(BEARER_PREFIX)) throw new Unauthenticated('JWT token not found in request header')
+    if (!rawToken?.startsWith(BEARER_PREFIX)) {
+        throw new Unauthenticated('JWT token not found in request header')
+    }
 
     const accessTokenClaim: AccessTokenClaim = jwtTokenService.verifyAccessToken(
         rawToken.slice(BEARER_PREFIX.length)
     )
     req.accessTokenClaim = accessTokenClaim
 
-    logger.child({ userId: req.accessTokenClaim.userId })
+    logger.child({ userId: accessTokenClaim.userId })
     next()
 }
