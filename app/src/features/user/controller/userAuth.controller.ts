@@ -15,8 +15,9 @@ export const UserAuthController = {
         req: Request<{}, {}, UserSignupRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        logger.info("Signup Request arrived")
+        logger.info({ userName: req.body.userName }, "Signup Request arrived")
         const jwtToken: JwtTokensDTO = await userAuthService.signup(toUserSignupRequest(req))
+        logger.info({ userName: req.body.userName }, "Signup Success Response dispatched")
         res
             .cookie(REFRESH_TOKEN_COOKIE, jwtToken.refreshToken, cookieOptions)
             .status(201)
@@ -27,7 +28,9 @@ export const UserAuthController = {
         req: Request<{}, {}, UserLoginRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
+        logger.info({ userName: req.body.userName }, "Login Request arrived")
         const jwtToken: JwtTokensDTO = await userAuthService.login(toUserLoginRequest(req))
+        logger.info({ userName: req.body.userName }, "Login Success Response dispatched")
         res
             .cookie(REFRESH_TOKEN_COOKIE, jwtToken.refreshToken, cookieOptions)
             .status(200)
@@ -50,6 +53,7 @@ export const UserAuthController = {
     async logout(_req: Request, res: Response): Promise<void> {
         logger.info("Logout Request arrived")
         res.removeHeader(REFRESH_TOKEN_COOKIE)
+        logger.info("Logout response success dispatched")
         res
             .clearCookie(REFRESH_TOKEN_COOKIE, cookieOptions)
             .status(200)

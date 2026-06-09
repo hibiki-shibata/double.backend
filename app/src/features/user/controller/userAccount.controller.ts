@@ -14,7 +14,7 @@ export const UserAccountController = {
         logger.info("Get account data request arrived")
         const dto: UpdateUserAccountDTO = toUpdateUserAccountDTO(req)
         const user: UserAccountResponse = await userAccountService.getMyAccount(dto)
-        logger.info({ statusCode: 200 }, "Account data response dispatched")
+        logger.info("Account data response dispatched")
         res.status(200).json(user)
     },
 
@@ -25,7 +25,7 @@ export const UserAccountController = {
         logger.info("Update account data request arrived")
         const dto: UpdateUserAccountDTO = toUpdateUserAccountDTO(req)
         const updatedUser: UserAccountResponse = await userAccountService.updateMyAccount(dto)
-        logger.info("Account data response dispatched")
+        logger.info("Updated Account data response dispatched")
         res.status(200).json(updatedUser)
     },
 
