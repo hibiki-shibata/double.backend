@@ -1,17 +1,23 @@
 // Doc: https://expressjs.com/en/resources/middleware/cors/
 import "dotenv/config"
-import type { CorsOptions } from "cors"
 import jwt from 'jsonwebtoken'
 import ms from 'ms'
-import { type Options } from 'express-rate-limit'
+import type { Options } from 'express-rate-limit'
+import type { CorsOptions } from "cors"
+import type { CookieOptions } from "express"
 
-type PasswordEncoderConfig = {
+type PasswordEncoderOptions = {
     min_salt_rounds: number,
     max_salt_round: number,
     saltRound: number
 }
+export const passwordEncoderOptions: PasswordEncoderOptions = {
+    min_salt_rounds: 10,
+    max_salt_round: 15,
+    saltRound: parseInt(process.env.BCRYPT_SALT_ROUNDS ?? '12', 10)
+}
 
-type JwtConfig = {
+type JwtOptions = {
     accessTokenExpiry: number | ms.StringValue,
     refreshTokenExpiry: number | ms.StringValue,
     issuer: string,
@@ -20,14 +26,7 @@ type JwtConfig = {
     minSecretLength: number,
     secretKey: string
 }
-
-export const passwordEncoderConfig: PasswordEncoderConfig = {
-    min_salt_rounds: 10,
-    max_salt_round: 15,
-    saltRound: parseInt(process.env.BCRYPT_SALT_ROUNDS ?? '12', 10)
-}
-
-export const jwtConfig: JwtConfig = {
+export const jwtOptions: JwtOptions = {
     accessTokenExpiry: '15m',
     refreshTokenExpiry: '30d',
     issuer: 'double-backend',
@@ -41,7 +40,7 @@ export const jwtConfig: JwtConfig = {
     })()
 }
 
-export const rateLimitConfig: Partial<Options> = {
+export const rateLimitOptions: Partial<Options> = {
     windowMs: 15 * 60 * 1000,
     limit: parseInt(process.env.RATE_LIMIT ?? '100', 10), // 100 req/ 15 mins
     standardHeaders: 'draft-8',
@@ -50,14 +49,14 @@ export const rateLimitConfig: Partial<Options> = {
     // store: ... , // Note: Implement Redis later
 }
 
-export const corsConfig: CorsOptions = {
+export const corsOptions: CorsOptions = {
     origin: '*',
     optionsSuccessStatus: 200,
 }
 
-export const cookieOptions = {
+export const cookieOptions: CookieOptions = {
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
-    maxage: '900000'
-} as const
+    maxAge: 900000
+}

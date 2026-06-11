@@ -7,8 +7,8 @@ export function toUserAccountResponse(
 ): UserAccountResponse {
     if (
         !user.name ||
-        !user.email_address ||
         !user.display_name ||
+        !user.email_address ||
         !user.email_address ||
         !user.status
     ) {

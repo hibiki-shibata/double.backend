@@ -1,7 +1,7 @@
 import express, { type Express } from 'express'
 import cors from 'cors'
 import { rateLimit } from 'express-rate-limit'
-import { rateLimitConfig, corsConfig } from './shared/config/security.config.js'
+import { rateLimitOptions, corsOptions } from './shared/config/security.config.js'
 import helmet from 'helmet'
 import { addTraceHeader } from './shared/middleware/addTraceHeader.js'
 import { featuresRouter } from "./features/features.router.js"
@@ -11,8 +11,8 @@ import cookieParser from 'cookie-parser'
 export const port: string = process.env.PORT_NUMBER ?? "5000"
 export const server: Express = express()
 
-server.use(rateLimit(rateLimitConfig))
-server.use(cors(corsConfig))
+server.use(rateLimit(rateLimitOptions))
+server.use(cors(corsOptions))
 server.use(helmet())
 server.use(cookieParser())
 server.use(addTraceHeader)

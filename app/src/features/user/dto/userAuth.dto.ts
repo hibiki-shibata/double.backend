@@ -1,17 +1,22 @@
-export type UserSignupRequest = {
-    userName: string,
-    password: string,
-}
+import z from "zod"
+import { passwordField, userNameField } from "../config/dto.config.js"
+import { jwtOptions } from "../../../shared/config/security.config.js"
 
-export type UserLoginRequest = {
-    userName: string,
-    password: string,
-}
 
-export type AccessTokenResponse = {
-    accessToken: string
-}
+const UserSignupRequest = z.object({
+    userName: userNameField,
+    password: passwordField
+})
+export type UserSignupRequest = z.infer<typeof UserSignupRequest>
 
-export type RefreshTokenResponse = {
-    refreshToken: string
-}
+const UserLoginRequest = z.object({
+    userName: userNameField,
+    password: passwordField
+})
+export type UserLoginRequest = z.infer<typeof UserLoginRequest>
+
+
+const AccessTokenResponse = z.object({
+    accessToken: z.jwt(jwtOptions.algorithm)
+})
+export type AccessTokenResponse = z.infer<typeof AccessTokenResponse>

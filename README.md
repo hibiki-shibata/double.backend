@@ -72,7 +72,7 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
     DB row → response DTO — never return raw DB objects to clients. Remove validation logic
     - service + domain errors✅❗️
     custom error classes (NotFoundError, ConflictError) caught by global handler
-    - repository✅❗️
+    - repository✅
     parameterized queries only — never string-interpolate user input into SQL. Error
     - integration tests
     ⚠️ missing — test each feature with supertest against a real test DB, not mocks

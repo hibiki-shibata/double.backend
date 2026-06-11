@@ -7,7 +7,12 @@ import type { UserAccountRequest } from "../dto/userAccount.dto.js"
 export function UserLoginRequestValidation(
     req: Request<{}, {}, UserLoginRequest>
 ): UserLoginRequest {
-    if (!req.body.userName || !req.body.password) throw new InvalidInput('Username or password can not be null')
+    if (
+        !req.body.userName ||
+        !req.body.password
+    ) {
+        throw new InvalidInput('Username or password can not be null')
+    }
     return {
         userName: req.body.userName,
         password: req.body.password
