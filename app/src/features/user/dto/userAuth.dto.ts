@@ -1,22 +1,22 @@
+// https://zod.dev/api#jwts
 import z from "zod"
-import { passwordField, userNameField } from "../config/dto.config.js"
 import { jwtOptions } from "../../../shared/config/security.config.js"
-
+import { user } from "./shared.js"
 
 const UserSignupRequest = z.object({
-    userName: userNameField,
-    password: passwordField
+    userName: user.name,
+    password: user.password
 })
-export type UserSignupRequest = z.infer<typeof UserSignupRequest>
 
 const UserLoginRequest = z.object({
-    userName: userNameField,
-    password: passwordField
+    userName: user.name,
+    password: user.password
 })
-export type UserLoginRequest = z.infer<typeof UserLoginRequest>
-
 
 const AccessTokenResponse = z.object({
-    accessToken: z.jwt(jwtOptions.algorithm)
+    accessToken: z.jwt({ alg: jwtOptions.algorithm })
 })
+
+export type UserSignupRequest = z.infer<typeof UserSignupRequest>
+export type UserLoginRequest = z.infer<typeof UserLoginRequest>
 export type AccessTokenResponse = z.infer<typeof AccessTokenResponse>
