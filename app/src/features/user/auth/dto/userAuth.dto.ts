@@ -1,7 +1,7 @@
 // https://zod.dev/api#jwts
 import z from "zod"
-import { jwtOptions } from "../../../shared/config/security.config.js"
-import { userSchema } from "./shared.schema.js"
+import { jwtOptions } from "../../../../shared/config/security.config.js"
+import { userSchema } from "../../shared/user.schema.js"
 
 export const UserSignupRequestSchema = z.object({
     userName: userSchema.name,

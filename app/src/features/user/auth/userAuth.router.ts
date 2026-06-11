@@ -1,9 +1,8 @@
 import { Router } from 'express'
-import { UserAuthController } from '../controller/userAuth.controller.js'
-import { validateAuth } from '../../../shared/middleware/validateAuth.js'
 import { validateRequestBody } from '../../../shared/middleware/validateRequestBody.js'
-import { UserLoginRequestSchema, UserSignupRequestSchema } from '../dto/userAuth.dto.js'
-
+import { validateAuth } from '../../../shared/middleware/validateAuth.js'
+import { UserLoginRequestSchema, UserSignupRequestSchema } from './dto/userAuth.dto.js'
+import { UserAuthController } from './controller/userAuth.controller.js'
 
 export const userAuthRouter: Router = Router()
 

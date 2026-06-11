@@ -1,9 +1,9 @@
 import type { Response, Request } from "express"
-import type { JwtTokensDTO } from "../../../shared/auth/type/jwtToken.type.js"
-import { cookieOptions } from "../../../shared/config/security.config.js"
-import { userAuthService } from "../service/userAuth.service.js"
+import type { JwtTokensDTO } from "../../../../shared/auth/type/jwtToken.type.js"
+import { cookieOptions } from "../../../../shared/config/security.config.js"
+import { logger } from "../../../../shared/logger/logger.js"
 import type { AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
-import { logger } from "../../../shared/logger/logger.js"
+import { userAuthService } from "../service/userAuth.service.js"
 
 const REFRESH_TOKEN_COOKIE = 'refreshToken'
 

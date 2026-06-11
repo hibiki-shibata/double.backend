@@ -1,4 +1,4 @@
-import { logger } from "../../../shared/logger/logger.js"
+import { logger } from "../../../../shared/logger/logger.js"
 import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
 import { userAccountService } from "../service/userAccount.service.js"
 import type { Request, Response } from 'express'

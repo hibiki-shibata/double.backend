@@ -1,5 +1,5 @@
 import z from "zod"
-import { userSchema } from "./shared.schema.js"
+import { userSchema } from "../../shared/user.schema.js"
 
 export const UserAccountRequestSchema = z.object({
     name: userSchema.name,

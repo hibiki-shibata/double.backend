@@ -1,8 +1,8 @@
-import { MappingError } from "../../../shared/exception/serverException.js";
-import { UserRoles, UserStatus } from "../../../shared/infra/db/generated.prisma/enums.js";
 import type { UserCreateInput, UserUpdateInput } from "../../../shared/infra/db/generated.prisma/models.js";
-import type { UserAccountRequest } from "../dto/userAccount.dto.js";
-import type { UserSignupRequest } from "../dto/userAuth.dto.js";
+import { UserRoles, UserStatus } from "../../../shared/infra/db/generated.prisma/enums.js";
+import { MappingError } from "../../../shared/exception/serverException.js";
+import type { UserAccountRequest } from "../account/dto/userAccount.dto.js";
+import type { UserSignupRequest } from "../auth/dto/userAuth.dto.js";
 
 export function toDBUserUpdateInput(
     user: UserAccountRequest
