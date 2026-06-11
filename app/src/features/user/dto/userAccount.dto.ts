@@ -1,18 +1,18 @@
 import z from "zod"
-import { user } from "./shared.js"
+import { userSchema } from "./shared.schema.js"
 
 const UserAccountRequest = z.object({
-    name: user.name,
-    displayName: user.displayName,
-    emailAddress: user.emailAddress,
+    name: userSchema.name,
+    displayName: userSchema.displayName,
+    emailAddress: userSchema.emailAddress,
 })
 
 const UserAccountResponse = z.object({
-    id: user.id,
-    name: user.name,
-    displayName: user.displayName,
-    emailAddress: user.emailAddress,
-    status: user.status
+    id: userSchema.id,
+    name: userSchema.name,
+    displayName: userSchema.displayName,
+    emailAddress: userSchema.emailAddress,
+    status: userSchema.status
 })
 
 export type UserAccountRequest = z.infer<typeof UserAccountRequest>
