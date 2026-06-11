@@ -7,7 +7,7 @@ import type { Request, Response } from 'express'
 export const UserAccountController = {
 
     async getMyAccountData(
-        req: Request<{}, {}, UserAccountRequest>,
+        req: Request<{}, {}, void>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
         logger.info("Get account data request arrived")
@@ -27,7 +27,7 @@ export const UserAccountController = {
     },
 
     async deleteMyAccount(
-        req: Request<{}, {}, UserAccountRequest>,
+        req: Request<{}, {}, void>,
         res: Response
     ): Promise<void> {
         logger.info("Delete account data request arrived")

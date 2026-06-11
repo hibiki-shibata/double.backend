@@ -2,7 +2,7 @@ import type { ZodObject } from "zod"
 import type { NextFunction, Request, Response } from "express";
 import { InvalidInput } from "../exception/httpException.js"
 
-export function reqBodyValidation(schema: ZodObject) {
+export function validateRequestBody(schema: ZodObject) {
     return (req: Request, _res: Response, next: NextFunction) => {
         const result = schema.safeParse(req.body)
         if (!result.success) {
