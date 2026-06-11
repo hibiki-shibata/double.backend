@@ -3,20 +3,20 @@ import z from "zod"
 import { jwtOptions } from "../../../shared/config/security.config.js"
 import { userSchema } from "./shared.schema.js"
 
-const UserSignupRequest = z.object({
+export const UserSignupRequestSchema = z.object({
     userName: userSchema.name,
     password: userSchema.password
 })
 
-const UserLoginRequest = z.object({
+export const UserLoginRequestSchema = z.object({
     userName: userSchema.name,
     password: userSchema.password
 })
 
-const AccessTokenResponse = z.object({
+export const AccessTokenResponseSchema = z.object({
     accessToken: z.jwt({ alg: jwtOptions.algorithm })
 })
 
-export type UserSignupRequest = z.infer<typeof UserSignupRequest>
-export type UserLoginRequest = z.infer<typeof UserLoginRequest>
-export type AccessTokenResponse = z.infer<typeof AccessTokenResponse>
+export type UserSignupRequest = z.infer<typeof UserSignupRequestSchema>
+export type UserLoginRequest = z.infer<typeof UserLoginRequestSchema>
+export type AccessTokenResponse = z.infer<typeof AccessTokenResponseSchema>
