@@ -4,16 +4,10 @@ import { MappingError } from "../../../shared/exception/serverException.js";
 import type { UserAccountRequest } from "../account/dto/userAccount.dto.js";
 import type { UserSignupRequest } from "../auth/dto/userAuth.dto.js";
 
-export function toDBUserUpdateInput(
+export function toUpdateUser(
     user: UserAccountRequest
 ): UserUpdateInput {
-    if (
-        !user.displayName ||
-        !user.emailAddress ||
-        !user.name
-    ) {
-        throw new MappingError('Required parammeters can not be null')
-    }
+    if (!user.displayName || !user.emailAddress || !user.name) throw new MappingError('Required parammeters can not be null')
     return {
         name: user.name,
         display_name: user.displayName,
@@ -21,17 +15,11 @@ export function toDBUserUpdateInput(
     }
 }
 
-export function toDBUserCreateInput(
+export function toCreateUser(
     hashedPassword: string,
     user: UserSignupRequest
 ): UserCreateInput {
-    if (
-        !user.userName ||
-        !user.password ||
-        !hashedPassword
-    ) {
-        throw new MappingError('Required parammeters can not be null')
-    }
+    if (!user.userName || !user.password || !hashedPassword) throw new MappingError('Required parammeters can not be null')
     return {
         name: user.userName,
         display_name: '(New)' + user.userName,

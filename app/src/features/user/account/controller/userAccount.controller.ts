@@ -6,7 +6,7 @@ import type { Request, Response } from 'express'
 // Implement zod
 export const UserAccountController = {
 
-    async getMyAccountData(
+    async getMyAccount(
         req: Request<{}, {}, void>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
@@ -16,7 +16,7 @@ export const UserAccountController = {
         res.status(200).json(user)
     },
 
-    async putUpdatedMyAccount(
+    async updateMyAccount(
         req: Request<{}, {}, UserAccountRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {

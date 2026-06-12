@@ -3,7 +3,7 @@ import { UserRoles, UserStatus, type User } from "../../../../shared/infra/db/ge
 import type { UserUpdateInput } from "../../../../shared/infra/db/generated.prisma/models.js"
 import { logger } from "../../../../shared/logger/logger.js"
 import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
-import { toDBUserUpdateInput } from "../../shared/toUserRepository.mapper.js"
+import { toUpdateUser } from "../../shared/toUserRepository.mapper.js"
 import { toUserAccountResponse } from "../mapper/toController.mapper.js"
 import { userRepository } from "../../shared/user.repository.js"
 
@@ -24,7 +24,7 @@ class UserAccountService {
     ): Promise<UserAccountResponse> {
         logger.info("Updating User from DB")
         await this.verifyNonDeletedUser(userId)
-        const updatedUser: User = await userRepository.updateUserById(userId, toDBUserUpdateInput(dto))
+        const updatedUser: User = await userRepository.updateUserById(userId, toUpdateUser(dto))
         logger.info("Updated User from DB")
         return toUserAccountResponse(updatedUser)
     }
