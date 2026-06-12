@@ -1,11 +1,11 @@
-import { InvalidInput } from "../../../../shared/exception/httpException.js"
 import { UserRoles, UserStatus, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
 import type { UserUpdateInput } from "../../../../shared/infra/db/generated.prisma/models.js"
+import { InvalidInput } from "../../../../shared/exception/httpException.js"
 import { logger } from "../../../../shared/logger/logger.js"
-import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
-import { toUpdateUser } from "../../shared/toUserRepository.mapper.js"
-import { toUserAccountResponse } from "../mapper/toController.mapper.js"
 import { userRepository } from "../../shared/user.repository.js"
+import { toUpdateUser } from "../../shared/toUserRepository.mapper.js"
+import { toUserAccountResponse } from "../mapper/toUserAccountResponse.mapper.js"
+import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
 
 class UserAccountService {
 

@@ -1,8 +1,8 @@
 // passwordService.ts
 import bcrypt from 'bcryptjs'
-import { UnexpectedEnvVar } from '../../exception/serverException.js'
-import { passwordEncoderOptions } from '../../config/security.config.js'
-import { InvalidInput } from '../../exception/httpException.js'
+import { passwordEncoderOptions } from '../../../../shared/config/security.config.js'
+import { UnexpectedEnvVar } from '../../../../shared/exception/serverException.js'
+import { InvalidInput } from '../../../../shared/exception/httpException.js'
 
 export class PasswordService {
     constructor(private readonly saltRounds: number) {
@@ -34,3 +34,5 @@ export class PasswordService {
         }
     }
 }
+
+export const passwordService = new PasswordService(passwordEncoderOptions.saltRound)

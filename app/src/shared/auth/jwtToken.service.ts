@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
 import type { JwtPayload, SignOptions, VerifyOptions } from "jsonwebtoken"
-import { type AccessTokenClaim, type RefreshTokenClaim, TokenType } from "../type/jwtToken.type.js"
-import { Unauthenticated } from "../../exception/httpException.js"
-import { jwtOptions } from '../../config/security.config.js'
-import { UnexpectedEnvVar } from '../../exception/serverException.js'
+import { type AccessTokenClaim, type RefreshTokenClaim, TokenType } from "./jwtToken.type.js"
+import { Unauthenticated } from "../exception/httpException.js"
+import { jwtOptions } from '../config/security.config.js'
+import { UnexpectedEnvVar } from '../exception/serverException.js'
 
 export class JwtTokenService {
 
@@ -63,3 +63,5 @@ export class JwtTokenService {
         }
     }
 }
+
+export const jwtTokenService = new JwtTokenService(jwtOptions.secretKey)

@@ -1,5 +1,5 @@
 // This is for re-define Express's Request type for custom value add in middlewares
-import type { AccessTokenClaim, RefreshTokenClaim } from "../auth/type/jwtToken.type.ts"
+import type { AccessTokenClaim, RefreshTokenClaim } from "../auth/jwtToken.type.ts"
 import type { Logger } from "pino"
 
 

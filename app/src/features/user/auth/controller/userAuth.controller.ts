@@ -1,5 +1,5 @@
 import type { Response, Request } from "express"
-import type { JwtTokensDTO } from "../../../../shared/auth/type/jwtToken.type.js"
+import type { JwtTokensDTO } from "../../../../shared/auth/jwtToken.type.js"
 import { cookieOptions } from "../../../../shared/config/security.config.js"
 import { logger } from "../../../../shared/logger/logger.js"
 import type { AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"

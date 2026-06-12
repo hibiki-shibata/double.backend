@@ -17,6 +17,9 @@ BCRYPT_SALT_ROUNDS=<10 ~ 15>
 RATE_LIMIT=<limit per 15 mins>
 LOG_LEVEL=<info | warn | error | debug>
 JWT_SECRET_KEY=<31 ~ 50 letters>
+REDIS_HOST=
+REDIS_PORT=
+REDIS_PASSWORD=
 
 DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
 ```
@@ -66,7 +69,7 @@ DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-nu
 - Feature layer
     - router + controller✅❗️
     one feature at a time — users first as it's referenced by everything else
-    - DTO + zod validation
+    - DTO + zod validation✅❗️
     validate request body in middleware before it hits the controller
     - mapper✅❗️
     DB row → response DTO — never return raw DB objects to clients. Remove validation logic

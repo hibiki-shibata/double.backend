@@ -1,12 +1,13 @@
-import type { JwtTokensDTO, RefreshTokenClaim } from "../../../../shared/auth/type/jwtToken.type.js"
-import { jwtTokenService, passwordService } from "../../../../shared/auth/index.js"
+import type { JwtTokensDTO, RefreshTokenClaim } from "../../../../shared/auth/jwtToken.type.js"
 import { UserStatus, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
-import { toCreateUser } from "../../shared/toUserRepository.mapper.js"
 import { InvalidInput } from "../../../../shared/exception/httpException.js"
-import { userRepository } from "../../shared/user.repository.js"
 import { logger } from "../../../../shared/logger/logger.js"
+import { userRepository } from "../../shared/user.repository.js"
+import { toCreateUser } from "../../shared/toUserRepository.mapper.js"
 import type { UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
 import { toAccessTokenClaim, toRefreshTokenClaim } from "../mapper/toJwtTokenClaim.mapper.js"
+import { passwordService } from "./password.service.js"
+import { jwtTokenService } from "../../../../shared/auth/jwtToken.service.js"
 
 class UserAuthService {
 

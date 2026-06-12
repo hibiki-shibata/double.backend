@@ -1,8 +1,8 @@
 import { vi, describe, test, expect, afterEach } from 'vitest'
 import jwt from 'jsonwebtoken'
-import { JwtTokenService } from '../../../src/shared/auth/service/jwtToken.service.js'
+import { JwtTokenService } from '../../../src/shared/auth/jwtToken.service.js'
 import { UnexpectedEnvVar } from '../../../src/shared/exception/serverException.js'
-import { TokenType, type AccessTokenClaim, type RefreshTokenClaim } from '../../../src/shared/auth/type/jwtToken.type.js'
+import { TokenType, type AccessTokenClaim, type RefreshTokenClaim } from '../../../src/shared/auth/jwtToken.type.js'
 import { UserRoles } from '../../../src/shared/infra/db/generated.prisma/enums.js'
 import { Unauthenticated } from '../../../src/shared/exception/httpException.js'
 
