@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import type { JwtPayload, SignOptions, VerifyOptions } from "jsonwebtoken"
 import { type AccessTokenClaim, type RefreshTokenClaim, TokenType } from "../type/jwtToken.type.js"
 import { Unauthenticated } from "../../exception/httpException.js"
-import { jwtConfig } from '../../config/security.config.js'
+import { jwtOptions } from '../../config/security.config.js'
 import { UnexpectedEnvVar } from '../../exception/serverException.js'
 
 export class JwtTokenService {
@@ -10,29 +10,29 @@ export class JwtTokenService {
     constructor(private readonly secretKey: string) {
         if (
             !secretKey ||
-            secretKey.length < jwtConfig.minSecretLength ||
-            secretKey.length > jwtConfig.maxSecretLength
+            secretKey.length < jwtOptions.minSecretLength ||
+            secretKey.length > jwtOptions.maxSecretLength
         ) {
             throw new UnexpectedEnvVar(
-                `JWT_SECRET_KEY must be between ${jwtConfig.minSecretLength} and ${jwtConfig.maxSecretLength} characters`
+                `JWT_SECRET_KEY must be between ${jwtOptions.minSecretLength} and ${jwtOptions.maxSecretLength} characters`
             )
         }
     }
 
     public generateAccessToken(claim: AccessTokenClaim): string {
         const signOptions: SignOptions = {
-            expiresIn: jwtConfig.accessTokenExpiry,
-            algorithm: jwtConfig.algorithm,
-            issuer: jwtConfig.issuer,
+            expiresIn: jwtOptions.accessTokenExpiry,
+            algorithm: jwtOptions.algorithm,
+            issuer: jwtOptions.issuer,
         }
         return jwt.sign(claim, this.secretKey, signOptions)
     }
 
     public generateRefreshToken(claim: RefreshTokenClaim): string {
         const signOptions: SignOptions = {
-            expiresIn: jwtConfig.refreshTokenExpiry,
-            algorithm: jwtConfig.algorithm,
-            issuer: jwtConfig.issuer,
+            expiresIn: jwtOptions.refreshTokenExpiry,
+            algorithm: jwtOptions.algorithm,
+            issuer: jwtOptions.issuer,
         }
         return jwt.sign(claim, this.secretKey, signOptions)
     }
@@ -51,8 +51,8 @@ export class JwtTokenService {
 
     private verifyToken(token: string): JwtPayload {
         const verifyOptions: VerifyOptions = {
-            issuer: jwtConfig.issuer,
-            algorithms: [jwtConfig.algorithm]
+            issuer: jwtOptions.issuer,
+            algorithms: [jwtOptions.algorithm]
         }
         try {
             const payload: JwtPayload | string = jwt.verify(token, this.secretKey, verifyOptions)

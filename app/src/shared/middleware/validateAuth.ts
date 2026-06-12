@@ -6,7 +6,7 @@ import { logger } from "../logger/logger.js"
 
 const BEARER_PREFIX = 'Bearer '
 
-export function authValidation(
+export function validateAuth(
     req: Request,
     _res: Response,
     next: NextFunction

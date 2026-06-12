@@ -1,12 +1,12 @@
+import type { JwtTokensDTO, RefreshTokenClaim } from "../../../../shared/auth/type/jwtToken.type.js"
+import { jwtTokenService, passwordService } from "../../../../shared/auth/index.js"
+import { UserStatus, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
+import { toCreateUser } from "../../shared/toUserRepository.mapper.js"
+import { InvalidInput } from "../../../../shared/exception/httpException.js"
+import { userRepository } from "../../shared/user.repository.js"
+import { logger } from "../../../../shared/logger/logger.js"
 import type { UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
-import { userRepository } from "../repository/user.repository.js"
 import { toAccessTokenClaim, toRefreshTokenClaim } from "../mapper/toJwtTokenClaim.mapper.js"
-import { toDBUserCreateInput } from "../mapper/toRepository.mapper.js"
-import { UserStatus, type User } from "../../../shared/infra/db/generated.prisma/client.js"
-import type { JwtTokensDTO, RefreshTokenClaim } from "../../../shared/auth/type/jwtToken.type.js"
-import { jwtTokenService, passwordService } from "../../../shared/auth/index.js"
-import { InvalidInput } from "../../../shared/exception/httpException.js"
-import { logger } from "../../../shared/logger/logger.js"
 
 class UserAuthService {
 
@@ -18,7 +18,7 @@ class UserAuthService {
 
         const hashedPassword: string = await passwordService.hashPassword(dto.password)
 
-        const createdUser: User = await userRepository.createUser(toDBUserCreateInput(hashedPassword, dto))
+        const createdUser: User = await userRepository.createUser(toCreateUser(hashedPassword, dto))
 
         logger.info({ userId: createdUser.id }, "User signup success")
         return this.getJwtTokensFor(createdUser)

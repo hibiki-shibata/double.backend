@@ -1,14 +1,14 @@
-import type { User } from "../../../shared/infra/db/generated.prisma/client.js";
+import type { User } from "../../../../shared/infra/db/generated.prisma/client.js";
 import type { UserAccountResponse } from "../dto/userAccount.dto.js";
-import { MappingError } from "../../../shared/exception/serverException.js";
+import { MappingError } from "../../../../shared/exception/serverException.js";
 
 export function toUserAccountResponse(
     user: User
 ): UserAccountResponse {
     if (
         !user.name ||
-        !user.email_address ||
         !user.display_name ||
+        !user.email_address ||
         !user.email_address ||
         !user.status
     ) {

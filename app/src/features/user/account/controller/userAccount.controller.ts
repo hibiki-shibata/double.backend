@@ -1,4 +1,4 @@
-import { logger } from "../../../shared/logger/logger.js"
+import { logger } from "../../../../shared/logger/logger.js"
 import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
 import { userAccountService } from "../service/userAccount.service.js"
 import type { Request, Response } from 'express'
@@ -6,8 +6,8 @@ import type { Request, Response } from 'express'
 // Implement zod
 export const UserAccountController = {
 
-    async getMyAccountData(
-        req: Request<{}, {}, UserAccountRequest>,
+    async getMyAccount(
+        req: Request<{}, {}, void>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
         logger.info("Get account data request arrived")
@@ -16,7 +16,7 @@ export const UserAccountController = {
         res.status(200).json(user)
     },
 
-    async putUpdatedMyAccount(
+    async updateMyAccount(
         req: Request<{}, {}, UserAccountRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
@@ -27,7 +27,7 @@ export const UserAccountController = {
     },
 
     async deleteMyAccount(
-        req: Request<{}, {}, UserAccountRequest>,
+        req: Request<{}, {}, void>,
         res: Response
     ): Promise<void> {
         logger.info("Delete account data request arrived")

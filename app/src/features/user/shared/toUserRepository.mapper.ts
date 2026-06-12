@@ -1,11 +1,12 @@
-import { MappingError } from "../../../shared/exception/serverException.js";
-import { UserRoles, UserStatus } from "../../../shared/infra/db/generated.prisma/enums.js";
 import type { UserCreateInput, UserUpdateInput } from "../../../shared/infra/db/generated.prisma/models.js";
-import type { UserAccountRequest } from "../dto/userAccount.dto.js";
-import type { UserSignupRequest } from "../dto/userAuth.dto.js";
+import { UserRoles, UserStatus } from "../../../shared/infra/db/generated.prisma/enums.js";
+import { MappingError } from "../../../shared/exception/serverException.js";
+import type { UserAccountRequest } from "../account/dto/userAccount.dto.js";
+import type { UserSignupRequest } from "../auth/dto/userAuth.dto.js";
 
-
-export function toDBUserUpdateInput(user: UserAccountRequest): UserUpdateInput {
+export function toUpdateUser(
+    user: UserAccountRequest
+): UserUpdateInput {
     if (!user.displayName || !user.emailAddress || !user.name) throw new MappingError('Required parammeters can not be null')
     return {
         name: user.name,
@@ -14,7 +15,10 @@ export function toDBUserUpdateInput(user: UserAccountRequest): UserUpdateInput {
     }
 }
 
-export function toDBUserCreateInput(hashedPassword: string, user: UserSignupRequest): UserCreateInput {
+export function toCreateUser(
+    hashedPassword: string,
+    user: UserSignupRequest
+): UserCreateInput {
     if (!user.userName || !user.password || !hashedPassword) throw new MappingError('Required parammeters can not be null')
     return {
         name: user.userName,
