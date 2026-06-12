@@ -19,11 +19,28 @@ LOG_LEVEL=<info | warn | error | debug>
 JWT_SECRET_KEY=<31 ~ 50 letters>
 REDIS_HOST=
 REDIS_PORT=
+REDIS_USERNAME=
 REDIS_PASSWORD=
 
 DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
 ```
+### Startup
+Start postgres
+```sh
+docker run -p 5432:5432 -d \
+    --name postgres \
+    -e POSTGRES_PASSWORD=postgres \
+    -e POSTGRES_USER=postgres \
+    -e POSTGRES_DB=postgres \
+    postgres
+```
 
+Start redis for caching
+```sh
+docker run -p 6379:6379 -d \
+    --name redis \
+     redis
+```
 
 ### Implementation plan
 - Foundation
