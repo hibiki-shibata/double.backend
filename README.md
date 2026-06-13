@@ -21,8 +21,6 @@ REDIS_HOST=
 REDIS_PORT=
 REDIS_USERNAME=
 REDIS_PASSWORD=
-DATABASE_URL=
-
 DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
 ```
 ### Startup
