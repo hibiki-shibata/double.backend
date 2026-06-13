@@ -1,10 +1,9 @@
 // Doc: https://expressjs.com/en/resources/middleware/cors/
-import "dotenv/config"
-import jwt from 'jsonwebtoken'
 import ms from 'ms'
 import type { Options } from 'express-rate-limit'
 import type { CorsOptions } from "cors"
 import type { CookieOptions } from "express"
+import type { Algorithm } from 'jsonwebtoken'
 
 type PasswordEncoderOptions = {
     min_salt_rounds: number,
@@ -21,7 +20,7 @@ type JwtOptions = {
     accessTokenExpiry: number | ms.StringValue,
     refreshTokenExpiry: number | ms.StringValue,
     issuer: string,
-    algorithm: jwt.Algorithm,
+    algorithm: Algorithm
     maxSecretLength: number,
     minSecretLength: number,
     secretKey: string

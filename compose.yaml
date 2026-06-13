@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    ports:
+      - "${PORT_NUMBER}:5000"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - BCRYPT_SALT_ROUNDS=${BCRYPT_SALT_ROUNDS}
+      - RATE_LIMIT=${RATE_LIMIT}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      
+  redis:
+    image: redis:latest
+  postgres:
+    image: postgres:latest

@@ -1,5 +1,4 @@
 // Entry point
-import "dotenv/config"
 import { server, port } from './server.js'
 import { logger } from './shared/logger/logger.js'
 import { prisma } from "./shared/infra/db/postgresClient.js"

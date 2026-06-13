@@ -7,6 +7,7 @@ import { toUpdateUser } from "../../shared/toUserRepository.mapper.js"
 import { toUserAccountResponse } from "../mapper/toUserAccountResponse.mapper.js"
 import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
 
+
 class UserAccountService {
 
     public async getMyAccount(
@@ -53,6 +54,10 @@ class UserAccountService {
         if (dbUser.status === UserStatus.deleted) throw new InvalidInput('User has already been deleted')
         return dbUser
     }
+
+//     private getCacheKey(id: string): string {
+//         return 'userAccount:' + id
+//     }
 }
 
 export const userAccountService = new UserAccountService

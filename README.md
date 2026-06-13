@@ -39,7 +39,10 @@ Start redis for caching
 ```sh
 docker run -p 6379:6379 -d \
     --name redis \
-     redis
+     -e maxmemory=1gb \
+     -e REDIS_USER=redist \
+     -e REDIS_PASSWORD=redis \
+     redis 
 ```
 
 ### Implementation plan

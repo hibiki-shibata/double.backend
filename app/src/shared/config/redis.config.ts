@@ -1,4 +1,3 @@
-import "dotenv/config"
 import type { RedisOptions } from "ioredis";
 
 export const redisOptions: RedisOptions = {

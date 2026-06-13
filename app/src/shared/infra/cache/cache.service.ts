@@ -3,7 +3,7 @@ import { logger } from "../../logger/logger.js"
 import { redis } from "./redisClient.js"
 // Redis server setup!!
 class CacheService {
-    private readonly defaultTtlSeconds: number = 60 * 15
+    private readonly defaultTtlSeconds: number = 60 * 5
 
     async getByKey(
         key: string

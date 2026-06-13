@@ -1,4 +1,3 @@
-import "dotenv/config"
 import pino, { type DestinationStream, type LoggerOptions } from "pino"
 import { isDevMode } from "./env.config.js"
 

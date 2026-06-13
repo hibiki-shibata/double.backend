@@ -9,7 +9,7 @@
     "lint": "pnpm dlx eslint ./app/src/",
     "lint:fix": "pnpm dlx eslint ./app/src/",
     "migrate:dev": "pnpm dlx prisma migrate dev --name local-migration",
-    "start": "pnpm build && node dist/index.js"
+    "start": "pnpm build && node --env-file=.env dist/index.js"
   },
   "keywords": [],
   "author": "hibiki.shibata",
