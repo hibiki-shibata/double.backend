@@ -12,7 +12,7 @@ function gracefulShutdown(signal: string): void {
     logger.warn({ signal }, 'Shutdown signal received')
 
     serverInstance.close(async () => {
-        redis.disconnect()
+        await redis.quit()
         await prisma.$disconnect()
         logger.info('Postgres prisma client disconnected')
         await new Promise<void>((resolved) => logger.flush(() => resolved()))
