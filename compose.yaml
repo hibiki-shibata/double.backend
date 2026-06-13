@@ -21,6 +21,7 @@ services:
   redis:
     image: redis:latest
     container_name: double-redis
+    command: ["redis-server", "--appendonly", "no", "--maxmemory", "500mb", "--maxmemory-policy", "allkeys-lru"]
     ports:
       - "6379:${REDIS_PORT}"
       
