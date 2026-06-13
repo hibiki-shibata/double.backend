@@ -21,6 +21,7 @@ REDIS_HOST=
 REDIS_PORT=
 REDIS_USERNAME=
 REDIS_PASSWORD=
+DATABASE_URL=
 
 DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
 ```
@@ -41,7 +42,7 @@ docker run -p 6379:6379 -d \
     --name redis \
      -e maxmemory=1gb \
      -e REDIS_USER=redist \
-     -e REDIS_PASSWORD=redis \
+     -e REDIS_PASSWORD=redis \ 
      redis 
 ```
 
