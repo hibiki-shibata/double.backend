@@ -1,13 +1,13 @@
 import z from "zod"
-import { userSchema } from "../../shared/user.schema.js"
+import { userSchema } from "../../shared/schema/user.schema.js"
 
-export const UserAccountRequest = z.object({
+export const userAccountRequestSchema = z.object({
     name: userSchema.name,
     displayName: userSchema.displayName,
     emailAddress: userSchema.emailAddress,
 })
 
-export const UserAccountResponse = z.object({
+export const userAccountResponseSchema = z.object({
     id: userSchema.id,
     name: userSchema.name,
     displayName: userSchema.displayName,
@@ -15,5 +15,5 @@ export const UserAccountResponse = z.object({
     status: userSchema.status
 })
 
-export type UserAccountRequest = z.infer<typeof UserAccountRequest>
-export type UserAccountResponse = z.infer<typeof UserAccountResponse>
+export type UserAccountRequest = z.infer<typeof userAccountRequestSchema>
+export type UserAccountResponse = z.infer<typeof userAccountResponseSchema>

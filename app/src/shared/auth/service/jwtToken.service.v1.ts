@@ -1,11 +1,12 @@
-import jwt from 'jsonwebtoken'
+import type { JwtTokenService } from "./jwtToken.service.js"
 import type { JwtPayload, SignOptions, VerifyOptions } from "jsonwebtoken"
-import { type AccessTokenClaim, type RefreshTokenClaim, TokenType } from "./jwtToken.type.js"
-import { Unauthenticated } from "../exception/httpException.js"
-import { jwtOptions } from '../config/security.config.js'
-import { UnexpectedEnvVar } from '../exception/serverException.js'
+import jwt from "jsonwebtoken"
+import { jwtOptions } from "../../config/security.config.js"
+import { TokenType, type AccessTokenClaim, type RefreshTokenClaim } from "../type/jwtToken.type.js"
+import { Unauthenticated } from "../../exception/httpException.js"
+import { UnexpectedEnvVar } from "../../exception/serverException.js"
 
-export class JwtTokenService {
+export class JwtTokenServiceV1 implements JwtTokenService {
 
     constructor(private readonly secretKey: string) {
         if (
@@ -50,11 +51,11 @@ export class JwtTokenService {
     }
 
     private verifyToken(token: string): JwtPayload {
-        const verifyOptions: VerifyOptions = {
-            issuer: jwtOptions.issuer,
-            algorithms: [jwtOptions.algorithm]
-        }
         try {
+            const verifyOptions: VerifyOptions = {
+                issuer: jwtOptions.issuer,
+                algorithms: [jwtOptions.algorithm]
+            }
             const payload: JwtPayload | string = jwt.verify(token, this.secretKey, verifyOptions)
             if (typeof payload === 'string') throw new Unauthenticated('Unexpected string payload')
             return payload
@@ -63,5 +64,3 @@ export class JwtTokenService {
         }
     }
 }
-
-export const jwtTokenService = new JwtTokenService(jwtOptions.secretKey)

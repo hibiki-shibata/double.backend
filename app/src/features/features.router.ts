@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { userAccountRouter } from './user/account/userAccount.router.js'
-import { userAuthRouter } from './user/auth/userAuth.router.js'
+import { userAccountRouter } from './user/account/index.js'
+import { userAuthRouter } from './user/auth/index.js'
 import { walletRouter } from './wallet/wallet.router.js'
 import { marketRouter } from './market/market.router.js'
 import { validateAuth } from '../shared/middleware/validateAuth.js'

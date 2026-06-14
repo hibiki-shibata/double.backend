@@ -16,6 +16,12 @@ export class UnexpectedEnvVar extends InternalServerBaseException {
     }
 }
 
+export class DatabaseError extends InternalServerBaseException {
+    constructor(message: string) {
+        super(message)
+    }
+}
+
 export class MappingError extends InternalServerBaseException {
     constructor(message: string) {
         super(message)

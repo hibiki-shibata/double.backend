@@ -1,5 +1,5 @@
 import z from "zod"
-import { UserStatus, UserRoles } from "../../../shared/infra/db/generated.prisma/enums.js"
+import { UserStatus, UserRoles } from "../../../../shared/infra/db/generated.prisma/enums.js"
 
 export const userSchema = {
     id: z.uuidv4(),

@@ -1,9 +1,4 @@
-import type { UserRoles } from "../infra/db/generated.prisma/enums.js"
-
-export type JwtTokensDTO = {
-    accessToken: string,
-    refreshToken: string
-}
+import type { UserRoles } from "../../infra/db/generated.prisma/enums.js"
 
 export enum TokenType {
     accessToken,
