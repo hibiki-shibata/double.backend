@@ -9,8 +9,11 @@ import { TokenType, type RefreshTokenClaim } from "../../../../shared/auth/type/
 import { InvalidInput } from "../../../../shared/exception/httpException.js"
 import { DatabaseError, MappingError } from "../../../../shared/exception/serverException.js"
 import { v4 as uuidv4 } from 'uuid'
+import type { Logger } from "pino"
 
 export class UserAuthServiceV1 implements UserAuthService {
+    private readonly log: Logger = logger
+
     constructor(
         private readonly repository: UserRepository,
         private readonly passwordService: PasswordService,
@@ -23,23 +26,24 @@ export class UserAuthServiceV1 implements UserAuthService {
         const dbUser: User = await this.repository.getUserByUserName(dto.userName)
         if (dto.userName === dbUser.name) throw new InvalidInput('Input username is already taken')
 
+        const hashedPassword: string = await this.passwordService.hashPassword(dto.password)
         const newUserInput: UserCreateDBInput = {
             name: dto.userName,
             displayName: '[new]' + dto.userName,
-            passwordHash: await this.passwordService.hashPassword(dto.password),
+            passwordHash: hashedPassword,
             status: UserStatus.active,
             roles: [UserRoles.user]
         }
         const createdUser: User = await this.repository.createUser(newUserInput)
 
-        logger.info({ userId: createdUser.id }, "User signup success")
+        this.log.info({ userId: createdUser.id }, "User signup success")
         return this.generateJwtTokens(createdUser)
     }
 
     public async login(
         dto: UserLoginRequest
     ): Promise<JwtTokens> {
-        logger.info({ userId: dto.userName }, "Attempting user login")
+        this.log.info({ userId: dto.userName }, "Attempting user login")
 
         const dbUser: User = await this.repository.getUserByUserName(dto.userName)
         if (dbUser.status === UserStatus.deleted) throw new InvalidInput('User has already been deleted')
@@ -47,7 +51,7 @@ export class UserAuthServiceV1 implements UserAuthService {
 
         await this.passwordService.verifyPassword(dto.password, dbUser.password_hash)
 
-        logger.info({ userId: dbUser.id }, "User login success")
+        this.log.info({ userId: dbUser.id }, "User login success")
         return this.generateJwtTokens(dbUser)
     }
 

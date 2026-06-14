@@ -1,12 +1,15 @@
 import type { UserAccountService } from "./userAccount.service.js"
 import type { UserRepository, UserUpdateDBInput } from "../../shared/repository/user.repository.js"
 import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
-import { type User, UserRoles, UserStatus } from "../../../../shared/infra/db/generated.prisma/client.js"
+import type { Logger } from "pino"
 import { logger } from "../../../../shared/logger/logger.js"
+import { UserRoles, UserStatus, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
 import { InvalidInput } from "../../../../shared/exception/httpException.js"
 import { MappingError } from "../../../../shared/exception/serverException.js"
 
+
 export class UserAccountServiceV1 implements UserAccountService {
+    private readonly log: Logger = logger
     constructor(
         readonly repository: UserRepository
     ) { }
@@ -14,9 +17,9 @@ export class UserAccountServiceV1 implements UserAccountService {
     public async getMyAccount(
         userId: string
     ): Promise<UserAccountResponse> {
-        logger.info("Fetching User from DB")
+        this.log.info("Fetching User from DB")
         const dbUser: User = await this.verifyNonDeletedUser(userId)
-        logger.info(`Fetched User from DB`)
+        this.log.info(`Fetched User from DB`)
         return this.toUserAccountResponse(dbUser)
     }
 
@@ -24,17 +27,17 @@ export class UserAccountServiceV1 implements UserAccountService {
         userId: string,
         dto: UserAccountRequest
     ): Promise<UserAccountResponse> {
-        logger.info("Updating User from DB")
+        this.log.info("Updating User from DB")
         await this.verifyNonDeletedUser(userId)
         const updatedUser: User = await this.repository.updateUserById(userId, dto)
-        logger.info("Updated User from DB")
+        this.log.info("Updated User from DB")
         return this.toUserAccountResponse(updatedUser)
     }
 
     public async deleteMyAccount(
         userId: string
     ): Promise<void> {
-        logger.info("Deleting User from DB")
+        this.log.info("Deleting User from DB")
         await this.verifyNonDeletedUser(userId)
         const deletedUserState: UserUpdateDBInput = {
             name: null,
@@ -45,7 +48,7 @@ export class UserAccountServiceV1 implements UserAccountService {
             roles: [UserRoles.deleted]
         }
         await this.repository.updateUserById(userId, deletedUserState)
-        logger.info("User deleted from DB")
+        this.log.info("User deleted from DB")
     }
 
     private async verifyNonDeletedUser(

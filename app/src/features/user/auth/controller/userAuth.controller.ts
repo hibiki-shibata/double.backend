@@ -3,9 +3,11 @@ import type { Response, Request } from "express"
 import type { JwtTokens, AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
 import { cookieOptions } from "../../../../shared/config/security.config.js"
 import { logger } from "../../../../shared/logger/logger.js"
+import type { Logger } from "pino"
 
 export class UserAuthController {
     private readonly REFRESH_TOKEN_COOKIE = 'refreshToken'
+    private readonly log: Logger = logger
     constructor(
         private readonly service: UserAuthService
     ) { }
@@ -14,9 +16,9 @@ export class UserAuthController {
         req: Request<{}, {}, UserSignupRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        logger.info({ userName: req.body.userName }, "Signup Request arrived")
+        this.log.info({ userName: req.body.userName }, "Signup Request arrived")
         const jwtTokens: JwtTokens = await this.service.signup(req.body)
-        logger.info({ userName: req.body.userName }, "Signup Success Response dispatched")
+        this.log.info({ userName: req.body.userName }, "Signup Success Response dispatched")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE, jwtTokens.refreshToken, cookieOptions)
             .status(201)
@@ -27,9 +29,9 @@ export class UserAuthController {
         req: Request<{}, {}, UserLoginRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        logger.info({ userName: req.body.userName }, "Login Request arrived")
+        this.log.info({ userName: req.body.userName }, "Login Request arrived")
         const jwtTokens: JwtTokens = await this.service.login(req.body)
-        logger.info({ userName: req.body.userName }, "Login Success Response dispatched")
+        this.log.info({ userName: req.body.userName }, "Login Success Response dispatched")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE, jwtTokens.refreshToken, cookieOptions)
             .status(200)
@@ -51,9 +53,9 @@ export class UserAuthController {
         _req: Request,
         res: Response
     ): Promise<void> {
-        logger.info("Logout Request arrived")
+        this.log.info("Logout Request arrived")
         res.removeHeader(this.REFRESH_TOKEN_COOKIE)
-        logger.info("Logout response success dispatched")
+        this.log.info("Logout response success dispatched")
         res
             .clearCookie(this.REFRESH_TOKEN_COOKIE, cookieOptions)
             .status(200)

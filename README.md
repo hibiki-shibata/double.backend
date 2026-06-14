@@ -144,3 +144,9 @@ docker run -p 6379:6379 -d \
     ⚠️ missing — track business KPIs (orders/min, auth failures) not just infra metrics
     - alerts
     ⚠️ missing — at minimum: p99 latency spike + error rate threshold
+
+
+
+    Note:
+    1. index.js in each features
+    2. private / mapping in the service class ok?

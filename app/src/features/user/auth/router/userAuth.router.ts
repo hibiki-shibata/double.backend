@@ -1,19 +1,16 @@
 import { Router } from 'express'
 import type { UserAuthController } from '../controller/userAuth.controller.js'
-import { validateRequestBody } from '../../../../shared/middleware/validateRequestBody.js'
 import { validateAuth } from '../../../../shared/middleware/validateAuth.js'
+import { validateRequestBody } from '../../../../shared/middleware/validateRequestBody.js'
 import { UserLoginRequestSchema, UserSignupRequestSchema } from '../dto/userAuth.dto.js'
 
-export class UserAuthRouter {
-    public readonly router: Router = Router()
-    constructor(
-        private readonly controller: UserAuthController
-    ) { }
-    create(): Router {
-        this.router.post('/login', validateRequestBody(UserLoginRequestSchema), this.controller.login)
-        this.router.post('/signup', validateRequestBody(UserSignupRequestSchema), this.controller.signup)
-        this.router.post('/refreshToken', this.controller.refreshToken)
-        this.router.post('/logout', validateAuth, this.controller.logout)
-        return this.router
-    }
+export function createUserAuthRouter(
+    controller: UserAuthController
+): Router {
+    const router: Router = Router()
+    router.post('/signup', validateRequestBody(UserSignupRequestSchema), controller.signup)
+    router.post('/login', validateRequestBody(UserLoginRequestSchema), controller.login)
+    router.post('/refreshToken', controller.refreshToken)
+    router.post('/logout', validateAuth, controller.logout)
+    return router
 }
