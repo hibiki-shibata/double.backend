@@ -4,7 +4,7 @@ import { validateAuth } from '../../../../shared/middleware/validateAuth.js'
 import { validateRequestBody } from '../../../../shared/middleware/validateRequestBody.js'
 import { UserLoginRequestSchema, UserSignupRequestSchema } from '../dto/userAuth.dto.js'
 
-export function createUserAuthRouter(
+export function userAuthRouter(
     controller: UserAuthController
 ): Router {
     const router: Router = Router()

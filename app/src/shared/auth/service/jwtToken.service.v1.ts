@@ -8,7 +8,9 @@ import { UnexpectedEnvVar } from "../../exception/serverException.js"
 
 export class JwtTokenServiceV1 implements JwtTokenService {
 
-    constructor(private readonly secretKey: string) {
+    constructor(
+        private readonly secretKey: string
+    ) {
         if (
             !secretKey ||
             secretKey.length < jwtOptions.minSecretLength ||

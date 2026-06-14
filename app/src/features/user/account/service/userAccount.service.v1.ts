@@ -7,7 +7,6 @@ import { UserRoles, UserStatus, type User } from "../../../../shared/infra/db/ge
 import { InvalidInput } from "../../../../shared/exception/httpException.js"
 import { MappingError } from "../../../../shared/exception/serverException.js"
 
-
 export class UserAccountServiceV1 implements UserAccountService {
     private readonly log: Logger = logger
     constructor(

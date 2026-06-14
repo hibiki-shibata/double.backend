@@ -1,4 +1,4 @@
-import { type AccessTokenClaim, type RefreshTokenClaim } from "../type/jwtToken.type.js"
+import type { AccessTokenClaim, RefreshTokenClaim } from "../type/jwtToken.type.js"
 
 export type JwtTokenService = {
     generateAccessToken(claim: AccessTokenClaim): string

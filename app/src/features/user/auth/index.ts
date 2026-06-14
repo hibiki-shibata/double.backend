@@ -8,11 +8,14 @@ import { UserAuthServiceV1 } from "./service/userAuth.service.v1.js"
 import { passwordEncoderOptions } from "../../../shared/config/security.config.js"
 import { jwtTokenService } from "../../../shared/auth/index.js"
 import { UserAuthController } from "./controller/userAuth.controller.js"
-import { createUserAuthRouter } from "./router/userAuth.router.js"
+import { userAuthRouter } from "./router/userAuth.router.js"
 
-const repository: UserRepository = new PrismaUserRepository()
-const passwordService: PasswordService = new PasswordServiceV1(passwordEncoderOptions.saltRound)
-const service: UserAuthService = new UserAuthServiceV1(repository, passwordService, jwtTokenService)
-const controller = new UserAuthController(service)
+export function userAuthFeature(): Router {
 
-export const userAuthRouter: Router = createUserAuthRouter(controller)
+    const repository: UserRepository = new PrismaUserRepository()
+    const passwordService: PasswordService = new PasswordServiceV1(passwordEncoderOptions.saltRound)
+    const service: UserAuthService = new UserAuthServiceV1(repository, passwordService, jwtTokenService)
+    const controller = new UserAuthController(service)
+
+    return userAuthRouter(controller)
+}
