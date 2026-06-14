@@ -1,4 +1,4 @@
-export class HttpBaseException extends Error {
+export class HttpBaseErr extends Error {
     constructor(
         override readonly message: string,
         public readonly statusCode: number = 500,
@@ -10,39 +10,39 @@ export class HttpBaseException extends Error {
     }
 }
 
-export class InvalidInput extends HttpBaseException {
+export class InvalidInputErr extends HttpBaseErr {
     constructor(message: string) {
         super(message, 400, 'BAD_REQUEST')
     }
 }
 
 
-export class NotFound extends HttpBaseException {
+export class NotFoundErr extends HttpBaseErr {
     constructor(message: string) {
         super(message, 404, 'NOT_FOUND')
     }
 }
 
-export class RequestConflict extends HttpBaseException {
+export class ConflictErr extends HttpBaseErr {
     constructor(message: string) {
         super(message, 409, 'REQUEST_CONFLICT')
     }
 }
 
-export class Timeout extends HttpBaseException {
+export class TimeoutErr extends HttpBaseErr {
     constructor(message: string) {
         super(message, 408, 'REQUEST_CONFLICT')
     }
 }
 
-export class Unauthorized extends HttpBaseException {
+export class UnauthorizedErr extends HttpBaseErr {
     constructor(message: string) {
         super(message, 401, 'UNAUTHORIZED')
     }
 }
 
 
-export class Unauthenticated extends HttpBaseException {
+export class UnauthenticatedErr extends HttpBaseErr {
     constructor(message: string) {
         super(message, 403, 'UNAUTHENTICATED')
     }

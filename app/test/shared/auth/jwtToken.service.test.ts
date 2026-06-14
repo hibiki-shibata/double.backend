@@ -1,10 +1,10 @@
 import { vi, describe, test, expect, afterEach } from 'vitest'
 import jwt from 'jsonwebtoken'
 import { JwtTokenService } from '../../../src/shared/auth/service/jwtToken.service.js'
-import { UnexpectedEnvVar } from '../../../src/shared/exception/serverException.js'
+import { UnexpectedEnvVar } from '../../../src/shared/error/serverErros.js'
 import { TokenType, type AccessTokenClaim, type RefreshTokenClaim } from '../../../src/shared/auth/type/jwtToken.type.js'
 import { UserRoles } from '../../../src/shared/infra/db/generated.prisma/enums.js'
-import { Unauthenticated } from '../../../src/shared/exception/httpException.js'
+import { Unauthenticated } from '../../../src/shared/error/httpErrors.js'
 
 afterEach(() => {
     vi.restoreAllMocks()

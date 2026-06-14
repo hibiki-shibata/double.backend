@@ -1,8 +1,8 @@
 import { describe, test, expect, vi } from 'vitest'
 import type { Request, Response, NextFunction } from 'express'
-import { globalExceptionHandler } from '../../../src/shared/middleware/globalExceptionHandler.js'
-import { Unauthenticated } from '../../../src/shared/exception/httpException.js'
-import { UnexpectedEnvVar } from '../../../src/shared/exception/serverException.js'
+import { globalExceptionHandler } from '../../../src/shared/middleware/globalErrorHandler.js'
+import { Unauthenticated } from '../../../src/shared/error/httpErrors.js'
+import { UnexpectedEnvVar } from '../../../src/shared/error/serverErros.js'
 
 function createReq(): Request {
   return {

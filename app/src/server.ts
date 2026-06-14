@@ -5,7 +5,7 @@ import { rateLimitOptions, corsOptions } from './shared/config/security.config.j
 import helmet from 'helmet'
 import { addTraceHeader } from './shared/middleware/addTraceHeader.js'
 import { featuresRouter } from "./features/features.router.js"
-import { globalExceptionHandler } from "./shared/middleware/globalExceptionHandler.js"
+import { globalErrorHandler } from "./shared/middleware/globalErrorHandler.js"
 import cookieParser from 'cookie-parser'
 
 export const port: string = process.env.PORT_NUMBER ?? "5000"
@@ -18,4 +18,4 @@ server.use(helmet())
 server.use(cookieParser())
 server.use(addTraceHeader)
 server.use('/api/v1', featuresRouter)
-server.use(globalExceptionHandler)
+server.use(globalErrorHandler)

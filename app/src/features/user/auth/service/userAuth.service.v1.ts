@@ -3,13 +3,12 @@ import type { UserRepository, UserCreateDBInput } from "../../shared/repository/
 import type { JwtTokens, UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
 import type { PasswordService } from "./password.service.js"
 import type { JwtTokenService } from "../../../../shared/auth/service/jwtToken.service.js"
-import { UserRoles, UserStatus, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
-import { logger } from "../../../../shared/logger/logger.js"
-import { TokenType, type RefreshTokenClaim } from "../../../../shared/auth/type/jwtToken.type.js"
-import { InvalidInput } from "../../../../shared/exception/httpException.js"
-import { DatabaseError, MappingError } from "../../../../shared/exception/serverException.js"
-import { v4 as uuidv4 } from 'uuid'
+import type { RefreshTokenClaim } from "../../../../shared/auth/type/jwtToken.type.js"
 import type { Logger } from "pino"
+import { logger } from "../../../../shared/logger/logger.js"
+import { UserRoles, UserStatus, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
+import { InvalidInputErr } from "../../../../shared/error/httpErrors.js"
+import { DatabaseErr, MappingErr } from "../../../../shared/error/serverErros.js"
 
 export class UserAuthServiceV1 implements UserAuthService {
     private readonly log: Logger = logger
@@ -24,7 +23,7 @@ export class UserAuthServiceV1 implements UserAuthService {
         dto: UserSignupRequest
     ): Promise<JwtTokens> {
         const dbUser: User = await this.repository.getUserByUserName(dto.userName)
-        if (dto.userName === dbUser.name) throw new InvalidInput('Input username is already taken')
+        if (dto.userName === dbUser.name) throw new InvalidInputErr('Input username is already taken')
 
         const hashedPassword: string = await this.passwordService.hashPassword(dto.password)
         const newUserInput: UserCreateDBInput = {
@@ -43,11 +42,11 @@ export class UserAuthServiceV1 implements UserAuthService {
     public async login(
         dto: UserLoginRequest
     ): Promise<JwtTokens> {
-        this.log.info({ userId: dto.userName }, "Attempting user login")
+        this.log.info({ userName: dto.userName }, "Attempting user login")
 
         const dbUser: User = await this.repository.getUserByUserName(dto.userName)
-        if (dbUser.status === UserStatus.deleted) throw new InvalidInput('User has already been deleted')
-        if (!dbUser.password_hash) throw new DatabaseError('Missing password registeration in DB')
+        if (dbUser.status === UserStatus.deleted) throw new InvalidInputErr('User has already been deleted')
+        if (!dbUser.password_hash) throw new DatabaseErr('Missing password registeration in DB')
 
         await this.passwordService.verifyPassword(dto.password, dbUser.password_hash)
 
@@ -61,7 +60,7 @@ export class UserAuthServiceV1 implements UserAuthService {
         const refreshTokenClaim: RefreshTokenClaim = this.jwtService.verifyRefreshToken(refreshToken)
 
         const dbUser: User = await this.repository.getUserById(refreshTokenClaim.userId)
-        if (dbUser.status === UserStatus.deleted) throw new InvalidInput('User has already been deleted')
+        if (dbUser.status === UserStatus.deleted) throw new InvalidInputErr('User has already been deleted')
 
         return this.generateJwtTokens(dbUser)
     }
@@ -69,19 +68,9 @@ export class UserAuthServiceV1 implements UserAuthService {
     private generateJwtTokens(
         user: User
     ): JwtTokens {
-        if (!user.id || !user.name || !user.roles) throw new MappingError('Insufficient user data for jwtTokenClaim')
-        const accessToken = this.jwtService.generateAccessToken({
-            type: TokenType.accessToken,
-            userId: user.id,
-            userName: user.name,
-            roles: user.roles,
-            iat: Date.now()
-        })
-        const refreshToken = this.jwtService.generateRefreshToken({
-            type: TokenType.refreshToken,
-            tokenId: uuidv4(),
-            userId: user.id,
-        })
+        if (!user.id || !user.name || !user.roles) throw new MappingErr('Insufficient user data for jwtTokenClaim')
+        const accessToken = this.jwtService.generateAccessToken(user.id, user.name, user.roles)
+        const refreshToken = this.jwtService.generateRefreshToken(user.id)
         return { accessToken, refreshToken }
     }
 }

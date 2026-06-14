@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express"
 import type { AccessTokenClaim } from "../auth/type/jwtToken.type.js"
-import { Unauthenticated } from "../exception/httpException.js"
+import { UnauthenticatedErr } from "../error/httpErrors.js"
 import { logger } from "../logger/logger.js"
 import { jwtTokenService } from "../auth/index.js"
 
@@ -13,7 +13,7 @@ export function validateAuth(
 ): void {
     const rawToken: string | undefined = req.header('Authorization')
     if (!rawToken?.startsWith(BEARER_PREFIX)) {
-        throw new Unauthenticated('JWT token not found in request header')
+        throw new UnauthenticatedErr('JWT token not found in request header')
     }
 
     const accessTokenClaim: AccessTokenClaim = jwtTokenService.verifyAccessToken(

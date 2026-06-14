@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express'
-import { HttpBaseException } from '../exception/httpException.js'
-import { InternalServerBaseException } from '../exception/serverException.js'
+import { HttpBaseErr } from '../error/httpErrors.js'
+import { InternalServerBaseErr } from '../error/serverErros.js'
 import { PrismaClientKnownRequestError } from '../infra/db/generated.prisma/internal/prismaNamespace.js'
 
 type ErrorResponse = {
@@ -9,7 +9,7 @@ type ErrorResponse = {
     requestId?: string
 }
 
-export function globalExceptionHandler(
+export function globalErrorHandler(
     err: Error,
     req: Request,
     res: Response,
@@ -21,7 +21,7 @@ export function globalExceptionHandler(
         requestId: req.requestId
     }
 
-    if (err instanceof HttpBaseException) {
+    if (err instanceof HttpBaseErr) {
         req.logger.error({ err }, 'httpException was handled')
         resBody = {
             code: err.code,
@@ -32,7 +32,7 @@ export function globalExceptionHandler(
 
     }
 
-    if (err instanceof InternalServerBaseException) {
+    if (err instanceof InternalServerBaseErr) {
         req.logger.error({ err }, 'InternalServerException was handled')
         return res.status(err.statusCode).json(resBody)
     }

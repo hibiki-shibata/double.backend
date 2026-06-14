@@ -1,9 +1,9 @@
 import type { UserAuthService } from "../service/userAuth.service.js"
 import type { Response, Request } from "express"
 import type { JwtTokens, AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
-import { cookieOptions } from "../../../../shared/config/security.config.js"
-import { logger } from "../../../../shared/logger/logger.js"
 import type { Logger } from "pino"
+import { logger } from "../../../../shared/logger/logger.js"
+import { cookieOptions } from "../../../../shared/config/security.config.js"
 
 export class UserAuthController {
     private readonly REFRESH_TOKEN_COOKIE = 'refreshToken'
@@ -50,12 +50,13 @@ export class UserAuthController {
     }
 
     async logout(
-        _req: Request,
+        req: Request,
         res: Response
     ): Promise<void> {
-        this.log.info("Logout Request arrived")
+        const { userId } = req.accessTokenClaim
+        this.log.info({ userId }, "Logout Request arrived")
         res.removeHeader(this.REFRESH_TOKEN_COOKIE)
-        this.log.info("Logout response success dispatched")
+        this.log.info({ userId }, "Logout response success dispatched")
         res
             .clearCookie(this.REFRESH_TOKEN_COOKIE, cookieOptions)
             .status(200)

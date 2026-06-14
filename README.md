@@ -148,5 +148,5 @@ docker run -p 6379:6379 -d \
 
 
     Note:
-    1. index.js in each features
+    1. RefreshToken revocation
     2. private / mapping in the service class ok?

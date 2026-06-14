@@ -1,5 +1,5 @@
 import type { UserRepository, UserCreateDBInput, UserUpdateDBInput } from "./user.repository.js"
-import type { Prisma, PrismaClient, User } from "../../../../shared/infra/db/generated.prisma/client.js"
+import { UserRoles, UserStatus, type Prisma, type PrismaClient, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
 import { prisma } from "../../../../shared/infra/db/postgresClient.js"
 
 export class PrismaUserRepository implements UserRepository {
@@ -39,6 +39,18 @@ export class PrismaUserRepository implements UserRepository {
             where: { id: userId },
             data: data
         })
+    }
+
+    async softDeleteUserById(userId: string): Promise<void> {
+        const deletedUserState: UserUpdateDBInput = {
+            name: null,
+            displayName: 'deleted',
+            emailAddress: null,
+            passwordHash: null,
+            status: UserStatus.deleted,
+            roles: [UserRoles.deleted]
+        }
+        await this.updateUserById(userId, deletedUserState)
     }
 
     private toPrismaUserCreateInput(data: UserCreateDBInput): Prisma.UserCreateInput {

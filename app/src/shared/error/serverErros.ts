@@ -1,4 +1,4 @@
-export class InternalServerBaseException extends Error {
+export class InternalServerBaseErr extends Error {
     constructor(
         override readonly message: string,
         public readonly statusCode: number = 500,
@@ -10,19 +10,19 @@ export class InternalServerBaseException extends Error {
     }
 }
 
-export class UnexpectedEnvVar extends InternalServerBaseException {
+export class UnexpectedEnvVarErr extends InternalServerBaseErr {
     constructor(message: string) {
         super(message)
     }
 }
 
-export class DatabaseError extends InternalServerBaseException {
+export class DatabaseErr extends InternalServerBaseErr {
     constructor(message: string) {
         super(message)
     }
 }
 
-export class MappingError extends InternalServerBaseException {
+export class MappingErr extends InternalServerBaseErr {
     constructor(message: string) {
         super(message)
     }

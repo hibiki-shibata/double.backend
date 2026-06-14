@@ -1,8 +1,8 @@
 import { vi, describe, test, expect, afterEach } from 'vitest'
 import bcrypt from 'bcryptjs'
 import { PasswordService } from '../../../../src/features/user/auth/service/password.service.js'
-import { UnexpectedEnvVar } from '../../../../src/shared/exception/serverException.js'
-import { InvalidInput } from '../../../../src/shared/exception/httpException.js'
+import { UnexpectedEnvVar } from '../../../../src/shared/error/serverErros.js'
+import { InvalidInput } from '../../../../src/shared/error/httpErrors.js'
 
 afterEach(() => {
     vi.restoreAllMocks()

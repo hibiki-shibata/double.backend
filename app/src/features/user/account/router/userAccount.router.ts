@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import { UserAccountController } from '../controller/userAccount.controller.js'
+import type { UserAccountController } from '../controller/userAccount.controller.js'
 import { userAccountRequestSchema } from '../dto/userAccount.dto.js'
 import { validateRequestBody } from '../../../../shared/middleware/validateRequestBody.js'
 
-export function createUserAccountRouter(
+export function userAccountRouter(
     controller: UserAccountController
 ): Router {
     const router: Router = Router()

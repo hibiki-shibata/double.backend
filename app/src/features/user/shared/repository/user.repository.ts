@@ -23,4 +23,5 @@ export type UserRepository = {
     getUserByUserName(userName: string): Promise<User>
     createUser(user: UserCreateDBInput): Promise<User>
     updateUserById(userId: string, data: UserUpdateDBInput): Promise<User>
+    softDeleteUserById(userId: string): Promise<void>
 }

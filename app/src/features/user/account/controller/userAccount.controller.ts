@@ -14,9 +14,10 @@ export class UserAccountController {
         req: Request<{}, {}, void>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        this.log.info("Get account data request arrived")
-        const user: UserAccountResponse = await this.service.getMyAccount(req.accessTokenClaim.userId)
-        this.log.info("Account data response dispatched")
+        const { userId } = req.accessTokenClaim
+        this.log.info({ userId }, "Get account data request arrived")
+        const user: UserAccountResponse = await this.service.getMyAccount(userId)
+        this.log.info({ userId }, "Account data response dispatched")
         res.status(200).json(user)
     }
 
@@ -24,9 +25,10 @@ export class UserAccountController {
         req: Request<{}, {}, UserAccountRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        this.log.info("Update account data request arrived")
-        const updatedUser: UserAccountResponse = await this.service.updateMyAccount(req.accessTokenClaim.userId, req.body)
-        this.log.info("Updated Account data response dispatched")
+        const { userId } = req.accessTokenClaim
+        this.log.info({ userId }, "Update account data request arrived")
+        const updatedUser: UserAccountResponse = await this.service.updateMyAccount(userId, req.body)
+        this.log.info({ userId }, "Updated Account data response dispatched")
         res.status(200).json(updatedUser)
     }
 
@@ -34,9 +36,10 @@ export class UserAccountController {
         req: Request<{}, {}, void>,
         res: Response
     ): Promise<void> {
-        this.log.info("Delete account data request arrived")
-        await this.service.deleteMyAccount(req.accessTokenClaim.userId)
-        this.log.info("Account deletion success response dispatched")
+        const { userId } = req.accessTokenClaim
+        this.log.info({ userId }, "Delete account data request arrived")
+        await this.service.deleteMyAccount(userId)
+        this.log.info({ userId }, "Account deletion success response dispatched")
         res.status(204).end()
     }
 }
