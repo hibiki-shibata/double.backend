@@ -9,8 +9,8 @@ export class PasswordServiceV1 implements PasswordService {
         private readonly encodeOptions: PasswordEncoderOptions
     ) {
         if (!encodeOptions.saltRound) throw new UnexpectedEnvVarErr('Missing saldRounds')
-        if (encodeOptions.saltRound <= encodeOptions.min_salt_rounds
-            || encodeOptions.saltRound >= encodeOptions.max_salt_round) {
+        if (encodeOptions.saltRound < encodeOptions.min_salt_rounds
+            || encodeOptions.saltRound > encodeOptions.max_salt_round) {
             throw new UnexpectedEnvVarErr(`BCRYPT_SALT_ROUNDS must be between ${encodeOptions.min_salt_rounds} & ${encodeOptions.max_salt_round}`)
         }
     }
