@@ -8,7 +8,6 @@ const validOptions: PasswordEncoderOptions = {
     max_salt_round: 12,
 }
 
-
 describe('PasswordServiceV1 constructor', () => {
 
     test('missing saltRound should throw UnexpectedEnvVarErr', () => {
@@ -48,8 +47,6 @@ describe('PasswordServiceV1.hashPassword()', () => {
         expect(hash1).not.toBe(hash2)
     })
 })
-
-// ─── verifyPassword ───────────────────────────────────────────────────────────
 
 describe('PasswordServiceV1.verifyPassword()', () => {
 
