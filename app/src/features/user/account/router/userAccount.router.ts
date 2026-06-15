@@ -4,7 +4,7 @@ import { userAccountRequestSchema } from '../dto/userAccount.dto.js'
 import { validateRequestBody } from '../../../../shared/middleware/validateRequestBody.js'
 
 export function userAccountRouter(
-    controller: UserAccountController
+    controller: UserAccountController,
 ): Router {
     const router: Router = Router()
     router.get('/me', controller.getMyAccount)

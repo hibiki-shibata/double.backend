@@ -16,7 +16,6 @@ export class InvalidInputErr extends HttpBaseErr {
     }
 }
 
-
 export class NotFoundErr extends HttpBaseErr {
     constructor(message: string) {
         super(message, 404, 'NOT_FOUND')

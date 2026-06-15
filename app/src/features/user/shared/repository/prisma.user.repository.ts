@@ -1,10 +1,9 @@
 import type { UserRepository, UserCreateDBInput, UserUpdateDBInput } from "./user.repository.js"
 import { UserRoles, UserStatus, type Prisma, type PrismaClient, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
-import { prisma } from "../../../../shared/infra/db/postgresClient.js"
 
 export class PrismaUserRepository implements UserRepository {
     constructor(
-        private readonly db: PrismaClient = prisma
+        private readonly db: PrismaClient
     ) { }
 
     async getUserById(userId: string): Promise<User> {

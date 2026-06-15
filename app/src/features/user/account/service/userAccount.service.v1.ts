@@ -2,15 +2,14 @@ import type { UserAccountService } from "./userAccount.service.js"
 import type { UserRepository } from "../../shared/repository/user.repository.js"
 import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
 import type { Logger } from "pino"
-import { logger } from "../../../../shared/logger/logger.js"
-import { UserStatus, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
+import { type User, UserStatus } from "../../../../shared/infra/db/generated.prisma/client.js"
 import { InvalidInputErr } from "../../../../shared/error/httpErrors.js"
 import { MappingErr } from "../../../../shared/error/serverErros.js"
 
 export class UserAccountServiceV1 implements UserAccountService {
-    private readonly log: Logger = logger
     constructor(
-        private readonly repository: UserRepository
+        private readonly repository: UserRepository,
+        private readonly log: Logger
     ) { }
 
     public async getMyAccount(

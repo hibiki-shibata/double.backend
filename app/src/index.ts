@@ -1,7 +1,7 @@
 // Entry point
 import { server, port } from './server.js'
 import { logger } from './shared/logger/logger.js'
-import { prisma } from "./shared/infra/db/postgresClient.js"
+import { prisma } from "./shared/infra/db/prismaClient.js"
 import { redis } from "./shared/infra/cache/redisClient.js"
 
 const serverInstance = server.listen(port, () =>
