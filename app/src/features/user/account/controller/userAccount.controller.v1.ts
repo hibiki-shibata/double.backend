@@ -4,7 +4,7 @@ import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount
 import type { UserAccountService } from '../service/userAccount.service.js'
 import type { UserAccountController } from './userAccount.controller.js'
 
-export class UserAccountControllerV1 implements UserAccountController{
+export class UserAccountControllerV1 implements UserAccountController {
     constructor(
         private readonly service: UserAccountService,
         private readonly log: Logger
