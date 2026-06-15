@@ -1,24 +1,22 @@
-import bcrypt from 'bcryptjs'
 import type { PasswordService } from './password.service.js'
-import { passwordEncoderOptions } from '../../../../shared/config/security.config.js'
+import type { PasswordEncoderOptions } from '../../../../shared/config/security.config.js'
+import bcrypt from 'bcryptjs'
 import { UnexpectedEnvVarErr } from '../../../../shared/error/serverErros.js'
 import { InvalidInputErr } from '../../../../shared/error/httpErrors.js'
 
 export class PasswordServiceV1 implements PasswordService {
     constructor(
-        private readonly saltRounds: number
+        private readonly encodeOptions: PasswordEncoderOptions
     ) {
-        if (
-            !Number.isInteger(saltRounds) ||
-            saltRounds < passwordEncoderOptions.min_salt_rounds ||
-            saltRounds > passwordEncoderOptions.max_salt_round
-        ) {
-            throw new UnexpectedEnvVarErr('BCRYPT_SALT_ROUNDS must be 10 <= integer <= 15')
+        if (!encodeOptions.saltRound) throw new UnexpectedEnvVarErr('Missing saldRounds')
+        if (encodeOptions.saltRound <= encodeOptions.min_salt_rounds
+            || encodeOptions.saltRound >= encodeOptions.max_salt_round) {
+            throw new UnexpectedEnvVarErr(`BCRYPT_SALT_ROUNDS must be between ${encodeOptions.min_salt_rounds} & ${encodeOptions.max_salt_round}`)
         }
     }
 
     public async hashPassword(password: string): Promise<string> {
-        return await bcrypt.hash(password, this.saltRounds)
+        return await bcrypt.hash(password, this.encodeOptions.saltRound)
     }
 
     public async verifyPassword(

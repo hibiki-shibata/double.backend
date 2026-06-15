@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from "express"
 import type { AccessTokenClaim } from "../auth/type/jwtToken.type.js"
-import { UnauthenticatedErr } from "../error/httpErrors.js"
 import { logger } from "../logger/logger.js"
 import { jwtTokenService } from "../auth/index.js"
+import { UnauthenticatedErr } from "../error/httpErrors.js"
 
 const BEARER_PREFIX = 'Bearer '
 
@@ -19,6 +19,7 @@ export function validateAuth(
     const accessTokenClaim: AccessTokenClaim = jwtTokenService.verifyAccessToken(
         rawToken.slice(BEARER_PREFIX.length)
     )
+
     req.accessTokenClaim = accessTokenClaim
 
     logger.child({ userId: accessTokenClaim.userId })

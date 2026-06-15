@@ -1,27 +1,24 @@
 // https://redis.io/docs/latest/develop/clients/ioredis/
-import { logger } from "../../logger/logger.js"
-import { redis } from "./redisClient.js"
-
-export type CacheService = {
-    getByKey(key: string): Promise<unknown | null>
-    setByKey(key: string, value: unknown, ttlSeconds?: number): Promise<void>
-    deleteByKey(key: string): Promise<void>
-}
+import type { Logger } from "pino"
+import type { CacheService } from "./cache.service.js"
+import type { Redis } from "ioredis"
 
 export class RedisCacheService implements CacheService {
-    private readonly defaultTtlSeconds: number = 60 * 5
+    constructor(
+        private readonly redisClient: Redis,
+        private readonly logger: Logger,
+        private readonly defaultTtlSeconds: number = 60 * 5
+    ) { }
 
     async getByKey(
         key: string
-    ): Promise<unknown | null> {
+    ): Promise<string | null> {
         try {
-            const value: string | null = await redis.get(key)
-            if (value !== null) {
-                return JSON.parse(value)
-            }
-            return value
+            const value: string | null = await this.redisClient.get(key)
+            if (value !== null) return value
+            return null
         } catch (err) {
-            logger.error({ err, key }, 'Redis: cache get failed')
+            this.logger.error({ err, key }, 'Redis: cache get failed')
             return null
         }
     }
@@ -32,9 +29,9 @@ export class RedisCacheService implements CacheService {
         ttlSeconds: number = this.defaultTtlSeconds
     ): Promise<void> {
         try {
-            await redis.set(key, JSON.stringify(value), 'EX', ttlSeconds)
+            await this.redisClient.set(key, JSON.stringify(value), 'EX', ttlSeconds)
         } catch (err) {
-            logger.error({ err, key }, 'Redis: cache set failed')
+            this.logger.error({ err, key }, 'Redis: cache set failed')
         }
     }
 
@@ -42,9 +39,9 @@ export class RedisCacheService implements CacheService {
         key: string
     ): Promise<void> {
         try {
-            await redis.del(key)
+            await this.redisClient.del(key)
         } catch (err) {
-            logger.error({ err, key }, 'Redis: cache delete failed')
+            this.logger.error({ err, key }, 'Redis: cache delete failed')
         }
     }
 }

@@ -1,11 +1,11 @@
 // https://ioredis.com/
 import { Redis } from "ioredis"
-import { redisOptions } from "../../config/redis.config.js"
 import { logger } from "../../logger/logger.js"
+import { redisOptions } from "../../config/redis.config.js"
 
-export const redis: Redis = new Redis(redisOptions)
+export const redisClient: Redis = new Redis(redisOptions)
 
-redis.on('error', (error) => {
+redisClient.on('error', (error) => {
     logger.error({error}, 'Redis error')
 })
 

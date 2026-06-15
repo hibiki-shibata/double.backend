@@ -1,22 +1,20 @@
 import type { UserAuthService } from "./userAuth.service.js"
-import type { UserRepository, UserCreateDBInput } from "../../shared/repository/user.repository.js"
+import type { UserRepository } from "../../shared/repository/user.repository.js"
 import type { JwtTokens, UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
 import type { PasswordService } from "./password.service.js"
 import type { JwtTokenService } from "../../../../shared/auth/service/jwtToken.service.js"
 import type { RefreshTokenClaim } from "../../../../shared/auth/type/jwtToken.type.js"
 import type { Logger } from "pino"
-import { logger } from "../../../../shared/logger/logger.js"
-import { UserRoles, UserStatus, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
+import { type User, UserRoles, UserStatus } from "../../../../shared/infra/db/generated.prisma/client.js"
 import { InvalidInputErr } from "../../../../shared/error/httpErrors.js"
 import { DatabaseErr, MappingErr } from "../../../../shared/error/serverErros.js"
 
 export class UserAuthServiceV1 implements UserAuthService {
-    private readonly log: Logger = logger
-
     constructor(
         private readonly repository: UserRepository,
         private readonly passwordService: PasswordService,
-        private readonly jwtService: JwtTokenService
+        private readonly jwtService: JwtTokenService,
+        private readonly log: Logger
     ) { }
 
     public async signup(
@@ -26,14 +24,13 @@ export class UserAuthServiceV1 implements UserAuthService {
         if (dto.userName === dbUser.name) throw new InvalidInputErr('Input username is already taken')
 
         const hashedPassword: string = await this.passwordService.hashPassword(dto.password)
-        const newUserInput: UserCreateDBInput = {
+        const createdUser: User = await this.repository.createUser({
             name: dto.userName,
             displayName: '[new]' + dto.userName,
             passwordHash: hashedPassword,
             status: UserStatus.active,
             roles: [UserRoles.user]
-        }
-        const createdUser: User = await this.repository.createUser(newUserInput)
+        })
 
         this.log.info({ userId: createdUser.id }, "User signup success")
         return this.generateJwtTokens(createdUser)
