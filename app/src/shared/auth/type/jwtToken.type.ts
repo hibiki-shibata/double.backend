@@ -6,19 +6,21 @@ export enum TokenType {
 }
 
 export type AccessTokenClaim = {
-    type: TokenType.accessToken
     userId: string,
     userName: string,
     roles: UserRoles[]
-    iat: number
-    exp?: number,
+    type: TokenType.accessToken
+    iat?: number
+    jti?: string
+    exp?: number
     iss?: string
 }
 
 export type RefreshTokenClaim = {
-    type: TokenType.refreshToken
-    tokenId: string,
     userId: string,
-    exp?: number,
+    type: TokenType.refreshToken
+    iat?: number
+    jti?: string
+    exp?: number
     iss?: string
 }

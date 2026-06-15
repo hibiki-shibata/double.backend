@@ -1,8 +1,8 @@
 import { describe, test, expect, vi } from 'vitest'
 import type { Request, Response, NextFunction } from 'express'
-import { globalExceptionHandler } from '../../../src/shared/middleware/globalErrorHandler.js'
-import { Unauthenticated } from '../../../src/shared/error/httpErrors.js'
-import { UnexpectedEnvVar } from '../../../src/shared/error/serverErros.js'
+import { globalErrorHandler } from '../../../src/shared/middleware/globalErrorHandler.js'
+import { UnauthenticatedErr } from '../../../src/shared/error/httpErrors.js'
+import { UnexpectedEnvVarErr } from '../../../src/shared/error/serverErros.js'
 
 function createReq(): Request {
   return {
@@ -28,8 +28,8 @@ describe('globalExceptionHandler', () => {
   test('handle HttpBaseException', () => {
     const req = createReq()
     const res = createRes()
-    const err = new Unauthenticated('Invalid token')
-    globalExceptionHandler(err, req, res, vi.fn() as NextFunction)
+    const err = new UnauthenticatedErr('Invalid token')
+    globalErrorHandler (err, req, res, vi.fn() as NextFunction)
 
     expect(req.logger.error).toHaveBeenCalledWith({ err }, 'httpException was handled')
     expect(res.status).toHaveBeenCalledWith(err.statusCode)
@@ -43,9 +43,9 @@ describe('globalExceptionHandler', () => {
   test('handle InternalServerBaseException', () => {
     const req = createReq()
     const res = createRes()
-    const err = new UnexpectedEnvVar('JWT_SECRET')
+    const err = new UnexpectedEnvVarErr('JWT_SECRET')
 
-    globalExceptionHandler(err, req, res, vi.fn() as NextFunction)
+    globalErrorHandler (err, req, res, vi.fn() as NextFunction)
 
     expect(req.logger.error).toHaveBeenCalledWith({ err }, 'InternalServerException was handled')
     expect(res.status).toHaveBeenCalledWith(err.statusCode)
@@ -61,7 +61,7 @@ describe('globalExceptionHandler', () => {
     const res = createRes()
     const err = new Error('unexpected')
 
-    globalExceptionHandler(err, req, res, vi.fn() as NextFunction)
+    globalErrorHandler (err, req, res, vi.fn() as NextFunction)
 
     expect(req.logger.error).toHaveBeenCalledWith({ err }, 'Unexpected Exception was thrown')
     expect(res.status).toHaveBeenCalledWith(500)
