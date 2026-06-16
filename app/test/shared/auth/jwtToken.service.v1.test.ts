@@ -13,12 +13,12 @@ afterEach(() => {
 })
 
 const testJwtOptions: JwtOptions = {
-    accessTokenExpiry: '15m',
-    refreshTokenExpiry: '9d',
+    accessTokenExpireIn: '15m',
+    refreshTokenExpireIn: '9d',
     issuer: 'test-issur',
     algorithm: 'HS256',
-    maxSecretLength: 70,
-    minSecretLength: 32,
+    maxSecretLen: 70,
+    minSecretLen: 32,
     secretKey: '1234567890123456789012345678901234'
 }
 
@@ -41,8 +41,8 @@ describe('JwtTokenService instanciation edge cases', () => {
     test('should throw Error when secretKey was less than min length', () => {
         const shortSecretKey: JwtOptions = {
             ...testJwtOptions,
-            maxSecretLength: 10,
-            minSecretLength: 5,
+            maxSecretLen: 10,
+            minSecretLen: 5,
             secretKey: '1'.repeat(4)
         }
         expect(() => new JwtTokenServiceV1(shortSecretKey, uuidv4)).toThrow(UnexpectedEnvVarErr)
@@ -51,8 +51,8 @@ describe('JwtTokenService instanciation edge cases', () => {
     test('should throw Error when secretKey was longer than max length', () => {
         const longSecretKey: JwtOptions = {
             ...testJwtOptions,
-            maxSecretLength: 10,
-            minSecretLength: 5,
+            maxSecretLen: 10,
+            minSecretLen: 5,
             secretKey: '1'.repeat(11)
         }
         expect(() => new JwtTokenServiceV1(longSecretKey, uuidv4)).toThrow(UnexpectedEnvVarErr)
@@ -61,8 +61,8 @@ describe('JwtTokenService instanciation edge cases', () => {
     test('should NOT throw Error when secret key was within limit', () => {
         const validSecretKey: JwtOptions = {
             ...testJwtOptions,
-            maxSecretLength: 10,
-            minSecretLength: 5,
+            maxSecretLen: 10,
+            minSecretLen: 5,
             secretKey: '1'.repeat(7)
         }
         expect(() => new JwtTokenServiceV1(validSecretKey, uuidv4)).not.toThrow()

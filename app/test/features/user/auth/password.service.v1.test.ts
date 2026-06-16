@@ -2,37 +2,37 @@ import { describe, test, expect } from 'vitest'
 import { PasswordServiceV1 } from '../../../../src/features/user/auth/service/password.service.v1.js'
 import type { PasswordEncoderOptions } from '../../../../src/shared/config/security.config.js'
 
-const validOptions: PasswordEncoderOptions = {
+const testPassEncoderOptions: PasswordEncoderOptions = {
     saltRound: 10,
-    min_salt_rounds: 8,
-    max_salt_round: 12,
+    maxSaltRound: 15,
+    minSaltRound: 5,
 }
 
 describe('PasswordServiceV1 constructor', () => {
 
     test('missing saltRound should throw UnexpectedEnvVarErr', () => {
-        expect(() => new PasswordServiceV1({ ...validOptions, saltRound: 0 }))
+        expect(() => new PasswordServiceV1({ ...testPassEncoderOptions, saltRound: 0 }))
             .toThrow('Missing saldRounds')
     })
 
     test('saltRound below minimum should throw UnexpectedEnvVarErr', () => {
-        expect(() => new PasswordServiceV1({ ...validOptions, saltRound: 7 }))
+        expect(() => new PasswordServiceV1({ ...testPassEncoderOptions, saltRound: testPassEncoderOptions.minSaltRound - 1 }))
             .toThrow('BCRYPT_SALT_ROUNDS must be between')
     })
 
     test('saltRound above maximum should throw UnexpectedEnvVarErr', () => {
-        expect(() => new PasswordServiceV1({ ...validOptions, saltRound: 13 }))
+        expect(() => new PasswordServiceV1({ ...testPassEncoderOptions, saltRound: testPassEncoderOptions.maxSaltRound + 1 }))
             .toThrow('BCRYPT_SALT_ROUNDS must be between')
     })
 
     test('valid options should not throw', () => {
-        expect(() => new PasswordServiceV1(validOptions)).not.toThrow()
+        expect(() => new PasswordServiceV1(testPassEncoderOptions)).not.toThrow()
     })
 })
 
 describe('PasswordServiceV1.hashPassword()', () => {
 
-    const service = new PasswordServiceV1(validOptions)
+    const service = new PasswordServiceV1(testPassEncoderOptions)
 
     test('should return a bcrypt hash string', async () => {
         const hash = await service.hashPassword('password123')
@@ -50,7 +50,7 @@ describe('PasswordServiceV1.hashPassword()', () => {
 
 describe('PasswordServiceV1.verifyPassword()', () => {
 
-    const service = new PasswordServiceV1(validOptions)
+    const service = new PasswordServiceV1(testPassEncoderOptions)
 
     test('correct password should resolve without error', async () => {
         const hash = await service.hashPassword('password123')
