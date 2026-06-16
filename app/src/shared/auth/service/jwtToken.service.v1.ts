@@ -8,9 +8,10 @@ import { UnauthenticatedErr } from "../../error/httpErrors.js"
 import { UnexpectedEnvVarErr } from "../../error/serverErros.js"
 
 export class JwtTokenServiceV1 implements JwtTokenService {
+    private readonly jwt: typeof jwt = jwt
     constructor(
         private readonly jwtOptions: JwtOptions,
-        private readonly generateTokenId: () => string
+        private readonly generateTokenId: () => string,
     ) {
         if (!jwtOptions.secretKey.trim()) throw new UnexpectedEnvVarErr('Secret key is missing')
         if (jwtOptions.secretKey.length < jwtOptions.minSecretLen || jwtOptions.secretKey.length > jwtOptions.maxSecretLen) {
@@ -25,7 +26,7 @@ export class JwtTokenServiceV1 implements JwtTokenService {
             userName: userName,
             roles: roles,
         }
-        return jwt.sign(claim, this.jwtOptions.secretKey, {
+        return this.jwt.sign(claim, this.jwtOptions.secretKey, {
             expiresIn: this.jwtOptions.accessTokenExpireIn,
             jwtid: this.generateTokenId(),
             algorithm: this.jwtOptions.algorithm,
@@ -38,7 +39,7 @@ export class JwtTokenServiceV1 implements JwtTokenService {
             type: TokenType.refreshToken,
             userId: userId,
         }
-        return jwt.sign(claim, this.jwtOptions.secretKey, {
+        return this.jwt.sign(claim, this.jwtOptions.secretKey, {
             expiresIn: this.jwtOptions.refreshTokenExpireIn,
             jwtid: this.generateTokenId(),
             algorithm: this.jwtOptions.algorithm,
@@ -60,7 +61,7 @@ export class JwtTokenServiceV1 implements JwtTokenService {
 
     private verifyToken(token: string): JwtPayload {
         try {
-            const claim: JwtPayload | string = jwt.verify(token, this.jwtOptions.secretKey, {
+            const claim: JwtPayload | string = this.jwt.verify(token, this.jwtOptions.secretKey, {
                 issuer: this.jwtOptions.issuer,
                 algorithms: [this.jwtOptions.algorithm],
             })

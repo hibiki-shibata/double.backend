@@ -5,6 +5,7 @@ import { UnexpectedEnvVarErr } from '../../../../shared/error/serverErros.js'
 import { InvalidInputErr } from '../../../../shared/error/httpErrors.js'
 
 export class PasswordServiceV1 implements PasswordService {
+    private encoder: typeof bcrypt = bcrypt
     constructor(
         private readonly encodeOptions: PasswordEncoderOptions
     ) {
@@ -15,14 +16,14 @@ export class PasswordServiceV1 implements PasswordService {
     }
 
     public async hashPassword(password: string): Promise<string> {
-        return await bcrypt.hash(password, this.encodeOptions.saltRound)
+        return await this.encoder.hash(password, this.encodeOptions.saltRound)
     }
 
     public async verifyPassword(
         inputPassword: string,
         storedHashedPassword: string
     ): Promise<void> {
-        const isPasswordValid: boolean = await bcrypt.compare(inputPassword, storedHashedPassword)
+        const isPasswordValid: boolean = await this.encoder.compare(inputPassword, storedHashedPassword)
         if (!isPasswordValid) throw new InvalidInputErr('Input password was invalid')
     }
 }
