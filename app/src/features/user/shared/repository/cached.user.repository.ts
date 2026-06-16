@@ -4,7 +4,6 @@ import type { UserCreateDBInput, UserRepository, UserUpdateDBInput } from "./use
 import type { CacheKeys } from "../../../../shared/config/cache.config.js";
 
 export class CachedUserRepository implements UserRepository {
-
     constructor(
         private readonly dbRepository: UserRepository,
         private readonly cacheService: CacheService,

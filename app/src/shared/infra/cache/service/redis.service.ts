@@ -1,7 +1,7 @@
 // https://redis.io/docs/latest/develop/clients/ioredis/
+import type { Redis } from "ioredis"
 import type { Logger } from "pino"
 import type { CacheService } from "./cache.service.js"
-import type { Redis } from "ioredis"
 
 export class RedisCacheService implements CacheService {
     constructor(

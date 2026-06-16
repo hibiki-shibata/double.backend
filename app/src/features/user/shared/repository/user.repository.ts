@@ -17,7 +17,7 @@ export type UserUpdateDBInput = {
     roles?: UserRoles[],
 }
 
-export type UserRepository = {
+export interface UserRepository {
     getUserById(userId: string): Promise<User>
     getUserByEmail(emailAddress: string): Promise<User>
     getUserByUserName(userName: string): Promise<User>

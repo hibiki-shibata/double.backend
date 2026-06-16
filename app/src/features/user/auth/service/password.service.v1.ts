@@ -5,7 +5,7 @@ import { UnexpectedEnvVarErr } from '../../../../shared/error/serverErros.js'
 import { InvalidInputErr } from '../../../../shared/error/httpErrors.js'
 
 export class PasswordServiceV1 implements PasswordService {
-    private encoder: typeof bcrypt = bcrypt
+    private readonly encoder: typeof bcrypt = bcrypt
     constructor(
         private readonly encodeOptions: PasswordEncoderOptions
     ) {

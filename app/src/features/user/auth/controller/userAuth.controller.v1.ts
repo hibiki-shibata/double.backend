@@ -5,7 +5,7 @@ import type { JwtTokens, AccessTokenResponse, UserLoginRequest, UserSignupReques
 import type { UserAuthController } from "./userAuth.controller.js"
 
 export class UserAuthControllerV1 implements UserAuthController {
-    private readonly REFRESH_TOKEN_COOKIE = 'refreshToken'
+    private readonly REFRESH_TOKEN_COOKIE_HEADER = 'refreshToken'
     constructor(
         private readonly service: UserAuthService,
         private readonly cookieOptions: CookieOptions,
@@ -20,7 +20,7 @@ export class UserAuthControllerV1 implements UserAuthController {
         const jwtTokens: JwtTokens = await this.service.signup(req.body)
         this.log.info({ userName: req.body.userName }, "Signup Success Response dispatched")
         res
-            .cookie(this.REFRESH_TOKEN_COOKIE, jwtTokens.refreshToken, this.cookieOptions)
+            .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(201)
             .json(this.toAccessTokenResponse(jwtTokens))
     }
@@ -33,7 +33,7 @@ export class UserAuthControllerV1 implements UserAuthController {
         const jwtTokens: JwtTokens = await this.service.login(req.body)
         this.log.info({ userName: req.body.userName }, "Login Success Response dispatched")
         res
-            .cookie(this.REFRESH_TOKEN_COOKIE, jwtTokens.refreshToken, this.cookieOptions)
+            .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(200)
             .json(this.toAccessTokenResponse(jwtTokens))
     }
@@ -42,9 +42,9 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        const jwtTokens: JwtTokens = await this.service.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE])
+        const jwtTokens: JwtTokens = await this.service.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
         res
-            .cookie(this.REFRESH_TOKEN_COOKIE, jwtTokens.refreshToken, this.cookieOptions)
+            .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(200)
             .json(this.toAccessTokenResponse(jwtTokens))
     }
@@ -55,10 +55,10 @@ export class UserAuthControllerV1 implements UserAuthController {
     ): Promise<void> {
         const { userId } = req.accessTokenClaim
         this.log.info({ userId }, "Logout Request arrived")
-        res.removeHeader(this.REFRESH_TOKEN_COOKIE)
+        res.removeHeader(this.REFRESH_TOKEN_COOKIE_HEADER)
         this.log.info({ userId }, "Logout response success dispatched")
         res
-            .clearCookie(this.REFRESH_TOKEN_COOKIE, this.cookieOptions)
+            .clearCookie(this.REFRESH_TOKEN_COOKIE_HEADER, this.cookieOptions)
             .status(200)
             .end()
     }

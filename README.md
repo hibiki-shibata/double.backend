@@ -104,9 +104,9 @@ docker run -p 6379:6379 -d \
     opossum — wrap external HTTP calls and DB queries that can cascade-fail
     - Redis cache✅
     cache expensive queries — define TTL and invalidation strategy before implementing
-    - cache invalidation 
+    - cache invalidation✅ 
     ⚠️ missing — write strategy: on mutation, or TTL-only? Document the decision
-    - health endpoints
+    - health endpoints✅
     ⚠️ missing — /healthz (liveness) + /readyz (checks DB + Redis) for k8s / Render 
 
 - Queue / Backgoud job
