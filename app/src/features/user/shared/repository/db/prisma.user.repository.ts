@@ -1,5 +1,5 @@
-import type { UserRepository, UserCreateDBInput, UserUpdateDBInput } from "./user.repository.js"
-import { UserRoles, UserStatus, type Prisma, type PrismaClient, type User } from "../../../../shared/infra/db/generated.prisma/client.js"
+import { UserRoles, UserStatus, type Prisma, type PrismaClient, type User } from "../../../../../shared/infra/db/generated.prisma/client.js"
+import type { UserRepository, UserCreateDBInput, UserUpdateDBInput } from "../user.repository.js"
 
 export class PrismaUserRepository implements UserRepository {
     constructor(
@@ -40,7 +40,7 @@ export class PrismaUserRepository implements UserRepository {
         })
     }
 
-    async softDeleteUserById(userId: string): Promise<void> {
+    async softDeleteUserById(userId: string): Promise<User> {
         const deletedUserState: UserUpdateDBInput = {
             name: null,
             displayName: 'deleted',
@@ -49,27 +49,27 @@ export class PrismaUserRepository implements UserRepository {
             status: UserStatus.deleted,
             roles: [UserRoles.deleted]
         }
-        await this.updateUserById(userId, deletedUserState)
+        return await this.updateUserById(userId, deletedUserState)
     }
 
-    private toPrismaUserCreateInput(data: UserCreateDBInput): Prisma.UserCreateInput {
+    private toPrismaUserCreateInput(input: UserCreateDBInput): Prisma.UserCreateInput {
         return {
-            name: data.name,
-            display_name: data.displayName,
-            password_hash: data.passwordHash,
-            status: data.status,
-            roles: data.roles,
+            name: input.name,
+            display_name: input.displayName,
+            password_hash: input.passwordHash,
+            status: input.status,
+            roles: input.roles,
         }
     }
 
-    private toPrismaUserUpdateInput(data: UserUpdateDBInput): Prisma.UserUpdateInput {
+    private toPrismaUserUpdateInput(input: UserUpdateDBInput): Prisma.UserUpdateInput {
         const prismaData: Prisma.UserUpdateInput = {}
-        if (data.name !== undefined) prismaData.name = data.name
-        if (data.displayName !== undefined) prismaData.display_name = data.displayName
-        if (data.passwordHash !== undefined) prismaData.password_hash = data.passwordHash
-        if (data.emailAddress !== undefined) prismaData.email_address = data.emailAddress
-        if (data.status !== undefined) prismaData.status = data.status
-        if (data.roles !== undefined) prismaData.roles = data.roles
+        if (input.name !== undefined) prismaData.name = input.name
+        if (input.displayName !== undefined) prismaData.display_name = input.displayName
+        if (input.passwordHash !== undefined) prismaData.password_hash = input.passwordHash
+        if (input.emailAddress !== undefined) prismaData.email_address = input.emailAddress
+        if (input.status !== undefined) prismaData.status = input.status
+        if (input.roles !== undefined) prismaData.roles = input.roles
         return prismaData
     }
 }

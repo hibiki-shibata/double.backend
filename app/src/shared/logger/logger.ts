@@ -1,7 +1,7 @@
 import pino from 'pino'
-import { destinationStreamConfig, loggerConfig } from '../config/logger.config.js'
+import { destinationStreamOptions, loggerOptions } from '../config/logger.config.js'
 
 export const logger = pino(
-    loggerConfig,
-    destinationStreamConfig
+    loggerOptions,
+    destinationStreamOptions
 )

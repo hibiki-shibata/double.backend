@@ -10,13 +10,13 @@ export class RedisCacheService implements CacheService {
         private readonly defaultTtlSeconds: number = 60 * 5
     ) { }
 
-    async getByKey(
+    async getByKey<T>(
         key: string
-    ): Promise<string | null> {
+    ): Promise<T | null> {
         try {
             const value: string | null = await this.redisClient.get(key)
-            if (value !== null) return value
-            return null
+            if (value === null) return null
+            return JSON.parse(value)
         } catch (err) {
             this.logger.error({ err, key }, 'Redis: cache get failed')
             return null
