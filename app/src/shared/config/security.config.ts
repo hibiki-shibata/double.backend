@@ -6,13 +6,13 @@ import type { CookieOptions } from "express"
 import type { Algorithm } from 'jsonwebtoken'
 
 export type PasswordEncoderOptions = {
-    max_salt_round: number,
-    min_salt_rounds: number,
+    maxSaltRound: number,
+    minSaltRound: number,
     saltRound: number
 }
 export const passwordEncoderOptions: PasswordEncoderOptions = {
-    max_salt_round: 15,
-    min_salt_rounds: 10,
+    maxSaltRound: 15,
+    minSaltRound: 10,
     saltRound: (() => {
         const saltRound: number = parseInt(process.env.BCRYPT_SALT_ROUNDS ?? '12', 10)
         if (saltRound <= 10 || saltRound >= 15) throw new Error('BCRYPT_SALT_ROUTNDS must be between 10 and 15 characters')
@@ -21,24 +21,25 @@ export const passwordEncoderOptions: PasswordEncoderOptions = {
 }
 
 export type JwtOptions = {
-    accessTokenExpiry: number | ms.StringValue,
-    refreshTokenExpiry: number | ms.StringValue,
+    accessTokenExpireAt: number | ms.StringValue,
+    refreshTokenExpireAt: number | ms.StringValue,
     issuer: string,
     algorithm: Algorithm
-    maxSecretLength: number,
-    minSecretLength: number,
+    maxSecret: number,
+    minSecret: number,
     secretKey: string,
 }
 export const jwtOptions: JwtOptions = {
-    accessTokenExpiry: '15m',
-    refreshTokenExpiry: '30d',
+    accessTokenExpireAt: '15m',
+    refreshTokenExpireAt: '30d',
     issuer: 'double-backend',
     algorithm: 'HS256',
-    maxSecretLength: 70,
-    minSecretLength: 32,
+    maxSecret: 70,
+    minSecret: 32,
     secretKey: (() => {
         const secret = process.env.JWT_SECRET_KEY ?? undefined
-        if (!secret || secret.length <= 32 || secret.length >= 70) throw new Error('JWT_SECRET_KEY must be between 32 and 70 characters')
+        if (!secret) throw new Error('Missing Jwt secret key in process env')
+        if (secret.length < 32 || secret.length > 70) throw new Error('JWT_SECRET_KEY must be between 32 and 70 characters')
         return secret
     })()
 }
