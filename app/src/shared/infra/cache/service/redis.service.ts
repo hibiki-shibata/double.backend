@@ -7,7 +7,7 @@ export class RedisCacheService implements CacheService {
     constructor(
         private readonly redisClient: Redis,
         private readonly logger: Logger,
-        private readonly defaultTtlSeconds: number = 60 * 5
+        private readonly defaultTtlSecs: number = 60 * 5
     ) { }
 
     async getByKey<T>(
@@ -26,7 +26,7 @@ export class RedisCacheService implements CacheService {
     async setByKey(
         key: string,
         value: unknown,
-        ttlSeconds: number = this.defaultTtlSeconds
+        ttlSeconds: number = this.defaultTtlSecs
     ): Promise<void> {
         try {
             await this.redisClient.set(key, JSON.stringify(value), 'EX', ttlSeconds)

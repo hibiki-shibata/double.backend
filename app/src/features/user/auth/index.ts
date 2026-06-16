@@ -12,11 +12,11 @@ import { redisClient } from "../../../shared/infra/cache/client/redisClient.js"
 import { RedisCacheService } from "../../../shared/infra/cache/service/redis.service.js"
 import { jwtTokenService } from "../../../shared/auth/index.js"
 import { UserAuthServiceV1 } from "./service/userAuth.service.v1.js"
-import { userAuthRouter } from "./router/userAuth.router.js"
 import { cacheKeys } from "../../../shared/config/cache.config.js"
 import { CachedUserRepository } from "../shared/repository/cached.user.repository.js"
 import { cookieOptions, passwordEncoderOptions } from "../../../shared/config/security.config.js"
 import { UserAuthControllerV1 } from "./controller/userAuth.controller.v1.js"
+import { userAuthRouter } from "./router/userAuth.router.js"
 
 export function userAuthFeature(): Router {
     const passwordService: PasswordService = new PasswordServiceV1(passwordEncoderOptions)

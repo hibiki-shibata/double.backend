@@ -1,5 +1,5 @@
 // Doc: https://expressjs.com/en/resources/middleware/cors/
-import ms from 'ms'
+import type ms from 'ms'
 import type { Options } from 'express-rate-limit'
 import type { CorsOptions } from "cors"
 import type { CookieOptions } from "express"
@@ -21,8 +21,8 @@ export const passwordEncoderOptions: PasswordEncoderOptions = {
 }
 
 export type JwtOptions = {
-    accessTokenExpireIn: number | ms.StringValue,
-    refreshTokenExpireIn: number | ms.StringValue,
+    accessTokenExpireIn: ms.StringValue,
+    refreshTokenExpireIn: ms.StringValue,
     issuer: string,
     algorithm: Algorithm
     maxSecretLen: number,
