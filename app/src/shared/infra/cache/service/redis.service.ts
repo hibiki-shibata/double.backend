@@ -23,9 +23,9 @@ export class RedisCacheService implements CacheService {
         }
     }
 
-    async setByKey(
+    async setByKey<T>(
         key: string,
-        value: unknown,
+        value: T,
         ttlSeconds: number = this.defaultTtlSecs
     ): Promise<void> {
         try {

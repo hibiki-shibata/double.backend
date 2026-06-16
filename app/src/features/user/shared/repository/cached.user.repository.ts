@@ -14,37 +14,55 @@ export class CachedUserRepository implements UserRepository {
 
     async getUserById(userId: string): Promise<User> {
         const cachedUser: User | null = await this.cacheService.getByKey<User>(this.cacheKeys.userById(userId))
-        if (cachedUser !== null) return cachedUser
-        return await this.dbRepository.getUserById(userId)
+        if (cachedUser === null) {
+            const dbUser: User = await this.dbRepository.getUserById(userId)
+            await this.cacheService.setByKey<User>(
+                this.cacheKeys.userById(dbUser.id),
+                dbUser,
+                this.cacheTtlSecs
+            )
+            return dbUser
+        }
+        return cachedUser
     }
 
     async getUserByEmail(emailAddress: string): Promise<User> {
-        const user: User = await this.dbRepository.getUserByEmail(emailAddress)
-        this.cacheService.setByKey(this.cacheKeys.userById(user.id), user, this.cacheTtlSecs)
-        return user
+        const dbUser: User = await this.dbRepository.getUserByEmail(emailAddress)
+        await this.cacheService.setByKey<User>(
+            this.cacheKeys.userById(dbUser.id),
+            dbUser,
+            this.cacheTtlSecs
+        )
+        return dbUser
     }
 
     async getUserByUserName(userName: string): Promise<User> {
-        const user: User = await this.dbRepository.getUserByUserName(userName)
-        this.cacheService.setByKey(this.cacheKeys.userById(user.id), user, this.cacheTtlSecs)
-        return user
+        const dbUser: User = await this.dbRepository.getUserByUserName(userName)
+        await this.cacheService.setByKey<User>(
+            this.cacheKeys.userById(dbUser.id),
+            dbUser,
+            this.cacheTtlSecs
+        )
+        return dbUser
     }
 
     async createUser(input: UserCreateDBInput): Promise<User> {
-        const user: User = await this.dbRepository.createUser(input)
-        this.cacheService.setByKey(this.cacheKeys.userById(user.id), user, this.cacheTtlSecs)
-        return user
+        return await this.dbRepository.createUser(input)
     }
 
     async updateUserById(userId: string, input: UserUpdateDBInput): Promise<User> {
-        const user: User = await this.dbRepository.updateUserById(userId, input)
-        this.cacheService.setByKey(this.cacheKeys.userById(user.id), user, this.cacheTtlSecs)
-        return user
+        const dbUser: User = await this.dbRepository.updateUserById(userId, input)
+        await this.cacheService.deleteByKey(
+            this.cacheKeys.userById(dbUser.id)
+        )
+        return dbUser
     }
 
     async softDeleteUserById(userId: string): Promise<User> {
-        const user: User = await this.dbRepository.softDeleteUserById(userId)
-        this.cacheService.deleteByKey(user.id)
-        return user
+        const dbUser: User = await this.dbRepository.softDeleteUserById(userId)
+        await this.cacheService.deleteByKey(
+            this.cacheKeys.userById(dbUser.id)
+        )
+        return dbUser
     }
 }
