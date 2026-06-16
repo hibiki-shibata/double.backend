@@ -10,4 +10,11 @@ export const redisOptions: RedisOptions = {
     maxRetriesPerRequest: 2,
     maxLoadingRetryTime: 2,
     lazyConnect: true,
-}   
+}
+
+export type CacheKeys = {
+    userById: (userId: string) => string
+}
+export const cacheKeys: CacheKeys = {
+    userById: (userId: string) => 'user:' + userId
+}

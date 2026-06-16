@@ -13,8 +13,8 @@ export class JwtTokenServiceV1 implements JwtTokenService {
         private readonly generateTokenId: () => string
     ) {
         if (!jwtOptions.secretKey.trim()) throw new UnexpectedEnvVarErr('Secret key is missing')
-        if (jwtOptions.secretKey.length < jwtOptions.minSecretLength || jwtOptions.secretKey.length > jwtOptions.maxSecretLength) {
-            throw new UnexpectedEnvVarErr(`secret key length must be between ${jwtOptions.minSecretLength} & ${jwtOptions.maxSecretLength}`)
+        if (jwtOptions.secretKey.length < jwtOptions.minSecretLen || jwtOptions.secretKey.length > jwtOptions.maxSecretLen) {
+            throw new UnexpectedEnvVarErr(`secret key length must be between ${jwtOptions.minSecretLen} & ${jwtOptions.maxSecretLen}`)
         }
     }
 
@@ -26,7 +26,7 @@ export class JwtTokenServiceV1 implements JwtTokenService {
             roles: roles,
         }
         return jwt.sign(claim, this.jwtOptions.secretKey, {
-            expiresIn: this.jwtOptions.accessTokenExpiry,
+            expiresIn: this.jwtOptions.accessTokenExpireIn,
             jwtid: this.generateTokenId(),
             algorithm: this.jwtOptions.algorithm,
             issuer: this.jwtOptions.issuer
@@ -39,7 +39,7 @@ export class JwtTokenServiceV1 implements JwtTokenService {
             userId: userId,
         }
         return jwt.sign(claim, this.jwtOptions.secretKey, {
-            expiresIn: this.jwtOptions.refreshTokenExpiry,
+            expiresIn: this.jwtOptions.refreshTokenExpireIn,
             jwtid: this.generateTokenId(),
             algorithm: this.jwtOptions.algorithm,
             issuer: this.jwtOptions.issuer,

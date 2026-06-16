@@ -21,21 +21,21 @@ export const passwordEncoderOptions: PasswordEncoderOptions = {
 }
 
 export type JwtOptions = {
-    accessTokenExpireAt: number | ms.StringValue,
-    refreshTokenExpireAt: number | ms.StringValue,
+    accessTokenExpireIn: number | ms.StringValue,
+    refreshTokenExpireIn: number | ms.StringValue,
     issuer: string,
     algorithm: Algorithm
-    maxSecret: number,
-    minSecret: number,
+    maxSecretLen: number,
+    minSecretLen: number,
     secretKey: string,
 }
 export const jwtOptions: JwtOptions = {
-    accessTokenExpireAt: '15m',
-    refreshTokenExpireAt: '30d',
+    accessTokenExpireIn: '15m',
+    refreshTokenExpireIn: '30d',
     issuer: 'double-backend',
     algorithm: 'HS256',
-    maxSecret: 70,
-    minSecret: 32,
+    maxSecretLen: 70,
+    minSecretLen: 32,
     secretKey: (() => {
         const secret = process.env.JWT_SECRET_KEY ?? undefined
         if (!secret) throw new Error('Missing Jwt secret key in process env')
