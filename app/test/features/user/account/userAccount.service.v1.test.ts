@@ -1,5 +1,5 @@
 import type { UserRepository } from '../../../../src/features/user/shared/repository/user.repository.js'
-import type { UserAccountRequest } from '../../../../src/features/user/account/dto/userAccount.dto.js'
+import type { UserAccountRequest } from '../../../../src/features/user/account/schema/userAccount.schema.js'
 import { vi, describe, test, expect, afterEach } from 'vitest'
 import { UserAccountServiceV1 } from '../../../../src/features/user/account/service/userAccount.service.v1.js'
 import { logger } from '../../../../src/shared/logger/logger.js'

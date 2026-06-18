@@ -26,7 +26,8 @@ export class PrismaWalletTransactionRepository implements WalletTransactionRepos
         return await this.db.walletTransaction.findMany({
             where: { wallet_id: walletId },
             skip: pagination.offset,
-            take: pagination.limit
+            take: pagination.limit,
+            orderBy: { created_at: 'desc' }
         })
     }
 }

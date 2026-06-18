@@ -1,15 +1,10 @@
-import type { Wallet, WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js"
+import type { DepositRequest, WalletResponse, WalletTransactionResponse, WithdrawRequest } from "../schema/wallet.schema.js"
 
-//  Replace with Zod later
-export type GetWalletByUserIdInput = { userId: string }
-export type PaginationInput = { offset: number, limit: number }
-export type DepositInput = { amount: bigint }
-export type WithdrawInput = { amount: bigint }
 
 export interface WalletService {
-    getUserWalletInfo(userId: string): Promise<Wallet>
-    getUserBalanceHistory(userId: string, pagination: PaginationInput): Promise<WalletTransaction[]>
-    deposit(userId: string, dto: DepositInput): Promise<Wallet>
-    withdraw(userId: string, dto: WithdrawInput): Promise<Wallet>
+    getUserWalletInfo(userId: string): Promise<WalletResponse>
+    getUserWalletHistory(userId: string, page: number, limit?: number): Promise<WalletTransactionResponse[]>
+    deposit(userId: string, dto: DepositRequest): Promise<WalletResponse>
+    withdraw(userId: string, dto: WithdrawRequest): Promise<WalletResponse>
     // registerBankInfo(): Promise<void>
 }

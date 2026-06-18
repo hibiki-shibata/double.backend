@@ -1,6 +1,6 @@
 import type { UserAccountService } from "./userAccount.service.js"
 import type { UserRepository } from "../../shared/repository/user.repository.js"
-import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
+import type { UserAccountRequest, UserAccountResponse } from "../schema/userAccount.schema.js"
 import type { PasswordService } from "../../../../shared/auth/service/password.service.js"
 import type { Logger } from "pino"
 import { type User, UserStatus } from "../../../../shared/infra/db/generated.prisma/client.js"

@@ -1,4 +1,4 @@
-import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
+import type { UserAccountResponse, UserAccountRequest } from "../schema/userAccount.schema.js"
 
 export interface UserAccountService {
     getAccountInfo(userId: string): Promise<UserAccountResponse>

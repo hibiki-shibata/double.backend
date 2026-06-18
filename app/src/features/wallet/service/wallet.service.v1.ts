@@ -1,9 +1,10 @@
 import type { Logger } from "pino";
 import { WalletTransactionType, type PrismaClient, type Wallet, type WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js";
 import type { WalletRepository } from "../repository/wallet.repository.js";
-import type { DepositInput, PaginationInput, WalletService, WithdrawInput } from "./wallet.service.js";
+import type { WalletService } from "./wallet.service.js";
 import { InvalidInputErr } from "../../../shared/error/httpErrors.js";
 import type { WalletTransactionRepository } from "../repository/walletTransaction.repository.js";
+import type { DepositRequest, WalletResponse, WalletTransactionResponse, WithdrawRequest } from "../schema/wallet.schema.js";
 
 export class WalletServiceV1 implements WalletService {
     constructor(
@@ -13,25 +14,24 @@ export class WalletServiceV1 implements WalletService {
         private readonly log: Logger
     ) { }
 
-    async getUserWalletInfo(userId: string): Promise<Wallet> {
+    async getUserWalletInfo(userId: string): Promise<WalletResponse> {
         return await this.fetchUserWallet(userId)
     }
 
-    async getUserBalanceHistory(
-        userId: string, pagination: PaginationInput
-    ): Promise<WalletTransaction[]> {
+    async getUserWalletHistory(
+        userId: string, page: number = 0, limit: number = 50
+    ): Promise<WalletTransactionResponse[]> {
         const wallet: Wallet = await this.fetchUserWallet(userId)
         this.log.info({ userId }, "Fetching user wallet wallet history from DB")
         const walletHistory: WalletTransaction[] = await this.ledgerRepository.getHistoryByWalletId(wallet.id, {
-            offset: pagination.offset,
-            limit: pagination.limit
-        }
-        )
+            offset: page,
+            limit: limit
+        })
         this.log.info({ userId }, "Success Fetching User's wallet history from DB")
         return walletHistory
     }
 
-    async deposit(userId: string, dto: DepositInput): Promise<Wallet> {
+    async deposit(userId: string, dto: DepositRequest): Promise<WalletResponse> {
         if (dto.amount <= 0) throw new InvalidInputErr('amount must be positive')
         this.log.info({ userId }, `Depositing ${dto.amount} to wallet balance in DB`)
         // Payment integration
@@ -56,7 +56,7 @@ export class WalletServiceV1 implements WalletService {
         return walletAfter
     }
 
-    async withdraw(userId: string, dto: WithdrawInput): Promise<Wallet> {
+    async withdraw(userId: string, dto: WithdrawRequest): Promise<WalletResponse> {
         if (dto.amount <= 0) throw new InvalidInputErr('amount must be positive')
         this.log.info({ userId }, `Withdrawing ${dto.amount} to wallet balance in DB`)
         // Bank integration
