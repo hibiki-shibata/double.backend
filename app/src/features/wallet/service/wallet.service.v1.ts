@@ -1,12 +1,15 @@
 import type { Logger } from "pino";
-import type { Wallet, WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js";
+import { WalletTransactionType, type PrismaClient, type Wallet, type WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js";
 import type { WalletRepository } from "../repository/wallet.repository.js";
 import type { WalletService } from "./wallet.service.js";
 import { InvalidInputErr } from "../../../shared/error/httpErrors.js";
+import type { WalletTransactionRepository } from "../repository/walletTransaction.repository.js";
 
 export class WalletServiceV1 implements WalletService {
     constructor(
         private readonly repository: WalletRepository,
+        private readonly ledgerRepository: WalletTransactionRepository,
+        private readonly dbClient: PrismaClient,
         private readonly log: Logger
     ) { }
 
@@ -29,17 +32,29 @@ export class WalletServiceV1 implements WalletService {
     }
 
     async deposit(userId: string, amount: bigint): Promise<Wallet> {
-        // Race condition
+        this.log.info({ userId }, `Depositing User's wallet balance in DB`)
         // Payment integration
-        // insufficient balance check
-        const wallet: Wallet = await this.fetchUserWallet(userId)
-        const balanceAfter: bigint = wallet.balance + amount
-        this.log.info({ userId }, `Depositing User's wallet balance from ${wallet.balance} in DB`)
-        const walletAfter: Wallet = await this.repository.update(
-            wallet.id,
-            balanceAfter
-        )
-        this.log.info({ userId }, `Deposited User's wallet balance to ${balanceAfter} in DB`)
+        // Race condition
+        const walletAfter: Wallet = await this.dbClient.$transaction(async (tx) => {
+            const walletAfter: Wallet = await this.repository.addBalance(
+                userId,
+                amount,
+                tx
+            )
+            await this.ledgerRepository.create({
+                type: WalletTransactionType.deposit,
+                currency: walletAfter.currency,
+                amount: amount,
+                balanceAfter: walletAfter.balance,
+                balanceBefore: walletAfter.balance - amount,
+                walletId: walletAfter.id,
+                userId: walletAfter.user_id,
+                tx: tx
+            })
+            return walletAfter
+
+        })
+        this.log.info({ userId }, `Deposited User's wallet balance to in DB`)
         return walletAfter
     }
 
@@ -47,10 +62,7 @@ export class WalletServiceV1 implements WalletService {
         // insufficient balance check
         // race condition
         // Bank integration
-        // ACID
-        const wallet: Wallet = await this.fetchUserWallet(userId)
-        const isCurrentBalanceSufficient: boolean = (wallet.balance - (wallet.reserved_amount + amount)) >= 0
-        if(!isCurrentBalanceSufficient) throw new InvalidInputErr('Insufficnent balance to withdraw')
+        if (!isCurrentBalanceSufficient) throw new InvalidInputErr('Insufficnent balance to withdraw')
         const balanceAfter: bigint = wallet.balance - amount
         this.log.info({ userId }, `Withdrawing User's wallet balance from ${wallet.balance} in DB`)
         const walletAfter: Wallet = await this.repository.update(

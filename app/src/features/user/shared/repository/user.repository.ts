@@ -1,14 +1,14 @@
 import { type User, UserRoles, UserStatus } from '../../../../shared/infra/db/generated.prisma/client.js'
 
-export type UserCreateDBInput = {
-    name: string,
+export type CreateUserInput = {
+    name: string
     displayName: string,
     passwordHash: string,
     status: UserStatus,
     roles: UserRoles[],
 }
 
-export type UserUpdateDBInput = {
+export type UpdateUserInput = {
     name?: string | null,
     displayName?: string,
     passwordHash?: string | null,
@@ -18,10 +18,10 @@ export type UserUpdateDBInput = {
 }
 
 export interface UserRepository {
-    getUserById(userId: string): Promise<User>
-    getUserByEmail(emailAddress: string): Promise<User>
-    getUserByUserName(userName: string): Promise<User>
-    createUser(user: UserCreateDBInput): Promise<User>
-    updateUserById(userId: string, data: UserUpdateDBInput): Promise<User>
-    softDeleteUserById(userId: string): Promise<User>
+    getById(userId: string): Promise<User>
+    getByEmail(email: string): Promise<User>
+    getByUserName(userName: string): Promise<User>
+    createUser(input: CreateUserInput): Promise<User>
+    updateById(userId: string, input: UpdateUserInput): Promise<User>
+    softDeleteById(userId: string): Promise<User>
 }
