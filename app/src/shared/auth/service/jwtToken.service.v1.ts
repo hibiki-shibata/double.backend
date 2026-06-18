@@ -1,9 +1,8 @@
-import type { JwtTokenService } from "./jwtToken.service.js"
-import type { UserRoles } from "../../infra/db/generated.prisma/enums.js"
-import type { JwtOptions } from "../../config/security.config.js"
 import type { JwtPayload } from "jsonwebtoken"
+import type { JwtOptions } from "../../config/security.config.js"
+import type { GenerateAccessTokenInput, GenerateRefreshTokenInput, JwtTokenService } from "./jwtToken.service.js"
 import jwt from "jsonwebtoken"
-import { TokenType, type AccessTokenClaim, type RefreshTokenClaim } from "../type/jwtToken.type.js"
+import { type AccessTokenClaim, type RefreshTokenClaim, TokenType } from "../type/jwtToken.type.js"
 import { UnauthenticatedErr } from "../../error/httpErrors.js"
 import { UnexpectedEnvVarErr } from "../../error/serverErros.js"
 
@@ -19,12 +18,12 @@ export class JwtTokenServiceV1 implements JwtTokenService {
         }
     }
 
-    public generateAccessToken(userId: string, userName: string, roles: UserRoles[]): string {
+    public generateAccessToken(dto: GenerateAccessTokenInput): string {
         const claim: AccessTokenClaim = {
             type: TokenType.accessToken,
-            userId: userId,
-            userName: userName,
-            roles: roles,
+            userId: dto.userId,
+            userName: dto.userName,
+            roles: dto.roles,
         }
         return this.jwt.sign(claim, this.jwtOptions.secretKey, {
             expiresIn: this.jwtOptions.accessTokenExpireIn,
@@ -34,10 +33,10 @@ export class JwtTokenServiceV1 implements JwtTokenService {
         })
     }
 
-    public generateRefreshToken(userId: string): string {
+    public generateRefreshToken(dto: GenerateRefreshTokenInput): string {
         const claim: RefreshTokenClaim = {
             type: TokenType.refreshToken,
-            userId: userId,
+            userId: dto.userId,
         }
         return this.jwt.sign(claim, this.jwtOptions.secretKey, {
             expiresIn: this.jwtOptions.refreshTokenExpireIn,

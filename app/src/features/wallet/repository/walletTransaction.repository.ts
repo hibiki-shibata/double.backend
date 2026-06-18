@@ -1,0 +1,19 @@
+import type { DefaultArgs } from "@prisma/client/runtime/client"
+import type { Currency, WalletTransactionType, PrismaClient, WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js"
+
+export type txPrismaClient = Omit<PrismaClient<never, undefined, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$use" | "$extends">
+
+export type createInput = {
+    type: WalletTransactionType,
+    currency: Currency,
+    amount: bigint,
+    balanceAfter: bigint,
+    balanceBefore: bigint,
+    walletId: string,
+    userId: string,
+    tx: txPrismaClient
+}
+
+export interface WalletTransactionRepository {
+    create(dto: createInput): Promise<WalletTransaction>
+}

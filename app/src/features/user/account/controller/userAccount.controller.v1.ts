@@ -6,7 +6,7 @@ import type { UserAccountController } from './userAccount.controller.js'
 
 export class UserAccountControllerV1 implements UserAccountController {
     constructor(
-        private readonly service: UserAccountService,
+        private readonly userAccountService: UserAccountService,
         private readonly log: Logger
     ) { }
 
@@ -14,9 +14,11 @@ export class UserAccountControllerV1 implements UserAccountController {
         req: Request<{}, {}, void>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const { userId } = req.accessTokenClaim
+        const userId = req.accessTokenClaim.userId
         this.log.info({ userId }, "Get account data request arrived")
-        const user: UserAccountResponse = await this.service.getAccountInfo(userId)
+        const user: UserAccountResponse = await this.userAccountService.getAccountInfo(
+            req.accessTokenClaim.userId
+        )
         this.log.info({ userId }, "Account data response dispatched")
         res.status(200).json(user)
     }
@@ -25,9 +27,14 @@ export class UserAccountControllerV1 implements UserAccountController {
         req: Request<{}, {}, UserAccountRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
-        const { userId } = req.accessTokenClaim
+        const userId = req.accessTokenClaim.userId
         this.log.info({ userId }, "Update account data request arrived")
-        const updatedUser: UserAccountResponse = await this.service.updateAccount(userId, req.body)
+        const updatedUser: UserAccountResponse = await this.userAccountService.updateAccount(userId, {
+            name: req.body.name,
+            displayName: req.body.displayName,
+            emailAddress: req.body.emailAddress,
+            password: req.body.password
+        })
         this.log.info({ userId }, "Updated Account data response dispatched")
         res.status(200).json(updatedUser)
     }
@@ -36,9 +43,9 @@ export class UserAccountControllerV1 implements UserAccountController {
         req: Request<{}, {}, void>,
         res: Response
     ): Promise<void> {
-        const { userId } = req.accessTokenClaim
+        const userId = req.accessTokenClaim.userId
         this.log.info({ userId }, "Delete account data request arrived")
-        await this.service.deleteAccount(userId)
+        await this.userAccountService.deleteAccount(userId)
         this.log.info({ userId }, "Account deletion success response dispatched")
         res.status(204).end()
     }

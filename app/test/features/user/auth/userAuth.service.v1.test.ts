@@ -3,7 +3,7 @@ import { type User, UserRoles, UserStatus } from '../../../../src/shared/infra/d
 import { UserAuthServiceV1 } from '../../../../src/features/user/auth/service/userAuth.service.v1.js'
 import { logger } from '../../../../src/shared/logger/logger.js'
 import type { UserRepository } from '../../../../src/features/user/shared/repository/user.repository.js'
-import type { PasswordService } from '../../../../src/features/user/auth/service/password.service.js'
+import type { PasswordService } from '../../../../src/shared/auth/service/password.service.js'
 import type { JwtTokenService } from '../../../../src/shared/auth/service/jwtToken.service.js'
 import type { UserLoginRequest } from '../../../../src/features/user/auth/dto/userAuth.dto.js'
 import { TokenType } from '../../../../src/shared/auth/type/jwtToken.type.js'

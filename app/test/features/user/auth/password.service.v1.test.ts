@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { PasswordServiceV1 } from '../../../../src/features/user/auth/service/password.service.v1.js'
+import { PasswordServiceV1 } from '../../../../src/shared/auth/service/password.service.v1.js'
 import type { PasswordEncoderOptions } from '../../../../src/shared/config/security.config.js'
 
 const testPassEncoderOptions: PasswordEncoderOptions = {

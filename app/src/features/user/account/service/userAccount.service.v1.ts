@@ -1,6 +1,7 @@
 import type { UserAccountService } from "./userAccount.service.js"
 import type { UserRepository } from "../../shared/repository/user.repository.js"
 import type { UserAccountRequest, UserAccountResponse } from "../dto/userAccount.dto.js"
+import type { PasswordService } from "../../../../shared/auth/service/password.service.js"
 import type { Logger } from "pino"
 import { type User, UserStatus } from "../../../../shared/infra/db/generated.prisma/client.js"
 import { InvalidInputErr } from "../../../../shared/error/httpErrors.js"
@@ -8,16 +9,15 @@ import { MappingErr } from "../../../../shared/error/serverErros.js"
 
 export class UserAccountServiceV1 implements UserAccountService {
     constructor(
-        private readonly repository: UserRepository,
+        private readonly userRepository: UserRepository,
+        private readonly passwordService: PasswordService,
         private readonly log: Logger
     ) { }
 
     public async getAccountInfo(
         userId: string
     ): Promise<UserAccountResponse> {
-        this.log.info({ userId }, "Fetching User from DB")
         const dbUser: User = await this.verifyNonDeletedUser(userId)
-        this.log.info({ userId }, "Fetched User from DB")
         return this.toUserAccountResponse(dbUser)
     }
 
@@ -27,7 +27,12 @@ export class UserAccountServiceV1 implements UserAccountService {
     ): Promise<UserAccountResponse> {
         this.log.info({ userId }, "Updating User from DB")
         await this.verifyNonDeletedUser(userId)
-        const updatedUser: User = await this.repository.updateUserById(userId, dto)
+        const updatedUser: User = await this.userRepository.updateUserById(userId, {
+            name: dto.name,
+            displayName: dto.displayName,
+            emailAddress: dto.emailAddress,
+            ...(dto.password && { passwordHash: await this.passwordService.hashPassword(dto.password) })
+        })
         this.log.info({ userId }, "Updated User from DB")
         return this.toUserAccountResponse(updatedUser)
     }
@@ -37,14 +42,16 @@ export class UserAccountServiceV1 implements UserAccountService {
     ): Promise<void> {
         this.log.info({ userId }, "Deleting User from DB")
         await this.verifyNonDeletedUser(userId)
-        await this.repository.softDeleteUserById(userId)
+        await this.userRepository.softDeleteById(userId)
         this.log.info({ userId }, "User deleted from DB")
     }
 
     private async verifyNonDeletedUser(
         userId: string
     ): Promise<User> {
-        const dbUser: User = await this.repository.getUserById(userId)
+        this.log.info({ userId }, "Fetching User from DB")
+        const dbUser: User = await this.userRepository.getById(userId)
+        this.log.info({ userId }, "Fetched User from DB")
         if (dbUser.status === UserStatus.deleted) throw new InvalidInputErr('User has already been deleted')
         return dbUser
     }

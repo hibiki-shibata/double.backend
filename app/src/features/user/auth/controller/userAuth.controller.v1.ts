@@ -7,7 +7,7 @@ import type { UserAuthController } from "./userAuth.controller.js"
 export class UserAuthControllerV1 implements UserAuthController {
     private readonly REFRESH_TOKEN_COOKIE_HEADER = 'refreshToken'
     constructor(
-        private readonly service: UserAuthService,
+        private readonly userAuthService: UserAuthService,
         private readonly cookieOptions: CookieOptions,
         private readonly log: Logger,
     ) { }
@@ -17,7 +17,10 @@ export class UserAuthControllerV1 implements UserAuthController {
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         this.log.info({ userName: req.body.userName }, "Signup Request arrived")
-        const jwtTokens: JwtTokens = await this.service.signup(req.body)
+        const jwtTokens: JwtTokens = await this.userAuthService.signup({
+            userName: req.body.userName,
+            password: req.body.password
+        })
         this.log.info({ userName: req.body.userName }, "Signup Success Response dispatched")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
@@ -30,7 +33,10 @@ export class UserAuthControllerV1 implements UserAuthController {
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         this.log.info({ userName: req.body.userName }, "Login Request arrived")
-        const jwtTokens: JwtTokens = await this.service.login(req.body)
+        const jwtTokens: JwtTokens = await this.userAuthService.login({
+            userName: req.body.userName,
+            password: req.body.password
+        })
         this.log.info({ userName: req.body.userName }, "Login Success Response dispatched")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
@@ -42,7 +48,7 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        const jwtTokens: JwtTokens = await this.service.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
+        const jwtTokens: JwtTokens = await this.userAuthService.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(200)
@@ -53,7 +59,7 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request,
         res: Response
     ): Promise<void> {
-        const { userId } = req.accessTokenClaim
+        const userId = req.accessTokenClaim.userId
         this.log.info({ userId }, "Logout Request arrived")
         res.removeHeader(this.REFRESH_TOKEN_COOKIE_HEADER)
         this.log.info({ userId }, "Logout response success dispatched")

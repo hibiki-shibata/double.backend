@@ -5,6 +5,7 @@ export const userAccountRequestSchema = z.object({
     name: userSchema.name,
     displayName: userSchema.displayName,
     emailAddress: userSchema.emailAddress,
+    password: userSchema.password.optional(),
 })
 
 export const userAccountResponseSchema = z.object({

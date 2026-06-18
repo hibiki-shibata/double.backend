@@ -47,8 +47,8 @@ export class CachedUserRepository implements UserRepository {
         return await this.userRepository.createUser(input)
     }
 
-    async updateById(userId: string, input: UpdateUserInput): Promise<User> {
-        const dbUser: User = await this.userRepository.updateById(userId, input)
+    async updateUserById(userId: string, input: UpdateUserInput): Promise<User> {
+        const dbUser: User = await this.userRepository.updateUserById(userId, input)
         await this.cacheService.deleteByKey(
             this.cacheKeys.userById(dbUser.id)
         )

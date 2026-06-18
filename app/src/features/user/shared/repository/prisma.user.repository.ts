@@ -37,7 +37,7 @@ export class PrismaUserRepository implements UserRepository {
         })
     }
 
-    async updateById(userId: string, dto: UpdateUserInput): Promise<User> {
+    async updateUserById(userId: string, dto: UpdateUserInput): Promise<User> {
         const data: Prisma.UserUpdateInput = {}
         if (dto.name) data.name = dto.name
         if (dto.displayName) data.display_name = dto.displayName
@@ -60,6 +60,6 @@ export class PrismaUserRepository implements UserRepository {
             status: UserStatus.deleted,
             roles: [UserRoles.deleted]
         }
-        return await this.updateById(userId, deletedUserState)
+        return await this.updateUserById(userId, deletedUserState)
     }
 }

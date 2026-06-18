@@ -1,8 +1,8 @@
 import type { PasswordService } from './password.service.js'
-import type { PasswordEncoderOptions } from '../../../../shared/config/security.config.js'
+import type { PasswordEncoderOptions } from '../../config/security.config.js'
 import bcrypt from 'bcryptjs'
-import { UnexpectedEnvVarErr } from '../../../../shared/error/serverErros.js'
-import { InvalidInputErr } from '../../../../shared/error/httpErrors.js'
+import { UnexpectedEnvVarErr } from '../../error/serverErros.js'
+import { InvalidInputErr } from '../../error/httpErrors.js'
 
 export class PasswordServiceV1 implements PasswordService {
     private readonly encoder: typeof bcrypt = bcrypt

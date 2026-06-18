@@ -22,6 +22,6 @@ export interface UserRepository {
     getByEmail(email: string): Promise<User>
     getByUserName(userName: string): Promise<User>
     createUser(input: CreateUserInput): Promise<User>
-    updateById(userId: string, input: UpdateUserInput): Promise<User>
+    updateUserById(userId: string, input: UpdateUserInput): Promise<User>
     softDeleteById(userId: string): Promise<User>
 }
