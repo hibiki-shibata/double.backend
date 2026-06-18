@@ -6,11 +6,9 @@ export function walletRouter(
 ): Router {
     const router: Router = Router()
     router.get('/me', controller.getMyWalletInfo)
-    router.get('/history', controller.getMyBalanceHistory)
+    router.get('/history', controller.getMyWalletHistory)
     router.put('/deposit', controller.deposit)
     router.put('/withdraw', controller.withdraw)
     // router.post('/bank', controller.registerMyBankInfo)
-    // router.put('/bank', controller.updateMyBankInfo)
-    // router.delete('/bank', controller.deleteMyBankInfo)
     return router
 }

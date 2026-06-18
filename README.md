@@ -131,3 +131,11 @@ docker compose up -d
     ⚠️ missing — track business KPIs (orders/min, auth failures) not just infra metrics
     - alerts
     ⚠️ missing — at minimum: p99 latency spike + error rate threshold
+
+
+    Todo:
+    - wallet pagination - get page number from uri
+    - define schemas for tables in shared 
+    - /shared/ import / export reference typescript
+    - payment integration for deposit/withdraw
+    - cache repository for wallet history / wallet

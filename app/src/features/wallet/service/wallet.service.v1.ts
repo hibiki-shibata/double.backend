@@ -15,7 +15,8 @@ export class WalletServiceV1 implements WalletService {
     ) { }
 
     async getUserWalletInfo(userId: string): Promise<WalletResponse> {
-        return await this.fetchUserWallet(userId)
+        const userWallet: Wallet = await this.fetchUserWallet(userId)
+        return this.toWalletResponse(userWallet)
     }
 
     async getUserWalletHistory(
@@ -28,7 +29,7 @@ export class WalletServiceV1 implements WalletService {
             limit: limit
         })
         this.log.info({ userId }, "Success Fetching User's wallet history from DB")
-        return walletHistory
+        return this.toWalletTransactionResponse(walletHistory)
     }
 
     async deposit(userId: string, dto: DepositRequest): Promise<WalletResponse> {
@@ -53,7 +54,7 @@ export class WalletServiceV1 implements WalletService {
             return tempWalletAfter
         })
         this.log.info({ userId }, `Success Deposit ${dto.amount} to wallet balance in DB`)
-        return walletAfter
+        return this.toWalletResponse(walletAfter)
     }
 
     async withdraw(userId: string, dto: WithdrawRequest): Promise<WalletResponse> {
@@ -78,14 +79,38 @@ export class WalletServiceV1 implements WalletService {
             return tempWalletAfter
         })
         this.log.info({ userId }, `Success withdrawing ${dto.amount} to wallet balance in DB`)
-        return walletAfter
+        return this.toWalletResponse(walletAfter)
     }
-
 
     private async fetchUserWallet(userId: string): Promise<Wallet> {
         this.log.info({ userId }, "Fetching user wallet data from DB")
         const wallet: Wallet = await this.walletRepository.getByUserId(userId)
         this.log.info({ userId }, "Success fetching user wallet data from DB")
         return wallet
+    }
+
+    private toWalletResponse(wallet: Wallet): WalletResponse {
+        return {
+            id: wallet.id,
+            balance: wallet.balance,
+            reservedAmount: wallet.reserved_amount,
+            currency: wallet.currency,
+            status: wallet.status,
+        }
+    }
+
+    private toWalletTransactionResponse(walletHistories: WalletTransaction[]): WalletTransactionResponse[] {
+        const result: WalletTransactionResponse[] = []
+        walletHistories.forEach((k) => {
+            result.push({
+                id: k.id,
+                type: k.type,
+                amount: k.amount,
+                balanceBefore: k.balance_after,
+                balanceAfter: k.balance_after,
+                createdAt: k.created_at,
+            })
+        })
+        return result
     }
 }

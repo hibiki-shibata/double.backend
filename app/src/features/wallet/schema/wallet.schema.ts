@@ -20,12 +20,12 @@ export const walletResponseSchema = z.object({
 })
 
 export const walletTransactionResponseSchema = z.object({
-    id: z.uuidv4,
+    id: z.uuidv4(),
     type: z.enum(WalletTransactionType),
     amount: z.bigint('Transaction amount should be less than 10000000').max(10000000n),
     balanceBefore: z.bigint('Rererved amount cannont be negative').nonnegative(),
     balanceAfter: z.bigint('Rererved amount cannont be negative').nonnegative(),
-    createdAt: z.date()
+    createdAt: z.date(),
 })
 
 export const depositRequestSchema = z.object({
