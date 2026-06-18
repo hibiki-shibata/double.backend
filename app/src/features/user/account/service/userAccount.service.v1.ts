@@ -33,7 +33,7 @@ export class UserAccountServiceV1 implements UserAccountService {
             emailAddress: dto.emailAddress,
             ...(dto.password && { passwordHash: await this.passwordService.hashPassword(dto.password) })
         })
-        this.log.info({ userId }, "Updated User from DB")
+        this.log.info({ userId }, "Success updated User from DB")
         return this.toUserAccountResponse(updatedUser)
     }
 
@@ -43,7 +43,7 @@ export class UserAccountServiceV1 implements UserAccountService {
         this.log.info({ userId }, "Deleting User from DB")
         await this.verifyNonDeletedUser(userId)
         await this.userRepository.softDeleteById(userId)
-        this.log.info({ userId }, "User deleted from DB")
+        this.log.info({ userId }, "Success deleting User from DB")
     }
 
     private async verifyNonDeletedUser(
@@ -51,7 +51,7 @@ export class UserAccountServiceV1 implements UserAccountService {
     ): Promise<User> {
         this.log.info({ userId }, "Fetching User from DB")
         const dbUser: User = await this.userRepository.getById(userId)
-        this.log.info({ userId }, "Fetched User from DB")
+        this.log.info({ userId }, "Success Fetching User from DB")
         if (dbUser.status === UserStatus.deleted) throw new InvalidInputErr('User has already been deleted')
         return dbUser
     }

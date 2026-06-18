@@ -3,23 +3,23 @@ import type { CreateUserInput, UpdateUserInput, UserRepository } from "./user.re
 
 export class PrismaUserRepository implements UserRepository {
     constructor(
-        private readonly db: PrismaClient
+        private readonly prismaClient: PrismaClient
     ) { }
 
     async getById(userId: string): Promise<User> {
-        return await this.db.user.findUniqueOrThrow({
+        return await this.prismaClient.user.findUniqueOrThrow({
             where: { id: userId }
         })
     }
 
     async getByEmail(emailAddress: string): Promise<User> {
-        return await this.db.user.findUniqueOrThrow({
+        return await this.prismaClient.user.findUniqueOrThrow({
             where: { email_address: emailAddress }
         })
     }
 
     async getByUserName(userName: string): Promise<User> {
-        return await this.db.user.findUniqueOrThrow({
+        return await this.prismaClient.user.findUniqueOrThrow({
             where: { name: userName }
         })
     }
@@ -32,7 +32,7 @@ export class PrismaUserRepository implements UserRepository {
             status: dto.status,
             roles: dto.roles,
         }
-        return await this.db.user.create({
+        return await this.prismaClient.user.create({
             data: data
         })
     }
@@ -45,7 +45,7 @@ export class PrismaUserRepository implements UserRepository {
         if (dto.emailAddress) data.email_address = dto.emailAddress
         if (dto.status) data.status = dto.status
         if (dto.roles) data.roles = dto.roles
-        return await this.db.user.update({
+        return await this.prismaClient.user.update({
             where: { id: userId },
             data: data
         })

@@ -14,6 +14,15 @@ export type createInput = {
     tx: txPrismaClient
 }
 
+export type PaginationInput = {
+    offset: number,
+    limit: number
+}
+
 export interface WalletTransactionRepository {
     create(dto: createInput): Promise<WalletTransaction>
+    getHistoryByWalletId(
+        walletId: string,
+        pagination: PaginationInput
+    ): Promise<WalletTransaction[]>
 }

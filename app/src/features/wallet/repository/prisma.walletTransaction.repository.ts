@@ -1,7 +1,11 @@
-import type { WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js";
-import type { createInput, WalletTransactionRepository } from "./walletTransaction.repository.js";
+import type { PrismaClient, WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js";
+import type { createInput, PaginationInput, WalletTransactionRepository } from "./walletTransaction.repository.js";
 
 export class PrismaWalletTransactionRepository implements WalletTransactionRepository {
+    constructor(
+        private readonly db: PrismaClient
+    ) { }
+
     async create(
         dto: createInput
     ): Promise<WalletTransaction> {
@@ -15,6 +19,14 @@ export class PrismaWalletTransactionRepository implements WalletTransactionRepos
                 wallet_id: dto.walletId,
                 user_id: dto.userId
             }
+        })
+    }
+
+    async getHistoryByWalletId(walletId: string, pagination: PaginationInput): Promise<WalletTransaction[]> {
+        return await this.db.walletTransaction.findMany({
+            where: { wallet_id: walletId },
+            skip: pagination.offset,
+            take: pagination.limit
         })
     }
 }

@@ -16,12 +16,12 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request<{}, {}, UserSignupRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        this.log.info({ userName: req.body.userName }, "Signup Request arrived")
+        this.log.info({ userName: req.body.userName }, "Request signup arrived")
         const jwtTokens: JwtTokens = await this.userAuthService.signup({
             userName: req.body.userName,
             password: req.body.password
         })
-        this.log.info({ userName: req.body.userName }, "Signup Success Response dispatched")
+        this.log.info({ userName: req.body.userName }, "Response success signup sent")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(201)
@@ -32,12 +32,12 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request<{}, {}, UserLoginRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        this.log.info({ userName: req.body.userName }, "Login Request arrived")
+        this.log.info({ userName: req.body.userName }, "Request Login arrived")
         const jwtTokens: JwtTokens = await this.userAuthService.login({
             userName: req.body.userName,
             password: req.body.password
         })
-        this.log.info({ userName: req.body.userName }, "Login Success Response dispatched")
+        this.log.info({ userName: req.body.userName }, "Response success login sent")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(200)
@@ -60,9 +60,9 @@ export class UserAuthControllerV1 implements UserAuthController {
         res: Response
     ): Promise<void> {
         const userId = req.accessTokenClaim.userId
-        this.log.info({ userId }, "Logout Request arrived")
+        this.log.info({ userId }, "Request Logout arrived")
         res.removeHeader(this.REFRESH_TOKEN_COOKIE_HEADER)
-        this.log.info({ userId }, "Logout response success dispatched")
+        this.log.info({ userId }, "Response success Logout sent")
         res
             .clearCookie(this.REFRESH_TOKEN_COOKIE_HEADER, this.cookieOptions)
             .status(200)

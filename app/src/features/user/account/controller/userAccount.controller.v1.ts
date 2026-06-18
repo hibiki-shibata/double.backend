@@ -15,11 +15,11 @@ export class UserAccountControllerV1 implements UserAccountController {
         res: Response<UserAccountResponse>
     ): Promise<void> {
         const userId = req.accessTokenClaim.userId
-        this.log.info({ userId }, "Get account data request arrived")
+        this.log.info({ userId }, "Request account data arrived")
         const user: UserAccountResponse = await this.userAccountService.getAccountInfo(
             req.accessTokenClaim.userId
         )
-        this.log.info({ userId }, "Account data response dispatched")
+        this.log.info({ userId }, "Response account data sent")
         res.status(200).json(user)
     }
 
@@ -28,14 +28,14 @@ export class UserAccountControllerV1 implements UserAccountController {
         res: Response<UserAccountResponse>
     ): Promise<void> {
         const userId = req.accessTokenClaim.userId
-        this.log.info({ userId }, "Update account data request arrived")
+        this.log.info({ userId }, "Request update account data arrived")
         const updatedUser: UserAccountResponse = await this.userAccountService.updateAccount(userId, {
             name: req.body.name,
             displayName: req.body.displayName,
             emailAddress: req.body.emailAddress,
             password: req.body.password
         })
-        this.log.info({ userId }, "Updated Account data response dispatched")
+        this.log.info({ userId }, "Response success updated Account data sent")
         res.status(200).json(updatedUser)
     }
 
@@ -44,9 +44,9 @@ export class UserAccountControllerV1 implements UserAccountController {
         res: Response
     ): Promise<void> {
         const userId = req.accessTokenClaim.userId
-        this.log.info({ userId }, "Delete account data request arrived")
+        this.log.info({ userId }, "Request delete account data arrived")
         await this.userAccountService.deleteAccount(userId)
-        this.log.info({ userId }, "Account deletion success response dispatched")
+        this.log.info({ userId }, "Response Account deletion success sent")
         res.status(204).end()
     }
 }

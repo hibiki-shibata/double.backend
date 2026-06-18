@@ -1,7 +1,7 @@
 import type { UserAccountResponse, UserAccountRequest } from "../dto/userAccount.dto.js"
 
 export interface UserAccountService {
-    getMyAccount(userId: string): Promise<UserAccountResponse>
-    updateMyAccount(userId: string, dto: UserAccountRequest): Promise<UserAccountResponse>
-    deleteMyAccount(userId: string): Promise<void>
+    getAccountInfo(userId: string): Promise<UserAccountResponse>
+    updateAccount(userId: string, dto: UserAccountRequest): Promise<UserAccountResponse>
+    deleteAccount(userId: string): Promise<void>
 }

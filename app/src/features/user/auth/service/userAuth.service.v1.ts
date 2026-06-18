@@ -32,14 +32,14 @@ export class UserAuthServiceV1 implements UserAuthService {
             roles: [UserRoles.user]
         })
 
-        this.log.info({ userId: createdUser.id }, "User signup success")
+        this.log.info({ userId: createdUser.id }, "Sucess User signup")
         return this.generateJwtTokens(createdUser)
     }
 
     public async login(
         dto: UserLoginRequest
     ): Promise<JwtTokens> {
-        this.log.info({ userName: dto.userName }, "Attempting user login")
+        this.log.info({ userName: dto.userName }, "user login-ing")
 
         const dbUser: User = await this.userRepository.getByUserName(dto.userName)
         if (dbUser.status === UserStatus.deleted) throw new InvalidInputErr('User has already been deleted')
@@ -47,7 +47,7 @@ export class UserAuthServiceV1 implements UserAuthService {
 
         await this.passwordService.verifyPassword(dto.password, dbUser.password_hash)
 
-        this.log.info({ userId: dbUser.id }, "User login success")
+        this.log.info({ userId: dbUser.id }, "Success user login-ing")
         return this.generateJwtTokens(dbUser)
     }
 
