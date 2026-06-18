@@ -246,7 +246,7 @@ export type MarketScalarWhereWithAggregatesInput = {
 export type MarketCreateInput = {
   id?: string
   title: string
-  status: $Enums.MarketStatus
+  status?: $Enums.MarketStatus
   closed_at: Date | string
   updated_at?: Date | string
   resolved_at?: Date | string | null
@@ -257,7 +257,7 @@ export type MarketCreateInput = {
 export type MarketUncheckedCreateInput = {
   id?: string
   title: string
-  status: $Enums.MarketStatus
+  status?: $Enums.MarketStatus
   closed_at: Date | string
   updated_at?: Date | string
   resolved_at?: Date | string | null
@@ -290,7 +290,7 @@ export type MarketUncheckedUpdateInput = {
 export type MarketCreateManyInput = {
   id?: string
   title: string
-  status: $Enums.MarketStatus
+  status?: $Enums.MarketStatus
   closed_at: Date | string
   updated_at?: Date | string
   resolved_at?: Date | string | null
@@ -385,7 +385,7 @@ export type MarketUpdateOneRequiredWithoutBetsNestedInput = {
 export type MarketCreateWithoutPredictionsInput = {
   id?: string
   title: string
-  status: $Enums.MarketStatus
+  status?: $Enums.MarketStatus
   closed_at: Date | string
   updated_at?: Date | string
   resolved_at?: Date | string | null
@@ -395,7 +395,7 @@ export type MarketCreateWithoutPredictionsInput = {
 export type MarketUncheckedCreateWithoutPredictionsInput = {
   id?: string
   title: string
-  status: $Enums.MarketStatus
+  status?: $Enums.MarketStatus
   closed_at: Date | string
   updated_at?: Date | string
   resolved_at?: Date | string | null
@@ -441,7 +441,7 @@ export type MarketUncheckedUpdateWithoutPredictionsInput = {
 export type MarketCreateWithoutBetsInput = {
   id?: string
   title: string
-  status: $Enums.MarketStatus
+  status?: $Enums.MarketStatus
   closed_at: Date | string
   updated_at?: Date | string
   resolved_at?: Date | string | null
@@ -451,7 +451,7 @@ export type MarketCreateWithoutBetsInput = {
 export type MarketUncheckedCreateWithoutBetsInput = {
   id?: string
   title: string
-  status: $Enums.MarketStatus
+  status?: $Enums.MarketStatus
   closed_at: Date | string
   updated_at?: Date | string
   resolved_at?: Date | string | null

@@ -34,7 +34,7 @@ export type PredictionAvgAggregateOutputType = {
 
 export type PredictionSumAggregateOutputType = {
   total_participants: number | null
-  bet_sum: number | null
+  bet_sum: bigint | null
   version: number | null
 }
 
@@ -43,7 +43,7 @@ export type PredictionMinAggregateOutputType = {
   market_id: string | null
   name: string | null
   total_participants: number | null
-  bet_sum: number | null
+  bet_sum: bigint | null
   status: $Enums.PredictionStatus | null
   resolved_by_id: string | null
   resolved_at: Date | null
@@ -57,7 +57,7 @@ export type PredictionMaxAggregateOutputType = {
   market_id: string | null
   name: string | null
   total_participants: number | null
-  bet_sum: number | null
+  bet_sum: bigint | null
   status: $Enums.PredictionStatus | null
   resolved_by_id: string | null
   resolved_at: Date | null
@@ -228,7 +228,7 @@ export type PredictionGroupByOutputType = {
   market_id: string
   name: string
   total_participants: number
-  bet_sum: number
+  bet_sum: bigint
   status: $Enums.PredictionStatus
   resolved_by_id: string | null
   resolved_at: Date | null
@@ -265,7 +265,7 @@ export type PredictionWhereInput = {
   market_id?: Prisma.StringFilter<"Prediction"> | string
   name?: Prisma.StringFilter<"Prediction"> | string
   total_participants?: Prisma.IntFilter<"Prediction"> | number
-  bet_sum?: Prisma.IntFilter<"Prediction"> | number
+  bet_sum?: Prisma.BigIntFilter<"Prediction"> | bigint | number
   status?: Prisma.EnumPredictionStatusFilter<"Prediction"> | $Enums.PredictionStatus
   resolved_by_id?: Prisma.StringNullableFilter<"Prediction"> | string | null
   resolved_at?: Prisma.DateTimeNullableFilter<"Prediction"> | Date | string | null
@@ -304,7 +304,7 @@ export type PredictionWhereUniqueInput = Prisma.AtLeast<{
   market_id?: Prisma.StringFilter<"Prediction"> | string
   name?: Prisma.StringFilter<"Prediction"> | string
   total_participants?: Prisma.IntFilter<"Prediction"> | number
-  bet_sum?: Prisma.IntFilter<"Prediction"> | number
+  bet_sum?: Prisma.BigIntFilter<"Prediction"> | bigint | number
   status?: Prisma.EnumPredictionStatusFilter<"Prediction"> | $Enums.PredictionStatus
   resolved_by_id?: Prisma.StringNullableFilter<"Prediction"> | string | null
   resolved_at?: Prisma.DateTimeNullableFilter<"Prediction"> | Date | string | null
@@ -344,7 +344,7 @@ export type PredictionScalarWhereWithAggregatesInput = {
   market_id?: Prisma.StringWithAggregatesFilter<"Prediction"> | string
   name?: Prisma.StringWithAggregatesFilter<"Prediction"> | string
   total_participants?: Prisma.IntWithAggregatesFilter<"Prediction"> | number
-  bet_sum?: Prisma.IntWithAggregatesFilter<"Prediction"> | number
+  bet_sum?: Prisma.BigIntWithAggregatesFilter<"Prediction"> | bigint | number
   status?: Prisma.EnumPredictionStatusWithAggregatesFilter<"Prediction"> | $Enums.PredictionStatus
   resolved_by_id?: Prisma.StringNullableWithAggregatesFilter<"Prediction"> | string | null
   resolved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Prediction"> | Date | string | null
@@ -357,13 +357,13 @@ export type PredictionCreateInput = {
   id?: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
-  market?: Prisma.MarketCreateNestedOneWithoutPredictionsInput
+  version?: number
+  market: Prisma.MarketCreateNestedOneWithoutPredictionsInput
   resolved_by?: Prisma.UserCreateNestedOneWithoutPredictionsInput
   bets?: Prisma.BetCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionCreateNestedManyWithoutPredictionInput
@@ -371,16 +371,16 @@ export type PredictionCreateInput = {
 
 export type PredictionUncheckedCreateInput = {
   id?: string
-  market_id?: string
+  market_id: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_by_id?: string | null
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
   bets?: Prisma.BetUncheckedCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionUncheckedCreateNestedManyWithoutPredictionInput
 }
@@ -389,7 +389,7 @@ export type PredictionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -406,7 +406,7 @@ export type PredictionUncheckedUpdateInput = {
   market_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_by_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -419,23 +419,23 @@ export type PredictionUncheckedUpdateInput = {
 
 export type PredictionCreateManyInput = {
   id?: string
-  market_id?: string
+  market_id: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_by_id?: string | null
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
 }
 
 export type PredictionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -448,7 +448,7 @@ export type PredictionUncheckedUpdateManyInput = {
   market_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_by_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -653,28 +653,28 @@ export type PredictionCreateWithoutResolved_byInput = {
   id?: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
-  market?: Prisma.MarketCreateNestedOneWithoutPredictionsInput
+  version?: number
+  market: Prisma.MarketCreateNestedOneWithoutPredictionsInput
   bets?: Prisma.BetCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionUncheckedCreateWithoutResolved_byInput = {
   id?: string
-  market_id?: string
+  market_id: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
   bets?: Prisma.BetUncheckedCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionUncheckedCreateNestedManyWithoutPredictionInput
 }
@@ -713,7 +713,7 @@ export type PredictionScalarWhereInput = {
   market_id?: Prisma.StringFilter<"Prediction"> | string
   name?: Prisma.StringFilter<"Prediction"> | string
   total_participants?: Prisma.IntFilter<"Prediction"> | number
-  bet_sum?: Prisma.IntFilter<"Prediction"> | number
+  bet_sum?: Prisma.BigIntFilter<"Prediction"> | bigint | number
   status?: Prisma.EnumPredictionStatusFilter<"Prediction"> | $Enums.PredictionStatus
   resolved_by_id?: Prisma.StringNullableFilter<"Prediction"> | string | null
   resolved_at?: Prisma.DateTimeNullableFilter<"Prediction"> | Date | string | null
@@ -726,29 +726,29 @@ export type PredictionCreateWithoutWalletTransactionsInput = {
   id?: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
-  market?: Prisma.MarketCreateNestedOneWithoutPredictionsInput
+  version?: number
+  market: Prisma.MarketCreateNestedOneWithoutPredictionsInput
   resolved_by?: Prisma.UserCreateNestedOneWithoutPredictionsInput
   bets?: Prisma.BetCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionUncheckedCreateWithoutWalletTransactionsInput = {
   id?: string
-  market_id?: string
+  market_id: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_by_id?: string | null
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
   bets?: Prisma.BetUncheckedCreateNestedManyWithoutPredictionInput
 }
 
@@ -772,7 +772,7 @@ export type PredictionUpdateWithoutWalletTransactionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -788,7 +788,7 @@ export type PredictionUncheckedUpdateWithoutWalletTransactionsInput = {
   market_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_by_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -802,12 +802,12 @@ export type PredictionCreateWithoutMarketInput = {
   id?: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
   resolved_by?: Prisma.UserCreateNestedOneWithoutPredictionsInput
   bets?: Prisma.BetCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionCreateNestedManyWithoutPredictionInput
@@ -817,13 +817,13 @@ export type PredictionUncheckedCreateWithoutMarketInput = {
   id?: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_by_id?: string | null
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
   bets?: Prisma.BetUncheckedCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionUncheckedCreateNestedManyWithoutPredictionInput
 }
@@ -858,29 +858,29 @@ export type PredictionCreateWithoutBetsInput = {
   id?: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
-  market?: Prisma.MarketCreateNestedOneWithoutPredictionsInput
+  version?: number
+  market: Prisma.MarketCreateNestedOneWithoutPredictionsInput
   resolved_by?: Prisma.UserCreateNestedOneWithoutPredictionsInput
   walletTransactions?: Prisma.WalletTransactionCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionUncheckedCreateWithoutBetsInput = {
   id?: string
-  market_id?: string
+  market_id: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_by_id?: string | null
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
   walletTransactions?: Prisma.WalletTransactionUncheckedCreateNestedManyWithoutPredictionInput
 }
 
@@ -904,7 +904,7 @@ export type PredictionUpdateWithoutBetsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -920,7 +920,7 @@ export type PredictionUncheckedUpdateWithoutBetsInput = {
   market_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_by_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -932,22 +932,22 @@ export type PredictionUncheckedUpdateWithoutBetsInput = {
 
 export type PredictionCreateManyResolved_byInput = {
   id?: string
-  market_id?: string
+  market_id: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
 }
 
 export type PredictionUpdateWithoutResolved_byInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -963,7 +963,7 @@ export type PredictionUncheckedUpdateWithoutResolved_byInput = {
   market_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -978,7 +978,7 @@ export type PredictionUncheckedUpdateManyWithoutResolved_byInput = {
   market_id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -990,20 +990,20 @@ export type PredictionCreateManyMarketInput = {
   id?: string
   name: string
   total_participants: number
-  bet_sum: number
-  status: $Enums.PredictionStatus
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
   resolved_by_id?: string | null
   resolved_at?: Date | string | null
-  created_at: Date | string
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
 }
 
 export type PredictionUpdateWithoutMarketInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1018,7 +1018,7 @@ export type PredictionUncheckedUpdateWithoutMarketInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_by_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1033,7 +1033,7 @@ export type PredictionUncheckedUpdateManyWithoutMarketInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
   resolved_by_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1177,7 +1177,7 @@ export type $PredictionPayload<ExtArgs extends runtime.Types.Extensions.Internal
     market_id: string
     name: string
     total_participants: number
-    bet_sum: number
+    bet_sum: bigint
     status: $Enums.PredictionStatus
     resolved_by_id: string | null
     resolved_at: Date | null
@@ -1615,7 +1615,7 @@ export interface PredictionFieldRefs {
   readonly market_id: Prisma.FieldRef<"Prediction", 'String'>
   readonly name: Prisma.FieldRef<"Prediction", 'String'>
   readonly total_participants: Prisma.FieldRef<"Prediction", 'Int'>
-  readonly bet_sum: Prisma.FieldRef<"Prediction", 'Int'>
+  readonly bet_sum: Prisma.FieldRef<"Prediction", 'BigInt'>
   readonly status: Prisma.FieldRef<"Prediction", 'PredictionStatus'>
   readonly resolved_by_id: Prisma.FieldRef<"Prediction", 'String'>
   readonly resolved_at: Prisma.FieldRef<"Prediction", 'DateTime'>

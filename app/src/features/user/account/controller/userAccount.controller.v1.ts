@@ -16,7 +16,7 @@ export class UserAccountControllerV1 implements UserAccountController {
     ): Promise<void> {
         const { userId } = req.accessTokenClaim
         this.log.info({ userId }, "Get account data request arrived")
-        const user: UserAccountResponse = await this.service.getMyAccount(userId)
+        const user: UserAccountResponse = await this.service.getAccountInfo(userId)
         this.log.info({ userId }, "Account data response dispatched")
         res.status(200).json(user)
     }
@@ -27,7 +27,7 @@ export class UserAccountControllerV1 implements UserAccountController {
     ): Promise<void> {
         const { userId } = req.accessTokenClaim
         this.log.info({ userId }, "Update account data request arrived")
-        const updatedUser: UserAccountResponse = await this.service.updateMyAccount(userId, req.body)
+        const updatedUser: UserAccountResponse = await this.service.updateAccount(userId, req.body)
         this.log.info({ userId }, "Updated Account data response dispatched")
         res.status(200).json(updatedUser)
     }
@@ -38,7 +38,7 @@ export class UserAccountControllerV1 implements UserAccountController {
     ): Promise<void> {
         const { userId } = req.accessTokenClaim
         this.log.info({ userId }, "Delete account data request arrived")
-        await this.service.deleteMyAccount(userId)
+        await this.service.deleteAccount(userId)
         this.log.info({ userId }, "Account deletion success response dispatched")
         res.status(204).end()
     }

@@ -108,6 +108,7 @@ export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof 
 export const WalletTransactionScalarFieldEnum = {
   id: 'id',
   wallet_id: 'wallet_id',
+  user_id: 'user_id',
   prediction_id: 'prediction_id',
   type: 'type',
   currency: 'currency',

@@ -22,26 +22,13 @@ REDIS_PORT=
 REDIS_USERNAME=
 REDIS_PASSWORD=
 DATABASE_URL="postgresql://[db-username]:[db-password]@[db-hostname]:[db-port-number]/[db-name]?schema=public"
+STRIPE_API_KEY
 ```
 ### Startup
-Start postgres
+Make sure Postgres & Redis official image is installed
 ```sh
-docker run -p 5432:5432 -d \
-    --name postgres \
-    -e POSTGRES_PASSWORD=postgres \
-    -e POSTGRES_USER=postgres \
-    -e POSTGRES_DB=postgres \
-    postgres
-```
-
-Start redis for caching
-```sh
-docker run -p 6379:6379 -d \
-    --name redis \
-     -e maxmemory=1gb \
-     -e REDIS_USER=redist \
-     -e REDIS_PASSWORD=redis \ 
-     redis 
+pnpm run build
+docker compose up -d
 ```
 
 ### Implementation plan

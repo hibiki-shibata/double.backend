@@ -37,9 +37,9 @@ export type PredictionTransactionAvgAggregateOutputType = {
 export type PredictionTransactionSumAggregateOutputType = {
   total_participants_before: number | null
   total_participants_after: number | null
-  bet_amount: number | null
-  bet_sum_before: number | null
-  bet_sum_after: number | null
+  bet_amount: bigint | null
+  bet_sum_before: bigint | null
+  bet_sum_after: bigint | null
 }
 
 export type PredictionTransactionMinAggregateOutputType = {
@@ -49,9 +49,9 @@ export type PredictionTransactionMinAggregateOutputType = {
   total_participants_before: number | null
   total_participants_after: number | null
   currency: $Enums.Currency | null
-  bet_amount: number | null
-  bet_sum_before: number | null
-  bet_sum_after: number | null
+  bet_amount: bigint | null
+  bet_sum_before: bigint | null
+  bet_sum_after: bigint | null
   created_at: Date | null
 }
 
@@ -62,9 +62,9 @@ export type PredictionTransactionMaxAggregateOutputType = {
   total_participants_before: number | null
   total_participants_after: number | null
   currency: $Enums.Currency | null
-  bet_amount: number | null
-  bet_sum_before: number | null
-  bet_sum_after: number | null
+  bet_amount: bigint | null
+  bet_sum_before: bigint | null
+  bet_sum_after: bigint | null
   created_at: Date | null
 }
 
@@ -232,9 +232,9 @@ export type PredictionTransactionGroupByOutputType = {
   total_participants_before: number
   total_participants_after: number
   currency: $Enums.Currency
-  bet_amount: number
-  bet_sum_before: number
-  bet_sum_after: number
+  bet_amount: bigint
+  bet_sum_before: bigint
+  bet_sum_after: bigint
   created_at: Date
   _count: PredictionTransactionCountAggregateOutputType | null
   _avg: PredictionTransactionAvgAggregateOutputType | null
@@ -268,9 +268,9 @@ export type PredictionTransactionWhereInput = {
   total_participants_before?: Prisma.IntFilter<"PredictionTransaction"> | number
   total_participants_after?: Prisma.IntFilter<"PredictionTransaction"> | number
   currency?: Prisma.EnumCurrencyFilter<"PredictionTransaction"> | $Enums.Currency
-  bet_amount?: Prisma.IntFilter<"PredictionTransaction"> | number
-  bet_sum_before?: Prisma.IntFilter<"PredictionTransaction"> | number
-  bet_sum_after?: Prisma.IntFilter<"PredictionTransaction"> | number
+  bet_amount?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_before?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_after?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
   created_at?: Prisma.DateTimeFilter<"PredictionTransaction"> | Date | string
 }
 
@@ -297,9 +297,9 @@ export type PredictionTransactionWhereUniqueInput = Prisma.AtLeast<{
   total_participants_before?: Prisma.IntFilter<"PredictionTransaction"> | number
   total_participants_after?: Prisma.IntFilter<"PredictionTransaction"> | number
   currency?: Prisma.EnumCurrencyFilter<"PredictionTransaction"> | $Enums.Currency
-  bet_amount?: Prisma.IntFilter<"PredictionTransaction"> | number
-  bet_sum_before?: Prisma.IntFilter<"PredictionTransaction"> | number
-  bet_sum_after?: Prisma.IntFilter<"PredictionTransaction"> | number
+  bet_amount?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_before?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_after?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
   created_at?: Prisma.DateTimeFilter<"PredictionTransaction"> | Date | string
 }, "id">
 
@@ -331,9 +331,9 @@ export type PredictionTransactionScalarWhereWithAggregatesInput = {
   total_participants_before?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
   total_participants_after?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
   currency?: Prisma.EnumCurrencyWithAggregatesFilter<"PredictionTransaction"> | $Enums.Currency
-  bet_amount?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
-  bet_sum_before?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
-  bet_sum_after?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
+  bet_amount?: Prisma.BigIntWithAggregatesFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_before?: Prisma.BigIntWithAggregatesFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_after?: Prisma.BigIntWithAggregatesFilter<"PredictionTransaction"> | bigint | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"PredictionTransaction"> | Date | string
 }
 
@@ -344,10 +344,10 @@ export type PredictionTransactionCreateInput = {
   total_participants_before: number
   total_participants_after: number
   currency: $Enums.Currency
-  bet_amount: number
-  bet_sum_before: number
-  bet_sum_after: number
-  created_at: Date | string
+  bet_amount: bigint | number
+  bet_sum_before: bigint | number
+  bet_sum_after: bigint | number
+  created_at?: Date | string
 }
 
 export type PredictionTransactionUncheckedCreateInput = {
@@ -357,10 +357,10 @@ export type PredictionTransactionUncheckedCreateInput = {
   total_participants_before: number
   total_participants_after: number
   currency: $Enums.Currency
-  bet_amount: number
-  bet_sum_before: number
-  bet_sum_after: number
-  created_at: Date | string
+  bet_amount: bigint | number
+  bet_sum_before: bigint | number
+  bet_sum_after: bigint | number
+  created_at?: Date | string
 }
 
 export type PredictionTransactionUpdateInput = {
@@ -370,9 +370,9 @@ export type PredictionTransactionUpdateInput = {
   total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
   total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_before?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_after?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -383,9 +383,9 @@ export type PredictionTransactionUncheckedUpdateInput = {
   total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
   total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_before?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_after?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -396,10 +396,10 @@ export type PredictionTransactionCreateManyInput = {
   total_participants_before: number
   total_participants_after: number
   currency: $Enums.Currency
-  bet_amount: number
-  bet_sum_before: number
-  bet_sum_after: number
-  created_at: Date | string
+  bet_amount: bigint | number
+  bet_sum_before: bigint | number
+  bet_sum_after: bigint | number
+  created_at?: Date | string
 }
 
 export type PredictionTransactionUpdateManyMutationInput = {
@@ -409,9 +409,9 @@ export type PredictionTransactionUpdateManyMutationInput = {
   total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
   total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_before?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_after?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -422,9 +422,9 @@ export type PredictionTransactionUncheckedUpdateManyInput = {
   total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
   total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_before?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_after?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -553,9 +553,9 @@ export type $PredictionTransactionPayload<ExtArgs extends runtime.Types.Extensio
     total_participants_before: number
     total_participants_after: number
     currency: $Enums.Currency
-    bet_amount: number
-    bet_sum_before: number
-    bet_sum_after: number
+    bet_amount: bigint
+    bet_sum_before: bigint
+    bet_sum_after: bigint
     created_at: Date
   }, ExtArgs["result"]["predictionTransaction"]>
   composites: {}
@@ -986,9 +986,9 @@ export interface PredictionTransactionFieldRefs {
   readonly total_participants_before: Prisma.FieldRef<"PredictionTransaction", 'Int'>
   readonly total_participants_after: Prisma.FieldRef<"PredictionTransaction", 'Int'>
   readonly currency: Prisma.FieldRef<"PredictionTransaction", 'Currency'>
-  readonly bet_amount: Prisma.FieldRef<"PredictionTransaction", 'Int'>
-  readonly bet_sum_before: Prisma.FieldRef<"PredictionTransaction", 'Int'>
-  readonly bet_sum_after: Prisma.FieldRef<"PredictionTransaction", 'Int'>
+  readonly bet_amount: Prisma.FieldRef<"PredictionTransaction", 'BigInt'>
+  readonly bet_sum_before: Prisma.FieldRef<"PredictionTransaction", 'BigInt'>
+  readonly bet_sum_after: Prisma.FieldRef<"PredictionTransaction", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"PredictionTransaction", 'DateTime'>
 }
     

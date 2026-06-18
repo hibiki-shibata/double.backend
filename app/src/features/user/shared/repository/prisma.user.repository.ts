@@ -28,7 +28,6 @@ export class PrismaUserRepository implements UserRepository {
         const data: Prisma.UserCreateInput = this.toPrismaUserCreateInput(userCreateInput)
         return await this.db.user.create({
             data: data
-            // include: { wallets: true }
         })
     }
 
@@ -59,6 +58,9 @@ export class PrismaUserRepository implements UserRepository {
             password_hash: input.passwordHash,
             status: input.status,
             roles: input.roles,
+            wallet: {
+                create: {} // Create wallet at the same time!!
+            },
         }
     }
 

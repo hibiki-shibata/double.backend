@@ -1,13 +1,11 @@
-export const WalletController = {
-    depositBalance(): void {
-        return
-    },
+import type { Wallet, WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js"
 
-    withdrawBalance(): void {
-        return
-    },
-
-    registerWallet(): void {
-        return
-    },
+export interface WalletController {
+    getMyWalletInfo(): Promise<Wallet>
+    getMyBalanceHistory(): Promise<WalletTransaction[]>
+    deposit(): Promise<Wallet>
+    withdraw(): Promise<Wallet>
+    // registerMyBankInfo(): Promise<void>
+    // updateMyBankInfo(): Promise<void>
+    // deleteMyBankInfo(): Promise<void>
 }

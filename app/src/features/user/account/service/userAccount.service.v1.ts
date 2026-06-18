@@ -12,7 +12,7 @@ export class UserAccountServiceV1 implements UserAccountService {
         private readonly log: Logger
     ) { }
 
-    public async getMyAccount(
+    public async getAccountInfo(
         userId: string
     ): Promise<UserAccountResponse> {
         this.log.info({ userId }, "Fetching User from DB")
@@ -21,7 +21,7 @@ export class UserAccountServiceV1 implements UserAccountService {
         return this.toUserAccountResponse(dbUser)
     }
 
-    public async updateMyAccount(
+    public async updateAccount(
         userId: string,
         dto: UserAccountRequest
     ): Promise<UserAccountResponse> {
@@ -32,7 +32,7 @@ export class UserAccountServiceV1 implements UserAccountService {
         return this.toUserAccountResponse(updatedUser)
     }
 
-    public async deleteMyAccount(
+    public async deleteAccount(
         userId: string
     ): Promise<void> {
         this.log.info({ userId }, "Deleting User from DB")
