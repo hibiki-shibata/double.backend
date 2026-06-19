@@ -3,7 +3,6 @@ import type { Logger } from "pino"
 import type { AccessTokenClaim, RefreshTokenClaim } from "@global-shared/auth/type/jwtToken.type.ts"
 import type { Pagination } from "./pagination.type.ts"
 
-
 declare global {
     declare namespace Express {
         interface Request {

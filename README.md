@@ -134,8 +134,6 @@ docker compose up -d
 
 
     Todo:
-    - wallet pagination - get page number from uri
-    - /shared/ import / export reference typescript
     - payment integration for deposit/withdraw
     - cache repository for wallet history / wallet
 

@@ -7,9 +7,7 @@ import { UnauthenticatedErr } from "@global-shared/error/httpErrors.js"
 const BEARER_PREFIX = 'Bearer '
 
 export function validateAuth(
-    req: Request,
-    _res: Response,
-    next: NextFunction
+    req: Request, _res: Response, next: NextFunction
 ): void {
     const rawToken: string | undefined = req.header('Authorization')
     if (!rawToken?.startsWith(BEARER_PREFIX)) {
