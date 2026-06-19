@@ -1,5 +1,5 @@
 import type { User } from "@global-shared/infra/db/generated.prisma/client.js";
-import type { CacheKeys } from "@global-shared/config/cache.config.js";
+import type { CacheKeys, CacheTtls } from "@global-shared/config/cache.config.js";
 import type { CacheService } from "@global-shared/infra/cache/service/cache.service.js";
 import type { CreateUserInput, UpdateUserInput, UserRepository } from "./user.repository.js";
 
@@ -8,7 +8,7 @@ export class CachedUserRepository implements UserRepository {
         private readonly userRepository: UserRepository,
         private readonly cacheService: CacheService,
         private readonly cacheKeys: CacheKeys,
-        private readonly cacheTtlSecs: number = 60 * 10
+        private readonly cacheTtls: CacheTtls
     ) { }
 
     async getById(userId: string): Promise<User> {
@@ -18,7 +18,7 @@ export class CachedUserRepository implements UserRepository {
         await this.cacheService.setByKey<User>(
             this.cacheKeys.userById(dbUser.id),
             dbUser,
-            this.cacheTtlSecs
+            this.cacheTtls.userTtlSecs
         )
         return dbUser
     }
@@ -28,7 +28,7 @@ export class CachedUserRepository implements UserRepository {
         await this.cacheService.setByKey<User>(
             this.cacheKeys.userById(dbUser.id),
             dbUser,
-            this.cacheTtlSecs
+            this.cacheTtls.userTtlSecs
         )
         return dbUser
     }
@@ -38,7 +38,7 @@ export class CachedUserRepository implements UserRepository {
         await this.cacheService.setByKey<User>(
             this.cacheKeys.userById(dbUser.id),
             dbUser,
-            this.cacheTtlSecs
+            this.cacheTtls.userTtlSecs
         )
         return dbUser
     }

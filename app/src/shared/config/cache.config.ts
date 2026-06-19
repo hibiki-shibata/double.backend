@@ -12,9 +12,28 @@ export const redisOptions: RedisOptions = {
     lazyConnect: true,
 }
 
+export type CacheKeysAndTtl = {
+    key: string
+    ttlSecs: number
+}
+
 export type CacheKeys = {
     userById: (userId: string) => string
+    walletByUserId: (UserId: string) => string
 }
+
+export type CacheTtls = {
+    userTtlSecs: number
+    walletTtlSecs: number
+}
+
 export const cacheKeys: CacheKeys = {
-    userById: (userId: string) => 'user:' + userId
+    userById: (userId: string) => "user:" + userId,
+    walletByUserId: (userId: string) => 'walletOfUser:' + userId
 }
+
+export const cacheTtls = {
+    userTtlSecs: 60 * 10,
+    walletTtlSecs: 60 * 15
+}
+

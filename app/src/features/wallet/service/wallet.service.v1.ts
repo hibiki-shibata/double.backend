@@ -1,9 +1,9 @@
 import type { Logger } from "pino";
 import { WalletTransactionType, type PrismaClient, type Wallet, type WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js";
-import type { WalletRepository } from "../repository/wallet.repository.js";
+import type { WalletRepository } from "../repository/wallet/wallet.repository.js";
 import type { WalletService } from "./wallet.service.js";
 import { InvalidInputErr } from "@global-shared/error/httpErrors.js";
-import type { WalletTransactionRepository } from "../repository/walletTransaction.repository.js";
+import type { WalletTransactionRepository } from "../repository/walletTransaction/walletTransaction.repository.js";
 import type { DepositRequest, WalletResponse, WalletTransactionResponse, WithdrawRequest } from "../schema/wallet.schema.js";
 
 export class WalletServiceV1 implements WalletService {
