@@ -2,7 +2,7 @@ import { Router } from 'express'
 import type { UserAuthController } from '../controller/userAuth.controller.js'
 import { validateAuth } from '../../../../shared/middleware/validateAuth.js'
 import { validateRequestBody } from '../../../../shared/middleware/validateRequestBody.js'
-import { UserLoginRequestSchema, UserSignupRequestSchema } from '../dto/userAuth.dto.js'
+import { UserLoginRequestSchema, UserSignupRequestSchema } from '../schema/userAuth.schema.js'
 
 export function userAuthRouter(
     controller: UserAuthController

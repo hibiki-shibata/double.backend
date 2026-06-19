@@ -2,6 +2,7 @@
 import type { Redis } from "ioredis"
 import type { Logger } from "pino"
 import type { CacheService } from "./cache.service.js"
+import { InvalidInputErr } from "../../../error/httpErrors.js"
 
 export class RedisCacheService implements CacheService {
     constructor(
@@ -10,7 +11,7 @@ export class RedisCacheService implements CacheService {
         private readonly defaultTtlSecs: number = 60 * 5
     ) { }
 
-    async getByKey<T>(
+    async getByKey<T = object>(
         key: string
     ): Promise<T | null> {
         try {
@@ -23,12 +24,13 @@ export class RedisCacheService implements CacheService {
         }
     }
 
-    async setByKey<T>(
+    async setByKey<T = object>(
         key: string,
         value: T,
         ttlSeconds: number = this.defaultTtlSecs
     ): Promise<void> {
         try {
+            if (typeof value !== 'object') throw new InvalidInputErr('cache data must be a object type')
             await this.redisClient.set(key, JSON.stringify(value), 'EX', ttlSeconds)
         } catch (err) {
             this.logger.error({ err, key }, 'Redis: cache set failed')

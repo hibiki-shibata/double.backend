@@ -19,9 +19,10 @@ export class WalletControllerV1 implements WalletController {
 
     async getMyWalletHistory(req: Request<{}, {}, void>, res: Response<WalletTransactionResponse[]>): Promise<void> {
         const userId: string = req.accessTokenClaim.userId
-        const page = 10 // FETCH PAGE NUMBER FROM URI -LATER
+        const page: number = parseInt(req.query.page as string) || 0 // Replace LATER
+        const limit: number = parseInt(req.query.limit as string) || 10
         this.log.info({ userId }, 'Request get my wallet history arrived')
-        const walletHistory: WalletTransactionResponse[] = await this.walletService.getUserWalletHistory(userId, page)
+        const walletHistory: WalletTransactionResponse[] = await this.walletService.getUserWalletHistory(userId, page, limit)
         this.log.info({ userId }, 'Response success get my wallet history sent')
         res.status(200).json(walletHistory)
     }

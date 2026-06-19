@@ -1,7 +1,7 @@
 import z from "zod"
 import { UserStatus, UserRoles } from "../../../../shared/infra/db/generated.prisma/enums.js"
 
-export const userSchema = {
+export const userShape = {
     id: z.uuidv4(),
     name: z.string('userName length must be min=4 max=10').min(4).max(10),
     displayName: z.string('displayName length must be min=1 max=10').min(1).max(20),

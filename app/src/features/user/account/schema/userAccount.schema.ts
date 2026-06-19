@@ -1,19 +1,19 @@
 import z from "zod"
-import { userSchema } from "../../shared/schema/user.schema.js"
+import { userShape } from "../../shared/schema/user.schema.shape.js"
 
 export const userAccountRequestSchema = z.object({
-    name: userSchema.name,
-    displayName: userSchema.displayName,
-    emailAddress: userSchema.emailAddress,
-    password: userSchema.password.optional(),
+    name: userShape.name,
+    displayName: userShape.displayName,
+    emailAddress: userShape.emailAddress,
+    password: userShape.password.optional(),
 })
 
 export const userAccountResponseSchema = z.object({
-    id: userSchema.id,
-    name: userSchema.name,
-    displayName: userSchema.displayName,
-    emailAddress: userSchema.emailAddress,
-    status: userSchema.status
+    id: userShape.id,
+    name: userShape.name,
+    displayName: userShape.displayName,
+    emailAddress: userShape.emailAddress,
+    status: userShape.status
 })
 
 export type UserAccountRequest = z.infer<typeof userAccountRequestSchema>

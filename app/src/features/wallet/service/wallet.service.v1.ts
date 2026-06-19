@@ -92,23 +92,28 @@ export class WalletServiceV1 implements WalletService {
     private toWalletResponse(wallet: Wallet): WalletResponse {
         return {
             id: wallet.id,
+            userId: wallet.user_id,
             balance: wallet.balance,
             reservedAmount: wallet.reserved_amount,
             currency: wallet.currency,
             status: wallet.status,
+            updatedAt: wallet.updated_at
         }
     }
 
     private toWalletTransactionResponse(walletHistories: WalletTransaction[]): WalletTransactionResponse[] {
         const result: WalletTransactionResponse[] = []
-        walletHistories.forEach((k) => {
+        walletHistories.forEach((walletTransaction) => {
             result.push({
-                id: k.id,
-                type: k.type,
-                amount: k.amount,
-                balanceBefore: k.balance_after,
-                balanceAfter: k.balance_after,
-                createdAt: k.created_at,
+                id: walletTransaction.id,
+                userId: walletTransaction.user_id,
+                walletId: walletTransaction.wallet_id,
+                predictionId: walletTransaction.prediction_id ?? "No prediction Id",
+                type: walletTransaction.type,
+                amount: walletTransaction.amount,
+                balanceBefore: walletTransaction.balance_before,
+                balanceAfter: walletTransaction.balance_after,
+                createdAt: walletTransaction.created_at,
             })
         })
         return result

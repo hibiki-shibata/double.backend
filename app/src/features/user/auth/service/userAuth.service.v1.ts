@@ -1,6 +1,6 @@
 import type { UserAuthService } from "./userAuth.service.js"
 import type { UserRepository } from "../../shared/repository/user.repository.js"
-import type { JwtTokens, UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
+import type { JwtTokens, UserLoginRequest, UserSignupRequest } from "../schema/userAuth.schema.js"
 import type { PasswordService } from "../../../../shared/auth/service/password.service.js"
 import type { JwtTokenService } from "../../../../shared/auth/service/jwtToken.service.js"
 import type { RefreshTokenClaim } from "../../../../shared/auth/type/jwtToken.type.js"

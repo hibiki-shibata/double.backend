@@ -1,7 +1,7 @@
 import type { Logger } from "pino"
 import type { UserAuthService } from "../service/userAuth.service.js"
 import type { Response, Request, CookieOptions } from "express"
-import type { JwtTokens, AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
+import type { JwtTokens, AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../schema/userAuth.schema.js"
 import type { UserAuthController } from "./userAuth.controller.js"
 
 export class UserAuthControllerV1 implements UserAuthController {

@@ -1,5 +1,5 @@
-import type { JwtTokens } from "../dto/userAuth.dto.js"
-import type { UserLoginRequest, UserSignupRequest } from "../dto/userAuth.dto.js"
+import type { JwtTokens } from "../schema/userAuth.schema.js"
+import type { UserLoginRequest, UserSignupRequest } from "../schema/userAuth.schema.js"
 
 export interface UserAuthService {
     signup(dto: UserSignupRequest): Promise<JwtTokens>
