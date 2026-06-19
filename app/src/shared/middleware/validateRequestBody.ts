@@ -1,6 +1,6 @@
 import type { ZodObject } from "zod"
 import type { NextFunction, Request, Response } from "express";
-import { InvalidInputErr } from "../error/httpErrors.js"
+import { InvalidInputErr } from "@global-shared/error/httpErrors.js"
 
 export function validateRequestBody(schema: ZodObject) {
     return (req: Request, _res: Response, next: NextFunction) => {

@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from "express"
-import type { AccessTokenClaim } from "../auth/type/jwtToken.type.js"
-import { logger } from "../logger/logger.js"
-import { jwtTokenService } from "../auth/index.js"
-import { UnauthenticatedErr } from "../error/httpErrors.js"
+import type { AccessTokenClaim } from "@global-shared/auth/type/jwtToken.type.js"
+import { jwtTokenService } from "@global-shared/auth/index.js"
+import { logger } from "@global-shared/logger/logger.js"
+import { UnauthenticatedErr } from "@global-shared/error/httpErrors.js"
 
 const BEARER_PREFIX = 'Bearer '
 

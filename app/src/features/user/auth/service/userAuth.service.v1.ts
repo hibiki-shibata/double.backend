@@ -1,13 +1,13 @@
+import type { Logger } from "pino"
 import type { UserAuthService } from "./userAuth.service.js"
 import type { UserRepository } from "../../shared/repository/user.repository.js"
 import type { JwtTokens, UserLoginRequest, UserSignupRequest } from "../schema/userAuth.schema.js"
-import type { PasswordService } from "../../../../shared/auth/service/password.service.js"
-import type { JwtTokenService } from "../../../../shared/auth/service/jwtToken.service.js"
-import type { RefreshTokenClaim } from "../../../../shared/auth/type/jwtToken.type.js"
-import type { Logger } from "pino"
-import { type User, UserRoles, UserStatus } from "../../../../shared/infra/db/generated.prisma/client.js"
-import { InvalidInputErr } from "../../../../shared/error/httpErrors.js"
-import { DatabaseErr, MappingErr } from "../../../../shared/error/serverErros.js"
+import type { PasswordService } from "@global-shared/auth/service/password.service.js"
+import type { JwtTokenService } from "@global-shared/auth/service/jwtToken.service.js"
+import type { RefreshTokenClaim } from "@global-shared/auth/type/jwtToken.type.js"
+import { type User, UserRoles, UserStatus } from "@global-shared/infra/db/generated.prisma/client.js"
+import { InvalidInputErr } from "@global-shared/error/httpErrors.js"
+import { DatabaseErr, MappingErr } from "@global-shared/error/serverErros.js"
 
 export class UserAuthServiceV1 implements UserAuthService {
     constructor(

@@ -1,5 +1,5 @@
 
-import type { PrismaClient, Wallet } from "../../../shared/infra/db/generated.prisma/client.js";
+import type { PrismaClient, Wallet } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { AddBalanceInput, DeductBalanceInput, WalletRepository } from "./wallet.repository.js";
 import type { txPrismaClient } from "./walletTransaction.repository.js";
 

@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express'
-import { HttpBaseErr } from '../error/httpErrors.js'
-import { InternalServerBaseErr } from '../error/serverErros.js'
-import { PrismaClientKnownRequestError } from '../infra/db/generated.prisma/internal/prismaNamespace.js'
+import { HttpBaseErr } from '@global-shared/error/httpErrors.js'
+import { InternalServerBaseErr } from '@global-shared/error/serverErros.js'
+import { PrismaClientKnownRequestError } from '@global-shared/infra/db/generated.prisma/internal/prismaNamespace.js'
 
 type ErrorResponse = {
     code: string

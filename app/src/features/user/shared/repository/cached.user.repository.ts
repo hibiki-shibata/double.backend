@@ -1,6 +1,6 @@
-import type { User } from "../../../../shared/infra/db/generated.prisma/client.js";
-import type { CacheKeys } from "../../../../shared/config/cache.config.js";
-import type { CacheService } from "../../../../shared/infra/cache/service/cache.service.js";
+import type { User } from "@global-shared/infra/db/generated.prisma/client.js";
+import type { CacheKeys } from "@global-shared/config/cache.config.js";
+import type { CacheService } from "@global-shared/infra/cache/service/cache.service.js";
 import type { CreateUserInput, UpdateUserInput, UserRepository } from "./user.repository.js";
 
 export class CachedUserRepository implements UserRepository {

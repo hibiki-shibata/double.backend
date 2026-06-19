@@ -1,14 +1,19 @@
+import { Currency, WalletStatus, WalletTransactionType } from "@global-shared/infra/db/generated.prisma/enums.js"
 import z from "zod"
-import { Currency, WalletStatus, WalletTransactionType } from "../../../shared/infra/db/generated.prisma/client.js"
 
+// Request
 export const depositRequestSchema = z.object({
     amount: z.bigint('Deposit amount must be less than 10000000 at one transaction time. No negative value').max(10000000n).nonnegative()
 })
+export type DepositRequest = z.infer<typeof depositRequestSchema>
+
 
 export const withdrawRequestSchema = z.object({
     amount: z.bigint('Withdrawal amount must be less than 100000n at one transaction time. No negative value').max(100000n).nonnegative()
 })
+export type WithdrawRequest = z.infer<typeof withdrawRequestSchema>
 
+// Response
 export const walletResponseSchema = z.object({
     id: z.uuidv4('wallet id must be uuidv4'),
     userId: z.uuidv4('user id must be uuidv4'),
@@ -18,6 +23,8 @@ export const walletResponseSchema = z.object({
     status: z.enum(WalletStatus),
     updatedAt: z.date()
 })
+export type WalletResponse = z.infer<typeof walletResponseSchema>
+
 
 export const walletTransactionResponseSchema = z.object({
     id: z.uuidv4('wallet transaction id must be uuidv4'),
@@ -30,8 +37,4 @@ export const walletTransactionResponseSchema = z.object({
     balanceAfter: z.bigint('BalanceAfter amout must be non negative bigint').nonnegative(),
     createdAt: z.date()
 })
-
-export type DepositRequest = z.infer<typeof depositRequestSchema>
-export type WithdrawRequest = z.infer<typeof withdrawRequestSchema>
-export type WalletResponse = z.infer<typeof walletResponseSchema>
 export type WalletTransactionResponse = z.infer<typeof walletTransactionResponseSchema>

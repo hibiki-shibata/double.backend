@@ -1,4 +1,4 @@
-import { UserRoles, UserStatus, type User, type Prisma, type PrismaClient } from "../../../../shared/infra/db/generated.prisma/client.js"
+import { UserRoles, UserStatus, type User, type Prisma, type PrismaClient } from "@global-shared/infra/db/generated.prisma/client.js"
 import type { CreateUserInput, UpdateUserInput, UserRepository } from "./user.repository.js"
 
 export class PrismaUserRepository implements UserRepository {

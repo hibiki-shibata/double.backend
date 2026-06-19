@@ -2,7 +2,7 @@
 import type { Redis } from "ioredis"
 import type { Logger } from "pino"
 import type { CacheService } from "./cache.service.js"
-import { InvalidInputErr } from "../../../error/httpErrors.js"
+import { InvalidInputErr } from "@global-shared/error/httpErrors.js"
 
 export class RedisCacheService implements CacheService {
     constructor(

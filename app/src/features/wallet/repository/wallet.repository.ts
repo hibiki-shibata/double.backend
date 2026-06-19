@@ -1,4 +1,4 @@
-import type { Wallet } from "../../../shared/infra/db/generated.prisma/client.js"
+import type { Wallet } from "@global-shared/infra/db/generated.prisma/client.js"
 import type { txPrismaClient } from "./walletTransaction.repository.js"
 
 export type GetByUserIdInput = {

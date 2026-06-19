@@ -1,11 +1,11 @@
+import type { Logger } from "pino"
 import type { UserAccountService } from "./userAccount.service.js"
 import type { UserRepository } from "../../shared/repository/user.repository.js"
 import type { UserAccountRequest, UserAccountResponse } from "../schema/userAccount.schema.js"
-import type { PasswordService } from "../../../../shared/auth/service/password.service.js"
-import type { Logger } from "pino"
-import { type User, UserStatus } from "../../../../shared/infra/db/generated.prisma/client.js"
-import { InvalidInputErr } from "../../../../shared/error/httpErrors.js"
-import { MappingErr } from "../../../../shared/error/serverErros.js"
+import type { PasswordService } from "@global-shared/auth/service/password.service.js"
+import { type User, UserStatus } from "@global-shared/infra/db/generated.prisma/client.js"
+import { InvalidInputErr } from "@global-shared/error/httpErrors.js"
+import { MappingErr } from "@global-shared/error/serverErros.js"
 
 export class UserAccountServiceV1 implements UserAccountService {
     constructor(

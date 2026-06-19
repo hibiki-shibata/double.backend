@@ -1,4 +1,4 @@
-import { type User, UserRoles, UserStatus } from '../../../../shared/infra/db/generated.prisma/client.js'
+import { type User, UserRoles, UserStatus } from '@global-shared/infra/db/generated.prisma/client.js'
 
 export type CreateUserInput = {
     name: string

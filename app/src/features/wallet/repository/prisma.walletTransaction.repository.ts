@@ -1,4 +1,4 @@
-import type { PrismaClient, WalletTransaction } from "../../../shared/infra/db/generated.prisma/client.js";
+import type { PrismaClient, WalletTransaction } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { createInput, PaginationInput, WalletTransactionRepository } from "./walletTransaction.repository.js";
 
 export class PrismaWalletTransactionRepository implements WalletTransactionRepository {

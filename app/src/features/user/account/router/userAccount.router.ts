@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import type { UserAccountController } from '../controller/userAccount.controller.js'
 import { userAccountRequestSchema } from '../schema/userAccount.schema.js'
-import { validateRequestBody } from '../../../../shared/middleware/validateRequestBody.js'
+import { validateRequestBody } from '@global-shared/middleware/validateRequestBody.js'
 
 export function userAccountRouter(
     controller: UserAccountController,

@@ -1,4 +1,4 @@
-## Double 
+e## Double 
 #### ~ Prediction Market Backend Server ~
 
 [Instagram](https://www.instagram.com/double.app.co/)
@@ -135,7 +135,9 @@ docker compose up -d
 
     Todo:
     - wallet pagination - get page number from uri
-    - define schemas for tables in shared 
     - /shared/ import / export reference typescript
     - payment integration for deposit/withdraw
     - cache repository for wallet history / wallet
+
+    Checklist:
+    - Response body validation?
