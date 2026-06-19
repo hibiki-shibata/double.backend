@@ -20,12 +20,12 @@ export class WalletServiceV1 implements WalletService {
     }
 
     async getUserWalletHistory(
-        userId: string, page: number = 0, limit: number = 50
+        userId: string, page: number, limit: number
     ): Promise<WalletTransactionResponse[]> {
         const wallet: Wallet = await this.fetchUserWallet(userId)
         this.log.info({ userId }, "Fetching user wallet wallet history from DB")
         const walletHistory: WalletTransaction[] = await this.ledgerRepository.getHistoryByWalletId(wallet.id, {
-            offset: page,
+            offset: page - 1,
             limit: limit
         })
         this.log.info({ userId }, "Success Fetching User's wallet history from DB")
