@@ -34,6 +34,6 @@ export const cacheKeys: CacheKeys = {
 
 export const cacheTtls = {
     userTtlSecs: 60 * 10,
-    walletTtlSecs: 60 * 15
+    walletTtlSecs: 30
 }
 
