@@ -1,5 +1,6 @@
 import type { DefaultArgs } from "@prisma/client/runtime/client"
 import type { Currency, WalletTransactionType, PrismaClient, WalletTransaction } from "@global-shared/infra/db/generated.prisma/client.js"
+import type { PaginationDBInput } from "@global-shared/types/pagination.type.js"
 
 export type txPrismaClient = Omit<PrismaClient<never, undefined, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$use" | "$extends">
 
@@ -14,15 +15,10 @@ export type createInput = {
     tx: txPrismaClient
 }
 
-export type PaginationInput = {
-    offset: number,
-    limit: number
-}
-
 export interface WalletTransactionRepository {
     create(dto: createInput): Promise<WalletTransaction>
     getHistoryByWalletId(
         walletId: string,
-        pagination: PaginationInput
+        paginationInput: PaginationDBInput
     ): Promise<WalletTransaction[]>
 }

@@ -1,5 +1,5 @@
 import type { User } from "@global-shared/infra/db/generated.prisma/client.js";
-import type { CacheKeys, CacheTtls } from "@global-shared/config/cache.config.js";
+import type { CacheKeys, CacheTtlsSec } from "@global-shared/config/cache.config.js";
 import type { CacheService } from "@global-shared/infra/cache/service/cache.service.js";
 import type { CreateUserInput, UpdateUserInput, UserRepository } from "./user.repository.js";
 
@@ -8,17 +8,18 @@ export class CachedUserRepository implements UserRepository {
         private readonly userRepository: UserRepository,
         private readonly cacheService: CacheService,
         private readonly cacheKeys: CacheKeys,
-        private readonly cacheTtls: CacheTtls
+        private readonly cacheTtlsSec: CacheTtlsSec
     ) { }
 
     async getById(userId: string): Promise<User> {
-        const cachedUser: User | null = await this.cacheService.getByKey<User>(this.cacheKeys.userById(userId))
+        const userCacheKey: string = this.cacheKeys.user.byId(userId)
+        const cachedUser: User | null = await this.cacheService.getByKey<User>(userCacheKey)
         if (cachedUser !== null) return cachedUser
         const dbUser: User = await this.userRepository.getById(userId)
         await this.cacheService.setByKey<User>(
-            this.cacheKeys.userById(dbUser.id),
+            userCacheKey,
             dbUser,
-            this.cacheTtls.userTtlSecs
+            this.cacheTtlsSec.user
         )
         return dbUser
     }
@@ -26,9 +27,9 @@ export class CachedUserRepository implements UserRepository {
     async getByEmail(emailAddress: string): Promise<User> {
         const dbUser: User = await this.userRepository.getByEmail(emailAddress)
         await this.cacheService.setByKey<User>(
-            this.cacheKeys.userById(dbUser.id),
+            this.cacheKeys.user.byId(dbUser.id),
             dbUser,
-            this.cacheTtls.userTtlSecs
+            this.cacheTtlsSec.user
         )
         return dbUser
     }
@@ -36,9 +37,9 @@ export class CachedUserRepository implements UserRepository {
     async getByUserName(userName: string): Promise<User> {
         const dbUser: User = await this.userRepository.getByUserName(userName)
         await this.cacheService.setByKey<User>(
-            this.cacheKeys.userById(dbUser.id),
+            this.cacheKeys.user.byId(dbUser.id),
             dbUser,
-            this.cacheTtls.userTtlSecs
+            this.cacheTtlsSec.user
         )
         return dbUser
     }
@@ -50,7 +51,7 @@ export class CachedUserRepository implements UserRepository {
     async updateUserById(userId: string, input: UpdateUserInput): Promise<User> {
         const dbUser: User = await this.userRepository.updateUserById(userId, input)
         await this.cacheService.deleteByKey(
-            this.cacheKeys.userById(dbUser.id)
+            this.cacheKeys.user.byId(dbUser.id)
         )
         return dbUser
     }
@@ -58,7 +59,7 @@ export class CachedUserRepository implements UserRepository {
     async softDeleteById(userId: string): Promise<User> {
         const dbUser: User = await this.userRepository.softDeleteById(userId)
         await this.cacheService.deleteByKey(
-            this.cacheKeys.userById(dbUser.id)
+            this.cacheKeys.user.byId(dbUser.id)
         )
         return dbUser
     }

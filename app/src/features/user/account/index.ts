@@ -6,7 +6,7 @@ import type { CacheService } from "@global-shared/infra/cache/service/cache.serv
 import { logger } from "@global-shared/logger/logger.js"
 import { redisClient } from "@global-shared/infra/cache/client/redisClient.js"
 import { RedisCacheService } from "@global-shared/infra/cache/service/redis.service.js"
-import { cacheKeys, cacheTtls } from "@global-shared/config/cache.config.js"
+import { cacheKeys, cacheTtlsSec } from "@global-shared/config/cache.config.js"
 import { prismaClient } from "@global-shared/infra/db/prismaClient.js"
 import { PrismaUserRepository } from "../shared/repository/prisma.user.repository.js"
 import { CachedUserRepository } from "../shared/repository/cached.user.repository.js"
@@ -21,7 +21,7 @@ export function userAccountFeature(): Router {
     const cacheService: CacheService = new RedisCacheService(redisClient, logger)
     const passwordService: PasswordService = new PasswordServiceV1(passwordEncoderOptions)
     const dbRepository: UserRepository = new PrismaUserRepository(prismaClient)
-    const repository: UserRepository = new CachedUserRepository(dbRepository, cacheService, cacheKeys, cacheTtls)
+    const repository: UserRepository = new CachedUserRepository(dbRepository, cacheService, cacheKeys, cacheTtlsSec)
     const service: UserAccountService = new UserAccountServiceV1(repository, passwordService, logger)
     const controller: UserAccountController = new UserAccountControllerV1(service, logger)
     return userAccountRouter(controller)

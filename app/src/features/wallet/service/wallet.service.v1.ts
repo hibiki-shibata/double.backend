@@ -5,6 +5,7 @@ import type { WalletService } from "./wallet.service.js";
 import { InvalidInputErr } from "@global-shared/error/httpErrors.js";
 import type { WalletTransactionRepository } from "../repository/walletTransaction/walletTransaction.repository.js";
 import type { DepositRequest, WalletResponse, WalletTransactionResponse, WithdrawRequest } from "../schema/wallet.schema.js";
+import type { Pagination } from "@global-shared/types/pagination.type.js";
 
 export class WalletServiceV1 implements WalletService {
     constructor(
@@ -20,13 +21,13 @@ export class WalletServiceV1 implements WalletService {
     }
 
     async getUserWalletHistory(
-        userId: string, page: number, limit: number
+        userId: string, pagenation: Pagination
     ): Promise<WalletTransactionResponse[]> {
         const wallet: Wallet = await this.fetchUserWallet(userId)
         this.log.info({ userId }, "Fetching user wallet wallet history from DB")
         const walletHistory: WalletTransaction[] = await this.ledgerRepository.getHistoryByWalletId(wallet.id, {
-            offset: page - 1,
-            limit: limit
+            offset: pagenation.page - 1,
+            limit: pagenation.limit
         })
         this.log.info({ userId }, "Success Fetching User's wallet history from DB")
         return this.toWalletTransactionResponse(walletHistory)

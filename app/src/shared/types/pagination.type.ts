@@ -6,3 +6,8 @@ export const paginationSchema = z.object({
 })
 
 export type Pagination = z.infer<typeof paginationSchema>
+
+export type PaginationDBInput = {
+    offset: number,
+    limit: number
+}

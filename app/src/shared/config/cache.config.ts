@@ -1,4 +1,5 @@
 import type { RedisOptions } from "ioredis";
+import type { PaginationDBInput } from "@global-shared/types/pagination.type.js";
 
 export const redisOptions: RedisOptions = {
     host: process.env.REDIS_HOST ?? 'localhost',
@@ -12,28 +13,40 @@ export const redisOptions: RedisOptions = {
     lazyConnect: true,
 }
 
-export type CacheKeysAndTtl = {
-    key: string
-    ttlSecs: number
-}
-
 export type CacheKeys = {
-    userById: (userId: string) => string
-    walletByUserId: (UserId: string) => string
-}
-
-export type CacheTtls = {
-    userTtlSecs: number
-    walletTtlSecs: number
+    user: {
+        byId: (userId: string) => string
+    }
+    wallet: {
+        byUserId: (userId: string) => string
+    }
+    walletHistory: {
+        byWalletIdAndPagination: (userId: string, pagenation: PaginationDBInput) => string
+    }
 }
 
 export const cacheKeys: CacheKeys = {
-    userById: (userId: string) => "user:" + userId,
-    walletByUserId: (userId: string) => 'walletOfUser:' + userId
+    user: {
+        byId: (userId: string) => `user:${userId}`
+    },
+    wallet: {
+        byUserId: (walletId: string) => `wallet:${walletId}`
+    },
+    walletHistory: {
+        byWalletIdAndPagination: (userId: string, pagenation: PaginationDBInput) => `walletHistory:${userId}:${pagenation}`
+    }
 }
 
-export const cacheTtls = {
-    userTtlSecs: 60 * 10,
-    walletTtlSecs: 30
+
+export type CacheTtlsSec = {
+    user: number,
+    wallet: number,
+    walletHistory: number
+}
+
+export const cacheTtlsSec: CacheTtlsSec = {
+    user: 60 * 15, // Secs
+    wallet: 30,
+    walletHistory: 60 * 10
 }
 

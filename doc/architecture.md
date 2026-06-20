@@ -1,118 +1,86 @@
 ## Architecture
 
-1. DB tables (Postgres & Mongo?)
-  - User Profile 
-        - unique_id
-        - name
-        - display_name
-        - email address
-        - password_hash
-        - status (active, suspend, deleted)
-        - roles (user, admin)
-        - created_at
-        - updated_at 
-    - Wallet
-        - unique_id
-        - user_id
-        - balance
-        - currency
-        - reserved_amount
-        - status (active, suspend)
-        - version
-        - updated_at
-    - Wallet Transaction History
-        - unique_id
-        - wallet_id
-        - bet_id
-        - type (deposit, withdraw, bet, payout, refund, cancel)
-        - amount
-        - balance_before
-        - balance_after
-        - created_at
-    - Bet
-        - unique_id
-        - user_id
-        - market_id
-        - prediction_id
-        - bet_amount
-        - payout_amount
-        - status (pending, locked, won, lost, payout, cancelled)
-        - version
-        - created_at
-        - updated_at      
-    - Prediction
-        - unique_id
-        - market_id
-        - name
-        - bet_sum
-        - is_winner
-        - resolved_by
-        - is_resolved
-        - version
-        - created_at
-        - updated_at
-        - resolved_at
-    - Prediction Transaction History
-        - unique_id
-        - bet_id
-        - bet_amount
-        - type (bet, refund, cancel)
-        - bet_sum_before
-        - bet_sum_after
-        - created_at  
+1. DB tables (Type=Postgres ORM=Postgres Schema=app/prisma/schema.prisma)
+    - User Profile 
+        - Generic info, auth info and status.
+        - includes: name, roles, passwordhash etc.
+    - Wallet        
+        - users can use money from this amount
+        - includes: User's balance, reserved amount, currency and status
+    - Wallet Transaction History    
+        - Create-only Ledger repository for every single edit on user's wallet.    
+        - includes: amount, transaction type, tinme etc.
+    - Bet        
+        - Meta betting data, user-coupled betting data and history.
+        - includes: bet amount, prediction id, market id, and status, etc.
+    - Prediction        
+        - Selections of positions on markets result, users select one based on Market topic.
+        - includes: market id,total bet sum, status etc.
+    - Prediction Transaction History        
+        - Create-only Ledger repository for every single edit on prediction.
+        - includes: amount, transaction type, tinme etc.
     - Market
-        - unique_id
-        - title
-        - status(upcoming, opened, closed, resolved, payout, cancelled)
-        - close_at
-        - created_at
-        - updated_at
-        - resolved_at
-Input total bet amount for performance? or sum up from bet amount from user's bet histories to ensure consistency?
+        - The topic of predictio.
+        - includes: status, close time etc.        
 
-### 2. Controller/Service
-- Users
-    - Auth endpoint(login/logout Google Oauth)
-    - Post betting
+### 2. Controller/Endpoints
+- User/Account
+    - Auth endpoint(login/logout/refreshToken - Jwt/Google Oauth)
     - Get user profile
-    - Get bet history
-    - Get bet board list
-    - Get bet history
-    - Get current bet status
-    - Get your estimated profit status
-    - Get wallet balance
     - Put change user profile
-    - Put top up wallet balance
-    - Put withdraw balance
-    - Post register bank account
 - Admin
-    - Post create bet topic
+    - Post create market topic
     - Put win or lose
     - Put edit bet topic
     - Payout corrections
     - Suspend user/wallet
+- Wallet
+    - Put deposit balance
+    - Put withdraw balance
+    - Get wallet data (balance etc)
+    - Get wallet Transaction History
+- Market
+    - Get Market list
+    - Get Market details
+- Bet
+    - Post create users' bet
+    - Get current bet status
+    - Get bet history
+    - Get your estimated profit status
 
 ### 3. View
 - User
     - Login / OAuth
     - Wallet page
-    - Market list
+        - Balance
+        - Transaction History - filter by time
+        - Deposit/withdraw button  bank integration
+    - Market list 
         - Search bar
-    - Market page
-        - bets' data
+        - Market category
+        - pagination
+        - Popular market tag
+    - Market detail
+        - Popular market tag
+        - Betting analytics (total amount, participants)
         - Checkout
     - Account details
         - Edit Account info
-    - bet History
+        - Delete Account
+        - Logout
+    - Bet History
+        - Bet button
         - cancel button
         - estimated payout
 - Admin
     - Market list
-        - Search Bar
+        - ...same as above
     - Market page
-        - Edit Market info
+        - ...same as above
+        - Edit Market data
         - Resolve button
     - Notification Page
-        - 
+        - Schedule notification
     - User List
-        - Edit Account Info
+        - Search bar
+        - Edit/Delete/Force logout Account Info
