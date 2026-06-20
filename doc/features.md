@@ -125,7 +125,6 @@
 
     ### Todo:
     - document
-    - cache repository for wallet history / wallet
     - Google Oauth
     - payment integration for deposit
     - bank withdrawal integration
