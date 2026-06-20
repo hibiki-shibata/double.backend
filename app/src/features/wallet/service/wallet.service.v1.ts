@@ -44,7 +44,7 @@ export class WalletServiceV1 implements WalletService {
             })
             await this.ledgerRepository.create({
                 amount: dto.amount,
-                type: WalletTransactionType.deposit,
+                type: WalletTransactionType.DEPOSIT,
                 currency: tempWalletAfter.currency,
                 balanceAfter: tempWalletAfter.balance,
                 balanceBefore: tempWalletAfter.balance - dto.amount,
@@ -69,7 +69,7 @@ export class WalletServiceV1 implements WalletService {
             })
             await this.ledgerRepository.create({
                 amount: dto.amount,
-                type: WalletTransactionType.withdraw,
+                type: WalletTransactionType.WITHDRAW,
                 currency: tempWalletAfter.currency,
                 balanceAfter: tempWalletAfter.balance,
                 balanceBefore: tempWalletAfter.balance + dto.amount,

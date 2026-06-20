@@ -57,8 +57,8 @@ export class PrismaUserRepository implements UserRepository {
             displayName: 'deleted',
             emailAddress: null,
             passwordHash: null,
-            status: UserStatus.deleted,
-            roles: [UserRoles.deleted]
+            status: UserStatus.DELETED,
+            roles: [UserRoles.DELETED]
         }
         return await this.updateUserById(userId, deletedUserState)
     }

@@ -26,7 +26,7 @@ export function userAuthRouter(
     )
     router.post('/logout',
         authenticate,
-        authorize({ requiredRoles: [UserRoles.user] }),
+        authorize({ requiredRoles: [UserRoles.USER] }),
         controller.logout
     )
     return router

@@ -28,8 +28,8 @@ export class UserAuthServiceV1 implements UserAuthService {
             name: dto.userName,
             displayName: '[new]' + dto.userName,
             passwordHash: hashedPassword,
-            status: UserStatus.active,
-            roles: [UserRoles.user]
+            status: UserStatus.ACTIVE,
+            roles: [UserRoles.USER]
         })
 
         this.log.info({ userId: createdUser.id }, "Sucess User signup")
@@ -42,7 +42,7 @@ export class UserAuthServiceV1 implements UserAuthService {
         this.log.info({ userName: dto.userName }, "user login-ing")
 
         const dbUser: User = await this.userRepository.getByUserName(dto.userName)
-        if (dbUser.status === UserStatus.deleted) throw new InvalidInputErr('User has already been deleted')
+        if (dbUser.status === UserStatus.DELETED) throw new InvalidInputErr('User has already been deleted')
         if (!dbUser.password_hash) throw new DatabaseErr('Missing password registeration in DB')
 
         await this.passwordService.verifyPassword(dto.password, dbUser.password_hash)
@@ -57,7 +57,7 @@ export class UserAuthServiceV1 implements UserAuthService {
         const refreshTokenClaim: RefreshTokenClaim = this.jwtService.verifyRefreshToken(refreshToken)
 
         const dbUser: User = await this.userRepository.getById(refreshTokenClaim.userId)
-        if (dbUser.status === UserStatus.deleted) throw new InvalidInputErr('User has already been deleted')
+        if (dbUser.status === UserStatus.DELETED) throw new InvalidInputErr('User has already been deleted')
 
         return this.generateJwtTokens(dbUser)
     }

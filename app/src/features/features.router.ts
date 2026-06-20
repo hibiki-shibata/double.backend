@@ -6,24 +6,24 @@ import { userAuthFeature } from './user/auth/index.js'
 import { userAccountFeature } from './user/account/index.js'
 import { walletFeature } from './wallet/index.js'
 
-import { marketRouter } from './market/market.router.js'
+import { marketRouter } from './market/index.js'
 
 export function featuresRouter(): Router {
     const router: Router = Router()
     router.use('/auth', userAuthFeature())
     router.use('/user',
         authenticate,
-        authorize({ requiredRoles: [UserRoles.user] }),
+        authorize({ requiredRoles: [UserRoles.USER] }),
         userAccountFeature
     )
     router.use('/wallet',
         authenticate,
-        authorize({ requiredRoles: [UserRoles.user] }),
+        authorize({ requiredRoles: [UserRoles.USER] }),
         walletFeature
     )
     router.use('/market',
         authenticate,
-        authorize({ requiredRoles: [UserRoles.user] }),
+        authorize({ requiredRoles: [UserRoles.USER] }),
         marketRouter
     )
     return router

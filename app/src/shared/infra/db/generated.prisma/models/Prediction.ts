@@ -276,6 +276,7 @@ export type PredictionWhereInput = {
   resolved_by?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   bets?: Prisma.BetListRelationFilter
   walletTransactions?: Prisma.WalletTransactionListRelationFilter
+  predictionTransactions?: Prisma.PredictionTransactionListRelationFilter
 }
 
 export type PredictionOrderByWithRelationInput = {
@@ -294,6 +295,7 @@ export type PredictionOrderByWithRelationInput = {
   resolved_by?: Prisma.UserOrderByWithRelationInput
   bets?: Prisma.BetOrderByRelationAggregateInput
   walletTransactions?: Prisma.WalletTransactionOrderByRelationAggregateInput
+  predictionTransactions?: Prisma.PredictionTransactionOrderByRelationAggregateInput
 }
 
 export type PredictionWhereUniqueInput = Prisma.AtLeast<{
@@ -315,6 +317,7 @@ export type PredictionWhereUniqueInput = Prisma.AtLeast<{
   resolved_by?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   bets?: Prisma.BetListRelationFilter
   walletTransactions?: Prisma.WalletTransactionListRelationFilter
+  predictionTransactions?: Prisma.PredictionTransactionListRelationFilter
 }, "id">
 
 export type PredictionOrderByWithAggregationInput = {
@@ -367,6 +370,7 @@ export type PredictionCreateInput = {
   resolved_by?: Prisma.UserCreateNestedOneWithoutPredictionsInput
   bets?: Prisma.BetCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionUncheckedCreateInput = {
@@ -383,6 +387,7 @@ export type PredictionUncheckedCreateInput = {
   version?: number
   bets?: Prisma.BetUncheckedCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionUncheckedCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionUpdateInput = {
@@ -399,6 +404,7 @@ export type PredictionUpdateInput = {
   resolved_by?: Prisma.UserUpdateOneWithoutPredictionsNestedInput
   bets?: Prisma.BetUpdateManyWithoutPredictionNestedInput
   walletTransactions?: Prisma.WalletTransactionUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionUncheckedUpdateInput = {
@@ -415,6 +421,7 @@ export type PredictionUncheckedUpdateInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   bets?: Prisma.BetUncheckedUpdateManyWithoutPredictionNestedInput
   walletTransactions?: Prisma.WalletTransactionUncheckedUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionCreateManyInput = {
@@ -635,6 +642,20 @@ export type EnumPredictionStatusFieldUpdateOperationsInput = {
   set?: $Enums.PredictionStatus
 }
 
+export type PredictionCreateNestedOneWithoutPredictionTransactionsInput = {
+  create?: Prisma.XOR<Prisma.PredictionCreateWithoutPredictionTransactionsInput, Prisma.PredictionUncheckedCreateWithoutPredictionTransactionsInput>
+  connectOrCreate?: Prisma.PredictionCreateOrConnectWithoutPredictionTransactionsInput
+  connect?: Prisma.PredictionWhereUniqueInput
+}
+
+export type PredictionUpdateOneRequiredWithoutPredictionTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.PredictionCreateWithoutPredictionTransactionsInput, Prisma.PredictionUncheckedCreateWithoutPredictionTransactionsInput>
+  connectOrCreate?: Prisma.PredictionCreateOrConnectWithoutPredictionTransactionsInput
+  upsert?: Prisma.PredictionUpsertWithoutPredictionTransactionsInput
+  connect?: Prisma.PredictionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PredictionUpdateToOneWithWhereWithoutPredictionTransactionsInput, Prisma.PredictionUpdateWithoutPredictionTransactionsInput>, Prisma.PredictionUncheckedUpdateWithoutPredictionTransactionsInput>
+}
+
 export type PredictionCreateNestedOneWithoutBetsInput = {
   create?: Prisma.XOR<Prisma.PredictionCreateWithoutBetsInput, Prisma.PredictionUncheckedCreateWithoutBetsInput>
   connectOrCreate?: Prisma.PredictionCreateOrConnectWithoutBetsInput
@@ -662,6 +683,7 @@ export type PredictionCreateWithoutResolved_byInput = {
   market: Prisma.MarketCreateNestedOneWithoutPredictionsInput
   bets?: Prisma.BetCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionUncheckedCreateWithoutResolved_byInput = {
@@ -677,6 +699,7 @@ export type PredictionUncheckedCreateWithoutResolved_byInput = {
   version?: number
   bets?: Prisma.BetUncheckedCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionUncheckedCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionCreateOrConnectWithoutResolved_byInput = {
@@ -735,6 +758,7 @@ export type PredictionCreateWithoutWalletTransactionsInput = {
   market: Prisma.MarketCreateNestedOneWithoutPredictionsInput
   resolved_by?: Prisma.UserCreateNestedOneWithoutPredictionsInput
   bets?: Prisma.BetCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionUncheckedCreateWithoutWalletTransactionsInput = {
@@ -750,6 +774,7 @@ export type PredictionUncheckedCreateWithoutWalletTransactionsInput = {
   updated_at?: Date | string
   version?: number
   bets?: Prisma.BetUncheckedCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionCreateOrConnectWithoutWalletTransactionsInput = {
@@ -781,6 +806,7 @@ export type PredictionUpdateWithoutWalletTransactionsInput = {
   market?: Prisma.MarketUpdateOneRequiredWithoutPredictionsNestedInput
   resolved_by?: Prisma.UserUpdateOneWithoutPredictionsNestedInput
   bets?: Prisma.BetUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionUncheckedUpdateWithoutWalletTransactionsInput = {
@@ -796,6 +822,7 @@ export type PredictionUncheckedUpdateWithoutWalletTransactionsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   bets?: Prisma.BetUncheckedUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionCreateWithoutMarketInput = {
@@ -811,6 +838,7 @@ export type PredictionCreateWithoutMarketInput = {
   resolved_by?: Prisma.UserCreateNestedOneWithoutPredictionsInput
   bets?: Prisma.BetCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionUncheckedCreateWithoutMarketInput = {
@@ -826,6 +854,7 @@ export type PredictionUncheckedCreateWithoutMarketInput = {
   version?: number
   bets?: Prisma.BetUncheckedCreateNestedManyWithoutPredictionInput
   walletTransactions?: Prisma.WalletTransactionUncheckedCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionCreateOrConnectWithoutMarketInput = {
@@ -854,6 +883,86 @@ export type PredictionUpdateManyWithWhereWithoutMarketInput = {
   data: Prisma.XOR<Prisma.PredictionUpdateManyMutationInput, Prisma.PredictionUncheckedUpdateManyWithoutMarketInput>
 }
 
+export type PredictionCreateWithoutPredictionTransactionsInput = {
+  id?: string
+  name: string
+  total_participants: number
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
+  resolved_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  version?: number
+  market: Prisma.MarketCreateNestedOneWithoutPredictionsInput
+  resolved_by?: Prisma.UserCreateNestedOneWithoutPredictionsInput
+  bets?: Prisma.BetCreateNestedManyWithoutPredictionInput
+  walletTransactions?: Prisma.WalletTransactionCreateNestedManyWithoutPredictionInput
+}
+
+export type PredictionUncheckedCreateWithoutPredictionTransactionsInput = {
+  id?: string
+  market_id: string
+  name: string
+  total_participants: number
+  bet_sum: bigint | number
+  status?: $Enums.PredictionStatus
+  resolved_by_id?: string | null
+  resolved_at?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  version?: number
+  bets?: Prisma.BetUncheckedCreateNestedManyWithoutPredictionInput
+  walletTransactions?: Prisma.WalletTransactionUncheckedCreateNestedManyWithoutPredictionInput
+}
+
+export type PredictionCreateOrConnectWithoutPredictionTransactionsInput = {
+  where: Prisma.PredictionWhereUniqueInput
+  create: Prisma.XOR<Prisma.PredictionCreateWithoutPredictionTransactionsInput, Prisma.PredictionUncheckedCreateWithoutPredictionTransactionsInput>
+}
+
+export type PredictionUpsertWithoutPredictionTransactionsInput = {
+  update: Prisma.XOR<Prisma.PredictionUpdateWithoutPredictionTransactionsInput, Prisma.PredictionUncheckedUpdateWithoutPredictionTransactionsInput>
+  create: Prisma.XOR<Prisma.PredictionCreateWithoutPredictionTransactionsInput, Prisma.PredictionUncheckedCreateWithoutPredictionTransactionsInput>
+  where?: Prisma.PredictionWhereInput
+}
+
+export type PredictionUpdateToOneWithWhereWithoutPredictionTransactionsInput = {
+  where?: Prisma.PredictionWhereInput
+  data: Prisma.XOR<Prisma.PredictionUpdateWithoutPredictionTransactionsInput, Prisma.PredictionUncheckedUpdateWithoutPredictionTransactionsInput>
+}
+
+export type PredictionUpdateWithoutPredictionTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  total_participants?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
+  resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  market?: Prisma.MarketUpdateOneRequiredWithoutPredictionsNestedInput
+  resolved_by?: Prisma.UserUpdateOneWithoutPredictionsNestedInput
+  bets?: Prisma.BetUpdateManyWithoutPredictionNestedInput
+  walletTransactions?: Prisma.WalletTransactionUpdateManyWithoutPredictionNestedInput
+}
+
+export type PredictionUncheckedUpdateWithoutPredictionTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  market_id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  total_participants?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_sum?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  status?: Prisma.EnumPredictionStatusFieldUpdateOperationsInput | $Enums.PredictionStatus
+  resolved_by_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  bets?: Prisma.BetUncheckedUpdateManyWithoutPredictionNestedInput
+  walletTransactions?: Prisma.WalletTransactionUncheckedUpdateManyWithoutPredictionNestedInput
+}
+
 export type PredictionCreateWithoutBetsInput = {
   id?: string
   name: string
@@ -867,6 +976,7 @@ export type PredictionCreateWithoutBetsInput = {
   market: Prisma.MarketCreateNestedOneWithoutPredictionsInput
   resolved_by?: Prisma.UserCreateNestedOneWithoutPredictionsInput
   walletTransactions?: Prisma.WalletTransactionCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionUncheckedCreateWithoutBetsInput = {
@@ -882,6 +992,7 @@ export type PredictionUncheckedCreateWithoutBetsInput = {
   updated_at?: Date | string
   version?: number
   walletTransactions?: Prisma.WalletTransactionUncheckedCreateNestedManyWithoutPredictionInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedCreateNestedManyWithoutPredictionInput
 }
 
 export type PredictionCreateOrConnectWithoutBetsInput = {
@@ -913,6 +1024,7 @@ export type PredictionUpdateWithoutBetsInput = {
   market?: Prisma.MarketUpdateOneRequiredWithoutPredictionsNestedInput
   resolved_by?: Prisma.UserUpdateOneWithoutPredictionsNestedInput
   walletTransactions?: Prisma.WalletTransactionUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionUncheckedUpdateWithoutBetsInput = {
@@ -928,6 +1040,7 @@ export type PredictionUncheckedUpdateWithoutBetsInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   walletTransactions?: Prisma.WalletTransactionUncheckedUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionCreateManyResolved_byInput = {
@@ -956,6 +1069,7 @@ export type PredictionUpdateWithoutResolved_byInput = {
   market?: Prisma.MarketUpdateOneRequiredWithoutPredictionsNestedInput
   bets?: Prisma.BetUpdateManyWithoutPredictionNestedInput
   walletTransactions?: Prisma.WalletTransactionUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionUncheckedUpdateWithoutResolved_byInput = {
@@ -971,6 +1085,7 @@ export type PredictionUncheckedUpdateWithoutResolved_byInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   bets?: Prisma.BetUncheckedUpdateManyWithoutPredictionNestedInput
   walletTransactions?: Prisma.WalletTransactionUncheckedUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionUncheckedUpdateManyWithoutResolved_byInput = {
@@ -1012,6 +1127,7 @@ export type PredictionUpdateWithoutMarketInput = {
   resolved_by?: Prisma.UserUpdateOneWithoutPredictionsNestedInput
   bets?: Prisma.BetUpdateManyWithoutPredictionNestedInput
   walletTransactions?: Prisma.WalletTransactionUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionUncheckedUpdateWithoutMarketInput = {
@@ -1027,6 +1143,7 @@ export type PredictionUncheckedUpdateWithoutMarketInput = {
   version?: Prisma.IntFieldUpdateOperationsInput | number
   bets?: Prisma.BetUncheckedUpdateManyWithoutPredictionNestedInput
   walletTransactions?: Prisma.WalletTransactionUncheckedUpdateManyWithoutPredictionNestedInput
+  predictionTransactions?: Prisma.PredictionTransactionUncheckedUpdateManyWithoutPredictionNestedInput
 }
 
 export type PredictionUncheckedUpdateManyWithoutMarketInput = {
@@ -1050,11 +1167,13 @@ export type PredictionUncheckedUpdateManyWithoutMarketInput = {
 export type PredictionCountOutputType = {
   bets: number
   walletTransactions: number
+  predictionTransactions: number
 }
 
 export type PredictionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bets?: boolean | PredictionCountOutputTypeCountBetsArgs
   walletTransactions?: boolean | PredictionCountOutputTypeCountWalletTransactionsArgs
+  predictionTransactions?: boolean | PredictionCountOutputTypeCountPredictionTransactionsArgs
 }
 
 /**
@@ -1081,6 +1200,13 @@ export type PredictionCountOutputTypeCountWalletTransactionsArgs<ExtArgs extends
   where?: Prisma.WalletTransactionWhereInput
 }
 
+/**
+ * PredictionCountOutputType without action
+ */
+export type PredictionCountOutputTypeCountPredictionTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PredictionTransactionWhereInput
+}
+
 
 export type PredictionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1098,6 +1224,7 @@ export type PredictionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   resolved_by?: boolean | Prisma.Prediction$resolved_byArgs<ExtArgs>
   bets?: boolean | Prisma.Prediction$betsArgs<ExtArgs>
   walletTransactions?: boolean | Prisma.Prediction$walletTransactionsArgs<ExtArgs>
+  predictionTransactions?: boolean | Prisma.Prediction$predictionTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.PredictionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["prediction"]>
 
@@ -1153,6 +1280,7 @@ export type PredictionInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   resolved_by?: boolean | Prisma.Prediction$resolved_byArgs<ExtArgs>
   bets?: boolean | Prisma.Prediction$betsArgs<ExtArgs>
   walletTransactions?: boolean | Prisma.Prediction$walletTransactionsArgs<ExtArgs>
+  predictionTransactions?: boolean | Prisma.Prediction$predictionTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.PredictionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PredictionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1171,6 +1299,7 @@ export type $PredictionPayload<ExtArgs extends runtime.Types.Extensions.Internal
     resolved_by: Prisma.$UserPayload<ExtArgs> | null
     bets: Prisma.$BetPayload<ExtArgs>[]
     walletTransactions: Prisma.$WalletTransactionPayload<ExtArgs>[]
+    predictionTransactions: Prisma.$PredictionTransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1582,6 +1711,7 @@ export interface Prisma__PredictionClient<T, Null = never, ExtArgs extends runti
   resolved_by<T extends Prisma.Prediction$resolved_byArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Prediction$resolved_byArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   bets<T extends Prisma.Prediction$betsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Prediction$betsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   walletTransactions<T extends Prisma.Prediction$walletTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Prediction$walletTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WalletTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  predictionTransactions<T extends Prisma.Prediction$predictionTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Prediction$predictionTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PredictionTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2087,6 +2217,30 @@ export type Prediction$walletTransactionsArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.WalletTransactionScalarFieldEnum | Prisma.WalletTransactionScalarFieldEnum[]
+}
+
+/**
+ * Prediction.predictionTransactions
+ */
+export type Prediction$predictionTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PredictionTransaction
+   */
+  select?: Prisma.PredictionTransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PredictionTransaction
+   */
+  omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
+  where?: Prisma.PredictionTransactionWhereInput
+  orderBy?: Prisma.PredictionTransactionOrderByWithRelationInput | Prisma.PredictionTransactionOrderByWithRelationInput[]
+  cursor?: Prisma.PredictionTransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PredictionTransactionScalarFieldEnum | Prisma.PredictionTransactionScalarFieldEnum[]
 }
 
 /**

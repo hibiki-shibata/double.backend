@@ -1043,8 +1043,8 @@ export type PredictionScalarFieldEnum = (typeof PredictionScalarFieldEnum)[keyof
 
 export const PredictionTransactionScalarFieldEnum = {
   id: 'id',
-  prediction_id: 'prediction_id',
   transaction_type: 'transaction_type',
+  prediction_id: 'prediction_id',
   total_participants_before: 'total_participants_before',
   total_participants_after: 'total_participants_after',
   currency: 'currency',
@@ -1060,7 +1060,6 @@ export type PredictionTransactionScalarFieldEnum = (typeof PredictionTransaction
 export const BetScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
-  market_id: 'market_id',
   prediction_id: 'prediction_id',
   currency: 'currency',
   bet_amount: 'bet_amount',

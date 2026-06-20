@@ -52,7 +52,7 @@ export class UserAccountServiceV1 implements UserAccountService {
         this.log.info({ userId }, "Fetching User from DB")
         const dbUser: User = await this.userRepository.getById(userId)
         this.log.info({ userId }, "Success Fetching User from DB")
-        if (dbUser.status === UserStatus.deleted) throw new InvalidInputErr('User has already been deleted')
+        if (dbUser.status === UserStatus.DELETED) throw new InvalidInputErr('User has already been deleted')
         return dbUser
     }
 
