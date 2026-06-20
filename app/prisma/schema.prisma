@@ -13,15 +13,15 @@ datasource db {
 
 //  User Model
 enum UserStatus {
-  active
-  suspend
-  deleted
+  ACTIVE
+  SUSPEND
+  DELETED
 }
 
 enum UserRoles {
-  user
-  admin
-  deleted
+  USER
+  ADMIN
+  DELETED
 }
 
 model User {
@@ -31,7 +31,7 @@ model User {
   email_address String?     @unique
   password_hash String?
   status        UserStatus
-  roles         UserRoles[] @default([user])
+  roles         UserRoles[] @default([USER])
   created_at    DateTime    @default(now())
   updated_at    DateTime    @updatedAt
 
@@ -48,8 +48,8 @@ model User {
 
 // Wallet Model
 enum WalletStatus {
-  active
-  suspended
+  ACTIVE
+  SUSPENDED
 }
 
 enum Currency {
@@ -65,7 +65,7 @@ model Wallet {
   balance         BigInt       @default(0)
   currency        Currency     @default(USD)
   reserved_amount BigInt       @default(0)
-  status          WalletStatus @default(active)
+  status          WalletStatus @default(ACTIVE)
   version         Int          @default(0)
   updated_at      DateTime     @updatedAt
 
@@ -75,12 +75,12 @@ model Wallet {
 }
 
 enum WalletTransactionType {
-  deposit
-  withdraw
-  bet
-  payout
-  refund
-  cancel
+  DEPOSIT
+  WITHDRAW
+  BET
+  PAYOUT
+  REFUND
+  CANCEL
 }
 
 model WalletTransaction {
@@ -88,7 +88,7 @@ model WalletTransaction {
   wallet_id      String
   wallet         Wallet                @relation(fields: [wallet_id], references: [id], onDelete: Restrict)
   user_id        String
-  user           User                  @relation(fields: [user_id], references: [id])
+  user           User                  @relation(fields: [user_id], references: [id], onDelete: Restrict)
   prediction_id  String?
   prediction     Prediction?           @relation(fields: [prediction_id], references: [id], onDelete: Restrict)
   type           WalletTransactionType
@@ -106,23 +106,22 @@ model WalletTransaction {
 
 // Market Model
 enum MarketStatus {
-  upcoming
-  opened
-  closed
-  resolved
-  payout
-  cancelled
+  UPCOMING
+  OPEN
+  CLOSED
+  RESOLVED
+  PAYOUT
+  CANCELLED
 }
 
 model Market {
   id          String       @id @default(uuid())
   title       String
-  status      MarketStatus @default(upcoming)
+  status      MarketStatus @default(UPCOMING)
   closed_at   DateTime
   updated_at  DateTime     @updatedAt
   resolved_at DateTime?
 
-  bets        Bet[]
   predictions Prediction[]
 
   @@index([status])
@@ -131,12 +130,12 @@ model Market {
 
 // Prediciton Model
 enum PredictionStatus {
-  upcoming
-  open
-  resolved
-  won
-  lost
-  cancelled
+  UPCOMING
+  OPEN
+  RESOLVED
+  WON
+  LOST
+  CANCELLED
 }
 
 model Prediction {
@@ -146,7 +145,7 @@ model Prediction {
   name               String
   total_participants Int
   bet_sum            BigInt
-  status             PredictionStatus @default(upcoming)
+  status             PredictionStatus @default(UPCOMING)
   resolved_by_id     String?
   resolved_by        User?            @relation(fields: [resolved_by_id], references: [id], onDelete: Restrict)
   resolved_at        DateTime?
@@ -154,23 +153,25 @@ model Prediction {
   updated_at         DateTime         @updatedAt
   version            Int              @default(0)
 
-  bets               Bet[]
-  walletTransactions WalletTransaction[]
+  bets                   Bet[]
+  walletTransactions     WalletTransaction[]
+  predictionTransactions PredictionTransaction[]
 
   @@index([market_id])
   @@index([resolved_by_id])
 }
 
 enum PredictionTransactionType {
-  bet
-  refund
-  cancel
+  BET
+  REFUND
+  CANCEL
 }
 
 model PredictionTransaction {
   id                        String                    @id @default(uuid())
-  prediction_id             String
   transaction_type          PredictionTransactionType
+  prediction_id             String
+  prediction                Prediction                @relation(fields: [prediction_id], references: [id], onDelete: Restrict)
   total_participants_before Int
   total_participants_after  Int
   currency                  Currency
@@ -185,33 +186,30 @@ model PredictionTransaction {
 
 // Bet Model
 enum BetStatus {
-  pending
-  locked
-  won
-  lost
-  payout
-  cancelled
+  PENDING
+  LOCKED
+  WON
+  LOST
+  PAYOUT
+  CANCELLED
 }
 
 model Bet {
   id            String     @id @default(uuid())
   user_id       String
   user          User       @relation(fields: [user_id], references: [id], onDelete: Restrict)
-  market_id     String     
-  market        Market     @relation(fields: [market_id], references: [id], onDelete: Restrict)
   prediction_id String
   prediction    Prediction @relation(fields: [prediction_id], references: [id], onDelete: Restrict)
-  currency      Currency
+  currency      Currency   @default(USD)
   bet_amount    BigInt
-  payout_amount BigInt?    @default(0)
-  status        BetStatus  @default(pending)
+  payout_amount BigInt     @default(0)
+  status        BetStatus  @default(PENDING)
   created_at    DateTime   @default(now())
   updated_at    DateTime   @updatedAt
   version       Int        @default(0)
 
   @@index([user_id])
   @@index([status])
-  @@index([market_id])
   @@index([prediction_id])
 }
 

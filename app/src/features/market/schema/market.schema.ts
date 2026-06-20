@@ -9,7 +9,9 @@ export const marketResponseSchema = z.object({
     resolvedAt: z.iso.datetime('wrong date format'),
     createdAt: z.iso.datetime('wrong date format'),
     prediction: z.array(z.object({
-        name: z.string().min(1).max(80)
+        name: z.string().min(1).max(80),
+        total_participants: z.number(),
+        bet_sum: z.number(),
     }))
 })
 export type MarketResponse = z.infer<typeof marketResponseSchema>

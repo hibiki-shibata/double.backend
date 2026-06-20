@@ -132,6 +132,7 @@
 
     - Market/Bet feature
     - add category to market model
+    - sort market by popularity - time
     - Admin page
     - unit test
 
