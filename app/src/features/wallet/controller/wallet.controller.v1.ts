@@ -22,8 +22,7 @@ export class WalletControllerV1 implements WalletController {
         this.log.info({ userId }, 'Request get my wallet history arrived')
         const walletHistory: WalletTransactionResponse[] = await this.walletService.getUserWalletHistory(
             userId,
-            req.pagination.page,
-            req.pagination.limit
+            req.pagination
         )
         this.log.info({ userId }, 'Response success get my wallet history sent')
         res.status(200).json(walletHistory)

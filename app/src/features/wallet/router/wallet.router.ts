@@ -9,9 +9,19 @@ export function walletRouter(
 ): Router {
     const router: Router = Router()
     router.get('/me', controller.getMyWalletInfo)
-    router.get('/history', verifyPaginationQuery, controller.getMyWalletHistory)
-    router.put('/deposit', verifyRequestBody(depositRequestSchema), controller.deposit)
-    router.put('/withdraw', verifyRequestBody(withdrawRequestSchema), controller.withdraw)
+    router.get(
+        '/history',
+        verifyPaginationQuery,
+        controller.getMyWalletHistory
+    )
+    router.put(
+        '/deposit',
+        verifyRequestBody(depositRequestSchema),
+        controller.deposit
+    )
+    router.put(
+        '/withdraw',
+        verifyRequestBody(withdrawRequestSchema),
+        controller.withdraw)
     return router
-    // router.post('/bank', controller.registerMyBankInfo)
 }

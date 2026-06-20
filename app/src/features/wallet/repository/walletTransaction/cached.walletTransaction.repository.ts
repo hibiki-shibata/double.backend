@@ -4,16 +4,16 @@ import type { WalletTransaction } from "@global-shared/infra/db/generated.prisma
 import type { createInput, WalletTransactionRepository } from "../walletTransaction/walletTransaction.repository.js";
 import type { PaginationDBInput } from "@global-shared/types/pagination.type.js";
 
-// This may unnecessary
+// Careful handling on wallet balance data - consider removal later
 export class CachedWaletTransactionRepository implements WalletTransactionRepository {
     constructor(
-        private readonly walletRepository: WalletTransactionRepository,
+        private readonly walletTransactionRepository: WalletTransactionRepository,
         private readonly cacheService: CacheService,
         private readonly cacheKeys: CacheKeys,
         private readonly cacheTtlsSec: CacheTtlsSec
     ) { }
     async create(dto: createInput): Promise<WalletTransaction> {
-        const walletTransaction: WalletTransaction = await this.walletRepository.create(dto)
+        const walletTransaction: WalletTransaction = await this.walletTransactionRepository.create(dto)
         return walletTransaction
     }
 
@@ -26,8 +26,8 @@ export class CachedWaletTransactionRepository implements WalletTransactionReposi
         const walletHistory: WalletTransaction[] | null = await this.cacheService.getByKey<WalletTransaction[]>(cacheKeys)
         if (walletHistory !== null) return walletHistory
 
-        const dbWalleHistory: WalletTransaction[] = await this.walletRepository.getHistoryByWalletId(walletId, paginationInput)
-        await this.cacheService.setByKey(
+        const dbWalleHistory: WalletTransaction[] = await this.walletTransactionRepository.getHistoryByWalletId(walletId, paginationInput)
+        await this.cacheService.setByKey<WalletTransaction[]>(
             cacheKeys,
             dbWalleHistory,
             this.cacheTtlsSec.walletHistory

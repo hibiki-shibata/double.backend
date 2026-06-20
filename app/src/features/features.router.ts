@@ -1,11 +1,12 @@
 import { Router } from 'express'
-import { userAuthFeature } from './user/auth/index.js'
-import { userAccountFeature } from './user/account/index.js'
-import { walletRouter } from './wallet/router/wallet.router.js'
-import { marketRouter } from './market/market.router.js'
+import { UserRoles } from '@global-shared/infra/db/generated.prisma/enums.js'
 import { authenticate } from '@global-shared/middleware/authenticate.js'
 import { authorize } from '@global-shared/middleware/authorize.js'
-import { UserRoles } from '@global-shared/infra/db/generated.prisma/enums.js'
+import { userAuthFeature } from './user/auth/index.js'
+import { userAccountFeature } from './user/account/index.js'
+import { walletFeature } from './wallet/index.js'
+
+import { marketRouter } from './market/market.router.js'
 
 export function featuresRouter(): Router {
     const router: Router = Router()
@@ -13,12 +14,12 @@ export function featuresRouter(): Router {
     router.use('/user',
         authenticate,
         authorize({ requiredRoles: [UserRoles.user] }),
-        userAccountFeature()
+        userAccountFeature
     )
     router.use('/wallet',
         authenticate,
         authorize({ requiredRoles: [UserRoles.user] }),
-        walletRouter
+        walletFeature
     )
     router.use('/market',
         authenticate,
