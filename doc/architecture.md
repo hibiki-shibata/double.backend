@@ -20,7 +20,7 @@
         - Create-only Ledger repository for every single edit on prediction.
         - includes: amount, transaction type, tinme etc.
     - Market
-        - The topic of predictio.
+        - The topic of prediction.
         - includes: status, close time etc.        
 
 ### 2. Controller/Endpoints

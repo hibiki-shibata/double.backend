@@ -1,4 +1,4 @@
-## Features
+## Plans
 
 - Explore Market list
     - see current bet
@@ -128,14 +128,13 @@
     - Google Oauth
     - payment integration for deposit
     - bank withdrawal integration
-    - role based Authorization
-    - wallet history - time filter?
     - logout/delete - revoke jwt token
 
     - Market/Bet feature
     - add category to market model
-
     - Admin page
+    - unit test
 
+    - wallet history - time filter?
     - notification?
     - support feature(intercom integration)?

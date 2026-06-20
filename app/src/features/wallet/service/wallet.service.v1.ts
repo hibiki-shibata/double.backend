@@ -98,7 +98,7 @@ export class WalletServiceV1 implements WalletService {
             reservedAmount: wallet.reserved_amount,
             currency: wallet.currency,
             status: wallet.status,
-            updatedAt: wallet.updated_at
+            updatedAt: wallet.updated_at.toISOString()
         }
     }
 
@@ -114,7 +114,7 @@ export class WalletServiceV1 implements WalletService {
                 amount: walletTransaction.amount,
                 balanceBefore: walletTransaction.balance_before,
                 balanceAfter: walletTransaction.balance_after,
-                createdAt: walletTransaction.created_at,
+                createdAt: walletTransaction.created_at.toISOString(),
             })
         })
         return result

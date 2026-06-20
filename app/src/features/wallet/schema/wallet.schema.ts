@@ -21,7 +21,7 @@ export const walletResponseSchema = z.object({
     currency: z.enum(Currency),
     reservedAmount: z.bigint('reservered amout must be non negative bigint').nonnegative(),
     status: z.enum(WalletStatus),
-    updatedAt: z.date()
+    updatedAt: z.iso.datetime('wrong date format')
 })
 export type WalletResponse = z.infer<typeof walletResponseSchema>
 
@@ -35,6 +35,6 @@ export const walletTransactionResponseSchema = z.object({
     amount: z.bigint('amount must be non negative bigint').nonnegative(),
     balanceBefore: z.bigint('balanceBefore amout must be non negative bigint').nonnegative(),
     balanceAfter: z.bigint('BalanceAfter amout must be non negative bigint').nonnegative(),
-    createdAt: z.date()
+    createdAt: z.iso.datetime('wrong date format')
 })
 export type WalletTransactionResponse = z.infer<typeof walletTransactionResponseSchema>
