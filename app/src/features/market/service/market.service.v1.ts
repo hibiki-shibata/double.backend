@@ -1,9 +1,9 @@
-import type { Pagination } from "@global-shared/types/pagination.type.js";
-import type { MarketRepository, MarketWithPredictions } from "../repository/market.repository.js";
-import type { MarketService } from "./market.service.js";
-import type { MarketGetRequest, MarketResponse } from "../schema/market.schema.js";
-import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
 import type { Logger } from "pino";
+import type { MarketRepository, MarketWithPredictions } from "../repository/market.repository.js";
+import type { MarketGetRequest, MarketResponse } from "../schema/market.schema.js";
+import type { Pagination } from "@global-shared/types/pagination.type.js";
+import type { MarketService } from "./market.service.js";
+import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
 
 export class MarketServiceV1 implements MarketService {
     constructor(

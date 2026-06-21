@@ -23,6 +23,12 @@ export type CacheKeys = {
     walletHistory: {
         byWalletIdAndPagination: (userId: string, pagenation: PaginationDBInput) => string
     }
+    market: {
+        byId: (marketId: string) => string
+    }
+    marketsByStatus: {
+        byPagination: (pagination: PaginationDBInput) => string
+    }
 }
 
 export const cacheKeys: CacheKeys = {
@@ -34,19 +40,29 @@ export const cacheKeys: CacheKeys = {
     },
     walletHistory: {
         byWalletIdAndPagination: (userId: string, pagenation: PaginationDBInput) => `walletHistory:${userId}:${pagenation}`
+    },
+    market: {
+        byId: (marketId: string) => `market:${marketId}`
+    },
+    marketsByStatus: {
+        byPagination: (pagination: PaginationDBInput) => `availableMarkets:${pagination}`
     }
 }
 
 
 export type CacheTtlsSec = {
-    user: number,
-    wallet: number,
+    user: number
+    wallet: number
     walletHistory: number
+    market: number
+    marketsByStatus: number
 }
 
 export const cacheTtlsSec: CacheTtlsSec = {
     user: 60 * 15, // Secs
     wallet: 30,
-    walletHistory: 60 * 10
+    walletHistory: 60 * 10,
+    market: 60 * 5,
+    marketsByStatus: 60 * 10
 }
 
