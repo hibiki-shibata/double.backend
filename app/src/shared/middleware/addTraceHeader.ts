@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { v4 as uuidv4 } from 'uuid'
-import { logger } from "../logger/logger.js";
+import { logger } from "@global-shared/logger/logger.js";
 
 export function addTraceHeader(
     req: Request,

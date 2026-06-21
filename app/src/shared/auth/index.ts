@@ -1,6 +1,6 @@
-import { JwtTokenService } from "./service/jwtToken.service.js"
-import { PasswordService } from "./service/password.service.js"
-import { jwtOptions, passwordEncoderOptions } from "../config/security.config.js"
+import type { JwtTokenService } from "./service/jwtToken.service.js"
+import { JwtTokenServiceV1 } from "../auth/service/jwtToken.service.v1.js"
+import { jwtOptions } from "../config/security.config.js"
+import { v4 as uuidv4 } from "uuid"
 
-export const jwtTokenService = new JwtTokenService(jwtOptions.secretKey)
-export const passwordService = new PasswordService(passwordEncoderOptions.saltRound)
+export const jwtTokenService: JwtTokenService = new JwtTokenServiceV1(jwtOptions, uuidv4)

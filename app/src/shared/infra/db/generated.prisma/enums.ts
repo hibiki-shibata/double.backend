@@ -10,26 +10,26 @@
 */
 
 export const UserStatus = {
-  active: 'active',
-  suspend: 'suspend',
-  deleted: 'deleted'
+  ACTIVE: 'ACTIVE',
+  SUSPEND: 'SUSPEND',
+  DELETED: 'DELETED'
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 
 export const UserRoles = {
-  user: 'user',
-  admin: 'admin',
-  deleted: 'deleted'
+  USER: 'USER',
+  ADMIN: 'ADMIN',
+  DELETED: 'DELETED'
 } as const
 
 export type UserRoles = (typeof UserRoles)[keyof typeof UserRoles]
 
 
 export const WalletStatus = {
-  active: 'active',
-  suspended: 'suspended'
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED'
 } as const
 
 export type WalletStatus = (typeof WalletStatus)[keyof typeof WalletStatus]
@@ -45,57 +45,57 @@ export type Currency = (typeof Currency)[keyof typeof Currency]
 
 
 export const WalletTransactionType = {
-  deposit: 'deposit',
-  withdraw: 'withdraw',
-  bet: 'bet',
-  payout: 'payout',
-  refund: 'refund',
-  cancel: 'cancel'
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAW: 'WITHDRAW',
+  BET: 'BET',
+  PAYOUT: 'PAYOUT',
+  REFUND: 'REFUND',
+  CANCEL: 'CANCEL'
 } as const
 
 export type WalletTransactionType = (typeof WalletTransactionType)[keyof typeof WalletTransactionType]
 
 
 export const MarketStatus = {
-  upcoming: 'upcoming',
-  opened: 'opened',
-  closed: 'closed',
-  resolved: 'resolved',
-  payout: 'payout',
-  cancelled: 'cancelled'
+  UPCOMING: 'UPCOMING',
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
+  RESOLVED: 'RESOLVED',
+  PAYOUT: 'PAYOUT',
+  CANCELLED: 'CANCELLED'
 } as const
 
 export type MarketStatus = (typeof MarketStatus)[keyof typeof MarketStatus]
 
 
 export const PredictionStatus = {
-  upcoming: 'upcoming',
-  open: 'open',
-  resolved: 'resolved',
-  won: 'won',
-  lost: 'lost',
-  cancelled: 'cancelled'
+  UPCOMING: 'UPCOMING',
+  OPEN: 'OPEN',
+  RESOLVED: 'RESOLVED',
+  WON: 'WON',
+  LOST: 'LOST',
+  CANCELLED: 'CANCELLED'
 } as const
 
 export type PredictionStatus = (typeof PredictionStatus)[keyof typeof PredictionStatus]
 
 
 export const PredictionTransactionType = {
-  bet: 'bet',
-  refund: 'refund',
-  cancel: 'cancel'
+  BET: 'BET',
+  REFUND: 'REFUND',
+  CANCEL: 'CANCEL'
 } as const
 
 export type PredictionTransactionType = (typeof PredictionTransactionType)[keyof typeof PredictionTransactionType]
 
 
 export const BetStatus = {
-  pending: 'pending',
-  locked: 'locked',
-  won: 'won',
-  lost: 'lost',
-  payout: 'payout',
-  cancelled: 'cancelled'
+  PENDING: 'PENDING',
+  LOCKED: 'LOCKED',
+  WON: 'WON',
+  LOST: 'LOST',
+  PAYOUT: 'PAYOUT',
+  CANCELLED: 'CANCELLED'
 } as const
 
 export type BetStatus = (typeof BetStatus)[keyof typeof BetStatus]

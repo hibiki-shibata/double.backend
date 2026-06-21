@@ -1,13 +1,29 @@
 import { Router } from 'express'
-import { userAccountRouter } from './user/account/userAccount.router.js'
-import { userAuthRouter } from './user/auth/userAuth.router.js'
-import { walletRouter } from './wallet/wallet.router.js'
-import { marketRouter } from './market/market.router.js'
-import { validateAuth } from '../shared/middleware/validateAuth.js'
+import { UserRoles } from '@global-shared/infra/db/generated.prisma/enums.js'
+import { authenticate } from '@global-shared/middleware/authenticate.js'
+import { authorize } from '@global-shared/middleware/authorize.js'
+import { userAuthFeature } from './user/auth/index.js'
+import { userAccountFeature } from './user/account/index.js'
+import { walletFeature } from './wallet/index.js'
+import { marketFeature } from './market/index.js'
 
-export const featuresRouter: Router = Router()
-
-featuresRouter.use('/auth', userAuthRouter)
-featuresRouter.use('/user', validateAuth, userAccountRouter)
-featuresRouter.use('/wallet', validateAuth, walletRouter)
-featuresRouter.use('/market', validateAuth, marketRouter)
+export function featuresRouter(): Router {
+    const router: Router = Router()
+    router.use('/auth', userAuthFeature())
+    router.use('/user',
+        authenticate,
+        authorize({ requiredRoles: [UserRoles.USER] }),
+        userAccountFeature
+    )
+    router.use('/wallet',
+        authenticate,
+        authorize({ requiredRoles: [UserRoles.USER] }),
+        walletFeature
+    )
+    router.use('/market',
+        authenticate,
+        authorize({ requiredRoles: [UserRoles.USER] }),
+        marketFeature
+    )
+    return router
+}

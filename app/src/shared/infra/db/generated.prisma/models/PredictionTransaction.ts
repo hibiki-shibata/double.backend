@@ -37,41 +37,41 @@ export type PredictionTransactionAvgAggregateOutputType = {
 export type PredictionTransactionSumAggregateOutputType = {
   total_participants_before: number | null
   total_participants_after: number | null
-  bet_amount: number | null
-  bet_sum_before: number | null
-  bet_sum_after: number | null
+  bet_amount: bigint | null
+  bet_sum_before: bigint | null
+  bet_sum_after: bigint | null
 }
 
 export type PredictionTransactionMinAggregateOutputType = {
   id: string | null
-  prediction_id: string | null
   transaction_type: $Enums.PredictionTransactionType | null
+  prediction_id: string | null
   total_participants_before: number | null
   total_participants_after: number | null
   currency: $Enums.Currency | null
-  bet_amount: number | null
-  bet_sum_before: number | null
-  bet_sum_after: number | null
+  bet_amount: bigint | null
+  bet_sum_before: bigint | null
+  bet_sum_after: bigint | null
   created_at: Date | null
 }
 
 export type PredictionTransactionMaxAggregateOutputType = {
   id: string | null
-  prediction_id: string | null
   transaction_type: $Enums.PredictionTransactionType | null
+  prediction_id: string | null
   total_participants_before: number | null
   total_participants_after: number | null
   currency: $Enums.Currency | null
-  bet_amount: number | null
-  bet_sum_before: number | null
-  bet_sum_after: number | null
+  bet_amount: bigint | null
+  bet_sum_before: bigint | null
+  bet_sum_after: bigint | null
   created_at: Date | null
 }
 
 export type PredictionTransactionCountAggregateOutputType = {
   id: number
-  prediction_id: number
   transaction_type: number
+  prediction_id: number
   total_participants_before: number
   total_participants_after: number
   currency: number
@@ -101,8 +101,8 @@ export type PredictionTransactionSumAggregateInputType = {
 
 export type PredictionTransactionMinAggregateInputType = {
   id?: true
-  prediction_id?: true
   transaction_type?: true
+  prediction_id?: true
   total_participants_before?: true
   total_participants_after?: true
   currency?: true
@@ -114,8 +114,8 @@ export type PredictionTransactionMinAggregateInputType = {
 
 export type PredictionTransactionMaxAggregateInputType = {
   id?: true
-  prediction_id?: true
   transaction_type?: true
+  prediction_id?: true
   total_participants_before?: true
   total_participants_after?: true
   currency?: true
@@ -127,8 +127,8 @@ export type PredictionTransactionMaxAggregateInputType = {
 
 export type PredictionTransactionCountAggregateInputType = {
   id?: true
-  prediction_id?: true
   transaction_type?: true
+  prediction_id?: true
   total_participants_before?: true
   total_participants_after?: true
   currency?: true
@@ -227,14 +227,14 @@ export type PredictionTransactionGroupByArgs<ExtArgs extends runtime.Types.Exten
 
 export type PredictionTransactionGroupByOutputType = {
   id: string
-  prediction_id: string
   transaction_type: $Enums.PredictionTransactionType
+  prediction_id: string
   total_participants_before: number
   total_participants_after: number
   currency: $Enums.Currency
-  bet_amount: number
-  bet_sum_before: number
-  bet_sum_after: number
+  bet_amount: bigint
+  bet_sum_before: bigint
+  bet_sum_after: bigint
   created_at: Date
   _count: PredictionTransactionCountAggregateOutputType | null
   _avg: PredictionTransactionAvgAggregateOutputType | null
@@ -263,21 +263,22 @@ export type PredictionTransactionWhereInput = {
   OR?: Prisma.PredictionTransactionWhereInput[]
   NOT?: Prisma.PredictionTransactionWhereInput | Prisma.PredictionTransactionWhereInput[]
   id?: Prisma.StringFilter<"PredictionTransaction"> | string
-  prediction_id?: Prisma.StringFilter<"PredictionTransaction"> | string
   transaction_type?: Prisma.EnumPredictionTransactionTypeFilter<"PredictionTransaction"> | $Enums.PredictionTransactionType
+  prediction_id?: Prisma.StringFilter<"PredictionTransaction"> | string
   total_participants_before?: Prisma.IntFilter<"PredictionTransaction"> | number
   total_participants_after?: Prisma.IntFilter<"PredictionTransaction"> | number
   currency?: Prisma.EnumCurrencyFilter<"PredictionTransaction"> | $Enums.Currency
-  bet_amount?: Prisma.IntFilter<"PredictionTransaction"> | number
-  bet_sum_before?: Prisma.IntFilter<"PredictionTransaction"> | number
-  bet_sum_after?: Prisma.IntFilter<"PredictionTransaction"> | number
+  bet_amount?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_before?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_after?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
   created_at?: Prisma.DateTimeFilter<"PredictionTransaction"> | Date | string
+  prediction?: Prisma.XOR<Prisma.PredictionScalarRelationFilter, Prisma.PredictionWhereInput>
 }
 
 export type PredictionTransactionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  prediction_id?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
+  prediction_id?: Prisma.SortOrder
   total_participants_before?: Prisma.SortOrder
   total_participants_after?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -285,6 +286,7 @@ export type PredictionTransactionOrderByWithRelationInput = {
   bet_sum_before?: Prisma.SortOrder
   bet_sum_after?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  prediction?: Prisma.PredictionOrderByWithRelationInput
 }
 
 export type PredictionTransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -292,21 +294,22 @@ export type PredictionTransactionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PredictionTransactionWhereInput | Prisma.PredictionTransactionWhereInput[]
   OR?: Prisma.PredictionTransactionWhereInput[]
   NOT?: Prisma.PredictionTransactionWhereInput | Prisma.PredictionTransactionWhereInput[]
-  prediction_id?: Prisma.StringFilter<"PredictionTransaction"> | string
   transaction_type?: Prisma.EnumPredictionTransactionTypeFilter<"PredictionTransaction"> | $Enums.PredictionTransactionType
+  prediction_id?: Prisma.StringFilter<"PredictionTransaction"> | string
   total_participants_before?: Prisma.IntFilter<"PredictionTransaction"> | number
   total_participants_after?: Prisma.IntFilter<"PredictionTransaction"> | number
   currency?: Prisma.EnumCurrencyFilter<"PredictionTransaction"> | $Enums.Currency
-  bet_amount?: Prisma.IntFilter<"PredictionTransaction"> | number
-  bet_sum_before?: Prisma.IntFilter<"PredictionTransaction"> | number
-  bet_sum_after?: Prisma.IntFilter<"PredictionTransaction"> | number
+  bet_amount?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_before?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_after?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
   created_at?: Prisma.DateTimeFilter<"PredictionTransaction"> | Date | string
+  prediction?: Prisma.XOR<Prisma.PredictionScalarRelationFilter, Prisma.PredictionWhereInput>
 }, "id">
 
 export type PredictionTransactionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  prediction_id?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
+  prediction_id?: Prisma.SortOrder
   total_participants_before?: Prisma.SortOrder
   total_participants_after?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -326,112 +329,121 @@ export type PredictionTransactionScalarWhereWithAggregatesInput = {
   OR?: Prisma.PredictionTransactionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PredictionTransactionScalarWhereWithAggregatesInput | Prisma.PredictionTransactionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PredictionTransaction"> | string
-  prediction_id?: Prisma.StringWithAggregatesFilter<"PredictionTransaction"> | string
   transaction_type?: Prisma.EnumPredictionTransactionTypeWithAggregatesFilter<"PredictionTransaction"> | $Enums.PredictionTransactionType
+  prediction_id?: Prisma.StringWithAggregatesFilter<"PredictionTransaction"> | string
   total_participants_before?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
   total_participants_after?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
   currency?: Prisma.EnumCurrencyWithAggregatesFilter<"PredictionTransaction"> | $Enums.Currency
-  bet_amount?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
-  bet_sum_before?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
-  bet_sum_after?: Prisma.IntWithAggregatesFilter<"PredictionTransaction"> | number
+  bet_amount?: Prisma.BigIntWithAggregatesFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_before?: Prisma.BigIntWithAggregatesFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_after?: Prisma.BigIntWithAggregatesFilter<"PredictionTransaction"> | bigint | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"PredictionTransaction"> | Date | string
 }
 
 export type PredictionTransactionCreateInput = {
   id?: string
-  prediction_id: string
   transaction_type: $Enums.PredictionTransactionType
   total_participants_before: number
   total_participants_after: number
   currency: $Enums.Currency
-  bet_amount: number
-  bet_sum_before: number
-  bet_sum_after: number
-  created_at: Date | string
+  bet_amount: bigint | number
+  bet_sum_before: bigint | number
+  bet_sum_after: bigint | number
+  created_at?: Date | string
+  prediction: Prisma.PredictionCreateNestedOneWithoutPredictionTransactionsInput
 }
 
 export type PredictionTransactionUncheckedCreateInput = {
   id?: string
-  prediction_id: string
   transaction_type: $Enums.PredictionTransactionType
+  prediction_id: string
   total_participants_before: number
   total_participants_after: number
   currency: $Enums.Currency
-  bet_amount: number
-  bet_sum_before: number
-  bet_sum_after: number
-  created_at: Date | string
+  bet_amount: bigint | number
+  bet_sum_before: bigint | number
+  bet_sum_after: bigint | number
+  created_at?: Date | string
 }
 
 export type PredictionTransactionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_type?: Prisma.EnumPredictionTransactionTypeFieldUpdateOperationsInput | $Enums.PredictionTransactionType
   total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
   total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_before?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_after?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  prediction?: Prisma.PredictionUpdateOneRequiredWithoutPredictionTransactionsNestedInput
 }
 
 export type PredictionTransactionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_type?: Prisma.EnumPredictionTransactionTypeFieldUpdateOperationsInput | $Enums.PredictionTransactionType
+  prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
   total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_before?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_after?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PredictionTransactionCreateManyInput = {
   id?: string
-  prediction_id: string
   transaction_type: $Enums.PredictionTransactionType
+  prediction_id: string
   total_participants_before: number
   total_participants_after: number
   currency: $Enums.Currency
-  bet_amount: number
-  bet_sum_before: number
-  bet_sum_after: number
-  created_at: Date | string
+  bet_amount: bigint | number
+  bet_sum_before: bigint | number
+  bet_sum_after: bigint | number
+  created_at?: Date | string
 }
 
 export type PredictionTransactionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_type?: Prisma.EnumPredictionTransactionTypeFieldUpdateOperationsInput | $Enums.PredictionTransactionType
   total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
   total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_before?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_after?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PredictionTransactionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   transaction_type?: Prisma.EnumPredictionTransactionTypeFieldUpdateOperationsInput | $Enums.PredictionTransactionType
+  prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
   total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_before?: Prisma.IntFieldUpdateOperationsInput | number
-  bet_sum_after?: Prisma.IntFieldUpdateOperationsInput | number
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PredictionTransactionListRelationFilter = {
+  every?: Prisma.PredictionTransactionWhereInput
+  some?: Prisma.PredictionTransactionWhereInput
+  none?: Prisma.PredictionTransactionWhereInput
+}
+
+export type PredictionTransactionOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type PredictionTransactionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  prediction_id?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
+  prediction_id?: Prisma.SortOrder
   total_participants_before?: Prisma.SortOrder
   total_participants_after?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -451,8 +463,8 @@ export type PredictionTransactionAvgOrderByAggregateInput = {
 
 export type PredictionTransactionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  prediction_id?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
+  prediction_id?: Prisma.SortOrder
   total_participants_before?: Prisma.SortOrder
   total_participants_after?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -464,8 +476,8 @@ export type PredictionTransactionMaxOrderByAggregateInput = {
 
 export type PredictionTransactionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  prediction_id?: Prisma.SortOrder
   transaction_type?: Prisma.SortOrder
+  prediction_id?: Prisma.SortOrder
   total_participants_before?: Prisma.SortOrder
   total_participants_after?: Prisma.SortOrder
   currency?: Prisma.SortOrder
@@ -483,16 +495,172 @@ export type PredictionTransactionSumOrderByAggregateInput = {
   bet_sum_after?: Prisma.SortOrder
 }
 
+export type PredictionTransactionCreateNestedManyWithoutPredictionInput = {
+  create?: Prisma.XOR<Prisma.PredictionTransactionCreateWithoutPredictionInput, Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput> | Prisma.PredictionTransactionCreateWithoutPredictionInput[] | Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput[]
+  connectOrCreate?: Prisma.PredictionTransactionCreateOrConnectWithoutPredictionInput | Prisma.PredictionTransactionCreateOrConnectWithoutPredictionInput[]
+  createMany?: Prisma.PredictionTransactionCreateManyPredictionInputEnvelope
+  connect?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+}
+
+export type PredictionTransactionUncheckedCreateNestedManyWithoutPredictionInput = {
+  create?: Prisma.XOR<Prisma.PredictionTransactionCreateWithoutPredictionInput, Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput> | Prisma.PredictionTransactionCreateWithoutPredictionInput[] | Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput[]
+  connectOrCreate?: Prisma.PredictionTransactionCreateOrConnectWithoutPredictionInput | Prisma.PredictionTransactionCreateOrConnectWithoutPredictionInput[]
+  createMany?: Prisma.PredictionTransactionCreateManyPredictionInputEnvelope
+  connect?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+}
+
+export type PredictionTransactionUpdateManyWithoutPredictionNestedInput = {
+  create?: Prisma.XOR<Prisma.PredictionTransactionCreateWithoutPredictionInput, Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput> | Prisma.PredictionTransactionCreateWithoutPredictionInput[] | Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput[]
+  connectOrCreate?: Prisma.PredictionTransactionCreateOrConnectWithoutPredictionInput | Prisma.PredictionTransactionCreateOrConnectWithoutPredictionInput[]
+  upsert?: Prisma.PredictionTransactionUpsertWithWhereUniqueWithoutPredictionInput | Prisma.PredictionTransactionUpsertWithWhereUniqueWithoutPredictionInput[]
+  createMany?: Prisma.PredictionTransactionCreateManyPredictionInputEnvelope
+  set?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+  disconnect?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+  delete?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+  connect?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+  update?: Prisma.PredictionTransactionUpdateWithWhereUniqueWithoutPredictionInput | Prisma.PredictionTransactionUpdateWithWhereUniqueWithoutPredictionInput[]
+  updateMany?: Prisma.PredictionTransactionUpdateManyWithWhereWithoutPredictionInput | Prisma.PredictionTransactionUpdateManyWithWhereWithoutPredictionInput[]
+  deleteMany?: Prisma.PredictionTransactionScalarWhereInput | Prisma.PredictionTransactionScalarWhereInput[]
+}
+
+export type PredictionTransactionUncheckedUpdateManyWithoutPredictionNestedInput = {
+  create?: Prisma.XOR<Prisma.PredictionTransactionCreateWithoutPredictionInput, Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput> | Prisma.PredictionTransactionCreateWithoutPredictionInput[] | Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput[]
+  connectOrCreate?: Prisma.PredictionTransactionCreateOrConnectWithoutPredictionInput | Prisma.PredictionTransactionCreateOrConnectWithoutPredictionInput[]
+  upsert?: Prisma.PredictionTransactionUpsertWithWhereUniqueWithoutPredictionInput | Prisma.PredictionTransactionUpsertWithWhereUniqueWithoutPredictionInput[]
+  createMany?: Prisma.PredictionTransactionCreateManyPredictionInputEnvelope
+  set?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+  disconnect?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+  delete?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+  connect?: Prisma.PredictionTransactionWhereUniqueInput | Prisma.PredictionTransactionWhereUniqueInput[]
+  update?: Prisma.PredictionTransactionUpdateWithWhereUniqueWithoutPredictionInput | Prisma.PredictionTransactionUpdateWithWhereUniqueWithoutPredictionInput[]
+  updateMany?: Prisma.PredictionTransactionUpdateManyWithWhereWithoutPredictionInput | Prisma.PredictionTransactionUpdateManyWithWhereWithoutPredictionInput[]
+  deleteMany?: Prisma.PredictionTransactionScalarWhereInput | Prisma.PredictionTransactionScalarWhereInput[]
+}
+
 export type EnumPredictionTransactionTypeFieldUpdateOperationsInput = {
   set?: $Enums.PredictionTransactionType
+}
+
+export type PredictionTransactionCreateWithoutPredictionInput = {
+  id?: string
+  transaction_type: $Enums.PredictionTransactionType
+  total_participants_before: number
+  total_participants_after: number
+  currency: $Enums.Currency
+  bet_amount: bigint | number
+  bet_sum_before: bigint | number
+  bet_sum_after: bigint | number
+  created_at?: Date | string
+}
+
+export type PredictionTransactionUncheckedCreateWithoutPredictionInput = {
+  id?: string
+  transaction_type: $Enums.PredictionTransactionType
+  total_participants_before: number
+  total_participants_after: number
+  currency: $Enums.Currency
+  bet_amount: bigint | number
+  bet_sum_before: bigint | number
+  bet_sum_after: bigint | number
+  created_at?: Date | string
+}
+
+export type PredictionTransactionCreateOrConnectWithoutPredictionInput = {
+  where: Prisma.PredictionTransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.PredictionTransactionCreateWithoutPredictionInput, Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput>
+}
+
+export type PredictionTransactionCreateManyPredictionInputEnvelope = {
+  data: Prisma.PredictionTransactionCreateManyPredictionInput | Prisma.PredictionTransactionCreateManyPredictionInput[]
+  skipDuplicates?: boolean
+}
+
+export type PredictionTransactionUpsertWithWhereUniqueWithoutPredictionInput = {
+  where: Prisma.PredictionTransactionWhereUniqueInput
+  update: Prisma.XOR<Prisma.PredictionTransactionUpdateWithoutPredictionInput, Prisma.PredictionTransactionUncheckedUpdateWithoutPredictionInput>
+  create: Prisma.XOR<Prisma.PredictionTransactionCreateWithoutPredictionInput, Prisma.PredictionTransactionUncheckedCreateWithoutPredictionInput>
+}
+
+export type PredictionTransactionUpdateWithWhereUniqueWithoutPredictionInput = {
+  where: Prisma.PredictionTransactionWhereUniqueInput
+  data: Prisma.XOR<Prisma.PredictionTransactionUpdateWithoutPredictionInput, Prisma.PredictionTransactionUncheckedUpdateWithoutPredictionInput>
+}
+
+export type PredictionTransactionUpdateManyWithWhereWithoutPredictionInput = {
+  where: Prisma.PredictionTransactionScalarWhereInput
+  data: Prisma.XOR<Prisma.PredictionTransactionUpdateManyMutationInput, Prisma.PredictionTransactionUncheckedUpdateManyWithoutPredictionInput>
+}
+
+export type PredictionTransactionScalarWhereInput = {
+  AND?: Prisma.PredictionTransactionScalarWhereInput | Prisma.PredictionTransactionScalarWhereInput[]
+  OR?: Prisma.PredictionTransactionScalarWhereInput[]
+  NOT?: Prisma.PredictionTransactionScalarWhereInput | Prisma.PredictionTransactionScalarWhereInput[]
+  id?: Prisma.StringFilter<"PredictionTransaction"> | string
+  transaction_type?: Prisma.EnumPredictionTransactionTypeFilter<"PredictionTransaction"> | $Enums.PredictionTransactionType
+  prediction_id?: Prisma.StringFilter<"PredictionTransaction"> | string
+  total_participants_before?: Prisma.IntFilter<"PredictionTransaction"> | number
+  total_participants_after?: Prisma.IntFilter<"PredictionTransaction"> | number
+  currency?: Prisma.EnumCurrencyFilter<"PredictionTransaction"> | $Enums.Currency
+  bet_amount?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_before?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  bet_sum_after?: Prisma.BigIntFilter<"PredictionTransaction"> | bigint | number
+  created_at?: Prisma.DateTimeFilter<"PredictionTransaction"> | Date | string
+}
+
+export type PredictionTransactionCreateManyPredictionInput = {
+  id?: string
+  transaction_type: $Enums.PredictionTransactionType
+  total_participants_before: number
+  total_participants_after: number
+  currency: $Enums.Currency
+  bet_amount: bigint | number
+  bet_sum_before: bigint | number
+  bet_sum_after: bigint | number
+  created_at?: Date | string
+}
+
+export type PredictionTransactionUpdateWithoutPredictionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transaction_type?: Prisma.EnumPredictionTransactionTypeFieldUpdateOperationsInput | $Enums.PredictionTransactionType
+  total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
+  total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PredictionTransactionUncheckedUpdateWithoutPredictionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transaction_type?: Prisma.EnumPredictionTransactionTypeFieldUpdateOperationsInput | $Enums.PredictionTransactionType
+  total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
+  total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PredictionTransactionUncheckedUpdateManyWithoutPredictionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transaction_type?: Prisma.EnumPredictionTransactionTypeFieldUpdateOperationsInput | $Enums.PredictionTransactionType
+  total_participants_before?: Prisma.IntFieldUpdateOperationsInput | number
+  total_participants_after?: Prisma.IntFieldUpdateOperationsInput | number
+  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_before?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  bet_sum_after?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type PredictionTransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  prediction_id?: boolean
   transaction_type?: boolean
+  prediction_id?: boolean
   total_participants_before?: boolean
   total_participants_after?: boolean
   currency?: boolean
@@ -500,12 +668,13 @@ export type PredictionTransactionSelect<ExtArgs extends runtime.Types.Extensions
   bet_sum_before?: boolean
   bet_sum_after?: boolean
   created_at?: boolean
+  prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["predictionTransaction"]>
 
 export type PredictionTransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  prediction_id?: boolean
   transaction_type?: boolean
+  prediction_id?: boolean
   total_participants_before?: boolean
   total_participants_after?: boolean
   currency?: boolean
@@ -513,12 +682,13 @@ export type PredictionTransactionSelectCreateManyAndReturn<ExtArgs extends runti
   bet_sum_before?: boolean
   bet_sum_after?: boolean
   created_at?: boolean
+  prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["predictionTransaction"]>
 
 export type PredictionTransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  prediction_id?: boolean
   transaction_type?: boolean
+  prediction_id?: boolean
   total_participants_before?: boolean
   total_participants_after?: boolean
   currency?: boolean
@@ -526,12 +696,13 @@ export type PredictionTransactionSelectUpdateManyAndReturn<ExtArgs extends runti
   bet_sum_before?: boolean
   bet_sum_after?: boolean
   created_at?: boolean
+  prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["predictionTransaction"]>
 
 export type PredictionTransactionSelectScalar = {
   id?: boolean
-  prediction_id?: boolean
   transaction_type?: boolean
+  prediction_id?: boolean
   total_participants_before?: boolean
   total_participants_after?: boolean
   currency?: boolean
@@ -541,21 +712,32 @@ export type PredictionTransactionSelectScalar = {
   created_at?: boolean
 }
 
-export type PredictionTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "prediction_id" | "transaction_type" | "total_participants_before" | "total_participants_after" | "currency" | "bet_amount" | "bet_sum_before" | "bet_sum_after" | "created_at", ExtArgs["result"]["predictionTransaction"]>
+export type PredictionTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transaction_type" | "prediction_id" | "total_participants_before" | "total_participants_after" | "currency" | "bet_amount" | "bet_sum_before" | "bet_sum_after" | "created_at", ExtArgs["result"]["predictionTransaction"]>
+export type PredictionTransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
+}
+export type PredictionTransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
+}
+export type PredictionTransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
+}
 
 export type $PredictionTransactionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PredictionTransaction"
-  objects: {}
+  objects: {
+    prediction: Prisma.$PredictionPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    prediction_id: string
     transaction_type: $Enums.PredictionTransactionType
+    prediction_id: string
     total_participants_before: number
     total_participants_after: number
     currency: $Enums.Currency
-    bet_amount: number
-    bet_sum_before: number
-    bet_sum_after: number
+    bet_amount: bigint
+    bet_sum_before: bigint
+    bet_sum_after: bigint
     created_at: Date
   }, ExtArgs["result"]["predictionTransaction"]>
   composites: {}
@@ -951,6 +1133,7 @@ readonly fields: PredictionTransactionFieldRefs;
  */
 export interface Prisma__PredictionTransactionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  prediction<T extends Prisma.PredictionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PredictionDefaultArgs<ExtArgs>>): Prisma.Prisma__PredictionClient<runtime.Types.Result.GetResult<Prisma.$PredictionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -981,14 +1164,14 @@ export interface Prisma__PredictionTransactionClient<T, Null = never, ExtArgs ex
  */
 export interface PredictionTransactionFieldRefs {
   readonly id: Prisma.FieldRef<"PredictionTransaction", 'String'>
-  readonly prediction_id: Prisma.FieldRef<"PredictionTransaction", 'String'>
   readonly transaction_type: Prisma.FieldRef<"PredictionTransaction", 'PredictionTransactionType'>
+  readonly prediction_id: Prisma.FieldRef<"PredictionTransaction", 'String'>
   readonly total_participants_before: Prisma.FieldRef<"PredictionTransaction", 'Int'>
   readonly total_participants_after: Prisma.FieldRef<"PredictionTransaction", 'Int'>
   readonly currency: Prisma.FieldRef<"PredictionTransaction", 'Currency'>
-  readonly bet_amount: Prisma.FieldRef<"PredictionTransaction", 'Int'>
-  readonly bet_sum_before: Prisma.FieldRef<"PredictionTransaction", 'Int'>
-  readonly bet_sum_after: Prisma.FieldRef<"PredictionTransaction", 'Int'>
+  readonly bet_amount: Prisma.FieldRef<"PredictionTransaction", 'BigInt'>
+  readonly bet_sum_before: Prisma.FieldRef<"PredictionTransaction", 'BigInt'>
+  readonly bet_sum_after: Prisma.FieldRef<"PredictionTransaction", 'BigInt'>
   readonly created_at: Prisma.FieldRef<"PredictionTransaction", 'DateTime'>
 }
     
@@ -1006,6 +1189,10 @@ export type PredictionTransactionFindUniqueArgs<ExtArgs extends runtime.Types.Ex
    * Omit specific fields from the PredictionTransaction
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
   /**
    * Filter, which PredictionTransaction to fetch.
    */
@@ -1025,6 +1212,10 @@ export type PredictionTransactionFindUniqueOrThrowArgs<ExtArgs extends runtime.T
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
+  /**
    * Filter, which PredictionTransaction to fetch.
    */
   where: Prisma.PredictionTransactionWhereUniqueInput
@@ -1042,6 +1233,10 @@ export type PredictionTransactionFindFirstArgs<ExtArgs extends runtime.Types.Ext
    * Omit specific fields from the PredictionTransaction
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
   /**
    * Filter, which PredictionTransaction to fetch.
    */
@@ -1091,6 +1286,10 @@ export type PredictionTransactionFindFirstOrThrowArgs<ExtArgs extends runtime.Ty
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
+  /**
    * Filter, which PredictionTransaction to fetch.
    */
   where?: Prisma.PredictionTransactionWhereInput
@@ -1138,6 +1337,10 @@ export type PredictionTransactionFindManyArgs<ExtArgs extends runtime.Types.Exte
    * Omit specific fields from the PredictionTransaction
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
   /**
    * Filter, which PredictionTransactions to fetch.
    */
@@ -1187,6 +1390,10 @@ export type PredictionTransactionCreateArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
+  /**
    * The data needed to create a PredictionTransaction.
    */
   data: Prisma.XOR<Prisma.PredictionTransactionCreateInput, Prisma.PredictionTransactionUncheckedCreateInput>
@@ -1220,6 +1427,10 @@ export type PredictionTransactionCreateManyAndReturnArgs<ExtArgs extends runtime
    */
   data: Prisma.PredictionTransactionCreateManyInput | Prisma.PredictionTransactionCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1234,6 +1445,10 @@ export type PredictionTransactionUpdateArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the PredictionTransaction
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
   /**
    * The data needed to update a PredictionTransaction.
    */
@@ -1286,6 +1501,10 @@ export type PredictionTransactionUpdateManyAndReturnArgs<ExtArgs extends runtime
    * Limit how many PredictionTransactions to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1300,6 +1519,10 @@ export type PredictionTransactionUpsertArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the PredictionTransaction
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
   /**
    * The filter to search for the PredictionTransaction to update in case it exists.
    */
@@ -1326,6 +1549,10 @@ export type PredictionTransactionDeleteArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the PredictionTransaction
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
   /**
    * Filter which PredictionTransaction to delete.
    */
@@ -1358,4 +1585,8 @@ export type PredictionTransactionDefaultArgs<ExtArgs extends runtime.Types.Exten
    * Omit specific fields from the PredictionTransaction
    */
   omit?: Prisma.PredictionTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PredictionTransactionInclude<ExtArgs> | null
 }

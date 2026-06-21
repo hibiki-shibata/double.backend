@@ -1,3 +1,4 @@
 ## Challenges
 
-Yes, ofc Legal & Compliances.
+- Legal & Compliances.
+- Handle Balance data rigorously

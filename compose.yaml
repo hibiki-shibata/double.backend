@@ -1,0 +1,38 @@
+volumes:
+  postgres_data:
+
+services:
+  double-backend:
+    build: .
+    container_name: double-backend
+    ports:
+      - "${PORT_NUMBER}:3000"
+    environment:
+      NODE_ENV: 'stage'
+      BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS}
+      RATE_LIMIT: ${RATE_LIMIT}
+      LOG_LEVEL: ${LOG_LEVEL}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_HOST}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      DATABASE_URL: ${DATABASE_URL}
+
+  redis:
+    image: redis:latest
+    container_name: double-redis
+    command: ["redis-server", "--appendonly", "no", "--maxmemory", "500mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "6379:${REDIS_PORT}"
+      
+  postgres:
+    image: postgres:latest  
+    container_name: double-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql

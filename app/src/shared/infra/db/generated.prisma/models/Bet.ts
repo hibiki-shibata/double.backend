@@ -33,19 +33,18 @@ export type BetAvgAggregateOutputType = {
 }
 
 export type BetSumAggregateOutputType = {
-  bet_amount: number | null
-  payout_amount: number | null
+  bet_amount: bigint | null
+  payout_amount: bigint | null
   version: number | null
 }
 
 export type BetMinAggregateOutputType = {
   id: string | null
   user_id: string | null
-  market_id: string | null
   prediction_id: string | null
   currency: $Enums.Currency | null
-  bet_amount: number | null
-  payout_amount: number | null
+  bet_amount: bigint | null
+  payout_amount: bigint | null
   status: $Enums.BetStatus | null
   created_at: Date | null
   updated_at: Date | null
@@ -55,11 +54,10 @@ export type BetMinAggregateOutputType = {
 export type BetMaxAggregateOutputType = {
   id: string | null
   user_id: string | null
-  market_id: string | null
   prediction_id: string | null
   currency: $Enums.Currency | null
-  bet_amount: number | null
-  payout_amount: number | null
+  bet_amount: bigint | null
+  payout_amount: bigint | null
   status: $Enums.BetStatus | null
   created_at: Date | null
   updated_at: Date | null
@@ -69,7 +67,6 @@ export type BetMaxAggregateOutputType = {
 export type BetCountAggregateOutputType = {
   id: number
   user_id: number
-  market_id: number
   prediction_id: number
   currency: number
   bet_amount: number
@@ -97,7 +94,6 @@ export type BetSumAggregateInputType = {
 export type BetMinAggregateInputType = {
   id?: true
   user_id?: true
-  market_id?: true
   prediction_id?: true
   currency?: true
   bet_amount?: true
@@ -111,7 +107,6 @@ export type BetMinAggregateInputType = {
 export type BetMaxAggregateInputType = {
   id?: true
   user_id?: true
-  market_id?: true
   prediction_id?: true
   currency?: true
   bet_amount?: true
@@ -125,7 +120,6 @@ export type BetMaxAggregateInputType = {
 export type BetCountAggregateInputType = {
   id?: true
   user_id?: true
-  market_id?: true
   prediction_id?: true
   currency?: true
   bet_amount?: true
@@ -226,11 +220,10 @@ export type BetGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type BetGroupByOutputType = {
   id: string
   user_id: string
-  market_id: string
   prediction_id: string
   currency: $Enums.Currency
-  bet_amount: number
-  payout_amount: number | null
+  bet_amount: bigint
+  payout_amount: bigint
   status: $Enums.BetStatus
   created_at: Date
   updated_at: Date
@@ -263,34 +256,30 @@ export type BetWhereInput = {
   NOT?: Prisma.BetWhereInput | Prisma.BetWhereInput[]
   id?: Prisma.StringFilter<"Bet"> | string
   user_id?: Prisma.StringFilter<"Bet"> | string
-  market_id?: Prisma.StringFilter<"Bet"> | string
   prediction_id?: Prisma.StringFilter<"Bet"> | string
   currency?: Prisma.EnumCurrencyFilter<"Bet"> | $Enums.Currency
-  bet_amount?: Prisma.IntFilter<"Bet"> | number
-  payout_amount?: Prisma.IntNullableFilter<"Bet"> | number | null
+  bet_amount?: Prisma.BigIntFilter<"Bet"> | bigint | number
+  payout_amount?: Prisma.BigIntFilter<"Bet"> | bigint | number
   status?: Prisma.EnumBetStatusFilter<"Bet"> | $Enums.BetStatus
   created_at?: Prisma.DateTimeFilter<"Bet"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Bet"> | Date | string
   version?: Prisma.IntFilter<"Bet"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  market?: Prisma.XOR<Prisma.MarketScalarRelationFilter, Prisma.MarketWhereInput>
   prediction?: Prisma.XOR<Prisma.PredictionScalarRelationFilter, Prisma.PredictionWhereInput>
 }
 
 export type BetOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
-  market_id?: Prisma.SortOrder
   prediction_id?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   bet_amount?: Prisma.SortOrder
-  payout_amount?: Prisma.SortOrderInput | Prisma.SortOrder
+  payout_amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   version?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  market?: Prisma.MarketOrderByWithRelationInput
   prediction?: Prisma.PredictionOrderByWithRelationInput
 }
 
@@ -300,28 +289,25 @@ export type BetWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.BetWhereInput[]
   NOT?: Prisma.BetWhereInput | Prisma.BetWhereInput[]
   user_id?: Prisma.StringFilter<"Bet"> | string
-  market_id?: Prisma.StringFilter<"Bet"> | string
   prediction_id?: Prisma.StringFilter<"Bet"> | string
   currency?: Prisma.EnumCurrencyFilter<"Bet"> | $Enums.Currency
-  bet_amount?: Prisma.IntFilter<"Bet"> | number
-  payout_amount?: Prisma.IntNullableFilter<"Bet"> | number | null
+  bet_amount?: Prisma.BigIntFilter<"Bet"> | bigint | number
+  payout_amount?: Prisma.BigIntFilter<"Bet"> | bigint | number
   status?: Prisma.EnumBetStatusFilter<"Bet"> | $Enums.BetStatus
   created_at?: Prisma.DateTimeFilter<"Bet"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Bet"> | Date | string
   version?: Prisma.IntFilter<"Bet"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  market?: Prisma.XOR<Prisma.MarketScalarRelationFilter, Prisma.MarketWhereInput>
   prediction?: Prisma.XOR<Prisma.PredictionScalarRelationFilter, Prisma.PredictionWhereInput>
 }, "id">
 
 export type BetOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
-  market_id?: Prisma.SortOrder
   prediction_id?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   bet_amount?: Prisma.SortOrder
-  payout_amount?: Prisma.SortOrderInput | Prisma.SortOrder
+  payout_amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -339,11 +325,10 @@ export type BetScalarWhereWithAggregatesInput = {
   NOT?: Prisma.BetScalarWhereWithAggregatesInput | Prisma.BetScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Bet"> | string
   user_id?: Prisma.StringWithAggregatesFilter<"Bet"> | string
-  market_id?: Prisma.StringWithAggregatesFilter<"Bet"> | string
   prediction_id?: Prisma.StringWithAggregatesFilter<"Bet"> | string
   currency?: Prisma.EnumCurrencyWithAggregatesFilter<"Bet"> | $Enums.Currency
-  bet_amount?: Prisma.IntWithAggregatesFilter<"Bet"> | number
-  payout_amount?: Prisma.IntNullableWithAggregatesFilter<"Bet"> | number | null
+  bet_amount?: Prisma.BigIntWithAggregatesFilter<"Bet"> | bigint | number
+  payout_amount?: Prisma.BigIntWithAggregatesFilter<"Bet"> | bigint | number
   status?: Prisma.EnumBetStatusWithAggregatesFilter<"Bet"> | $Enums.BetStatus
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Bet"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"Bet"> | Date | string
@@ -352,54 +337,50 @@ export type BetScalarWhereWithAggregatesInput = {
 
 export type BetCreateInput = {
   id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
+  currency?: $Enums.Currency
+  bet_amount: bigint | number
+  payout_amount?: bigint | number
+  status?: $Enums.BetStatus
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
-  user?: Prisma.UserCreateNestedOneWithoutBetsInput
-  market?: Prisma.MarketCreateNestedOneWithoutBetsInput
-  prediction?: Prisma.PredictionCreateNestedOneWithoutBetsInput
+  version?: number
+  user: Prisma.UserCreateNestedOneWithoutBetsInput
+  prediction: Prisma.PredictionCreateNestedOneWithoutBetsInput
 }
 
 export type BetUncheckedCreateInput = {
   id?: string
-  user_id?: string
-  market_id?: string
-  prediction_id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
+  user_id: string
+  prediction_id: string
+  currency?: $Enums.Currency
+  bet_amount: bigint | number
+  payout_amount?: bigint | number
+  status?: $Enums.BetStatus
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
 }
 
 export type BetUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutBetsNestedInput
-  market?: Prisma.MarketUpdateOneRequiredWithoutBetsNestedInput
   prediction?: Prisma.PredictionUpdateOneRequiredWithoutBetsNestedInput
 }
 
 export type BetUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  market_id?: Prisma.StringFieldUpdateOperationsInput | string
   prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -408,23 +389,22 @@ export type BetUncheckedUpdateInput = {
 
 export type BetCreateManyInput = {
   id?: string
-  user_id?: string
-  market_id?: string
-  prediction_id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
+  user_id: string
+  prediction_id: string
+  currency?: $Enums.Currency
+  bet_amount: bigint | number
+  payout_amount?: bigint | number
+  status?: $Enums.BetStatus
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
 }
 
 export type BetUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -434,11 +414,10 @@ export type BetUpdateManyMutationInput = {
 export type BetUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  market_id?: Prisma.StringFieldUpdateOperationsInput | string
   prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -458,7 +437,6 @@ export type BetOrderByRelationAggregateInput = {
 export type BetCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
-  market_id?: Prisma.SortOrder
   prediction_id?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   bet_amount?: Prisma.SortOrder
@@ -478,7 +456,6 @@ export type BetAvgOrderByAggregateInput = {
 export type BetMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
-  market_id?: Prisma.SortOrder
   prediction_id?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   bet_amount?: Prisma.SortOrder
@@ -492,7 +469,6 @@ export type BetMaxOrderByAggregateInput = {
 export type BetMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
-  market_id?: Prisma.SortOrder
   prediction_id?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   bet_amount?: Prisma.SortOrder
@@ -551,48 +527,6 @@ export type BetUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.BetScalarWhereInput | Prisma.BetScalarWhereInput[]
 }
 
-export type BetCreateNestedManyWithoutMarketInput = {
-  create?: Prisma.XOR<Prisma.BetCreateWithoutMarketInput, Prisma.BetUncheckedCreateWithoutMarketInput> | Prisma.BetCreateWithoutMarketInput[] | Prisma.BetUncheckedCreateWithoutMarketInput[]
-  connectOrCreate?: Prisma.BetCreateOrConnectWithoutMarketInput | Prisma.BetCreateOrConnectWithoutMarketInput[]
-  createMany?: Prisma.BetCreateManyMarketInputEnvelope
-  connect?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-}
-
-export type BetUncheckedCreateNestedManyWithoutMarketInput = {
-  create?: Prisma.XOR<Prisma.BetCreateWithoutMarketInput, Prisma.BetUncheckedCreateWithoutMarketInput> | Prisma.BetCreateWithoutMarketInput[] | Prisma.BetUncheckedCreateWithoutMarketInput[]
-  connectOrCreate?: Prisma.BetCreateOrConnectWithoutMarketInput | Prisma.BetCreateOrConnectWithoutMarketInput[]
-  createMany?: Prisma.BetCreateManyMarketInputEnvelope
-  connect?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-}
-
-export type BetUpdateManyWithoutMarketNestedInput = {
-  create?: Prisma.XOR<Prisma.BetCreateWithoutMarketInput, Prisma.BetUncheckedCreateWithoutMarketInput> | Prisma.BetCreateWithoutMarketInput[] | Prisma.BetUncheckedCreateWithoutMarketInput[]
-  connectOrCreate?: Prisma.BetCreateOrConnectWithoutMarketInput | Prisma.BetCreateOrConnectWithoutMarketInput[]
-  upsert?: Prisma.BetUpsertWithWhereUniqueWithoutMarketInput | Prisma.BetUpsertWithWhereUniqueWithoutMarketInput[]
-  createMany?: Prisma.BetCreateManyMarketInputEnvelope
-  set?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-  disconnect?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-  delete?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-  connect?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-  update?: Prisma.BetUpdateWithWhereUniqueWithoutMarketInput | Prisma.BetUpdateWithWhereUniqueWithoutMarketInput[]
-  updateMany?: Prisma.BetUpdateManyWithWhereWithoutMarketInput | Prisma.BetUpdateManyWithWhereWithoutMarketInput[]
-  deleteMany?: Prisma.BetScalarWhereInput | Prisma.BetScalarWhereInput[]
-}
-
-export type BetUncheckedUpdateManyWithoutMarketNestedInput = {
-  create?: Prisma.XOR<Prisma.BetCreateWithoutMarketInput, Prisma.BetUncheckedCreateWithoutMarketInput> | Prisma.BetCreateWithoutMarketInput[] | Prisma.BetUncheckedCreateWithoutMarketInput[]
-  connectOrCreate?: Prisma.BetCreateOrConnectWithoutMarketInput | Prisma.BetCreateOrConnectWithoutMarketInput[]
-  upsert?: Prisma.BetUpsertWithWhereUniqueWithoutMarketInput | Prisma.BetUpsertWithWhereUniqueWithoutMarketInput[]
-  createMany?: Prisma.BetCreateManyMarketInputEnvelope
-  set?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-  disconnect?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-  delete?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-  connect?: Prisma.BetWhereUniqueInput | Prisma.BetWhereUniqueInput[]
-  update?: Prisma.BetUpdateWithWhereUniqueWithoutMarketInput | Prisma.BetUpdateWithWhereUniqueWithoutMarketInput[]
-  updateMany?: Prisma.BetUpdateManyWithWhereWithoutMarketInput | Prisma.BetUpdateManyWithWhereWithoutMarketInput[]
-  deleteMany?: Prisma.BetScalarWhereInput | Prisma.BetScalarWhereInput[]
-}
-
 export type BetCreateNestedManyWithoutPredictionInput = {
   create?: Prisma.XOR<Prisma.BetCreateWithoutPredictionInput, Prisma.BetUncheckedCreateWithoutPredictionInput> | Prisma.BetCreateWithoutPredictionInput[] | Prisma.BetUncheckedCreateWithoutPredictionInput[]
   connectOrCreate?: Prisma.BetCreateOrConnectWithoutPredictionInput | Prisma.BetCreateOrConnectWithoutPredictionInput[]
@@ -635,42 +569,32 @@ export type BetUncheckedUpdateManyWithoutPredictionNestedInput = {
   deleteMany?: Prisma.BetScalarWhereInput | Prisma.BetScalarWhereInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type EnumBetStatusFieldUpdateOperationsInput = {
   set?: $Enums.BetStatus
 }
 
 export type BetCreateWithoutUserInput = {
   id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
+  currency?: $Enums.Currency
+  bet_amount: bigint | number
+  payout_amount?: bigint | number
+  status?: $Enums.BetStatus
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
-  market?: Prisma.MarketCreateNestedOneWithoutBetsInput
-  prediction?: Prisma.PredictionCreateNestedOneWithoutBetsInput
+  version?: number
+  prediction: Prisma.PredictionCreateNestedOneWithoutBetsInput
 }
 
 export type BetUncheckedCreateWithoutUserInput = {
   id?: string
-  market_id?: string
-  prediction_id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
+  prediction_id: string
+  currency?: $Enums.Currency
+  bet_amount: bigint | number
+  payout_amount?: bigint | number
+  status?: $Enums.BetStatus
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
 }
 
 export type BetCreateOrConnectWithoutUserInput = {
@@ -705,93 +629,38 @@ export type BetScalarWhereInput = {
   NOT?: Prisma.BetScalarWhereInput | Prisma.BetScalarWhereInput[]
   id?: Prisma.StringFilter<"Bet"> | string
   user_id?: Prisma.StringFilter<"Bet"> | string
-  market_id?: Prisma.StringFilter<"Bet"> | string
   prediction_id?: Prisma.StringFilter<"Bet"> | string
   currency?: Prisma.EnumCurrencyFilter<"Bet"> | $Enums.Currency
-  bet_amount?: Prisma.IntFilter<"Bet"> | number
-  payout_amount?: Prisma.IntNullableFilter<"Bet"> | number | null
+  bet_amount?: Prisma.BigIntFilter<"Bet"> | bigint | number
+  payout_amount?: Prisma.BigIntFilter<"Bet"> | bigint | number
   status?: Prisma.EnumBetStatusFilter<"Bet"> | $Enums.BetStatus
   created_at?: Prisma.DateTimeFilter<"Bet"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Bet"> | Date | string
   version?: Prisma.IntFilter<"Bet"> | number
 }
 
-export type BetCreateWithoutMarketInput = {
-  id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
-  updated_at?: Date | string
-  version: number
-  user?: Prisma.UserCreateNestedOneWithoutBetsInput
-  prediction?: Prisma.PredictionCreateNestedOneWithoutBetsInput
-}
-
-export type BetUncheckedCreateWithoutMarketInput = {
-  id?: string
-  user_id?: string
-  prediction_id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
-  updated_at?: Date | string
-  version: number
-}
-
-export type BetCreateOrConnectWithoutMarketInput = {
-  where: Prisma.BetWhereUniqueInput
-  create: Prisma.XOR<Prisma.BetCreateWithoutMarketInput, Prisma.BetUncheckedCreateWithoutMarketInput>
-}
-
-export type BetCreateManyMarketInputEnvelope = {
-  data: Prisma.BetCreateManyMarketInput | Prisma.BetCreateManyMarketInput[]
-  skipDuplicates?: boolean
-}
-
-export type BetUpsertWithWhereUniqueWithoutMarketInput = {
-  where: Prisma.BetWhereUniqueInput
-  update: Prisma.XOR<Prisma.BetUpdateWithoutMarketInput, Prisma.BetUncheckedUpdateWithoutMarketInput>
-  create: Prisma.XOR<Prisma.BetCreateWithoutMarketInput, Prisma.BetUncheckedCreateWithoutMarketInput>
-}
-
-export type BetUpdateWithWhereUniqueWithoutMarketInput = {
-  where: Prisma.BetWhereUniqueInput
-  data: Prisma.XOR<Prisma.BetUpdateWithoutMarketInput, Prisma.BetUncheckedUpdateWithoutMarketInput>
-}
-
-export type BetUpdateManyWithWhereWithoutMarketInput = {
-  where: Prisma.BetScalarWhereInput
-  data: Prisma.XOR<Prisma.BetUpdateManyMutationInput, Prisma.BetUncheckedUpdateManyWithoutMarketInput>
-}
-
 export type BetCreateWithoutPredictionInput = {
   id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
+  currency?: $Enums.Currency
+  bet_amount: bigint | number
+  payout_amount?: bigint | number
+  status?: $Enums.BetStatus
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
-  user?: Prisma.UserCreateNestedOneWithoutBetsInput
-  market?: Prisma.MarketCreateNestedOneWithoutBetsInput
+  version?: number
+  user: Prisma.UserCreateNestedOneWithoutBetsInput
 }
 
 export type BetUncheckedCreateWithoutPredictionInput = {
   id?: string
-  user_id?: string
-  market_id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
+  user_id: string
+  currency?: $Enums.Currency
+  bet_amount: bigint | number
+  payout_amount?: bigint | number
+  status?: $Enums.BetStatus
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
 }
 
 export type BetCreateOrConnectWithoutPredictionInput = {
@@ -822,37 +691,34 @@ export type BetUpdateManyWithWhereWithoutPredictionInput = {
 
 export type BetCreateManyUserInput = {
   id?: string
-  market_id?: string
-  prediction_id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
+  prediction_id: string
+  currency?: $Enums.Currency
+  bet_amount: bigint | number
+  payout_amount?: bigint | number
+  status?: $Enums.BetStatus
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
 }
 
 export type BetUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
-  market?: Prisma.MarketUpdateOneRequiredWithoutBetsNestedInput
   prediction?: Prisma.PredictionUpdateOneRequiredWithoutBetsNestedInput
 }
 
 export type BetUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  market_id?: Prisma.StringFieldUpdateOperationsInput | string
   prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -861,63 +727,10 @@ export type BetUncheckedUpdateWithoutUserInput = {
 
 export type BetUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  market_id?: Prisma.StringFieldUpdateOperationsInput | string
   prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
-}
-
-export type BetCreateManyMarketInput = {
-  id?: string
-  user_id?: string
-  prediction_id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
-  updated_at?: Date | string
-  version: number
-}
-
-export type BetUpdateWithoutMarketInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
-  user?: Prisma.UserUpdateOneRequiredWithoutBetsNestedInput
-  prediction?: Prisma.PredictionUpdateOneRequiredWithoutBetsNestedInput
-}
-
-export type BetUncheckedUpdateWithoutMarketInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
-}
-
-export type BetUncheckedUpdateManyWithoutMarketInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  prediction_id?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -926,37 +739,34 @@ export type BetUncheckedUpdateManyWithoutMarketInput = {
 
 export type BetCreateManyPredictionInput = {
   id?: string
-  user_id?: string
-  market_id?: string
-  currency: $Enums.Currency
-  bet_amount: number
-  payout_amount?: number | null
-  status: $Enums.BetStatus
-  created_at: Date | string
+  user_id: string
+  currency?: $Enums.Currency
+  bet_amount: bigint | number
+  payout_amount?: bigint | number
+  status?: $Enums.BetStatus
+  created_at?: Date | string
   updated_at?: Date | string
-  version: number
+  version?: number
 }
 
 export type BetUpdateWithoutPredictionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   version?: Prisma.IntFieldUpdateOperationsInput | number
   user?: Prisma.UserUpdateOneRequiredWithoutBetsNestedInput
-  market?: Prisma.MarketUpdateOneRequiredWithoutBetsNestedInput
 }
 
 export type BetUncheckedUpdateWithoutPredictionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  market_id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -966,10 +776,9 @@ export type BetUncheckedUpdateWithoutPredictionInput = {
 export type BetUncheckedUpdateManyWithoutPredictionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  market_id?: Prisma.StringFieldUpdateOperationsInput | string
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
-  bet_amount?: Prisma.IntFieldUpdateOperationsInput | number
-  payout_amount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  bet_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  payout_amount?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   status?: Prisma.EnumBetStatusFieldUpdateOperationsInput | $Enums.BetStatus
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -981,7 +790,6 @@ export type BetUncheckedUpdateManyWithoutPredictionInput = {
 export type BetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   user_id?: boolean
-  market_id?: boolean
   prediction_id?: boolean
   currency?: boolean
   bet_amount?: boolean
@@ -991,14 +799,12 @@ export type BetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   updated_at?: boolean
   version?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  market?: boolean | Prisma.MarketDefaultArgs<ExtArgs>
   prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bet"]>
 
 export type BetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   user_id?: boolean
-  market_id?: boolean
   prediction_id?: boolean
   currency?: boolean
   bet_amount?: boolean
@@ -1008,14 +814,12 @@ export type BetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   updated_at?: boolean
   version?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  market?: boolean | Prisma.MarketDefaultArgs<ExtArgs>
   prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bet"]>
 
 export type BetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   user_id?: boolean
-  market_id?: boolean
   prediction_id?: boolean
   currency?: boolean
   bet_amount?: boolean
@@ -1025,14 +829,12 @@ export type BetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   updated_at?: boolean
   version?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  market?: boolean | Prisma.MarketDefaultArgs<ExtArgs>
   prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bet"]>
 
 export type BetSelectScalar = {
   id?: boolean
   user_id?: boolean
-  market_id?: boolean
   prediction_id?: boolean
   currency?: boolean
   bet_amount?: boolean
@@ -1043,20 +845,17 @@ export type BetSelectScalar = {
   version?: boolean
 }
 
-export type BetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "market_id" | "prediction_id" | "currency" | "bet_amount" | "payout_amount" | "status" | "created_at" | "updated_at" | "version", ExtArgs["result"]["bet"]>
+export type BetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "prediction_id" | "currency" | "bet_amount" | "payout_amount" | "status" | "created_at" | "updated_at" | "version", ExtArgs["result"]["bet"]>
 export type BetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  market?: boolean | Prisma.MarketDefaultArgs<ExtArgs>
   prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
 }
 export type BetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  market?: boolean | Prisma.MarketDefaultArgs<ExtArgs>
   prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
 }
 export type BetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  market?: boolean | Prisma.MarketDefaultArgs<ExtArgs>
   prediction?: boolean | Prisma.PredictionDefaultArgs<ExtArgs>
 }
 
@@ -1064,17 +863,15 @@ export type $BetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   name: "Bet"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    market: Prisma.$MarketPayload<ExtArgs>
     prediction: Prisma.$PredictionPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     user_id: string
-    market_id: string
     prediction_id: string
     currency: $Enums.Currency
-    bet_amount: number
-    payout_amount: number | null
+    bet_amount: bigint
+    payout_amount: bigint
     status: $Enums.BetStatus
     created_at: Date
     updated_at: Date
@@ -1474,7 +1271,6 @@ readonly fields: BetFieldRefs;
 export interface Prisma__BetClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  market<T extends Prisma.MarketDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MarketDefaultArgs<ExtArgs>>): Prisma.Prisma__MarketClient<runtime.Types.Result.GetResult<Prisma.$MarketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   prediction<T extends Prisma.PredictionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PredictionDefaultArgs<ExtArgs>>): Prisma.Prisma__PredictionClient<runtime.Types.Result.GetResult<Prisma.$PredictionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1507,11 +1303,10 @@ export interface Prisma__BetClient<T, Null = never, ExtArgs extends runtime.Type
 export interface BetFieldRefs {
   readonly id: Prisma.FieldRef<"Bet", 'String'>
   readonly user_id: Prisma.FieldRef<"Bet", 'String'>
-  readonly market_id: Prisma.FieldRef<"Bet", 'String'>
   readonly prediction_id: Prisma.FieldRef<"Bet", 'String'>
   readonly currency: Prisma.FieldRef<"Bet", 'Currency'>
-  readonly bet_amount: Prisma.FieldRef<"Bet", 'Int'>
-  readonly payout_amount: Prisma.FieldRef<"Bet", 'Int'>
+  readonly bet_amount: Prisma.FieldRef<"Bet", 'BigInt'>
+  readonly payout_amount: Prisma.FieldRef<"Bet", 'BigInt'>
   readonly status: Prisma.FieldRef<"Bet", 'BetStatus'>
   readonly created_at: Prisma.FieldRef<"Bet", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"Bet", 'DateTime'>

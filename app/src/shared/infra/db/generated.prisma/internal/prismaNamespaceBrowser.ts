@@ -108,6 +108,7 @@ export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof 
 export const WalletTransactionScalarFieldEnum = {
   id: 'id',
   wallet_id: 'wallet_id',
+  user_id: 'user_id',
   prediction_id: 'prediction_id',
   type: 'type',
   currency: 'currency',
@@ -124,8 +125,9 @@ export const MarketScalarFieldEnum = {
   id: 'id',
   title: 'title',
   status: 'status',
-  closed_at: 'closed_at',
+  close_at: 'close_at',
   updated_at: 'updated_at',
+  created_at: 'created_at',
   resolved_at: 'resolved_at'
 } as const
 
@@ -151,8 +153,8 @@ export type PredictionScalarFieldEnum = (typeof PredictionScalarFieldEnum)[keyof
 
 export const PredictionTransactionScalarFieldEnum = {
   id: 'id',
-  prediction_id: 'prediction_id',
   transaction_type: 'transaction_type',
+  prediction_id: 'prediction_id',
   total_participants_before: 'total_participants_before',
   total_participants_after: 'total_participants_after',
   currency: 'currency',
@@ -168,7 +170,6 @@ export type PredictionTransactionScalarFieldEnum = (typeof PredictionTransaction
 export const BetScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
-  market_id: 'market_id',
   prediction_id: 'prediction_id',
   currency: 'currency',
   bet_amount: 'bet_amount',
