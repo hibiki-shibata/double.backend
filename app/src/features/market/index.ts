@@ -1,7 +1,6 @@
-import type { Router } from "express";
+import type { Router, Request, Response } from "express";
 import type { MarketService } from "./service/market.service.js";
 import type { MarketController } from "./controller/market.controller.js";
-import { logger } from "@global-shared/logger/logger.js";
 import { prismaClient } from "@global-shared/infra/db/prismaClient.js";
 import { PrismaMarketRepository } from "./repository/prisma.market.repository.js";
 import { MarketServiceV1 } from "./service/market.service.v1.js";

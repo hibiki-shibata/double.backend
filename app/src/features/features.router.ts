@@ -19,12 +19,12 @@ export function featuresRouter(): Router {
     router.use('/user',
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        userAccountFeature
+        userAccountFeature()
     )
     router.use('/wallet',
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        walletFeature
+        walletFeature()
     )
     return router
 }

@@ -6,11 +6,11 @@ import type { Pagination } from "./pagination.type.ts"
 declare global {
     namespace Express {
         interface Request {
-            requestId: string
-            logger: Logger
-            accessTokenClaim?: AccessTokenClaim
-            refreshToken?: string
-            pagination?: Pagination
+            // requestId: string
+            // logger: Logger
+            accessTokenClaim: AccessTokenClaim
+            refreshToken: string
+            pagination: Pagination
         }
     }
 }
