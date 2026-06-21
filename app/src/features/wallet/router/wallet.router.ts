@@ -5,10 +5,13 @@ import { verifyPaginationQuery } from '@global-shared/middleware/verifyPaginatio
 import { depositRequestSchema, withdrawRequestSchema } from '../schema/wallet.schema.js'
 
 export function walletRouter(
-    controller: WalletController
+    controller: WalletController,
 ): Router {
     const router: Router = Router()
-    router.get('/me', controller.getMyWalletInfo)
+    router.get(
+        '/me',
+        controller.getMyWalletInfo
+    )
     router.get(
         '/history',
         verifyPaginationQuery,

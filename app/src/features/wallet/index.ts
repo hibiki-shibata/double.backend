@@ -21,9 +21,9 @@ export function walletFeature(): Router {
     const cacheService: CacheService = new RedisCacheService(redisClient, logger)
     const ledgerDBRepository: WalletTransactionRepository = new PrismaWalletTransactionRepository(prismaClient)
     const ledgerRepository: WalletTransactionRepository = new CachedWaletTransactionRepository(ledgerDBRepository, cacheService, cacheKeys, cacheTtlsSec)
-    const walletDBRepository: WalletRepository = new PrismaWalletRepository(prismaClient)
-    const repository: WalletRepository = new CachedWalletRepository(walletDBRepository, cacheService, cacheKeys, cacheTtlsSec)
-    const service: WalletService = new WalletServiceV1(repository, ledgerRepository, prismaClient, logger)
+    const dbRepository: WalletRepository = new PrismaWalletRepository(prismaClient)
+    const cachedRepository: WalletRepository = new CachedWalletRepository(dbRepository, cacheService, cacheKeys, cacheTtlsSec)
+    const service: WalletService = new WalletServiceV1(cachedRepository, ledgerRepository, prismaClient, logger)
     const controller: WalletController = new WalletControllerV1(service, logger)
     return walletRouter(controller)
 }

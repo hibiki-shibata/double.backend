@@ -16,8 +16,8 @@ import { cacheKeys, cacheTtlsSec } from "@global-shared/config/cache.config.js";
 
 export function marketFeature(): Router {
     const cacheSerivice: CacheService = new RedisCacheService(redisClient, logger)
-    const repository: MarketRepository = new PrismaMarketRepository(prismaClient)
-    const cachedRepository: MarketRepository = new CachedMarketRepository(repository, cacheSerivice, cacheKeys, cacheTtlsSec)
+    const dbRepository: MarketRepository = new PrismaMarketRepository(prismaClient)
+    const cachedRepository: MarketRepository = new CachedMarketRepository(dbRepository, cacheSerivice, cacheKeys, cacheTtlsSec)
     const service: MarketService = new MarketServiceV1(cachedRepository, logger)
     const controller: MarketController = new MarketControllerV1(service, logger)
     return marketRouter(controller)

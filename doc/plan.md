@@ -139,3 +139,9 @@
     - wallet history - time filter?
     - notification?
     - support feature(intercom integration)?
+
+
+Quick 
+    - middleware - validate marketId query paramter
+    - create wallet when user is created?
+- auth zod schema
