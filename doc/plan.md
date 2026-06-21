@@ -142,6 +142,7 @@
 
 
 Quick 
-    - middleware - validate marketId query paramter
-    - create wallet when user is created?
+- middleware - validate marketId query paramter
 - auth zod schema
+- refresh token validation
+- logger from request - not direct instance?

@@ -7,8 +7,18 @@ export function userAccountRouter(
     controller: UserAccountController,
 ): Router {
     const router: Router = Router()
-    router.get('/me', controller.getMyAccount)
-    router.put('/me', verifyRequestBody(userAccountEditRequestSchema), controller.updateMyAccount)
-    router.delete('/me', controller.deleteMyAccount)
+    router.get(
+        '/me',
+        controller.getMyAccount
+    )
+    router.put(
+        '/me',
+        verifyRequestBody(userAccountEditRequestSchema),
+        controller.updateMyAccount
+    )
+    router.delete(
+        '/me',
+        controller.deleteMyAccount
+    )
     return router
 }

@@ -4,13 +4,13 @@ import type { AccessTokenClaim, RefreshTokenClaim } from "@global-shared/auth/ty
 import type { Pagination } from "./pagination.type.ts"
 
 declare global {
-    declare namespace Express {
+    namespace Express {
         interface Request {
             requestId: string
             logger: Logger
-            accessTokenClaim: AccessTokenClaim
-            refreshToken: string
-            pagination: Pagination
+            accessTokenClaim?: AccessTokenClaim
+            refreshToken?: string
+            pagination?: Pagination
         }
     }
 }

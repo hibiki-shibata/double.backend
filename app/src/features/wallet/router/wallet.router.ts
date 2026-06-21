@@ -1,8 +1,9 @@
 import { Router } from 'express'
 import type { WalletController } from '../controller/wallet.controller.js'
 import { verifyRequestBody } from '@global-shared/middleware/verifyRequestBody.js'
-import { verifyPaginationQuery } from '@global-shared/middleware/verifyPaginationQueryParam.js'
+import { verifyQueryParams } from '@global-shared/middleware/verifyQueryParams.js'
 import { depositRequestSchema, withdrawRequestSchema } from '../schema/wallet.schema.js'
+import { paginationSchema } from '@global-shared/types/pagination.type.js'
 
 export function walletRouter(
     controller: WalletController,
@@ -14,7 +15,7 @@ export function walletRouter(
     )
     router.get(
         '/history',
-        verifyPaginationQuery,
+        verifyQueryParams(paginationSchema),
         controller.getMyWalletHistory
     )
     router.put(

@@ -3,6 +3,7 @@ import type { UserAuthService } from "../service/userAuth.service.js"
 import type { Response, Request, CookieOptions } from "express"
 import type { JwtTokens, AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../schema/userAuth.schema.js"
 import type { UserAuthController } from "./userAuth.controller.js"
+import { UnauthenticatedErr } from "@global-shared/error/httpErrors.js"
 
 export class UserAuthControllerV1 implements UserAuthController {
     private readonly REFRESH_TOKEN_COOKIE_HEADER = 'refreshToken'
@@ -48,6 +49,7 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
+
         const jwtTokens: JwtTokens = await this.userAuthService.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
@@ -59,7 +61,8 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request,
         res: Response
     ): Promise<void> {
-        const userId = req.accessTokenClaim.userId
+        const userId = req.accessTokenClaim?.userId
+        if(!userId) throw new UnauthenticatedErr('Failed to logout')
         this.log.info({ userId }, "Request Logout arrived")
         res.removeHeader(this.REFRESH_TOKEN_COOKIE_HEADER)
         this.log.info({ userId }, "Response success Logout sent")
