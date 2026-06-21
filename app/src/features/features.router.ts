@@ -9,7 +9,10 @@ import { marketFeature } from './market/index.js'
 
 export function featuresRouter(): Router {
     const router: Router = Router()
-    router.use('/auth', userAuthFeature())
+    router.use(
+        '/auth',
+        userAuthFeature()
+    )
     router.use('/user',
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
@@ -21,8 +24,6 @@ export function featuresRouter(): Router {
         walletFeature
     )
     router.use('/market',
-        authenticate,
-        authorize({ requiredRoles: [UserRoles.USER] }),
         marketFeature
     )
     return router

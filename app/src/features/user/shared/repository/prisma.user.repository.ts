@@ -31,6 +31,7 @@ export class PrismaUserRepository implements UserRepository {
             password_hash: dto.passwordHash,
             status: dto.status,
             roles: dto.roles,
+            wallet: {} // Create an empty wallet at signup
         }
         return await this.prismaClient.user.create({
             data: data
