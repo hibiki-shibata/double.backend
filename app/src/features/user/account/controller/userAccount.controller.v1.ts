@@ -1,6 +1,6 @@
 import type { Logger } from 'pino'
 import type { Request, Response } from 'express'
-import type { UserAccountRequest, UserAccountResponse } from "../schema/userAccount.schema.js"
+import type { UserAccountEditRequest, UserAccountResponse } from "../schema/userAccount.schema.js"
 import type { UserAccountService } from '../service/userAccount.service.js'
 import type { UserAccountController } from './userAccount.controller.js'
 
@@ -24,7 +24,7 @@ export class UserAccountControllerV1 implements UserAccountController {
     }
 
     async updateMyAccount(
-        req: Request<{}, {}, UserAccountRequest>,
+        req: Request<{}, {}, UserAccountEditRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
         const userId = req.accessTokenClaim.userId

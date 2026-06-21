@@ -1,7 +1,7 @@
 import z from "zod"
 import { userShape } from "../../shared/schema/user.schema.shape.js"
 
-export const userAccountRequestSchema = z.object({
+export const userAccountEditRequestSchema = z.object({
     name: userShape.name,
     displayName: userShape.displayName,
     emailAddress: userShape.emailAddress,
@@ -16,5 +16,5 @@ export const userAccountResponseSchema = z.object({
     status: userShape.status
 })
 
-export type UserAccountRequest = z.infer<typeof userAccountRequestSchema>
+export type UserAccountEditRequest = z.infer<typeof userAccountEditRequestSchema>
 export type UserAccountResponse = z.infer<typeof userAccountResponseSchema>

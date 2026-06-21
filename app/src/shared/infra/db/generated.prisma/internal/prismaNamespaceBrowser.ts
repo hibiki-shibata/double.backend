@@ -125,8 +125,9 @@ export const MarketScalarFieldEnum = {
   id: 'id',
   title: 'title',
   status: 'status',
-  closed_at: 'closed_at',
+  close_at: 'close_at',
   updated_at: 'updated_at',
+  created_at: 'created_at',
   resolved_at: 'resolved_at'
 } as const
 

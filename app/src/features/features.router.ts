@@ -5,8 +5,7 @@ import { authorize } from '@global-shared/middleware/authorize.js'
 import { userAuthFeature } from './user/auth/index.js'
 import { userAccountFeature } from './user/account/index.js'
 import { walletFeature } from './wallet/index.js'
-
-import { marketRouter } from './market/index.js'
+import { marketFeature } from './market/index.js'
 
 export function featuresRouter(): Router {
     const router: Router = Router()
@@ -24,7 +23,7 @@ export function featuresRouter(): Router {
     router.use('/market',
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        marketRouter
+        marketFeature
     )
     return router
 }

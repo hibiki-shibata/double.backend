@@ -1,7 +1,7 @@
 import type { Logger } from "pino"
 import type { UserAccountService } from "./userAccount.service.js"
 import type { UserRepository } from "../../shared/repository/user.repository.js"
-import type { UserAccountRequest, UserAccountResponse } from "../schema/userAccount.schema.js"
+import type { UserAccountEditRequest, UserAccountResponse } from "../schema/userAccount.schema.js"
 import type { PasswordService } from "@global-shared/auth/service/password.service.js"
 import { type User, UserStatus } from "@global-shared/infra/db/generated.prisma/client.js"
 import { InvalidInputErr } from "@global-shared/error/httpErrors.js"
@@ -23,7 +23,7 @@ export class UserAccountServiceV1 implements UserAccountService {
 
     public async updateAccount(
         userId: string,
-        dto: UserAccountRequest
+        dto: UserAccountEditRequest
     ): Promise<UserAccountResponse> {
         this.log.info({ userId }, "Updating User from DB")
         await this.verifyNonDeletedUser(userId)

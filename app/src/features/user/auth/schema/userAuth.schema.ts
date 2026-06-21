@@ -18,9 +18,7 @@ export const UserLoginRequestSchema = z.object({
 export type UserLoginRequest = z.infer<typeof UserLoginRequestSchema>
 
 // Response
-const jwtTokenShape = z.jwt({
-    alg: jwtOptions.algorithm
-})
+const jwtTokenShape = z.jwt({ alg: jwtOptions.algorithm })
 
 export const AccessTokenResponseSchema = z.object({
     accessToken: jwtTokenShape

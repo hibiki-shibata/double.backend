@@ -118,14 +118,15 @@ model Market {
   id          String       @id @default(uuid())
   title       String
   status      MarketStatus @default(UPCOMING)
-  closed_at   DateTime
+  close_at   DateTime
   updated_at  DateTime     @updatedAt
+  created_at  DateTime     @default(now())
   resolved_at DateTime?
 
   predictions Prediction[]
 
   @@index([status])
-  @@index([closed_at])
+  @@index([close_at])
 }
 
 // Prediciton Model

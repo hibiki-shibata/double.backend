@@ -28,8 +28,9 @@ export type MarketMinAggregateOutputType = {
   id: string | null
   title: string | null
   status: $Enums.MarketStatus | null
-  closed_at: Date | null
+  close_at: Date | null
   updated_at: Date | null
+  created_at: Date | null
   resolved_at: Date | null
 }
 
@@ -37,8 +38,9 @@ export type MarketMaxAggregateOutputType = {
   id: string | null
   title: string | null
   status: $Enums.MarketStatus | null
-  closed_at: Date | null
+  close_at: Date | null
   updated_at: Date | null
+  created_at: Date | null
   resolved_at: Date | null
 }
 
@@ -46,8 +48,9 @@ export type MarketCountAggregateOutputType = {
   id: number
   title: number
   status: number
-  closed_at: number
+  close_at: number
   updated_at: number
+  created_at: number
   resolved_at: number
   _all: number
 }
@@ -57,8 +60,9 @@ export type MarketMinAggregateInputType = {
   id?: true
   title?: true
   status?: true
-  closed_at?: true
+  close_at?: true
   updated_at?: true
+  created_at?: true
   resolved_at?: true
 }
 
@@ -66,8 +70,9 @@ export type MarketMaxAggregateInputType = {
   id?: true
   title?: true
   status?: true
-  closed_at?: true
+  close_at?: true
   updated_at?: true
+  created_at?: true
   resolved_at?: true
 }
 
@@ -75,8 +80,9 @@ export type MarketCountAggregateInputType = {
   id?: true
   title?: true
   status?: true
-  closed_at?: true
+  close_at?: true
   updated_at?: true
+  created_at?: true
   resolved_at?: true
   _all?: true
 }
@@ -157,8 +163,9 @@ export type MarketGroupByOutputType = {
   id: string
   title: string
   status: $Enums.MarketStatus
-  closed_at: Date
+  close_at: Date
   updated_at: Date
+  created_at: Date
   resolved_at: Date | null
   _count: MarketCountAggregateOutputType | null
   _min: MarketMinAggregateOutputType | null
@@ -187,8 +194,9 @@ export type MarketWhereInput = {
   id?: Prisma.StringFilter<"Market"> | string
   title?: Prisma.StringFilter<"Market"> | string
   status?: Prisma.EnumMarketStatusFilter<"Market"> | $Enums.MarketStatus
-  closed_at?: Prisma.DateTimeFilter<"Market"> | Date | string
+  close_at?: Prisma.DateTimeFilter<"Market"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Market"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"Market"> | Date | string
   resolved_at?: Prisma.DateTimeNullableFilter<"Market"> | Date | string | null
   predictions?: Prisma.PredictionListRelationFilter
 }
@@ -197,8 +205,9 @@ export type MarketOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  closed_at?: Prisma.SortOrder
+  close_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   resolved_at?: Prisma.SortOrderInput | Prisma.SortOrder
   predictions?: Prisma.PredictionOrderByRelationAggregateInput
 }
@@ -210,8 +219,9 @@ export type MarketWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.MarketWhereInput | Prisma.MarketWhereInput[]
   title?: Prisma.StringFilter<"Market"> | string
   status?: Prisma.EnumMarketStatusFilter<"Market"> | $Enums.MarketStatus
-  closed_at?: Prisma.DateTimeFilter<"Market"> | Date | string
+  close_at?: Prisma.DateTimeFilter<"Market"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Market"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"Market"> | Date | string
   resolved_at?: Prisma.DateTimeNullableFilter<"Market"> | Date | string | null
   predictions?: Prisma.PredictionListRelationFilter
 }, "id">
@@ -220,8 +230,9 @@ export type MarketOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  closed_at?: Prisma.SortOrder
+  close_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   resolved_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.MarketCountOrderByAggregateInput
   _max?: Prisma.MarketMaxOrderByAggregateInput
@@ -235,8 +246,9 @@ export type MarketScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Market"> | string
   title?: Prisma.StringWithAggregatesFilter<"Market"> | string
   status?: Prisma.EnumMarketStatusWithAggregatesFilter<"Market"> | $Enums.MarketStatus
-  closed_at?: Prisma.DateTimeWithAggregatesFilter<"Market"> | Date | string
+  close_at?: Prisma.DateTimeWithAggregatesFilter<"Market"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"Market"> | Date | string
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"Market"> | Date | string
   resolved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Market"> | Date | string | null
 }
 
@@ -244,8 +256,9 @@ export type MarketCreateInput = {
   id?: string
   title: string
   status?: $Enums.MarketStatus
-  closed_at: Date | string
+  close_at: Date | string
   updated_at?: Date | string
+  created_at?: Date | string
   resolved_at?: Date | string | null
   predictions?: Prisma.PredictionCreateNestedManyWithoutMarketInput
 }
@@ -254,8 +267,9 @@ export type MarketUncheckedCreateInput = {
   id?: string
   title: string
   status?: $Enums.MarketStatus
-  closed_at: Date | string
+  close_at: Date | string
   updated_at?: Date | string
+  created_at?: Date | string
   resolved_at?: Date | string | null
   predictions?: Prisma.PredictionUncheckedCreateNestedManyWithoutMarketInput
 }
@@ -264,8 +278,9 @@ export type MarketUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketStatusFieldUpdateOperationsInput | $Enums.MarketStatus
-  closed_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  close_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   predictions?: Prisma.PredictionUpdateManyWithoutMarketNestedInput
 }
@@ -274,8 +289,9 @@ export type MarketUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketStatusFieldUpdateOperationsInput | $Enums.MarketStatus
-  closed_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  close_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   predictions?: Prisma.PredictionUncheckedUpdateManyWithoutMarketNestedInput
 }
@@ -284,8 +300,9 @@ export type MarketCreateManyInput = {
   id?: string
   title: string
   status?: $Enums.MarketStatus
-  closed_at: Date | string
+  close_at: Date | string
   updated_at?: Date | string
+  created_at?: Date | string
   resolved_at?: Date | string | null
 }
 
@@ -293,8 +310,9 @@ export type MarketUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketStatusFieldUpdateOperationsInput | $Enums.MarketStatus
-  closed_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  close_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -302,8 +320,9 @@ export type MarketUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketStatusFieldUpdateOperationsInput | $Enums.MarketStatus
-  closed_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  close_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -311,8 +330,9 @@ export type MarketCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  closed_at?: Prisma.SortOrder
+  close_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   resolved_at?: Prisma.SortOrder
 }
 
@@ -320,8 +340,9 @@ export type MarketMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  closed_at?: Prisma.SortOrder
+  close_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   resolved_at?: Prisma.SortOrder
 }
 
@@ -329,8 +350,9 @@ export type MarketMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  closed_at?: Prisma.SortOrder
+  close_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   resolved_at?: Prisma.SortOrder
 }
 
@@ -365,8 +387,9 @@ export type MarketCreateWithoutPredictionsInput = {
   id?: string
   title: string
   status?: $Enums.MarketStatus
-  closed_at: Date | string
+  close_at: Date | string
   updated_at?: Date | string
+  created_at?: Date | string
   resolved_at?: Date | string | null
 }
 
@@ -374,8 +397,9 @@ export type MarketUncheckedCreateWithoutPredictionsInput = {
   id?: string
   title: string
   status?: $Enums.MarketStatus
-  closed_at: Date | string
+  close_at: Date | string
   updated_at?: Date | string
+  created_at?: Date | string
   resolved_at?: Date | string | null
 }
 
@@ -399,8 +423,9 @@ export type MarketUpdateWithoutPredictionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketStatusFieldUpdateOperationsInput | $Enums.MarketStatus
-  closed_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  close_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -408,8 +433,9 @@ export type MarketUncheckedUpdateWithoutPredictionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumMarketStatusFieldUpdateOperationsInput | $Enums.MarketStatus
-  closed_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  close_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -448,8 +474,9 @@ export type MarketSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   title?: boolean
   status?: boolean
-  closed_at?: boolean
+  close_at?: boolean
   updated_at?: boolean
+  created_at?: boolean
   resolved_at?: boolean
   predictions?: boolean | Prisma.Market$predictionsArgs<ExtArgs>
   _count?: boolean | Prisma.MarketCountOutputTypeDefaultArgs<ExtArgs>
@@ -459,8 +486,9 @@ export type MarketSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   title?: boolean
   status?: boolean
-  closed_at?: boolean
+  close_at?: boolean
   updated_at?: boolean
+  created_at?: boolean
   resolved_at?: boolean
 }, ExtArgs["result"]["market"]>
 
@@ -468,8 +496,9 @@ export type MarketSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   title?: boolean
   status?: boolean
-  closed_at?: boolean
+  close_at?: boolean
   updated_at?: boolean
+  created_at?: boolean
   resolved_at?: boolean
 }, ExtArgs["result"]["market"]>
 
@@ -477,12 +506,13 @@ export type MarketSelectScalar = {
   id?: boolean
   title?: boolean
   status?: boolean
-  closed_at?: boolean
+  close_at?: boolean
   updated_at?: boolean
+  created_at?: boolean
   resolved_at?: boolean
 }
 
-export type MarketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "status" | "closed_at" | "updated_at" | "resolved_at", ExtArgs["result"]["market"]>
+export type MarketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "status" | "close_at" | "updated_at" | "created_at" | "resolved_at", ExtArgs["result"]["market"]>
 export type MarketInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   predictions?: boolean | Prisma.Market$predictionsArgs<ExtArgs>
   _count?: boolean | Prisma.MarketCountOutputTypeDefaultArgs<ExtArgs>
@@ -499,8 +529,9 @@ export type $MarketPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     id: string
     title: string
     status: $Enums.MarketStatus
-    closed_at: Date
+    close_at: Date
     updated_at: Date
+    created_at: Date
     resolved_at: Date | null
   }, ExtArgs["result"]["market"]>
   composites: {}
@@ -929,8 +960,9 @@ export interface MarketFieldRefs {
   readonly id: Prisma.FieldRef<"Market", 'String'>
   readonly title: Prisma.FieldRef<"Market", 'String'>
   readonly status: Prisma.FieldRef<"Market", 'MarketStatus'>
-  readonly closed_at: Prisma.FieldRef<"Market", 'DateTime'>
+  readonly close_at: Prisma.FieldRef<"Market", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"Market", 'DateTime'>
+  readonly created_at: Prisma.FieldRef<"Market", 'DateTime'>
   readonly resolved_at: Prisma.FieldRef<"Market", 'DateTime'>
 }
     

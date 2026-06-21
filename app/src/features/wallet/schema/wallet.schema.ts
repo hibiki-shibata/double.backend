@@ -13,6 +13,7 @@ export const withdrawRequestSchema = z.object({
 })
 export type WithdrawRequest = z.infer<typeof withdrawRequestSchema>
 
+
 // Response
 export const walletResponseSchema = z.object({
     id: z.uuidv4('wallet id must be uuidv4'),
