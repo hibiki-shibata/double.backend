@@ -4,7 +4,6 @@ import { jwtTokenService } from "@global-shared/auth/index.js"
 import { loggerContext } from "@global-shared/logger/logger.js"
 import { UnauthenticatedErr } from "@global-shared/error/httpErrors.js"
 import type { Logger } from "pino"
-import { MissingAuthenticateMiddleware } from "@global-shared/error/serverErros.js"
 
 const BEARER_PREFIX = 'Bearer '
 

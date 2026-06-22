@@ -143,9 +143,6 @@
 
 Quick 
 - refresh token validation
-- controller request type remove {}
-- service layer and Request type should have different DTO?
-- req.accessTokenClaim nullable
 
 - service layer validation not only zod
 - DB level data integrity

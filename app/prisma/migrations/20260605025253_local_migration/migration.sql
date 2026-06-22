@@ -52,6 +52,7 @@ CREATE TABLE "Wallet" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Wallet_pkey" PRIMARY KEY ("id")
+        CONSTRAINT "balance_positive_check" CHECK ("balance" >= 0) 
 );
 
 -- CreateTable
