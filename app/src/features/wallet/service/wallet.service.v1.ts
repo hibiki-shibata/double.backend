@@ -22,16 +22,17 @@ export class WalletServiceV1 implements WalletService {
     }
 
     async getUserWalletHistory(
-        userId: string, pagenation: Pagination
+        userId: string, pagination: Pagination
     ): Promise<WalletTransactionResponse[]> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Fetching user wallet wallet history from DB")
 
         const wallet: Wallet = await this.fetchUserWallet(userId)
 
+
         const walletHistory: WalletTransaction[] = await this.ledgerRepository.getHistoryByWalletId(wallet.id, {
-            offset: pagenation.page ? pagenation.page - 1 : 0,
-            limit: pagenation.limit ? pagenation.limit : 50
+            offset: (Math.abs(pagination.page) <= 100) ? pagination.page : 0,
+            limit: (Math.abs(pagination.limit) <= 50) ? pagination.limit : 30
         })
 
         logger.info("Success Fetching User's wallet history from DB")

@@ -17,8 +17,8 @@ export class MarketServiceV1 implements MarketService {
         const logger = this.loggerContext.getLogger()
         logger.info('Fetching list of available merchants')
         const availableMarkets: MarketWithPredictions[] = await this.marketRepository.getByStatus(MarketStatus.OPEN, {
-            offset: pagination.page ? pagination.page - 1 : 0,
-            limit: pagination.limit ? pagination.limit : 50
+            offset: (Math.abs(pagination.page) <= 100) ? pagination.page : 0,
+            limit: (Math.abs(pagination.limit) <= 50) ? pagination.limit : 30
         })
         logger.info('Sucess Fetching list of available merchants')
         return availableMarkets.map((market) => this.toMarketResponse(market))
