@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from 'express'
 import { HttpBaseErr } from '@global-shared/error/httpErrors.js'
 import { InternalServerBaseErr } from '@global-shared/error/serverErros.js'
 import { PrismaClientKnownRequestError } from '@global-shared/infra/db/generated.prisma/internal/prismaNamespace.js'
+import { loggerContext } from '@global-shared/logger/logger.js'
 
 type ErrorResponse = {
     code: string
@@ -11,29 +12,29 @@ type ErrorResponse = {
 
 export function globalErrorHandler(
     err: Error,
-    req: Request,
+    _req: Request,
     res: Response,
     _next: NextFunction
 ): Response {
+    const logger = loggerContext.getLogger()
+
     let resBody: ErrorResponse = {
         code: 'INTERNAL_ERROR',
         message: 'Internal Server Error',
-        requestId: req.requestId
     }
 
     if (err instanceof HttpBaseErr) {
-        req.logger.error({ err }, 'httpException was handled')
+        logger.error({ err }, 'httpException was handled')
         resBody = {
             code: err.code,
             message: err.message,
-            requestId: req.requestId
         }
         return res.status(err.statusCode).json(resBody)
 
     }
 
     if (err instanceof InternalServerBaseErr) {
-        req.logger.error({ err }, 'InternalServerException was handled')
+        logger.error({ err }, 'InternalServerException was handled')
         return res.status(err.statusCode).json(resBody)
     }
 
@@ -42,6 +43,6 @@ export function globalErrorHandler(
         if (err.code === 'P2002') return res.status(409).json({ message: 'Already exists' })
     }
 
-    req.logger.error({ err }, 'Unexpected Exception was thrown')
+    logger.error({ err }, 'Unexpected Exception was thrown')
     return res.status(500).json(resBody)
 }

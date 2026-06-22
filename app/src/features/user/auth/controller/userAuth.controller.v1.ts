@@ -3,26 +3,29 @@ import type { UserAuthService } from "../service/userAuth.service.js"
 import type { Response, Request, CookieOptions } from "express"
 import type { JwtTokens, AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../schema/userAuth.schema.js"
 import type { UserAuthController } from "./userAuth.controller.js"
-import { UnauthenticatedErr } from "@global-shared/error/httpErrors.js"
+import type { LoggerContext } from "@global-shared/logger/loggerContext.js"
 
 export class UserAuthControllerV1 implements UserAuthController {
     private readonly REFRESH_TOKEN_COOKIE_HEADER = 'refreshToken'
     constructor(
         private readonly userAuthService: UserAuthService,
         private readonly cookieOptions: CookieOptions,
-        private readonly log: Logger,
+        private readonly loggerContext: LoggerContext,
     ) { }
 
     async signup(
         req: Request<{}, {}, UserSignupRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        this.log.info({ userName: req.body.userName }, "Request signup arrived")
+        const logger: Logger = this.loggerContext.getLogger()
+        logger.info({ userName: req.body.userName }, "Request signup arrived")
+
         const jwtTokens: JwtTokens = await this.userAuthService.signup({
             userName: req.body.userName,
             password: req.body.password
         })
-        this.log.info({ userName: req.body.userName }, "Response success signup sent")
+
+        logger.info({ userName: req.body.userName }, "Response success signup sent")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(201)
@@ -33,12 +36,15 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request<{}, {}, UserLoginRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        this.log.info({ userName: req.body.userName }, "Request Login arrived")
+        const logger: Logger = this.loggerContext.getLogger()
+        logger.info({ userName: req.body.userName }, "Request Login arrived")
+
         const jwtTokens: JwtTokens = await this.userAuthService.login({
             userName: req.body.userName,
             password: req.body.password
         })
-        this.log.info({ userName: req.body.userName }, "Response success login sent")
+
+        logger.info({ userName: req.body.userName }, "Response success login sent")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(200)
@@ -49,7 +55,6 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-
         const jwtTokens: JwtTokens = await this.userAuthService.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
@@ -58,14 +63,15 @@ export class UserAuthControllerV1 implements UserAuthController {
     }
 
     async logout(
-        req: Request,
+        _req: Request,
         res: Response
     ): Promise<void> {
-        const userId = req.accessTokenClaim?.userId
-        if(!userId) throw new UnauthenticatedErr('Failed to logout')
-        this.log.info({ userId }, "Request Logout arrived")
+        const logger: Logger = this.loggerContext.getLogger()
+        logger.info("Request Logout arrived")
+
         res.removeHeader(this.REFRESH_TOKEN_COOKIE_HEADER)
-        this.log.info({ userId }, "Response success Logout sent")
+
+        logger.info("Response success Logout sent")
         res
             .clearCookie(this.REFRESH_TOKEN_COOKIE_HEADER, this.cookieOptions)
             .status(200)

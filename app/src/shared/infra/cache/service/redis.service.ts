@@ -1,25 +1,27 @@
 // https://redis.io/docs/latest/develop/clients/ioredis/
 import type { Redis } from "ioredis"
-import type { Logger } from "pino"
+import type { Logger } from "express-rate-limit"
+import type { LoggerContext } from "@global-shared/logger/loggerContext.js"
 import type { CacheService } from "./cache.service.js"
 import { InvalidInputErr } from "@global-shared/error/httpErrors.js"
 
 export class RedisCacheService implements CacheService {
     constructor(
         private readonly redisClient: Redis,
-        private readonly logger: Logger,
+        private readonly loggerContext: LoggerContext,
         private readonly defaultTtlSecs: number = 60 * 5
     ) { }
 
     async getByKey<T = object>(
-        key: string
+        key: string,
     ): Promise<T | null> {
         try {
             const value: string | null = await this.redisClient.get(key)
             if (value === null) return null
             return JSON.parse(value)
         } catch (err) {
-            this.logger.error({ err, key }, 'Redis: cache get failed')
+            const logger: Logger = this.loggerContext.getLogger()
+            logger.error({ err, key }, 'Redis: cache get failed')
             return null
         }
     }
@@ -27,13 +29,14 @@ export class RedisCacheService implements CacheService {
     async setByKey<T = object>(
         key: string,
         value: T,
-        ttlSeconds: number = this.defaultTtlSecs
+        ttlSeconds: number = this.defaultTtlSecs,
     ): Promise<void> {
         try {
             if (typeof value !== 'object') throw new InvalidInputErr('cache data must be a object type')
             await this.redisClient.set(key, JSON.stringify(value), 'EX', ttlSeconds)
         } catch (err) {
-            this.logger.error({ err, key }, 'Redis: cache set failed')
+            const logger: Logger = this.loggerContext.getLogger()
+            logger.error({ err, key }, 'Redis: cache set failed')
         }
     }
 
@@ -43,7 +46,8 @@ export class RedisCacheService implements CacheService {
         try {
             await this.redisClient.del(key)
         } catch (err) {
-            this.logger.error({ err, key }, 'Redis: cache delete failed')
+            const logger: Logger = this.loggerContext.getLogger()
+            logger.error({ err, key }, 'Redis: cache delete failed')
         }
     }
 }

@@ -8,18 +8,21 @@ import type { RefreshTokenClaim } from "@global-shared/auth/type/jwtToken.type.j
 import { type User, UserRoles, UserStatus } from "@global-shared/infra/db/generated.prisma/client.js"
 import { InvalidInputErr } from "@global-shared/error/httpErrors.js"
 import { DatabaseErr, MappingErr } from "@global-shared/error/serverErros.js"
+import type { LoggerContext } from "@global-shared/logger/loggerContext.js"
 
 export class UserAuthServiceV1 implements UserAuthService {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly passwordService: PasswordService,
         private readonly jwtService: JwtTokenService,
-        private readonly log: Logger
+        private readonly loggerContext: LoggerContext
     ) { }
 
     public async signup(
         dto: UserSignupRequest
     ): Promise<JwtTokens> {
+        const logger: Logger = this.loggerContext.getLogger()
+
         const dbUser: User = await this.userRepository.getByUserName(dto.userName)
         if (dto.userName === dbUser.name) throw new InvalidInputErr('Input username is already taken')
 
@@ -32,14 +35,15 @@ export class UserAuthServiceV1 implements UserAuthService {
             roles: [UserRoles.USER]
         })
 
-        this.log.info({ userId: createdUser.id }, "Sucess User signup")
+        logger.info({ userId: createdUser.id }, "Sucess User signup")
         return this.generateJwtTokens(createdUser)
     }
 
     public async login(
         dto: UserLoginRequest
     ): Promise<JwtTokens> {
-        this.log.info({ userName: dto.userName }, "user login-ing")
+        const logger: Logger = this.loggerContext.getLogger()
+        logger.info({ userName: dto.userName }, "user login-ing")
 
         const dbUser: User = await this.userRepository.getByUserName(dto.userName)
         if (dbUser.status === UserStatus.DELETED) throw new InvalidInputErr('User has already been deleted')
@@ -47,7 +51,7 @@ export class UserAuthServiceV1 implements UserAuthService {
 
         await this.passwordService.verifyPassword(dto.password, dbUser.password_hash)
 
-        this.log.info({ userId: dbUser.id }, "Success user login-ing")
+        logger.info({ userId: dbUser.id }, "Success user login-ing")
         return this.generateJwtTokens(dbUser)
     }
 

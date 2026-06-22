@@ -147,3 +147,7 @@ Quick
 - refresh token validation
 - logger from request - not direct instance?
 - async local storage
+- userid is already logged - remove from business logic level
+- replae constuctor logger
+
+- service layer validation not only zod

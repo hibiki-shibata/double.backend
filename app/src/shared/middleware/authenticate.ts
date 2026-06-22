@@ -1,8 +1,9 @@
 import type { Request, Response, NextFunction } from "express"
 import type { AccessTokenClaim } from "@global-shared/auth/type/jwtToken.type.js"
 import { jwtTokenService } from "@global-shared/auth/index.js"
-import { logger } from "@global-shared/logger/logger.js"
+import { loggerContext } from "@global-shared/logger/logger.js"
 import { UnauthenticatedErr } from "@global-shared/error/httpErrors.js"
+import type { Logger } from "pino"
 
 const BEARER_PREFIX = 'Bearer '
 
@@ -20,6 +21,8 @@ export function authenticate(
 
     req.accessTokenClaim = accessTokenClaim
 
-    logger.child({ userId: accessTokenClaim.userId })
-    next()
+    const logger: Logger = loggerContext.getLogger().child({ userId: accessTokenClaim.userId })
+    loggerContext.run(logger, () => {
+        next()
+    })
 }

@@ -1,30 +1,34 @@
-import type { Logger } from "pino";
 import type { MarketRepository, MarketWithPredictions } from "../repository/market.repository.js";
 import type { MarketGetRequest, MarketResponse } from "../schema/market.schema.js";
 import type { Pagination } from "@global-shared/types/pagination.type.js";
 import type { MarketService } from "./market.service.js";
 import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
+import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 
 export class MarketServiceV1 implements MarketService {
     constructor(
         private readonly marketRepository: MarketRepository,
-        private readonly log: Logger
+        private readonly loggerContext: LoggerContext
     ) { }
 
-    async getListOfAvailableMarket(pagination: Pagination): Promise<MarketResponse[]> {
-        this.log.info('Fetching list of available merchants')
+    async getListOfAvailableMarket(
+        pagination: Pagination,
+    ): Promise<MarketResponse[]> {
+        const logger = this.loggerContext.getLogger()
+        logger.info('Fetching list of available merchants')
         const availableMarkets: MarketWithPredictions[] = await this.marketRepository.getByStatus(MarketStatus.OPEN, {
-            offset: pagination.page - 1,
-            limit: pagination.limit
+            offset: pagination.page ? pagination.page - 1 : 0,
+            limit: pagination.limit ? pagination.limit : 50
         })
-        this.log.info('Sucess Fetching list of available merchants')
+        logger.info('Sucess Fetching list of available merchants')
         return availableMarkets.map((market) => this.toMarketResponse(market))
     }
 
     async getMarketDetail(dto: MarketGetRequest): Promise<MarketResponse> {
-        this.log.info({ marketId: dto.marketId }, 'Fetching market details')
+        const logger = this.loggerContext.getLogger()
+        logger.info({ marketId: dto.marketId }, 'Fetching market details')
         const market: MarketWithPredictions = await this.marketRepository.getById(dto.marketId)
-        this.log.info({ marketId: dto.marketId }, 'Success Fetching market details')
+        logger.info({ marketId: dto.marketId }, 'Success Fetching market details')
         return this.toMarketResponse(market)
     }
 
