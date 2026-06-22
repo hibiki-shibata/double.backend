@@ -9,8 +9,8 @@ declare global {
             // requestId: string
             // logger: Logger
             accessTokenClaim: AccessTokenClaim
-            refreshToken: string
-            pagination: Pagination
+            // refreshToken: string
+            // pagination: Pagination
         }
     }
 }

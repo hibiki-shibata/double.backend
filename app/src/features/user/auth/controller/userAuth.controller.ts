@@ -1,9 +1,21 @@
 import type { Request, Response } from "express"
+import type { AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../schema/userAuth.schema.js"
 
 export interface UserAuthController {
-    signup(req: Request, res: Response): Promise<void>
-    login(req: Request, res: Response): Promise<void>
-    signup(req: Request, res: Response): Promise<void>
-    refreshToken(req: Request, res: Response): Promise<void>
-    logout(req: Request, res: Response): Promise<void>
+    signup(
+        req: Request<unknown, unknown, UserSignupRequest>,
+        res: Response<AccessTokenResponse>
+    ): Promise<void>
+    login(
+        req: Request<unknown, unknown, UserLoginRequest>,
+        res: Response<AccessTokenResponse>
+    ): Promise<void>
+    refreshToken(
+        req: Request<unknown, unknown, unknown>,
+        res: Response<AccessTokenResponse>
+    ): Promise<void>
+    logout(
+        req: Request<unknown, unknown, unknown>,
+        res: Response<void>
+    ): Promise<void>
 }

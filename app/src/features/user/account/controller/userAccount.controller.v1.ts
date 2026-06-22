@@ -12,7 +12,7 @@ export class UserAccountControllerV1 implements UserAccountController {
     ) { }
 
     async getMyAccount(
-        req: Request<{}, {}, void>,
+        req: Request<unknown, unknown, unknown>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
@@ -25,7 +25,7 @@ export class UserAccountControllerV1 implements UserAccountController {
     }
 
     async updateMyAccount(
-        req: Request<{}, {}, UserAccountEditRequest>,
+        req: Request<unknown, unknown, UserAccountEditRequest>,
         res: Response<UserAccountResponse>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
@@ -41,8 +41,8 @@ export class UserAccountControllerV1 implements UserAccountController {
     }
 
     async deleteMyAccount(
-        req: Request<{}, {}, void>,
-        res: Response
+        req: Request<unknown, unknown, void>,
+        res: Response<void>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Request delete account data arrived")
@@ -50,7 +50,7 @@ export class UserAccountControllerV1 implements UserAccountController {
         await this.userAccountService.deleteAccount(
             req.accessTokenClaim.userId
         )
-        
+
         logger.info("Response Account deletion success sent")
         res.status(204).end()
     }

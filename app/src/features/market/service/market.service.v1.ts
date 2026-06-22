@@ -1,5 +1,5 @@
 import type { MarketRepository, MarketWithPredictions } from "../repository/market.repository.js";
-import type { MarketGetRequest, MarketResponse } from "../schema/market.schema.js";
+import type { MarketGetRequestParams, MarketResponse } from "../schema/market.schema.js";
 import type { Pagination } from "@global-shared/types/pagination.type.js";
 import type { MarketService } from "./market.service.js";
 import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
@@ -24,7 +24,7 @@ export class MarketServiceV1 implements MarketService {
         return availableMarkets.map((market) => this.toMarketResponse(market))
     }
 
-    async getMarketDetail(dto: MarketGetRequest): Promise<MarketResponse> {
+    async getMarketDetail(dto: MarketGetRequestParams): Promise<MarketResponse> {
         const logger = this.loggerContext.getLogger()
         logger.info({ marketId: dto.marketId }, 'Fetching market details')
         const market: MarketWithPredictions = await this.marketRepository.getById(dto.marketId)

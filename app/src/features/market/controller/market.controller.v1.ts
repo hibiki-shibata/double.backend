@@ -3,7 +3,8 @@ import type { Logger } from "pino";
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { MarketController } from "./market.controller.js";
 import type { MarketService } from "../service/market.service.js";
-import type { MarketGetRequest, MarketResponse } from "../schema/market.schema.js";
+import type { MarketGetRequestParams, MarketResponse } from "../schema/market.schema.js";
+import type { Pagination } from "@global-shared/types/pagination.type.js";
 
 export class MarketControllerV1 implements MarketController {
     constructor(
@@ -12,19 +13,19 @@ export class MarketControllerV1 implements MarketController {
     ) { }
 
     async getListOfAvailableMarket(
-        req: Request,
+        req: Request<unknown, unknown, void, Pagination>,
         res: Response<MarketResponse[]>,
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request to get list of market arrived')
-        const availableMarkets: MarketResponse[] = await this.marketService.getListOfAvailableMarket(req.pagination)
+        const availableMarkets: MarketResponse[] = await this.marketService.getListOfAvailableMarket(req.query)
         res.status(200).json(availableMarkets)
         logger.info('Response sucess get list of market sent')
     }
 
     async getMarketDetail(
-        req: Request<{ marketId: string }, {}, MarketGetRequest>,
-        res: Response,
+        req: Request<MarketGetRequestParams, unknown, void>,
+        res: Response<MarketResponse>,
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request to get market detail arrived')

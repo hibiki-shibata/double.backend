@@ -14,7 +14,7 @@ export class UserAuthControllerV1 implements UserAuthController {
     ) { }
 
     async signup(
-        req: Request<{}, {}, UserSignupRequest>,
+        req: Request<unknown, unknown, UserSignupRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
@@ -33,7 +33,7 @@ export class UserAuthControllerV1 implements UserAuthController {
     }
 
     async login(
-        req: Request<{}, {}, UserLoginRequest>,
+        req: Request<unknown, unknown, UserLoginRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
@@ -52,7 +52,7 @@ export class UserAuthControllerV1 implements UserAuthController {
     }
 
     async refreshToken(
-        req: Request,
+        req: Request<unknown, unknown, unknown>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         const jwtTokens: JwtTokens = await this.userAuthService.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
@@ -63,8 +63,8 @@ export class UserAuthControllerV1 implements UserAuthController {
     }
 
     async logout(
-        _req: Request,
-        res: Response
+        _req: Request<unknown, unknown, unknown>,
+        res: Response<void>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Request Logout arrived")
