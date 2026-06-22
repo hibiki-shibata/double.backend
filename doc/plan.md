@@ -145,4 +145,3 @@ Quick
 - refresh token validation
 
 - service layer validation not only zod
-- DB level data integrity
