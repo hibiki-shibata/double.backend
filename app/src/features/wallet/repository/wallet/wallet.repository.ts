@@ -15,7 +15,7 @@ export type DeductBalanceInput = {
 
 export interface WalletRepository {
     getByUserId(userId: string): Promise<Wallet>
-    addBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: AddBalanceInput): Promise<Wallet>
+    safeDepositBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: AddBalanceInput): Promise<Wallet>
     safeDeductBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: DeductBalanceInput): Promise<Wallet>
     // registerBankInfo(): Promise<void> // Impelement later
 }

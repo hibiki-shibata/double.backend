@@ -27,7 +27,7 @@ export class UserAccountServiceV1 implements UserAccountService {
         dto: UserAccountEditRequest
     ): Promise<UserAccountResponse> {
         const logger: Logger = this.loggerContext.getLogger()
-        logger.info({ userId }, "Updating User from DB")
+        logger.info("Updating User from DB")
 
         await this.verifyNonDeletedUser(userId)
         const updatedUser: User = await this.userRepository.updateUserById(userId, {
@@ -36,8 +36,8 @@ export class UserAccountServiceV1 implements UserAccountService {
             emailAddress: dto.emailAddress,
             ...(dto.password && { passwordHash: await this.passwordService.hashPassword(dto.password) })
         })
-        
-        logger.info({ userId }, "Success updated User from DB")
+
+        logger.info("Success updated User from DB")
         return this.toUserAccountResponse(updatedUser)
     }
 
@@ -45,23 +45,23 @@ export class UserAccountServiceV1 implements UserAccountService {
         userId: string
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
-        logger.info({ userId }, "Deleting User from DB")
+        logger.info("Deleting User from DB")
 
         await this.verifyNonDeletedUser(userId)
         await this.userRepository.softDeleteById(userId)
 
-        logger.info({ userId }, "Success deleting User from DB")
+        logger.info("Success deleting User from DB")
     }
 
     private async verifyNonDeletedUser(
         userId: string
     ): Promise<User> {
         const logger: Logger = this.loggerContext.getLogger()
-        logger.info({ userId }, "Fetching User from DB")
+        logger.info("Fetching User from DB")
 
         const dbUser: User = await this.userRepository.getById(userId)
 
-        logger.info({ userId }, "Success Fetching User from DB")
+        logger.info("Success Fetching User from DB")
         if (dbUser.status === UserStatus.DELETED) throw new InvalidInputErr('User has already been deleted')
         return dbUser
     }

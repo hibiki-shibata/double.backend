@@ -14,7 +14,7 @@ export class PrismaWalletRepository implements WalletRepository {
         })
     }
 
-    async addBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: AddBalanceInput): Promise<Wallet> {
+    async safeDepositBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: AddBalanceInput): Promise<Wallet> {
         return tx.wallet.update({
             where: { id: walletId },
             data: {

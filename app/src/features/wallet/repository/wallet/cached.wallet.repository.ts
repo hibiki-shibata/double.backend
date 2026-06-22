@@ -26,8 +26,8 @@ export class CachedWalletRepository implements WalletRepository {
         return dbWallet
     }
 
-    async addBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: AddBalanceInput): Promise<Wallet> {
-        const dbWallet: Wallet = await this.walletRepository.addBalanceByWalletId(walletId, tx, dto)
+    async safeDepositBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: AddBalanceInput): Promise<Wallet> {
+        const dbWallet: Wallet = await this.walletRepository.safeDepositBalanceByWalletId(walletId, tx, dto)
         const walletCacheKey: string = this.cacheKeys.wallet.byUserId(dbWallet.user_id)
         await this.cacheService.deleteByKey(walletCacheKey)
         return dbWallet

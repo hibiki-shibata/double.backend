@@ -25,7 +25,7 @@ export class WalletServiceV1 implements WalletService {
         userId: string, pagenation: Pagination
     ): Promise<WalletTransactionResponse[]> {
         const logger: Logger = this.loggerContext.getLogger()
-        logger.info({ userId }, "Fetching user wallet wallet history from DB")
+        logger.info("Fetching user wallet wallet history from DB")
 
         const wallet: Wallet = await this.fetchUserWallet(userId)
 
@@ -34,19 +34,19 @@ export class WalletServiceV1 implements WalletService {
             limit: pagenation.limit ? pagenation.limit : 50
         })
 
-        logger.info({ userId }, "Success Fetching User's wallet history from DB")
+        logger.info("Success Fetching User's wallet history from DB")
         return this.toWalletTransactionResponse(walletHistory)
     }
 
     async deposit(userId: string, dto: DepositRequest): Promise<WalletResponse> {
         const logger: Logger = this.loggerContext.getLogger()
-        logger.info({ userId }, `Depositing ${dto.amount} to wallet balance in DB`)
+        logger.info(`Depositing ${dto.amount} to wallet balance in DB`)
 
         if (dto.amount <= 0) throw new InvalidInputErr('amount must be positive')
         // Payment integration
         const walletAfter: Wallet = await this.prismaClient.$transaction(async (tx) => {  // to prevent Race condition
             const walletBefore: Wallet = await this.fetchUserWallet(userId)
-            const tempWalletAfter: Wallet = await this.walletRepository.addBalanceByWalletId(walletBefore.id, tx, {
+            const tempWalletAfter: Wallet = await this.walletRepository.safeDepositBalanceByWalletId(walletBefore.id, tx, {
                 amount: dto.amount,
             })
             await this.ledgerRepository.create({
@@ -61,13 +61,13 @@ export class WalletServiceV1 implements WalletService {
             })
             return tempWalletAfter
         })
-        logger.info({ userId }, `Success Deposit ${dto.amount} to wallet balance in DB`)
+        logger.info(`Success Deposit ${dto.amount} to wallet balance in DB`)
         return this.toWalletResponse(walletAfter)
     }
 
     async withdraw(userId: string, dto: WithdrawRequest): Promise<WalletResponse> {
         const logger: Logger = this.loggerContext.getLogger()
-        logger.info({ userId }, `Withdrawing ${dto.amount} to wallet balance in DB`)
+        logger.info(`Withdrawing ${dto.amount} to wallet balance in DB`)
 
         if (dto.amount <= 0) throw new InvalidInputErr('amount must be positive')
         // Bank integration
@@ -76,6 +76,7 @@ export class WalletServiceV1 implements WalletService {
             const tempWalletAfter: Wallet = await this.walletRepository.safeDeductBalanceByWalletId(walletBefore.id, tx, {
                 amount: dto.amount
             })
+            if (tempWalletAfter.balance < 0) throw new InvalidInputErr('Withdraw amount over your balance')
             await this.ledgerRepository.create({
                 amount: dto.amount,
                 type: WalletTransactionType.WITHDRAW,
@@ -88,17 +89,17 @@ export class WalletServiceV1 implements WalletService {
             })
             return tempWalletAfter
         })
-        logger.info({ userId }, `Success withdrawing ${dto.amount} to wallet balance in DB`)
+        logger.info(`Success withdrawing ${dto.amount} to wallet balance in DB`)
         return this.toWalletResponse(walletAfter)
     }
 
     private async fetchUserWallet(userId: string): Promise<Wallet> {
         const logger: Logger = this.loggerContext.getLogger()
-        logger.info({ userId }, "Fetching user wallet data from DB")
+        logger.info("Fetching user wallet data from DB")
 
         const wallet: Wallet = await this.walletRepository.getByUserId(userId)
 
-        logger.info({ userId }, "Success fetching user wallet data from DB")
+        logger.info("Success fetching user wallet data from DB")
         return wallet
     }
 
