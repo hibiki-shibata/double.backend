@@ -16,6 +16,12 @@ export class UnexpectedEnvVarErr extends InternalServerBaseErr {
     }
 }
 
+export class MissingAuthenticateMiddleware extends InternalServerBaseErr {
+    constructor(message: string) {
+        super(message)
+    }
+}
+
 export class DatabaseErr extends InternalServerBaseErr {
     constructor(message: string) {
         super(message)

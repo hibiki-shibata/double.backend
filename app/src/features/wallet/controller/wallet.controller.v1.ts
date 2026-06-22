@@ -5,6 +5,7 @@ import type { WalletService } from "../service/wallet.service.js";
 import type { DepositRequest, WalletResponse, WalletTransactionResponse, WithdrawRequest } from "../schema/wallet.schema.js";
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { Pagination } from "@global-shared/types/pagination.type.js";
+import type { AccessTokenClaim } from "@global-shared/auth/type/jwtToken.type.js";
 
 export class WalletControllerV1 implements WalletController {
     constructor(
@@ -12,7 +13,8 @@ export class WalletControllerV1 implements WalletController {
         private readonly loggerContext: LoggerContext
     ) { }
     async getMyWalletInfo(
-        req: Request<unknown, unknown, void>, res: Response<WalletResponse>
+        req: Request<unknown, unknown, void> & { accessTokenClaim: AccessTokenClaim },
+        res: Response<WalletResponse>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request get my walletinfo arrived')
@@ -22,7 +24,8 @@ export class WalletControllerV1 implements WalletController {
     }
 
     async getMyWalletHistory(
-        req: Request<unknown, unknown, void, Pagination>, res: Response<WalletTransactionResponse[]>
+        req: Request<unknown, unknown, void, Pagination> & { accessTokenClaim: AccessTokenClaim },
+        res: Response<WalletTransactionResponse[]>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
 
@@ -36,7 +39,8 @@ export class WalletControllerV1 implements WalletController {
     }
 
     async deposit(
-        req: Request<unknown, unknown, DepositRequest>, res: Response<WalletResponse>
+        req: Request<unknown, unknown, DepositRequest> & { accessTokenClaim: AccessTokenClaim },
+        res: Response<WalletResponse>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request deposit arrived')
@@ -47,7 +51,8 @@ export class WalletControllerV1 implements WalletController {
         res.status(200).json(walletInfo)
     }
 
-    async withdraw(req: Request<unknown, unknown, WithdrawRequest>, res: Response<WalletResponse>): Promise<void> {
+    async withdraw(req: Request<unknown, unknown, WithdrawRequest> & { accessTokenClaim: AccessTokenClaim },
+        res: Response<WalletResponse>): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request withdraw arrived')
         const walletInfo: WalletResponse = await this.walletService.withdraw(req.accessTokenClaim.userId, {
