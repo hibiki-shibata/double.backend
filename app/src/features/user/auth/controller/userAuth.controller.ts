@@ -11,11 +11,11 @@ export interface UserAuthController {
         res: Response<AccessTokenResponse>
     ): Promise<void>
     refreshToken(
-        req: Request<unknown, unknown, unknown>,
+        req: Request<unknown, unknown, void>,
         res: Response<AccessTokenResponse>
     ): Promise<void>
     logout(
-        req: Request<unknown, unknown, unknown>,
+        req: Request<unknown, unknown, void>,
         res: Response<void>
     ): Promise<void>
 }

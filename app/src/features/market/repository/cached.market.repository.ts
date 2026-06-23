@@ -25,7 +25,7 @@ export class CachedMarketRepository implements MarketRepository {
         return dbMarket
     }
 
-    async getByStatus(status: MarketStatus, pagination: PaginationDBInput): Promise<MarketWithPredictions[]> {
+    async getByStatus(status: MarketStatus[], pagination: PaginationDBInput): Promise<MarketWithPredictions[]> {
         const cacheKey: string = this.cacheKeys.marketsByStatus.byPagination(pagination)
         const cachedMarket: MarketWithPredictions[] | null = await this.cacheService.getByKey<MarketWithPredictions[]>(cacheKey)
         if (cachedMarket !== null) return cachedMarket

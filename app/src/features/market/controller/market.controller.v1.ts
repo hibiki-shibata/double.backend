@@ -5,6 +5,7 @@ import type { MarketController } from "./market.controller.js";
 import type { MarketService } from "../service/market.service.js";
 import type { MarketGetRequestParams, MarketResponse } from "../schema/market.schema.js";
 import type { Pagination } from "@global-shared/types/pagination.type.js";
+import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
 
 export class MarketControllerV1 implements MarketController {
     constructor(
@@ -12,13 +13,16 @@ export class MarketControllerV1 implements MarketController {
         private readonly loggerContext: LoggerContext
     ) { }
 
-    async getListOfAvailableMarket(
-        req: Request<unknown, unknown, void, Pagination>,
+    async getOpenMarketList(
+        req: Request<unknown, unknown, void, unknown>,
         res: Response<MarketResponse[]>,
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request to get list of market arrived')
-        const availableMarkets: MarketResponse[] = await this.marketService.getListOfAvailableMarket(req.query)
+        const availableMarkets: MarketResponse[] = await this.marketService.getMarketList({
+            marketStatus: [MarketStatus.OPEN],
+            pagination: req.query as Pagination
+        })
         res.status(200).json(availableMarkets)
         logger.info('Response sucess get list of market sent')
     }
@@ -30,7 +34,9 @@ export class MarketControllerV1 implements MarketController {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request to get market detail arrived')
         const marketId: string = req.params.marketId
-        const marketDetail: MarketResponse = await this.marketService.getMarketDetail({ marketId: marketId })
+        const marketDetail: MarketResponse = await this.marketService.getMarketDetail({
+            marketId: marketId
+        })
         res.status(200).json(marketDetail)
         logger.info('Response success get market detail sent')
     }

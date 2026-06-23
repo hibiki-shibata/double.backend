@@ -143,3 +143,6 @@
 
 Quick 
 - service layer validation not only zod
+pagination
+
+enclose schema with namespace

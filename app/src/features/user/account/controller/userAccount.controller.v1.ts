@@ -18,9 +18,10 @@ export class UserAccountControllerV1 implements UserAccountController {
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Request account data arrived")
-        const user: UserAccountResponse = await this.userAccountService.getAccountInfo(
-            req.accessTokenClaim.userId
-        )
+        const user: UserAccountResponse = await this.userAccountService.getAccountDetail({
+            userId: req.accessTokenClaim.userId
+
+        })
         logger.info("Response account data sent")
         res.status(200).json(user)
     }
@@ -31,7 +32,8 @@ export class UserAccountControllerV1 implements UserAccountController {
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Request update account data arrived")
-        const updatedUser: UserAccountResponse = await this.userAccountService.updateAccount(req.accessTokenClaim.userId, {
+        const updatedUser: UserAccountResponse = await this.userAccountService.updateAccountDetail({
+            userId: req.accessTokenClaim.userId,
             name: req.body.name,
             displayName: req.body.displayName,
             emailAddress: req.body.emailAddress,
@@ -48,9 +50,9 @@ export class UserAccountControllerV1 implements UserAccountController {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Request delete account data arrived")
 
-        await this.userAccountService.deleteAccount(
-            req.accessTokenClaim.userId
-        )
+        await this.userAccountService.deleteAccount({
+            userId: req.accessTokenClaim.userId
+        })
 
         logger.info("Response Account deletion success sent")
         res.status(204).end()

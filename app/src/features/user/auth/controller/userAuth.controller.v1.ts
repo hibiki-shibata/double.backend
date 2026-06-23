@@ -52,7 +52,7 @@ export class UserAuthControllerV1 implements UserAuthController {
     }
 
     async refreshToken(
-        req: Request<unknown, unknown, unknown>,
+        req: Request<unknown, unknown, void>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         const jwtTokens: JwtTokens = await this.userAuthService.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
@@ -63,7 +63,7 @@ export class UserAuthControllerV1 implements UserAuthController {
     }
 
     async logout(
-        _req: Request<unknown, unknown, unknown>,
+        _req: Request<unknown, unknown, void>,
         res: Response<void>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()

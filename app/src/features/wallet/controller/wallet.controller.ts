@@ -1,5 +1,4 @@
 import type { Request, Response } from "express"
-import type { Pagination } from "@global-shared/types/pagination.type.js"
 import type { DepositRequest, WalletResponse, WalletTransactionResponse, WithdrawRequest } from "../schema/wallet.schema.js"
 
 export interface WalletController {
@@ -8,7 +7,7 @@ export interface WalletController {
         res: Response<WalletResponse>
     ): Promise<void>
     getMyWalletHistory(
-        req: Request<unknown, unknown, void, Pagination>,
+        req: Request<unknown, unknown, void, unknown>,
         res: Response<WalletTransactionResponse[]>
     ): Promise<void>
     deposit(

@@ -1,8 +1,7 @@
 import type { CacheService } from "@global-shared/infra/cache/service/cache.service.js";
 import type { CacheKeys, CacheTtlsSec } from "@global-shared/config/cache.config.js";
 import type { Wallet } from "@global-shared/infra/db/generated.prisma/client.js";
-import type { AddBalanceInput, DeductBalanceInput, WalletRepository } from "./wallet.repository.js";
-import type { txPrismaClient } from "../walletTransaction/walletTransaction.repository.js";
+import type { WalletRepository, WalletRepositoryInput } from "./wallet.repository.js";
 
 // This may unnecessary
 export class CachedWalletRepository implements WalletRepository {
@@ -26,15 +25,23 @@ export class CachedWalletRepository implements WalletRepository {
         return dbWallet
     }
 
-    async safeDepositBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: AddBalanceInput): Promise<Wallet> {
-        const dbWallet: Wallet = await this.walletRepository.safeDepositBalanceByWalletId(walletId, tx, dto)
+    async safeDepositBalance(dto: WalletRepositoryInput.SafeDepositBalance): Promise<Wallet> {
+        const dbWallet: Wallet = await this.walletRepository.safeDepositBalance({
+            amount: dto.amount,
+            walletId: dto.walletId,
+            tx: dto.tx,
+        })
         const walletCacheKey: string = this.cacheKeys.wallet.byUserId(dbWallet.user_id)
         await this.cacheService.deleteByKey(walletCacheKey)
         return dbWallet
     }
 
-    async safeDeductBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: DeductBalanceInput): Promise<Wallet> {
-        const dbWallet: Wallet = await this.walletRepository.safeDeductBalanceByWalletId(walletId, tx, dto)
+    async safeWithdrawBalance(dto: WalletRepositoryInput.SafeWithdrawBalance): Promise<Wallet> {
+        const dbWallet: Wallet = await this.walletRepository.safeWithdrawBalance({
+            amount: dto.amount,
+            walletId: dto.walletId,
+            tx: dto.tx,
+        })
         const walletCacheKey: string = this.cacheKeys.wallet.byUserId(dbWallet.user_id)
         await this.cacheService.deleteByKey(walletCacheKey)
         return dbWallet

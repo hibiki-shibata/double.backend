@@ -1,10 +1,11 @@
 import type { Logger } from "pino"
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js"
-import type { UserAccountService } from "./userAccount.service.js"
+import type { UserAccountService, UserAccountServiceParams } from "./userAccount.service.js"
 import type { UserRepository } from "../../shared/repository/user.repository.js"
-import type { UserAccountEditRequest, UserAccountResponse } from "../schema/userAccount.schema.js"
+import type { UserAccountResponse } from "../schema/userAccount.schema.js"
 import type { PasswordService } from "@global-shared/auth/service/password.service.js"
-import { type User, UserStatus } from "@global-shared/infra/db/generated.prisma/client.js"
+import type { User } from "@global-shared/infra/db/generated.prisma/client.js"
+import { UserRoles, UserStatus } from "@global-shared/infra/db/generated.prisma/enums.js"
 import { InvalidInputErr } from "@global-shared/error/httpErrors.js"
 import { MappingErr } from "@global-shared/error/serverErros.js"
 
@@ -15,22 +16,21 @@ export class UserAccountServiceV1 implements UserAccountService {
         private readonly loggerContext: LoggerContext
     ) { }
 
-    public async getAccountInfo(
-        userId: string
+    public async getAccountDetail(
+        dto: UserAccountServiceParams.GetAccountDetail
     ): Promise<UserAccountResponse> {
-        const dbUser: User = await this.verifyNonDeletedUser(userId)
+        const dbUser: User = await this.verifyNonDeletedUserById(dto.userId)
         return this.toUserAccountResponse(dbUser)
     }
 
-    public async updateAccount(
-        userId: string,
-        dto: UserAccountEditRequest
+    public async updateAccountDetail(
+        dto: UserAccountServiceParams.UpdateAccountDetail
     ): Promise<UserAccountResponse> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Updating User from DB")
 
-        await this.verifyNonDeletedUser(userId)
-        const updatedUser: User = await this.userRepository.updateUserById(userId, {
+        await this.verifyNonDeletedUserById(dto.userId)
+        const updatedUser: User = await this.userRepository.updateById(dto.userId, {
             name: dto.name,
             displayName: dto.displayName,
             emailAddress: dto.emailAddress,
@@ -42,18 +42,25 @@ export class UserAccountServiceV1 implements UserAccountService {
     }
 
     public async deleteAccount(
-        userId: string
+        dto: UserAccountServiceParams.DeleteAccount
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Deleting User from DB")
 
-        await this.verifyNonDeletedUser(userId)
-        await this.userRepository.softDeleteById(userId)
+        await this.verifyNonDeletedUserById(dto.userId)
+        await this.userRepository.updateById(dto.userId, {
+            name: null,
+            displayName: 'deleted',
+            emailAddress: null,
+            passwordHash: null,
+            status: UserStatus.DELETED,
+            roles: [UserRoles.DELETED]
+        })
 
         logger.info("Success deleting User from DB")
     }
 
-    private async verifyNonDeletedUser(
+    private async verifyNonDeletedUserById(
         userId: string
     ): Promise<User> {
         const logger: Logger = this.loggerContext.getLogger()

@@ -1,21 +1,23 @@
 import type { Wallet } from "@global-shared/infra/db/generated.prisma/client.js"
 import type { txPrismaClient } from "../walletTransaction/walletTransaction.repository.js"
 
-export type GetByUserIdInput = {
-    userId: string
-}
+export namespace WalletRepositoryInput {
+    export type SafeDepositBalance = {
+        amount: bigint,
+        walletId: string,
+        tx: txPrismaClient
+    }
 
-export type AddBalanceInput = {
-    amount: bigint,
-}
-
-export type DeductBalanceInput = {
-    amount: bigint,
+    export type SafeWithdrawBalance = {
+        amount: bigint,
+        walletId: string,
+        tx: txPrismaClient
+    }
 }
 
 export interface WalletRepository {
     getByUserId(userId: string): Promise<Wallet>
-    safeDepositBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: AddBalanceInput): Promise<Wallet>
-    safeDeductBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: DeductBalanceInput): Promise<Wallet>
+    safeDepositBalance(dto: WalletRepositoryInput.SafeDepositBalance): Promise<Wallet>
+    safeWithdrawBalance(dto: WalletRepositoryInput.SafeWithdrawBalance): Promise<Wallet>
     // registerBankInfo(): Promise<void> // Impelement later
 }

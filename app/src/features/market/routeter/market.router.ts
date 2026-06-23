@@ -12,7 +12,7 @@ export function marketRouter(
     router.get(
         '/list',
         verifyQueryParams(paginationSchema),
-        controller.getListOfAvailableMarket
+        controller.getOpenMarketList
     )
     router.get(
         '/:marketId',

@@ -1,7 +1,7 @@
 import type { User } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { CacheKeys, CacheTtlsSec } from "@global-shared/config/cache.config.js";
 import type { CacheService } from "@global-shared/infra/cache/service/cache.service.js";
-import type { CreateUserInput, UpdateUserInput, UserRepository } from "./user.repository.js";
+import type { UserRepository, UserRepositoryInput } from "./user.repository.js";
 
 export class CachedUserRepository implements UserRepository {
     constructor(
@@ -44,23 +44,23 @@ export class CachedUserRepository implements UserRepository {
         return dbUser
     }
 
-    async createUser(input: CreateUserInput): Promise<User> {
-        return await this.userRepository.createUser(input)
+    async create(input: UserRepositoryInput.Create): Promise<User> {
+        return await this.userRepository.create(input)
     }
 
-    async updateUserById(userId: string, input: UpdateUserInput): Promise<User> {
-        const dbUser: User = await this.userRepository.updateUserById(userId, input)
+    async updateById(userId: string, input: UserRepositoryInput.UpdateById): Promise<User> {
+        const dbUser: User = await this.userRepository.updateById(userId, input)
         await this.cacheService.deleteByKey(
             this.cacheKeys.user.byId(dbUser.id)
         )
         return dbUser
     }
 
-    async softDeleteById(userId: string): Promise<User> {
-        const dbUser: User = await this.userRepository.softDeleteById(userId)
-        await this.cacheService.deleteByKey(
-            this.cacheKeys.user.byId(dbUser.id)
-        )
-        return dbUser
-    }
+    // async softDeleteById(userId: string): Promise<User> {
+    //     const dbUser: User = await this.userRepository.softDeleteById(userId)
+    //     await this.cacheService.deleteByKey(
+    //         this.cacheKeys.user.byId(dbUser.id)
+    //     )
+    //     return dbUser
+    // }
 }
