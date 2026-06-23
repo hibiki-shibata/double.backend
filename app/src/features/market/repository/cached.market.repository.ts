@@ -4,7 +4,6 @@ import type { CacheKeys, CacheTtlsSec } from "@global-shared/config/cache.config
 import type { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
 import type { PaginationDBInput } from "@global-shared/types/pagination.type.js";
 
-
 export class CachedMarketRepository implements MarketRepository {
     constructor(
         private readonly marketRepository: MarketRepository,

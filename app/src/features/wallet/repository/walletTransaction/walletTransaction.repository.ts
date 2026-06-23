@@ -16,7 +16,9 @@ export type createInput = {
 }
 
 export interface WalletTransactionRepository {
-    create(dto: createInput): Promise<WalletTransaction>
+    create(
+        dto: createInput
+    ): Promise<WalletTransaction>
     getHistoryByWalletId(
         walletId: string,
         paginationInput: PaginationDBInput
