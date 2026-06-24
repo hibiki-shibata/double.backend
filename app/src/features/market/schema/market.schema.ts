@@ -16,7 +16,7 @@ export const marketResponseSchema = z.object({
 export type MarketResponse = z.infer<typeof marketResponseSchema>
 
 
-export const marketGetRequestSchema = z.object({
+export const marketGetRequestParamsSchema = z.object({
     marketId: z.uuidv4('market id must be a uuid4'),
 })
-export type MarketGetRequest = z.infer<typeof marketGetRequestSchema>
+export type MarketGetRequest = z.infer<typeof marketGetRequestParamsSchema>

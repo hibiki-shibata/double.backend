@@ -1,7 +1,6 @@
 
-import type { PrismaClient, Wallet } from "@global-shared/infra/db/generated.prisma/client.js";
-import type { AddBalanceInput, DeductBalanceInput, WalletRepository } from "./wallet.repository.js";
-import type { txPrismaClient } from "../walletTransaction/walletTransaction.repository.js";
+import type { PrismaClient, Wallet } from "@global-shared/infra/db/generated.prisma/client.js"
+import type { WalletRepository, WalletRepositoryInput } from "./wallet.repository.js"
 
 export class PrismaWalletRepository implements WalletRepository {
     constructor(
@@ -14,19 +13,19 @@ export class PrismaWalletRepository implements WalletRepository {
         })
     }
 
-    async addBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: AddBalanceInput): Promise<Wallet> {
-        return tx.wallet.update({
-            where: { id: walletId },
+    async safeDepositBalance(dto: WalletRepositoryInput.SafeDepositBalance): Promise<Wallet> {
+        return dto.tx.wallet.update({
+            where: { id: dto.walletId },
             data: {
                 balance: { increment: dto.amount }
             },
         })
     }
 
-    async safeDeductBalanceByWalletId(walletId: string, tx: txPrismaClient, dto: DeductBalanceInput): Promise<Wallet> {
-        return tx.wallet.update({
+    async safeWithdrawBalance(dto: WalletRepositoryInput.SafeWithdrawBalance): Promise<Wallet> {
+        return dto.tx.wallet.update({
             where: {
-                id: walletId,
+                id: dto.walletId,
                 balance: { gte: dto.amount }
             },
             data: {

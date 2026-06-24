@@ -142,6 +142,11 @@
 
 
 Quick 
-    - middleware - validate marketId query paramter
-    - create wallet when user is created?
-- auth zod schema
+- service layer validation not only zod
+pagination
+
+
+dto::
+enclose schema with namespace
+cache keys types
+repositories

@@ -5,5 +5,5 @@ export type MarketWithPredictions = Prisma.MarketGetPayload<{ include: { predict
 
 export interface MarketRepository {
     getById(marketId: string): Promise<MarketWithPredictions>
-    getByStatus(status: MarketStatus, pagination: PaginationDBInput): Promise<MarketWithPredictions[]>
+    getByStatus(status: MarketStatus[], pagination: PaginationDBInput): Promise<MarketWithPredictions[]>
 }

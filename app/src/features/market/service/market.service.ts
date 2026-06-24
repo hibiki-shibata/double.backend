@@ -1,7 +1,19 @@
 import type { Pagination } from "@global-shared/types/pagination.type.js";
-import type { MarketGetRequest, MarketResponse } from "../schema/market.schema.js";
+import type { MarketResponse } from "../schema/market.schema.js";
+import type { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
+
+export namespace MarketServiceParams {
+    export type GetMarketList = {
+        marketStatus: MarketStatus[],
+        pagination: Pagination
+    }
+
+    export type GetMarket = {
+        marketId: string
+    }
+}
 
 export interface MarketService {
-    getListOfAvailableMarket(pagination: Pagination): Promise<MarketResponse[]>,
-    getMarketDetail(dto: MarketGetRequest): Promise<MarketResponse>
+    getMarketList(dto: MarketServiceParams.GetMarketList): Promise<MarketResponse[]>,
+    getMarketDetail(dto: MarketServiceParams.GetMarket): Promise<MarketResponse>
 }

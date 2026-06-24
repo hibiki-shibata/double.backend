@@ -16,10 +16,10 @@ export class PrismaMarketRepository implements MarketRepository {
     }
 
     async getByStatus(
-        status: MarketStatus, pagination: PaginationDBInput
+        status: MarketStatus[], pagination: PaginationDBInput
     ): Promise<MarketWithPredictions[]> {
         const result = await this.db.market.findMany({
-            where: { status: status },
+            where: { status: { in: status } },
             skip: pagination.offset,
             take: pagination.limit,
             orderBy: { close_at: 'desc' },

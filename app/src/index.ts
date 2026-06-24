@@ -1,8 +1,10 @@
 // Entry point
 import { server, port } from './server.js'
-import { logger } from './shared/logger/logger.js'
+import { loggerContext } from './shared/logger/logger.js'
 import { prismaClient } from "./shared/infra/db/prismaClient.js"
 import { redisClient } from "./shared/infra/cache/client/redisClient.js"
+
+const logger = loggerContext.getLogger()
 
 const serverInstance = server.listen(port, () =>
     logger.info({ port }, 'Double backend started')

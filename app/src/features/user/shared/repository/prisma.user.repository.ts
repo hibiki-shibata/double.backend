@@ -1,5 +1,5 @@
-import { UserRoles, UserStatus, type User, type Prisma, type PrismaClient } from "@global-shared/infra/db/generated.prisma/client.js"
-import type { CreateUserInput, UpdateUserInput, UserRepository } from "./user.repository.js"
+import type { User, Prisma, PrismaClient } from "@global-shared/infra/db/generated.prisma/client.js"
+import type { UserRepository, UserRepositoryInput } from "./user.repository.js"
 
 export class PrismaUserRepository implements UserRepository {
     constructor(
@@ -24,20 +24,21 @@ export class PrismaUserRepository implements UserRepository {
         })
     }
 
-    async createUser(dto: CreateUserInput): Promise<User> {
+    async create(dto: UserRepositoryInput.Create): Promise<User> {
         const data: Prisma.UserCreateInput = {
             name: dto.name,
             display_name: dto.displayName,
             password_hash: dto.passwordHash,
             status: dto.status,
             roles: dto.roles,
+            wallet: {} // Create an empty wallet at signup
         }
         return await this.prismaClient.user.create({
             data: data
         })
     }
 
-    async updateUserById(userId: string, dto: UpdateUserInput): Promise<User> {
+    async updateById(userId: string, dto: UserRepositoryInput.UpdateById): Promise<User> {
         const data: Prisma.UserUpdateInput = {}
         if (dto.name) data.name = dto.name
         if (dto.displayName) data.display_name = dto.displayName
@@ -51,15 +52,15 @@ export class PrismaUserRepository implements UserRepository {
         })
     }
 
-    async softDeleteById(userId: string): Promise<User> {
-        const deletedUserState: UpdateUserInput = {
-            name: null,
-            displayName: 'deleted',
-            emailAddress: null,
-            passwordHash: null,
-            status: UserStatus.DELETED,
-            roles: [UserRoles.DELETED]
-        }
-        return await this.updateUserById(userId, deletedUserState)
-    }
+    // async softDeleteById(userId: string): Promise<User> {
+    //     const deletedUserState: UserRepositoryInput.UpdateById = {
+    //         name: null,
+    //         displayName: 'deleted',
+    //         emailAddress: null,
+    //         passwordHash: null,
+    //         status: UserStatus.DELETED,
+    //         roles: [UserRoles.DELETED]
+    //     }
+    //     return await this.updateById(userId, deletedUserState)
+    // }
 }
