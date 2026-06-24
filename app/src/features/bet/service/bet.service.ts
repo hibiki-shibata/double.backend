@@ -6,7 +6,7 @@ export namespace BetServiceParams {
     export type Create = {
         userId: string,
         predictionId: string,
-        betAmount: number,
+        betAmount: bigint,
     }
 
     export type Cancel = {
@@ -20,19 +20,6 @@ export namespace BetServiceParams {
         status?: BetStatus,
         paginations: Pagination,
     }
-
-    // export type GetByUserIdAndStatus = {
-    //     userId: string,
-    //     status: BetStatus,
-    //     paginations: Pagination,
-    // }
-
-    // export type GetByUserIdAndMarketId = {
-    //     userId: string,
-    //     marketId: string
-    //     paginations: Pagination,
-    // }
-
 }
 
 export interface BetService {

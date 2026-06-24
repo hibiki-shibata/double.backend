@@ -25,11 +25,11 @@ export class UserAuthControllerV1 implements UserAuthController {
             password: req.body.password
         })
 
-        logger.info({ userName: req.body.userName }, "Response success signup sent")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(201)
             .json(this.toAccessTokenResponse(jwtTokens))
+        logger.info({ userName: req.body.userName }, "Response success signup sent")
     }
 
     async login(
@@ -44,11 +44,11 @@ export class UserAuthControllerV1 implements UserAuthController {
             password: req.body.password
         })
 
-        logger.info({ userName: req.body.userName }, "Response success login sent")
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(200)
             .json(this.toAccessTokenResponse(jwtTokens))
+        logger.info({ userName: req.body.userName }, "Response success login sent")
     }
 
     async refreshToken(
@@ -71,11 +71,11 @@ export class UserAuthControllerV1 implements UserAuthController {
 
         res.removeHeader(this.REFRESH_TOKEN_COOKIE_HEADER)
 
-        logger.info("Response success Logout sent")
         res
             .clearCookie(this.REFRESH_TOKEN_COOKIE_HEADER, this.cookieOptions)
             .status(200)
             .end()
+        logger.info("Response success Logout sent")
     }
 
     private toAccessTokenResponse(jwtTokens: JwtTokens): AccessTokenResponse {

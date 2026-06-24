@@ -2,7 +2,6 @@ import type { CacheService } from "@global-shared/infra/cache/service/cache.serv
 import type { CacheKeys, CacheTtlsSec } from "@global-shared/config/cache.config.js";
 import type { WalletTransaction } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { WalletTransactionRepository, WalletTransactionRepositoryInput } from "../walletTransaction/walletTransaction.repository.js";
-import type { PaginationDBInput } from "@global-shared/types/pagination.type.js";
 
 // Careful handling on wallet balance data - consider removal later
 export class CachedWaletTransactionRepository implements WalletTransactionRepository {

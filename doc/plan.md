@@ -146,7 +146,7 @@ Quick
 pagination
 
 
-dto::
+dto:
 enclose schema with namespace
 cache keys types
 repositories

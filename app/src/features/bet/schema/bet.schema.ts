@@ -13,6 +13,12 @@ export const betResponseSchema = z.object({
 export type BetResponse = z.infer<typeof betResponseSchema>
 
 
+export const betCancelRequestSchema = z.object({
+    betId: z.uuidv4('bet id must be a uuid4'),
+})
+export type BetCancelRequest = z.infer<typeof betCancelRequestSchema>
+
+
 export const betCreateRequestSchema = z.object({
     predictionId: z.uuidv4('prediction id must be a uuid4'),
     betAmount: z.bigint('amount must be bigint of 1 to 100000').min(1n).max(100000n).positive()
@@ -20,10 +26,13 @@ export const betCreateRequestSchema = z.object({
 export type BetCreateRequest = z.infer<typeof betCreateRequestSchema>
 
 
-export const betCancelRequestSchema = z.object({
-    betId: z.uuidv4('bet id must be a uuid4'),
+export const marketBetRequestSchema = z.object({
+    marketId: z.uuidv4('bet id must be a uuid4'),
 })
-export type BetCancelRequest = z.infer<typeof betCancelRequestSchema>
+export type MarketBetRequest = z.infer<typeof marketBetRequestSchema>
+
+
+
 
 // export interface BetController {
 //     bet(req: Request, res: Response): Promise<void>
