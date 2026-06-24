@@ -3,7 +3,7 @@ import type { Logger } from "pino";
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { MarketController } from "./market.controller.js";
 import type { MarketService } from "../service/market.service.js";
-import type { MarketGetRequestParams, MarketResponse } from "../schema/market.schema.js";
+import type { MarketGetRequest, MarketResponse } from "../schema/market.schema.js";
 import type { Pagination } from "@global-shared/types/pagination.type.js";
 import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
 
@@ -28,7 +28,7 @@ export class MarketControllerV1 implements MarketController {
     }
 
     async getMarketDetail(
-        req: Request<MarketGetRequestParams, unknown, void>,
+        req: Request<MarketGetRequest, unknown, void>,
         res: Response<MarketResponse>,
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()

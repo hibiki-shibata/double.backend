@@ -145,4 +145,8 @@ Quick
 - service layer validation not only zod
 pagination
 
+
+dto::
 enclose schema with namespace
+cache keys types
+repositories
