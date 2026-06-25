@@ -12,10 +12,10 @@ export interface BetController {
     ): Promise<void>
     getMyMarketBets(
         req: Request<MarketBetRequest, unknown, void, unknown>,
-        res: Response<BetResponse>
+        res: Response<BetResponse[]>
     ): Promise<void>
     getMyBetHistory(
         req: Request<unknown, unknown, void, unknown>,
-        res: Response<BetResponse>
+        res: Response<BetResponse[]>
     ): Promise<void>
 }

@@ -5,11 +5,11 @@ import type { PaginationDBInput } from "@global-shared/types/pagination.type.js"
 
 export class PrismaMarketRepository implements MarketRepository {
     constructor(
-        private readonly db: PrismaClient
+        private readonly prismaClient: PrismaClient
     ) { }
 
     async getById(marketId: string): Promise<MarketWithPredictions> {
-        return await this.db.market.findUniqueOrThrow({
+        return await this.prismaClient.market.findUniqueOrThrow({
             where: { id: marketId },
             include: { predictions: true }
         })
@@ -18,7 +18,7 @@ export class PrismaMarketRepository implements MarketRepository {
     async getByStatus(
         status: MarketStatus[], pagination: PaginationDBInput
     ): Promise<MarketWithPredictions[]> {
-        const result = await this.db.market.findMany({
+        const result = await this.prismaClient.market.findMany({
             where: { status: { in: status } },
             skip: pagination.offset,
             take: pagination.limit,

@@ -3,7 +3,7 @@ import type { WalletTransactionRepository, WalletTransactionRepositoryInput } fr
 
 export class PrismaWalletTransactionRepository implements WalletTransactionRepository {
     constructor(
-        private readonly db: PrismaClient
+        private readonly prismaClient: PrismaClient
     ) { }
 
     async create(
@@ -23,7 +23,7 @@ export class PrismaWalletTransactionRepository implements WalletTransactionRepos
     }
 
     async getHistory(dto: WalletTransactionRepositoryInput.GetHistory): Promise<WalletTransaction[]> {
-        return await this.db.walletTransaction.findMany({
+        return await this.prismaClient.walletTransaction.findMany({
             where: { wallet_id: dto.walletId },
             skip: dto.paginationInput.offset,
             take: dto.paginationInput.limit,

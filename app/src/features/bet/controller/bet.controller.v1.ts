@@ -7,7 +7,6 @@ import type { BetCancelRequest, BetCreateRequest, BetResponse, MarketBetRequest 
 import type { AccessTokenClaim } from "@global-shared/auth/type/jwtToken.type.js";
 import type { Pagination } from "@global-shared/types/pagination.type.js";
 
-
 export class BetControllerV1 implements BetController {
     constructor(
         private readonly betService: BetService,
@@ -36,7 +35,6 @@ export class BetControllerV1 implements BetController {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ betId: req.body.betId }, 'Request cancel bet arrived')
         const cancelledBet: BetResponse = await this.betService.cancel({
-            userId: req.accessTokenClaim.userName,
             bedId: req.body.betId,
         })
         res.status(200).json(cancelledBet)
@@ -45,14 +43,14 @@ export class BetControllerV1 implements BetController {
 
     async getMyMarketBets(
         req: Request<MarketBetRequest, unknown, void, unknown> & { accessTokenClaim: AccessTokenClaim },
-        res: Response<BetResponse>
+        res: Response<BetResponse[]>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ marketId: req.params.marketId }, 'Request get my market bet arrived')
-        const marketBets: BetResponse = await this.betService.getUserBetMany({
+        const marketBets: BetResponse[] = await this.betService.getUserBetMany({
             userId: req.accessTokenClaim.userName,
             marketId: req.params.marketId,
-            paginations: req.query as Pagination
+            pagination: req.query as Pagination
         })
         res.status(200).json(marketBets)
         logger.info('Response success get my market bet sent')
@@ -60,13 +58,13 @@ export class BetControllerV1 implements BetController {
 
     async getMyBetHistory(
         req: Request<unknown, unknown, void, unknown> & { accessTokenClaim: AccessTokenClaim },
-        res: Response<BetResponse>
+        res: Response<BetResponse[]>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request get my best history arrived')
-        const betHistory: BetResponse = await this.betService.getUserBetMany({
+        const betHistory: BetResponse[] = await this.betService.getUserBetMany({
             userId: req.accessTokenClaim.userName,
-            paginations: req.query as Pagination
+            pagination: req.query as Pagination
         })
         res.status(200).json(betHistory)
         logger.info('Response success get my best history sent')
