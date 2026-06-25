@@ -6,6 +6,7 @@ import { userAuthFeature } from './user/auth/index.js'
 import { userAccountFeature } from './user/account/index.js'
 import { walletFeature } from './wallet/index.js'
 import { marketFeature } from './market/index.js'
+import { betFeature } from './bet/index.js'
 
 export function featuresRouter(): Router {
     const router: Router = Router()
@@ -32,7 +33,7 @@ export function featuresRouter(): Router {
         '/bet',
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        userAuthFeature()
+        betFeature()
     )
     return router
 }
