@@ -17,8 +17,10 @@ export namespace WalletTransactionRepositoryInput {
         tx: txPrismaClient
     }
 
-    export type GetHistory = {
-        walletId: string,
+    // Make sure DB repositories when you change this params in the future!!
+    export type GetMany = {
+        userId: string,
+        walletId?: string | null,
         paginationInput: PaginationDBInput
     }
 }
@@ -27,7 +29,7 @@ export interface WalletTransactionRepository {
     create(
         dto: WalletTransactionRepositoryInput.Create
     ): Promise<WalletTransaction>
-    getHistory(
-        dto: WalletTransactionRepositoryInput.GetHistory
+    getMany(
+        dto: WalletTransactionRepositoryInput.GetMany
     ): Promise<WalletTransaction[]>
 }

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import type { UserAccountController } from '../controller/userAccount.controller.js'
-import { userAccountEditRequestSchema } from '../schema/userAccount.schema.js'
+import { userAccountSchema } from '../schema/userAccount.schema.js'
 import { verifyRequestBody } from '@global-shared/middleware/verifyRequestBody.js'
 
 export function userAccountRouter(
@@ -13,7 +13,7 @@ export function userAccountRouter(
     )
     router.put(
         '/me',
-        verifyRequestBody(userAccountEditRequestSchema),
+        verifyRequestBody(userAccountSchema.editRequest),
         controller.updateMyAccount
     )
     router.delete(

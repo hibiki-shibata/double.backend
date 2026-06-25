@@ -1,7 +1,7 @@
 import { Router } from "express";
 import type { MarketController } from "../controller/market.controller.js";
 import { verifyParams } from "@global-shared/middleware/verifyParams.js";
-import { marketGetRequestParamsSchema } from "../schema/market.schema.js";
+import { MarketSchema } from "../schema/market.schema.js";
 import { verifyQueryParams } from "@global-shared/middleware/verifyQueryParams.js";
 import { paginationSchema } from "@global-shared/types/pagination.type.js";
 
@@ -16,7 +16,7 @@ export function marketRouter(
     )
     router.get(
         '/:marketId',
-        verifyParams(marketGetRequestParamsSchema),
+        verifyParams(MarketSchema.getRequestParam),
         controller.getMarketDetail
     )
     return router

@@ -21,8 +21,8 @@ export class WalletControllerV1 implements WalletController {
         const walletInfo: WalletResponse = await this.walletService.getWalletDetail({
             userId: req.accessTokenClaim.userId
         })
-        logger.info('Response success get my walletinfo sent')
         res.status(200).json(walletInfo)
+        logger.info('Response success get my walletinfo sent')
     }
 
     async getMyWalletHistory(
@@ -36,8 +36,8 @@ export class WalletControllerV1 implements WalletController {
             userId: req.accessTokenClaim.userId,
             pagination: req.query as Pagination
         })
-        logger.info('Response success get my wallet history sent')
         res.status(200).json(walletHistory)
+        logger.info('Response success get my wallet history sent')
     }
 
     async deposit(
@@ -50,8 +50,8 @@ export class WalletControllerV1 implements WalletController {
             userId: req.accessTokenClaim.userId,
             amount: req.body.amount
         })
-        logger.info('Response success deposit sent')
         res.status(200).json(walletInfo)
+        logger.info('Response success deposit sent')
     }
 
     async withdraw(
@@ -64,7 +64,7 @@ export class WalletControllerV1 implements WalletController {
             userId: req.accessTokenClaim.userId,
             amount: req.body.amount
         })
-        logger.info('Response success withdraw sent')
         res.status(200).json(walletInfo)
+        logger.info('Response success withdraw sent')
     }
 }

@@ -142,11 +142,13 @@
 
 
 Quick 
-- service layer validation not only zod
-pagination
+- repositoru abstraction - getMany - orderBy
+- prevent bet on non opened prediction/market
+- market list filter by status
+- wallet prevent wallet edit for deleted account
 
 
-dto::
+dto:
 enclose schema with namespace
 cache keys types
 repositories

@@ -22,8 +22,8 @@ export class UserAccountControllerV1 implements UserAccountController {
             userId: req.accessTokenClaim.userId
 
         })
-        logger.info("Response account data sent")
         res.status(200).json(user)
+        logger.info("Response account data sent")
     }
 
     async updateMyAccount(
@@ -39,8 +39,8 @@ export class UserAccountControllerV1 implements UserAccountController {
             emailAddress: req.body.emailAddress,
             password: req.body.password
         })
-        logger.info("Response success updated Account data sent")
         res.status(200).json(updatedUser)
+        logger.info("Response success updated Account data sent")
     }
 
     async deleteMyAccount(
@@ -54,7 +54,7 @@ export class UserAccountControllerV1 implements UserAccountController {
             userId: req.accessTokenClaim.userId
         })
 
-        logger.info("Response Account deletion success sent")
         res.status(204).end()
+        logger.info("Response Account deletion success sent")
     }
 }

@@ -31,8 +31,8 @@ export class WalletServiceV1 implements WalletService {
 
         const wallet: Wallet = await this.getWalletByUserId(dto.userId)
 
-
-        const walletHistory: WalletTransaction[] = await this.ledgerRepository.getHistory({
+        const walletHistory: WalletTransaction[] = await this.ledgerRepository.getMany({
+            userId: dto.userId,
             walletId: wallet.id,
             paginationInput: {
                 offset: (Math.abs(dto.pagination.page) <= 100) ? dto.pagination.page : 0,

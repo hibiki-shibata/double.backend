@@ -1,27 +1,27 @@
-import type { MarketRepository, MarketWithPredictions } from "./market.repository.js";
-import type { PrismaClient } from "@global-shared/infra/db/generated.prisma/client.js";
-import type { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
-import type { PaginationDBInput } from "@global-shared/types/pagination.type.js";
+import type { MarketRepository, MarketRepositoryInput, MarketWithPredictions } from "./market.repository.js";
+import type { Prisma, PrismaClient } from "@global-shared/infra/db/generated.prisma/client.js";
 
 export class PrismaMarketRepository implements MarketRepository {
     constructor(
-        private readonly db: PrismaClient
+        private readonly prismaClient: PrismaClient
     ) { }
 
     async getById(marketId: string): Promise<MarketWithPredictions> {
-        return await this.db.market.findUniqueOrThrow({
+        return await this.prismaClient.market.findUniqueOrThrow({
             where: { id: marketId },
             include: { predictions: true }
         })
     }
 
-    async getByStatus(
-        status: MarketStatus[], pagination: PaginationDBInput
+    async getMany(
+        dto: MarketRepositoryInput.GetMany
     ): Promise<MarketWithPredictions[]> {
-        const result = await this.db.market.findMany({
-            where: { status: { in: status } },
-            skip: pagination.offset,
-            take: pagination.limit,
+        const whereInput: Prisma.MarketWhereInput = {}
+        if (dto.status) whereInput.status = { in: dto.status }
+        const result = await this.prismaClient.market.findMany({
+            where: whereInput,
+            skip: dto.paginationInput.offset,
+            take: dto.paginationInput.limit,
             orderBy: { close_at: 'desc' },
             include: { predictions: true }
         })

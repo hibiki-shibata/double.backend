@@ -4,11 +4,11 @@ import type { WalletRepository, WalletRepositoryInput } from "./wallet.repositor
 
 export class PrismaWalletRepository implements WalletRepository {
     constructor(
-        private readonly db: PrismaClient
+        private readonly prismaClient: PrismaClient
     ) { }
 
     async getByUserId(userId: string): Promise<Wallet> {
-        return this.db.wallet.findUniqueOrThrow({
+        return this.prismaClient.wallet.findUniqueOrThrow({
             where: { user_id: userId },
         })
     }
