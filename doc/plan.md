@@ -9,9 +9,11 @@
 ### Feature implementation:
 - Lost cut / profit off (e.g. exit from the bet before it close)
 - Categories
+- sort market by popularity - time
 - Transaction Chart
 - notification
 - email notification
+- support feature(intercom integration)?
 - save market as favorite
 - open API - transaction by system
 - dark mode
@@ -123,32 +125,17 @@
     ⚠️ missing — at minimum: p99 latency spike + error rate threshold
 
 
-    ### Todo:
-    - document
-    - Google Oauth
-    - payment integration for deposit
-    - bank withdrawal integration
-    - logout/delete - revoke jwt token
+### Todo:
+- document
+- Google Oauth
+- payment integration for deposit
+- bank withdrawal integration
+- logout/delete - revoke jwt token
 
-    - Market/Bet feature
-    - add category to market model
-    - sort market by popularity - time
-    - Admin page
-    - unit test
-
-    - wallet history - time filter?
-    - notification?
-    - support feature(intercom integration)?
-
+- Admin page
+- unit test
 
 Quick 
-- repositoru abstraction - getMany - orderBy
-- prevent bet on non opened prediction/market
+- prevent bet on non opened prediction/market - other edge cases as well
 - market list filter by status
 - wallet prevent wallet edit for deleted account
-
-
-dto:
-enclose schema with namespace
-cache keys types
-repositories
