@@ -2,7 +2,7 @@ import { Router } from 'express'
 import type { WalletController } from '../controller/wallet.controller.js'
 import { verifyRequestBody } from '@global-shared/middleware/verifyRequestBody.js'
 import { verifyQueryParams } from '@global-shared/middleware/verifyQueryParams.js'
-import { depositRequestSchema, withdrawRequestSchema } from '../schema/wallet.schema.js'
+import { walletSchema } from '../schema/wallet.schema.js'
 import { paginationSchema } from '@global-shared/types/pagination.type.js'
 
 export function walletRouter(
@@ -20,12 +20,12 @@ export function walletRouter(
     )
     router.put(
         '/deposit',
-        verifyRequestBody(depositRequestSchema),
+        verifyRequestBody(walletSchema.depositRequest),
         controller.deposit
     )
     router.put(
         '/withdraw',
-        verifyRequestBody(withdrawRequestSchema),
+        verifyRequestBody(walletSchema.withdrawRequest),
         controller.withdraw)
     return router
 }

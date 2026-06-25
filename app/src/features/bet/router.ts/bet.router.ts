@@ -3,7 +3,7 @@ import type { BetController } from "../controller/bet.controller.js";
 import { verifyQueryParams } from "@global-shared/middleware/verifyQueryParams.js";
 import { paginationSchema } from "@global-shared/types/pagination.type.js";
 import { verifyParams } from "@global-shared/middleware/verifyParams.js";
-import { BetSchema } from "../schema/bet.schema.js";
+import { betSchema } from "../schema/bet.schema.js";
 import { verifyRequestBody } from "@global-shared/middleware/verifyRequestBody.js";
 
 export function betRouter(
@@ -12,12 +12,12 @@ export function betRouter(
     const router = Router()
     router.post(
         '/',
-        verifyRequestBody(BetSchema.createRequest),
+        verifyRequestBody(betSchema.createRequest),
         controller.createMyBet
     )
     router.put(
         '/:betId',
-        verifyRequestBody(BetSchema.cancelRequest),
+        verifyRequestBody(betSchema.cancelRequest),
         controller.cancelMyBet
     )
     router.get(
@@ -28,7 +28,7 @@ export function betRouter(
     router.get(
         '/history/markets/:marketId',
         verifyQueryParams(paginationSchema),
-        verifyParams(BetSchema.getMarketBetRequest),
+        verifyParams(betSchema.getMarketBetRequestParam),
         controller.getMyMarketBets
     )
     return router

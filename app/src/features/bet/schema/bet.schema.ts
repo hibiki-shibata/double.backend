@@ -1,7 +1,7 @@
 import z from "zod"
 import { BetStatus, Currency } from "@global-shared/infra/db/generated.prisma/enums.js"
 
-export const BetSchema = {
+export const betSchema = {
     response: z.object({
         id: z.uuidv4('bet id must be a uuid4'),
         predictionId: z.uuidv4('prediction id must be a uuid4'),
@@ -21,25 +21,15 @@ export const BetSchema = {
         betAmount: z.bigint('amount must be bigint of 1 to 100000').min(1n).max(100000n).positive()
     }),
 
-    getMarketBetRequest: z.object({
+    getMarketBetRequestParam: z.object({
         marketId: z.uuidv4('bet id must be a uuid4'),
     })
 }
 
-export type BetResponse = z.infer<typeof BetSchema.response>
+export type BetResponse = z.infer<typeof betSchema.response>
 
-export type BetCancelRequest = z.infer<typeof BetSchema.cancelRequest>
+export type BetCancelRequest = z.infer<typeof betSchema.cancelRequest>
 
-export type BetCreateRequest = z.infer<typeof BetSchema.createRequest>
+export type BetCreateRequest = z.infer<typeof betSchema.createRequest>
 
-export type GetMarketBetRequest = z.infer<typeof BetSchema.getMarketBetRequest>
-
-
-
-
-// export interface BetController {
-//     bet(req: Request, res: Response): Promise<void>
-//     cancelMyBet(req: Request, res: Response): Promise<void>
-//     getMyBetByPredictionId(req: Request, res: Response): Promise<void>
-//     getMyBetHistory(req: Request, res: Response): Promise<void>
-// }
+export type GetMarketBetRequest = z.infer<typeof betSchema.getMarketBetRequestParam>
