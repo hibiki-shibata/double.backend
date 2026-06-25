@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"
-import type { BetCancelRequest, BetCreateRequest, BetResponse, MarketBetRequest } from "../schema/bet.schema.js"
+import type { BetCancelRequest, BetCreateRequest, BetResponse, GetMarketBetRequest } from "../schema/bet.schema.js"
 
 export interface BetController {
     createMyBet(
@@ -10,12 +10,12 @@ export interface BetController {
         req: Request<unknown, unknown, BetCancelRequest>,
         res: Response<BetResponse>
     ): Promise<void>
-    getMyMarketBets(
-        req: Request<MarketBetRequest, unknown, void, unknown>,
-        res: Response<BetResponse[]>
-    ): Promise<void>
     getMyBetHistory(
         req: Request<unknown, unknown, void, unknown>,
+        res: Response<BetResponse[]>
+    ): Promise<void>
+    getMyMarketBets(
+        req: Request<GetMarketBetRequest, unknown, void, unknown>,
         res: Response<BetResponse[]>
     ): Promise<void>
 }
