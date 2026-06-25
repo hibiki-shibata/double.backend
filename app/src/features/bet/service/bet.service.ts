@@ -16,7 +16,7 @@ export namespace BetServiceParams {
     export type GetUserBetMany = {
         userId: string,
         marketId?: string,
-        status?: BetStatus,
+        status?: BetStatus[],
         pagination: Pagination,
     }
 }

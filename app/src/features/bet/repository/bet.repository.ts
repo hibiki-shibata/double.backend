@@ -11,7 +11,7 @@ export namespace BetRepositoryInput {
     export type GetMany = {
         userId: string
         marketId: string | null
-        status: BetStatus | null
+        status: BetStatus[] | null
         pagination: PaginationDBInput;
     }
 }
