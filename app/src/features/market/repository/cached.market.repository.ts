@@ -7,7 +7,7 @@ export class CachedMarketRepository implements MarketRepository {
         private readonly marketRepository: MarketRepository,
         private readonly cacheService: CacheService,
         private readonly cacheKeys: CacheKeys,
-        private readonly cacheTtls: CacheTtlsSec
+        private readonly cacheTtlsSec: CacheTtlsSec
     ) { }
 
     async getById(marketId: string): Promise<MarketWithPredictions> {
@@ -18,20 +18,20 @@ export class CachedMarketRepository implements MarketRepository {
         await this.cacheService.setByKey(
             cacheKey,
             dbMarket,
-            this.cacheTtls.market
+            this.cacheTtlsSec.market
         )
         return dbMarket
     }
 
     async getMany(dto: MarketRepositoryInput.GetMany): Promise<MarketWithPredictions[]> {
-        const cacheKey: string = this.cacheKeys.marketsByStatus.byPagination(dto.paginationInput)
+        const cacheKey: string = this.cacheKeys.marketList.byPagination(dto.paginationInput)
         const cachedMarket: MarketWithPredictions[] | null = await this.cacheService.getByKey<MarketWithPredictions[]>(cacheKey)
         if (cachedMarket !== null) return cachedMarket
         const dbMarkets: MarketWithPredictions[] = await this.marketRepository.getMany(dto)
         await this.cacheService.setByKey(
             cacheKey,
             dbMarkets,
-            this.cacheTtls.marketsByStatus
+            this.cacheTtlsSec.marketList
         )
         return dbMarkets
     }

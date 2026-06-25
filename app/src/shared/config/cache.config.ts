@@ -21,13 +21,19 @@ export type CacheKeys = {
         byUserId: (userId: string) => string
     }
     walletHistory: {
-        byWalletIdAndPagination: (userId: string, pagenation: PaginationDBInput) => string
+        byDto: (getManyDto: string) => string
     }
     market: {
         byId: (marketId: string) => string
     }
-    marketsByStatus: {
+    marketList: {
         byPagination: (pagination: PaginationDBInput) => string
+    }
+    bet: {
+        byId: (betId: string) => string
+    },
+    betHistory: {
+        byDto: (getManyDto: string) => string
     }
 }
 
@@ -36,16 +42,22 @@ export const cacheKeys: CacheKeys = {
         byId: (userId: string) => `user:${userId}`
     },
     wallet: {
-        byUserId: (walletId: string) => `wallet:${walletId}`
+        byUserId: (userId: string) => `wallet:${userId}`
     },
     walletHistory: {
-        byWalletIdAndPagination: (userId: string, pagenation: PaginationDBInput) => `walletHistory:${userId}:${pagenation}`
+        byDto: (getManyDto: string) => `walletHistory:${getManyDto}`
     },
     market: {
         byId: (marketId: string) => `market:${marketId}`
     },
-    marketsByStatus: {
+    marketList: {
         byPagination: (pagination: PaginationDBInput) => `availableMarkets:${pagination}`
+    },
+    bet: {
+        byId: (betId: string) => `bet:${betId}`
+    },
+    betHistory: {
+        byDto: (getManyDto: string) => `betHistory:${getManyDto}`
     }
 }
 
@@ -55,7 +67,9 @@ export type CacheTtlsSec = {
     wallet: number
     walletHistory: number
     market: number
-    marketsByStatus: number
+    marketList: number
+    bet: number
+    betHistory: number
 }
 
 export const cacheTtlsSec: CacheTtlsSec = {
@@ -63,6 +77,8 @@ export const cacheTtlsSec: CacheTtlsSec = {
     wallet: 30,
     walletHistory: 60 * 10,
     market: 60 * 5,
-    marketsByStatus: 60 * 10
+    marketList: 60 * 10,
+    bet: 60 * 10,
+    betHistory: 60 * 10
 }
 
