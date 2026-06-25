@@ -16,18 +16,15 @@ export class CachedWaletTransactionRepository implements WalletTransactionReposi
         return walletTransaction
     }
 
-    async getHistory(
-        dto: WalletTransactionRepositoryInput.GetHistory
+    async getMany(
+        dto: WalletTransactionRepositoryInput.GetMany
     ): Promise<WalletTransaction[]> {
-        const cacheKeys: string = this.cacheKeys.walletHistory.byWalletIdAndPagination(dto.walletId, dto.paginationInput)
+        const cacheKeys: string = this.cacheKeys.walletHistory.byWalletIdAndPagination(dto.walletId!, dto.paginationInput)
 
         const walletHistory: WalletTransaction[] | null = await this.cacheService.getByKey<WalletTransaction[]>(cacheKeys)
         if (walletHistory !== null) return walletHistory
 
-        const dbWalleHistory: WalletTransaction[] = await this.walletTransactionRepository.getHistory({
-            walletId: dto.walletId,
-            paginationInput: dto.paginationInput
-        })
+        const dbWalleHistory: WalletTransaction[] = await this.walletTransactionRepository.getMany(dto)
         await this.cacheService.setByKey<WalletTransaction[]>(
             cacheKeys,
             dbWalleHistory,

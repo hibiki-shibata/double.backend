@@ -1,4 +1,4 @@
-import type { PrismaClient, WalletTransaction } from "@global-shared/infra/db/generated.prisma/client.js";
+import type { Prisma, PrismaClient, WalletTransaction } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { WalletTransactionRepository, WalletTransactionRepositoryInput } from "./walletTransaction.repository.js";
 
 export class PrismaWalletTransactionRepository implements WalletTransactionRepository {
@@ -22,9 +22,12 @@ export class PrismaWalletTransactionRepository implements WalletTransactionRepos
         })
     }
 
-    async getHistory(dto: WalletTransactionRepositoryInput.GetHistory): Promise<WalletTransaction[]> {
+    async getMany(dto: WalletTransactionRepositoryInput.GetMany): Promise<WalletTransaction[]> {
+        const whereInput: Prisma.WalletTransactionWhereInput = { user_id: dto.userId }
+        if (dto.walletId) whereInput.wallet_id = dto.walletId
+
         return await this.prismaClient.walletTransaction.findMany({
-            where: { wallet_id: dto.walletId },
+            where: whereInput,
             skip: dto.paginationInput.offset,
             take: dto.paginationInput.limit,
             orderBy: { created_at: 'desc' }

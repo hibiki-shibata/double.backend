@@ -1,13 +1,12 @@
 import type { BetRepository, BetRepositoryInput } from "./bet.repository.js";
 import type { Bet, Prisma, PrismaClient } from "@global-shared/infra/db/generated.prisma/client.js";
-import { BetStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
 
 export class PrismaBetRepository implements BetRepository {
     constructor(
         private readonly prismaClient: PrismaClient
     ) { }
 
-    async create(dto: BetRepositoryInput.CreateBet): Promise<Bet> {
+    async create(dto: BetRepositoryInput.Create): Promise<Bet> {
         const data: Prisma.BetCreateInput = {
             bet_amount: dto.betAmount,
             user: { connect: { id: dto.userId } },
@@ -20,11 +19,13 @@ export class PrismaBetRepository implements BetRepository {
 
     async getMany(dto: BetRepositoryInput.GetMany): Promise<Bet[]> {
         const betWhereInput: Prisma.BetWhereInput = { user_id: dto.userId }
-        if (dto.status) betWhereInput.status = { in: dto.status }
         if (dto.marketId) betWhereInput.prediction = { market_id: dto.marketId }
+        if (dto.status) betWhereInput.status = { in: dto.status }
 
         return await this.prismaClient.bet.findMany({
-            where: betWhereInput
+            where: betWhereInput,
+            skip: dto.pagination.offset,
+            take: dto.pagination.limit
         })
     }
 
@@ -34,11 +35,11 @@ export class PrismaBetRepository implements BetRepository {
         })
     }
 
-    async cancelById(betId: string): Promise<Bet> {
+    async updateById(betId: string, dto: BetRepositoryInput.Update): Promise<Bet> {
         return this.prismaClient.bet.update({
             where: { id: betId },
             data: {
-                status: BetStatus.CANCELLED
+                status: dto.status
             }
         })
     }

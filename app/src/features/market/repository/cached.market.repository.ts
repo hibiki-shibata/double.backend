@@ -1,8 +1,6 @@
 import type { CacheService } from "@global-shared/infra/cache/service/cache.service.js";
-import type { MarketRepository, MarketWithPredictions } from "./market.repository.js";
+import type { MarketRepository, MarketRepositoryInput, MarketWithPredictions } from "./market.repository.js";
 import type { CacheKeys, CacheTtlsSec } from "@global-shared/config/cache.config.js";
-import type { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
-import type { PaginationDBInput } from "@global-shared/types/pagination.type.js";
 
 export class CachedMarketRepository implements MarketRepository {
     constructor(
@@ -25,11 +23,11 @@ export class CachedMarketRepository implements MarketRepository {
         return dbMarket
     }
 
-    async getByStatus(status: MarketStatus[], pagination: PaginationDBInput): Promise<MarketWithPredictions[]> {
-        const cacheKey: string = this.cacheKeys.marketsByStatus.byPagination(pagination)
+    async getMany(dto: MarketRepositoryInput.GetMany): Promise<MarketWithPredictions[]> {
+        const cacheKey: string = this.cacheKeys.marketsByStatus.byPagination(dto.paginationInput)
         const cachedMarket: MarketWithPredictions[] | null = await this.cacheService.getByKey<MarketWithPredictions[]>(cacheKey)
         if (cachedMarket !== null) return cachedMarket
-        const dbMarkets: MarketWithPredictions[] = await this.marketRepository.getByStatus(status, pagination)
+        const dbMarkets: MarketWithPredictions[] = await this.marketRepository.getMany(dto)
         await this.cacheService.setByKey(
             cacheKey,
             dbMarkets,

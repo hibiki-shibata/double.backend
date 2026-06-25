@@ -143,6 +143,9 @@
 
 Quick 
 - repositoru abstraction - getMany - orderBy
+- prevent bet on non opened prediction/market
+- market list filter by status
+- wallet prevent wallet edit for deleted account
 
 
 dto:

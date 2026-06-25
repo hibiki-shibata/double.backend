@@ -1,7 +1,5 @@
-import type { MarketRepository, MarketWithPredictions } from "./market.repository.js";
-import type { PrismaClient } from "@global-shared/infra/db/generated.prisma/client.js";
-import type { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
-import type { PaginationDBInput } from "@global-shared/types/pagination.type.js";
+import type { MarketRepository, MarketRepositoryInput, MarketWithPredictions } from "./market.repository.js";
+import type { Prisma, PrismaClient } from "@global-shared/infra/db/generated.prisma/client.js";
 
 export class PrismaMarketRepository implements MarketRepository {
     constructor(
@@ -15,13 +13,15 @@ export class PrismaMarketRepository implements MarketRepository {
         })
     }
 
-    async getByStatus(
-        status: MarketStatus[], pagination: PaginationDBInput
+    async getMany(
+        dto: MarketRepositoryInput.GetMany
     ): Promise<MarketWithPredictions[]> {
+        const whereInput: Prisma.MarketWhereInput = {}
+        if (dto.status) whereInput.status = { in: dto.status }
         const result = await this.prismaClient.market.findMany({
-            where: { status: { in: status } },
-            skip: pagination.offset,
-            take: pagination.limit,
+            where: whereInput,
+            skip: dto.paginationInput.offset,
+            take: dto.paginationInput.limit,
             orderBy: { close_at: 'desc' },
             include: { predictions: true }
         })

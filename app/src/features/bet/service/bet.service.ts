@@ -25,6 +25,4 @@ export interface BetService {
     create(dto: BetServiceParams.Create): Promise<BetResponse>
     cancel(dto: BetServiceParams.Cancel): Promise<BetResponse>
     getUserBetMany(dto: BetServiceParams.GetUserBetMany): Promise<BetResponse[]>
-    // getByUserIdAndMarketId(dto: BetServiceParams.GetByUserIdAndMarketId): Promise<BetResponse[]>
-    // getbyUserIdAndStatus(dto: BetServiceParams.GetByUserIdAndStatus): Promise<BetResponse[]>
 }

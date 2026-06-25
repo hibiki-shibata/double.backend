@@ -2,7 +2,7 @@ import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { BetRepository } from "../repository/bet.repository.js";
 import type { BetService, BetServiceParams } from "./bet.service.js";
 import type { Logger } from "pino";
-import type { Bet } from "@global-shared/infra/db/generated.prisma/client.js";
+import { BetStatus, type Bet } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { BetResponse } from "../schema/bet.schema.js";
 
 export class BetServiceV1 implements BetService {
@@ -26,7 +26,9 @@ export class BetServiceV1 implements BetService {
     async cancel(dto: BetServiceParams.Cancel): Promise<BetResponse> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ betId: dto.bedId }, 'cancelling bet')
-        const cancelledBet: Bet = await this.betRepository.cancelById(dto.bedId)
+        const cancelledBet: Bet = await this.betRepository.updateById(dto.bedId, {
+            status: BetStatus.CANCELLED
+        })
         logger.info({ betId: dto.bedId }, 'success cancelling bet')
         return this.toBetResponse(cancelledBet)
     }

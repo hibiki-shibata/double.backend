@@ -14,9 +14,12 @@ export class MarketServiceV1 implements MarketService {
     ): Promise<MarketResponse[]> {
         const logger = this.loggerContext.getLogger()
         logger.info('Fetching list of available merchants')
-        const openMarkets: MarketWithPredictions[] = await this.marketRepository.getByStatus(dto.marketStatus, {
-            offset: (Math.abs(dto.pagination.page) <= 100) ? dto.pagination.page : 0,
-            limit: (Math.abs(dto.pagination.limit) <= 50) ? dto.pagination.limit : 30
+        const openMarkets: MarketWithPredictions[] = await this.marketRepository.getMany({
+            status: dto.marketStatus,
+            paginationInput: {
+                offset: (Math.abs(dto.pagination.page) <= 100) ? dto.pagination.page : 0,
+                limit: (Math.abs(dto.pagination.limit) <= 50) ? dto.pagination.limit : 30
+            }
         })
         logger.info('Sucess Fetching list of available merchants')
         return openMarkets.map((market) => this.toMarketResponse(market))
