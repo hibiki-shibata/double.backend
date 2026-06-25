@@ -16,15 +16,23 @@ export function featuresRouter(): Router {
         '/auth',
         userAuthFeature()
     )
-    router.use('/user',
+    router.use(
+        '/user',
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
         userAccountFeature()
     )
-    router.use('/wallet',
+    router.use(
+        '/wallet',
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
         walletFeature()
+    )
+    router.use(
+        '/bet',
+        authenticate,
+        authorize({ requiredRoles: [UserRoles.USER] }),
+        userAuthFeature()
     )
     return router
 }
