@@ -20,5 +20,5 @@ export interface BetRepository {
     create(dto: BetRepositoryInput.CreateBet): Promise<Bet>
     getMany(dto: BetRepositoryInput.GetMany): Promise<Bet[]>
     getById(betId: string): Promise<Bet>
-    cancelById(betId: string): Promise<Bet>
+    update(betId: string): Promise<Bet>
 }

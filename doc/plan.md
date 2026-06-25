@@ -142,8 +142,7 @@
 
 
 Quick 
-- service layer validation not only zod
-pagination
+- repositoru abstraction - getMany - orderBy
 
 
 dto:
