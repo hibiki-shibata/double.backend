@@ -15,11 +15,11 @@ export class CachedMarketRepository implements MarketRepository {
         const cachedMarket: MarketWithPredictions | null = await this.cacheService.getByKey<MarketWithPredictions>(cacheKey)
         if (cachedMarket !== null) return cachedMarket
         const dbMarket: MarketWithPredictions = await this.marketRepository.getById(marketId)
-        await this.cacheService.setByKey(
-            cacheKey,
-            dbMarket,
-            this.cacheTtlsSec.market
-        )
+        await this.cacheService.set<MarketWithPredictions>({
+            key: cacheKey,
+            value: dbMarket,
+            ttlSec: this.cacheTtlsSec.market
+        })
         return dbMarket
     }
 
@@ -28,11 +28,11 @@ export class CachedMarketRepository implements MarketRepository {
         const cachedMarket: MarketWithPredictions[] | null = await this.cacheService.getByKey<MarketWithPredictions[]>(cacheKey)
         if (cachedMarket !== null) return cachedMarket
         const dbMarkets: MarketWithPredictions[] = await this.marketRepository.getMany(dto)
-        await this.cacheService.setByKey(
-            cacheKey,
-            dbMarkets,
-            this.cacheTtlsSec.marketList
-        )
+        await this.cacheService.set<MarketWithPredictions[]>({
+            key: cacheKey,
+            value: dbMarkets,
+            ttlSec: this.cacheTtlsSec.marketList
+        })
         return dbMarkets
     }
 }

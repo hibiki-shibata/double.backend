@@ -25,11 +25,11 @@ export class CachedWaletTransactionRepository implements WalletTransactionReposi
         if (walletHistory !== null) return walletHistory
 
         const dbWalleHistory: WalletTransaction[] = await this.walletTransactionRepository.getMany(dto)
-        await this.cacheService.setByKey<WalletTransaction[]>(
-            cacheKeys,
-            dbWalleHistory,
-            this.cacheTtlsSec.walletHistory
-        )
+        await this.cacheService.set<WalletTransaction[]>({
+            key: cacheKeys,
+            value: dbWalleHistory,
+            ttlSec: this.cacheTtlsSec.walletHistory
+        })
         return dbWalleHistory
     }
 }

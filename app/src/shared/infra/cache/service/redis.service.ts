@@ -9,7 +9,7 @@ export class RedisCacheService implements CacheService {
     constructor(
         private readonly redisClient: Redis,
         private readonly loggerContext: LoggerContext,
-        private readonly defaultTtlSecs: number = 60 * 5
+        // private readonly defaultTtlSecs: number = 60 * 5
     ) { }
 
     async getByKey<T = object>(
