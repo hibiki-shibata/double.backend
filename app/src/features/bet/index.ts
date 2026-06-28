@@ -1,7 +1,7 @@
 import type { Router } from "express"
 import type { CacheService } from "@global-shared/infra/cache/service/cache.service.js"
 import type { BetService } from "./service/bet.service.js"
-import type { BetRepository } from "./repository/bet.repository.js"
+import type { BetRepository } from "./repository/bet/bet.repository.js"
 import type { BetController } from "./controller/bet.controller.js"
 import { loggerContext } from "@global-shared/logger/logger.js"
 import { redisClient } from "@global-shared/infra/cache/client/redisClient.js"

@@ -5,7 +5,7 @@ import type { WalletTransactionRepository } from "../repository/walletTransactio
 import type { WalletResponse, WalletTransactionResponse } from "../schema/wallet.schema.js";
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { PrismaClient, Wallet, WalletTransaction } from "@global-shared/infra/db/generated.prisma/client.js";
-import { WalletTransactionType } from "@global-shared/infra/db/generated.prisma/enums.js"
+import { WalletStatus, WalletTransactionType } from "@global-shared/infra/db/generated.prisma/enums.js"
 import { InvalidInputErr } from "@global-shared/error/httpErrors.js";
 
 export class WalletServiceV1 implements WalletService {
@@ -19,7 +19,7 @@ export class WalletServiceV1 implements WalletService {
     async getWalletDetail(
         dto: WalletServiceParams.GetWalletDetail
     ): Promise<WalletResponse> {
-        const userWallet: Wallet = await this.getWalletByUserId(dto.userId)
+        const userWallet: Wallet = await this.fetchActiveWalletByUserId(dto.userId)
         return this.toWalletResponse(userWallet)
     }
 
@@ -29,7 +29,7 @@ export class WalletServiceV1 implements WalletService {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Fetching user wallet wallet history from DB")
 
-        const wallet: Wallet = await this.getWalletByUserId(dto.userId)
+        const wallet: Wallet = await this.fetchActiveWalletByUserId(dto.userId)
 
         const walletHistory: WalletTransaction[] = await this.ledgerRepository.getMany({
             userId: dto.userId,
@@ -53,7 +53,7 @@ export class WalletServiceV1 implements WalletService {
         if (dto.amount <= 0) throw new InvalidInputErr('amount must be positive')
         // Payment integration
         const walletAfter: Wallet = await this.prismaClient.$transaction(async (tx) => {  // to prevent Race condition
-            const walletBefore: Wallet = await this.getWalletByUserId(dto.userId)
+            const walletBefore: Wallet = await this.fetchActiveWalletByUserId(dto.userId)
             const tempWalletAfter: Wallet = await this.walletRepository.safeDepositBalance({
                 amount: dto.amount,
                 walletId: walletBefore.id,
@@ -84,7 +84,7 @@ export class WalletServiceV1 implements WalletService {
         if (dto.amount <= 0) throw new InvalidInputErr('amount must be positive')
         // Bank integration
         const walletAfter: Wallet = await this.prismaClient.$transaction(async (tx) => {
-            const walletBefore: Wallet = await this.getWalletByUserId(dto.userId)
+            const walletBefore: Wallet = await this.fetchActiveWalletByUserId(dto.userId)
             const tempWalletAfter: Wallet = await this.walletRepository.safeWithdrawBalance({
                 amount: dto.amount,
                 walletId: walletBefore.id,
@@ -107,14 +107,15 @@ export class WalletServiceV1 implements WalletService {
         return this.toWalletResponse(walletAfter)
     }
 
-    private async getWalletByUserId(userId: string): Promise<Wallet> {
+    private async fetchActiveWalletByUserId(userId: string): Promise<Wallet> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Fetching user wallet data from DB")
 
-        const wallet: Wallet = await this.walletRepository.getByUserId(userId)
+        const userWallet: Wallet = await this.walletRepository.getByUserId(userId)
+        if (userWallet.status !== WalletStatus.ACTIVE) throw new InvalidInputErr('Wallet is currently suspended')
 
         logger.info("Success fetching user wallet data from DB")
-        return wallet
+        return userWallet
     }
 
     private toWalletResponse(wallet: Wallet): WalletResponse {

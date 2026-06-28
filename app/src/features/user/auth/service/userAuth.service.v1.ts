@@ -46,8 +46,7 @@ export class UserAuthServiceV1 implements UserAuthService {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ userName: dto.userName }, "user login-ing")
 
-        const dbUser: User = await this.userRepository.getByUserName(dto.userName)
-        if (dbUser.status === UserStatus.DELETED) throw new InvalidInputErr('User has already been deleted')
+        const dbUser: User = await this.verifyNonDeletedUserByUserName(dto.userName)
         if (!dbUser.password_hash) throw new DatabaseErr('Missing password registeration in DB')
 
         await this.passwordService.verifyPassword(dto.password, dbUser.password_hash)
@@ -61,8 +60,7 @@ export class UserAuthServiceV1 implements UserAuthService {
     ): Promise<JwtTokens> {
         const refreshTokenClaim: RefreshTokenClaim = this.jwtService.verifyRefreshToken(dto.refreshToken)
 
-        const dbUser: User = await this.userRepository.getById(refreshTokenClaim.userId)
-        if (dbUser.status === UserStatus.DELETED) throw new InvalidInputErr('User has already been deleted')
+        const dbUser: User = await this.verifyNonDeletedUserByUserName(refreshTokenClaim.userId)
 
         return this.generateJwtTokens(dbUser)
     }
@@ -80,5 +78,11 @@ export class UserAuthServiceV1 implements UserAuthService {
             userId: user.id
         })
         return { accessToken, refreshToken }
+    }
+
+    private async verifyNonDeletedUserByUserName(userName: string): Promise<User> {
+        const dbUser: User = await this.userRepository.getByUserName(userName)
+        if (dbUser.status === UserStatus.DELETED) throw new InvalidInputErr('User has already been deleted')
+        return dbUser
     }
 }

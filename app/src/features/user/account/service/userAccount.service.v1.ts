@@ -1,7 +1,7 @@
 import type { Logger } from "pino"
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js"
 import type { UserAccountService, UserAccountServiceParams } from "./userAccount.service.js"
-import type { UserRepository } from "../../shared/repository/user.repository.js"
+import type { UserRepository, UserRepositoryInput } from "../../shared/repository/user.repository.js"
 import type { UserAccountResponse } from "../schema/userAccount.schema.js"
 import type { PasswordService } from "@global-shared/auth/service/password.service.js"
 import type { User } from "@global-shared/infra/db/generated.prisma/client.js"
@@ -30,12 +30,13 @@ export class UserAccountServiceV1 implements UserAccountService {
         logger.info("Updating User from DB")
 
         await this.verifyNonDeletedUserById(dto.userId)
-        const updatedUser: User = await this.userRepository.updateById(dto.userId, {
+        const updateInputData: UserRepositoryInput.UpdateById = {
             name: dto.name,
             displayName: dto.displayName,
             emailAddress: dto.emailAddress,
-            ...(dto.password && { passwordHash: await this.passwordService.hashPassword(dto.password) })
-        })
+        }
+        if (dto.password) updateInputData.passwordHash = await this.passwordService.hashPassword(dto.password)
+        const updatedUser: User = await this.userRepository.updateById(dto.userId, updateInputData)
 
         logger.info("Success updated User from DB")
         return this.toUserAccountResponse(updatedUser)
