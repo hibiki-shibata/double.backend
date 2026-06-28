@@ -58,6 +58,7 @@ export class WalletServiceV1 implements WalletService {
             const tempWalletAfter: Wallet = await this.walletRepository.safeDepositBalance({
                 amount: dto.amount,
                 walletId: walletBefore.id,
+                allowedWalletStatus: [WalletStatus.ACTIVE],
                 tx: tx,
             })
             await this.ledgerRepository.create({
@@ -86,10 +87,10 @@ export class WalletServiceV1 implements WalletService {
         // Bank integration
         const walletAfter: Wallet = await this.prismaClient.$transaction(async (tx) => {
             const walletBefore: Wallet = await this.fetchActiveWalletByUserId(dto.userId)
-            if (walletBefore.status !== WalletStatus.ACTIVE) throw new InvalidInputErr('Wallet is currently unavailable for transactions')
             const tempWalletAfter: Wallet = await this.walletRepository.safeWithdrawBalance({
                 amount: dto.amount,
                 walletId: walletBefore.id,
+                allowedWalletStatus: [WalletStatus.ACTIVE],
                 tx: tx,
             })
             if (tempWalletAfter.balance < 0) throw new InvalidInputErr('Withdraw amount over your balance')

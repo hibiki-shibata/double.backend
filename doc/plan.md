@@ -136,5 +136,4 @@
 - unit test
 
 Quick 
-- wallet: transaction for suspended account * retry?
 - create bet: race condition & refactoring
