@@ -136,6 +136,6 @@
 - unit test
 
 Quick 
-- prevent bet on non opened prediction/market - other edge cases as well
-- market list filter by status
-- wallet prevent wallet edit for deleted account
+- wallet: stop deposit / withdrawing for suspended account
+- create bet: race condition & refactoring
+- cacheed Repository edit - dto

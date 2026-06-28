@@ -27,11 +27,11 @@ export class CachedBetRepository implements BetRepository {
         const cachedBet: Bet | null = await this.cacheService.getByKey<Bet>(cacheKey)
         if (cachedBet !== null) return cachedBet
         const dbBet: Bet = await this.betRepository.getById(betId)
-        await this.cacheService.setByKey(
-            cacheKey,
-            dbBet,
-            this.cacheTtlsSec.bet
-        )
+        await this.cacheService.set<Bet>({
+            key: cacheKey,
+            value: dbBet,
+            ttlSec: this.cacheTtlsSec.bet
+        })
         return dbBet
     }
 
@@ -40,11 +40,11 @@ export class CachedBetRepository implements BetRepository {
         const cachedBet: Bet[] | null = await this.cacheService.getByKey<Bet[]>(cacheKey)
         if (cachedBet !== null) return cachedBet
         const betHistory: Bet[] = await this.betRepository.getMany(dto)
-        await this.cacheService.setByKey(
-            cacheKey,
-            betHistory,
-            this.cacheTtlsSec.betHistory
-        )
+        await this.cacheService.set<Bet[]>({
+            key: cacheKey,
+            value: betHistory,
+            ttlSec: this.cacheTtlsSec.betHistory
+        })
         return betHistory
     }
 }

@@ -14,27 +14,14 @@ export const redisOptions: RedisOptions = {
 }
 
 export type CacheKeys = {
-    user: {
-        byId: (userId: string) => string
-    }
-    wallet: {
-        byUserId: (userId: string) => string
-    }
-    walletHistory: {
-        byDto: (getManyDto: string) => string
-    }
-    market: {
-        byId: (marketId: string) => string
-    }
-    marketList: {
-        byPagination: (pagination: PaginationDBInput) => string
-    }
-    bet: {
-        byId: (betId: string) => string
-    },
-    betHistory: {
-        byDto: (getManyDto: string) => string
-    }
+    user: { byId: (userId: string) => string }
+    wallet: { byUserId: (userId: string) => string }
+    walletHistory: { byDto: (getManyDto: string) => string }
+    market: { byId: (marketId: string) => string }
+    marketList: { byPagination: (pagination: PaginationDBInput) => string }
+    bet: { byId: (betId: string) => string },
+    betHistory: { byDto: (getManyDto: string) => string }
+    prediction: { byId: (predictionId: string) => string }
 }
 
 export const cacheKeys: CacheKeys = {
@@ -58,9 +45,11 @@ export const cacheKeys: CacheKeys = {
     },
     betHistory: {
         byDto: (getManyDto: string) => `betHistory:${getManyDto}`
+    },
+    prediction: {
+        byId: (predictionId: string) => `prediction:${predictionId}`
     }
 }
-
 
 export type CacheTtlsSec = {
     user: number
@@ -70,6 +59,7 @@ export type CacheTtlsSec = {
     marketList: number
     bet: number
     betHistory: number
+    prediction: number
 }
 
 export const cacheTtlsSec: CacheTtlsSec = {
@@ -79,6 +69,7 @@ export const cacheTtlsSec: CacheTtlsSec = {
     market: 60 * 5,
     marketList: 60 * 10,
     bet: 60 * 10,
-    betHistory: 60 * 10
+    betHistory: 60 * 10,
+    prediction: 60 * 10
 }
 
