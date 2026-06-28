@@ -136,6 +136,5 @@
 - unit test
 
 Quick 
-- wallet: stop deposit / withdrawing for suspended account
+- wallet: transaction for suspended account * retry?
 - create bet: race condition & refactoring
-- cacheed Repository edit - dto

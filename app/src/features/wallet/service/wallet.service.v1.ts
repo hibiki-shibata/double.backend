@@ -54,6 +54,7 @@ export class WalletServiceV1 implements WalletService {
         // Payment integration
         const walletAfter: Wallet = await this.prismaClient.$transaction(async (tx) => {  // to prevent Race condition
             const walletBefore: Wallet = await this.fetchActiveWalletByUserId(dto.userId)
+            if (walletBefore.status !== WalletStatus.ACTIVE) throw new InvalidInputErr('Wallet is currently unavailable for transactions')
             const tempWalletAfter: Wallet = await this.walletRepository.safeDepositBalance({
                 amount: dto.amount,
                 walletId: walletBefore.id,
@@ -85,6 +86,7 @@ export class WalletServiceV1 implements WalletService {
         // Bank integration
         const walletAfter: Wallet = await this.prismaClient.$transaction(async (tx) => {
             const walletBefore: Wallet = await this.fetchActiveWalletByUserId(dto.userId)
+            if (walletBefore.status !== WalletStatus.ACTIVE) throw new InvalidInputErr('Wallet is currently unavailable for transactions')
             const tempWalletAfter: Wallet = await this.walletRepository.safeWithdrawBalance({
                 amount: dto.amount,
                 walletId: walletBefore.id,
