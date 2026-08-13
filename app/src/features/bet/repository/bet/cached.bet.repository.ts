@@ -11,15 +11,15 @@ export class CachedBetRepository implements BetRepository {
         private readonly cacheTtlsSec: CacheTtlsSec
     ) { }
 
-    async create(dto: BetRepositoryInput.Create): Promise<Bet> {
+    async create(dto: BetRepositoryInput.SafeCreate): Promise<Bet> {
         return await this.betRepository.create(dto)
     }
 
     async updateById(betId: string, dto: BetRepositoryInput.Update): Promise<Bet> {
-        const dbBet: Bet = await this.betRepository.updateById(betId, dto)
+        const dbBetWithPrediction: Bet = await this.betRepository.updateById(betId, dto)
         const walletCacheKey: string = this.cacheKeys.bet.byId(betId)
         await this.cacheService.deleteByKey(walletCacheKey)
-        return dbBet
+        return dbBetWithPrediction
     }
 
     async getById(betId: string): Promise<Bet> {

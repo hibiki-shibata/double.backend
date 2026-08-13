@@ -136,4 +136,6 @@
 - unit test
 
 Quick 
-- create bet: race condition & refactoring
+- DB level uniqueness -> migration
+- create bet and deduct from wallet
+- prisma error handling
