@@ -13,8 +13,7 @@ export namespace BetRepositoryInput {
     export type Update = {
         status: BetStatus
     }
-
-    // Make sure DB repositories when you change this params in the future!!
+    
     export type GetMany = {
         userId: string
         marketId?: string | null

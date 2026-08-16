@@ -22,6 +22,7 @@ export type CacheKeys = {
     bet: { byId: (betId: string) => string },
     betHistory: { byDto: (getManyDto: string) => string }
     prediction: { byId: (predictionId: string) => string }
+    refreshBlocklist: { byJti: (refresh_jti: string) => string }
 }
 
 export const cacheKeys: CacheKeys = {
@@ -48,6 +49,9 @@ export const cacheKeys: CacheKeys = {
     },
     prediction: {
         byId: (predictionId: string) => `prediction:${predictionId}`
+    },
+    refreshBlocklist: {
+        byJti: (refresh_jti: string) => `refreshBlockList:${refresh_jti}`
     }
 }
 
@@ -60,6 +64,7 @@ export type CacheTtlsSec = {
     bet: number
     betHistory: number
     prediction: number
+    refreshBlocklist: number
 }
 
 export const cacheTtlsSec: CacheTtlsSec = {
@@ -70,6 +75,7 @@ export const cacheTtlsSec: CacheTtlsSec = {
     marketList: 60 * 10,
     bet: 60 * 10,
     betHistory: 60 * 10,
-    prediction: 60 * 10
+    prediction: 60 * 10,
+    refreshBlocklist: 60 * 60 * 24 * 7,
 }
 

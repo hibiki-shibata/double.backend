@@ -1,10 +1,10 @@
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { BetRepository } from "../repository/bet/bet.repository.js";
 import type { BetService, BetServiceParams } from "./bet.service.js";
-import type { Logger } from "pino";
-import { BetStatus, MarketStatus, PredictionStatus, type Bet } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { BetResponse } from "../schema/bet.schema.js";
 import type { PredictionRepository, PredictionWithMarket } from "../repository/prediction/prediction.repository.js";
+import type { Logger } from "pino";
+import { BetStatus, MarketStatus, PredictionStatus, type Bet } from "@global-shared/infra/db/generated.prisma/client.js";
 import { InvalidInputErr } from "@global-shared/error/httpErrors.js";
 
 export class BetServiceV1 implements BetService {
@@ -18,7 +18,7 @@ export class BetServiceV1 implements BetService {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ predictionId: dto.predictionId }, 'creating bet')
 
-        //  Race condition 1 concern: It potentially allows creating bet after closing markets/prediction 
+        //  Race condition: It potentially allows creating bet after closing markets/prediction 
         const predictionWithMarket: PredictionWithMarket = await this.predictionRepository.getById(dto.predictionId)
         if (predictionWithMarket.status !== PredictionStatus.OPEN || predictionWithMarket.market.status !== MarketStatus.OPEN) {
             throw new InvalidInputErr('Predicton or Market status is not Open')
