@@ -20,7 +20,7 @@ export class MarketControllerV1 implements MarketController {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request to get list of market arrived')
         const availableMarkets: MarketResponse[] = await this.marketService.getMarketList({
-            marketStatus: [MarketStatus.OPEN],
+            marketStatus: [MarketStatus.UPCOMING, MarketStatus.OPEN],
             pagination: req.query as Pagination
         })
         res.status(200).json(availableMarkets)

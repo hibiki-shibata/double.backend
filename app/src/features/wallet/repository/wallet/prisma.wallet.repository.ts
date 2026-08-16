@@ -15,7 +15,10 @@ export class PrismaWalletRepository implements WalletRepository {
 
     async safeDepositBalance(dto: WalletRepositoryInput.SafeDepositBalance): Promise<Wallet> {
         return dto.tx.wallet.update({
-            where: { id: dto.walletId },
+            where: {
+                id: dto.walletId,
+                status: { in: dto.allowedWalletStatus },
+            },
             data: {
                 balance: { increment: dto.amount }
             },
@@ -26,6 +29,7 @@ export class PrismaWalletRepository implements WalletRepository {
         return dto.tx.wallet.update({
             where: {
                 id: dto.walletId,
+                status: { in: dto.allowedWalletStatus },
                 balance: { gte: dto.amount }
             },
             data: {

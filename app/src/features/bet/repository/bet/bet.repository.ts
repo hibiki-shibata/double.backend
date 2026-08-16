@@ -1,8 +1,10 @@
 import type { Bet, BetStatus } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { PaginationDBInput } from "@global-shared/types/pagination.type.js";
 
+// export type BetWithPrediction = Prisma.BetGetPayload<{ include: { prediction: true } }>
+
 export namespace BetRepositoryInput {
-    export type Create = {
+    export type SafeCreate = {
         userId: string
         predictionId: string
         betAmount: bigint
@@ -11,8 +13,7 @@ export namespace BetRepositoryInput {
     export type Update = {
         status: BetStatus
     }
-
-    // Make sure DB repositories when you change this params in the future!!
+    
     export type GetMany = {
         userId: string
         marketId?: string | null
@@ -22,7 +23,7 @@ export namespace BetRepositoryInput {
 }
 
 export interface BetRepository {
-    create(dto: BetRepositoryInput.Create): Promise<Bet>
+    create(dto: BetRepositoryInput.SafeCreate): Promise<Bet>
     updateById(betId: string, dto: BetRepositoryInput.Update): Promise<Bet>
     getById(betId: string): Promise<Bet>
     getMany(dto: BetRepositoryInput.GetMany): Promise<Bet[]>
