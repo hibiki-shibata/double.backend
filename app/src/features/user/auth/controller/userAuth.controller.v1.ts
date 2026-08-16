@@ -63,14 +63,14 @@ export class UserAuthControllerV1 implements UserAuthController {
     }
 
     async logout(
-        _req: Request<unknown, unknown, void>,
+        req: Request<unknown, unknown, void>,
         res: Response<void>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Request Logout arrived")
 
+        this.userAuthService.logout(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
         res.removeHeader(this.REFRESH_TOKEN_COOKIE_HEADER)
-
         res
             .clearCookie(this.REFRESH_TOKEN_COOKIE_HEADER, this.cookieOptions)
             .status(200)
