@@ -9,7 +9,7 @@ export class PrismaMarketRepository implements MarketRepository {
     async getById(marketId: string): Promise<Market> {
         return await this.prismaClient.market.findUniqueOrThrow({
             where: { id: marketId },
-            include: { predictions: true }
+            // include: { predictions: true }
         })
     }
 
@@ -23,7 +23,7 @@ export class PrismaMarketRepository implements MarketRepository {
             skip: dto.paginationInput.offset,
             take: dto.paginationInput.limit,
             orderBy: { close_at: 'desc' },
-            include: { predictions: true }
+            // include: { predictions: true }
         })
         return result
     }

@@ -22,6 +22,7 @@ export type CacheKeys = {
     bet: { byId: (betId: string) => string },
     betHistory: { byDto: (getManyDto: string) => string }
     prediction: { byId: (predictionId: string) => string }
+    predictions: { byMarketId: (predictionId: string) => string }
     refreshBlocklist: { byJti: (refresh_jti: string) => string }
 }
 
@@ -49,6 +50,9 @@ export const cacheKeys: CacheKeys = {
     },
     prediction: {
         byId: (predictionId: string) => `prediction:${predictionId}`
+    },
+    predictions: {
+        byMarketId: (marketId: string) => `prediction:${marketId}`
     },
     refreshBlocklist: {
         byJti: (refresh_jti: string) => `refreshBlockList:${refresh_jti}`
