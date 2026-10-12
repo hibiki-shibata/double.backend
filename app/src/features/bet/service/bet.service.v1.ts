@@ -1,24 +1,35 @@
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
-import type { BetRepository } from "../repository/bet.repository.js";
+import type { BetRepository } from "../repository/bet/bet.repository.js";
 import type { BetService, BetServiceParams } from "./bet.service.js";
-import type { Logger } from "pino";
-import { BetStatus, type Bet } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { BetResponse } from "../schema/bet.schema.js";
+import type { PredictionRepository, PredictionWithMarket } from "../repository/prediction/prediction.repository.js";
+import type { Logger } from "pino";
+import { BetStatus, MarketStatus, PredictionStatus, type Bet } from "@global-shared/infra/db/generated.prisma/client.js";
+import { InvalidInputErr } from "@global-shared/error/httpErrors.js";
 
 export class BetServiceV1 implements BetService {
     constructor(
         private readonly betRepository: BetRepository,
+        private readonly predictionRepository: PredictionRepository,
         private readonly loggerContext: LoggerContext
     ) { }
 
     async create(dto: BetServiceParams.Create): Promise<BetResponse> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ predictionId: dto.predictionId }, 'creating bet')
+
+        //  Race condition: It potentially allows creating bet after closing markets/prediction 
+        const predictionWithMarket: PredictionWithMarket = await this.predictionRepository.getById(dto.predictionId)
+        if (predictionWithMarket.status !== PredictionStatus.OPEN || predictionWithMarket.market.status !== MarketStatus.OPEN) {
+            throw new InvalidInputErr('Predicton or Market status is not Open')
+        }
+
         const createdBet: Bet = await this.betRepository.create({
             userId: dto.userId,
             predictionId: dto.predictionId,
-            betAmount: dto.betAmount
+            betAmount: dto.betAmount,
         })
+
         logger.info({ betId: createdBet.id }, 'success creating bet')
         return this.toBetResponse(createdBet)
     }

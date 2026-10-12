@@ -19,4 +19,5 @@ export interface UserAuthService {
     signup(dto: UserAuthServceParams.Signup): Promise<JwtTokens>
     login(dto: UserAuthServceParams.Login): Promise<JwtTokens>
     refreshToken(dto: UserAuthServceParams.RefreshToken): Promise<JwtTokens>
+    logout(dto: UserAuthServceParams.RefreshToken): Promise<null>
 }

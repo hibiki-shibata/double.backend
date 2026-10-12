@@ -8,11 +8,11 @@ export const MarketSchema = {
         status: z.enum(MarketStatus),
         closeAt: z.iso.datetime('wrong date format'),
         createdAt: z.iso.datetime('wrong date format'),
-        predictions: z.array(z.object({
-            name: z.string('prediction name must be 1 to 80').min(1).max(80),
-            totalParticipants: z.number('total participants must be number'),
-            betSum: z.bigint('total participants must be bigint'),
-        }))
+        // predictions: z.array(z.object({
+        //     name: z.string('prediction name must be 1 to 80').min(1).max(80),
+        //     totalParticipants: z.number('total participants must be number'),
+        //     betSum: z.bigint('total participants must be bigint'),
+        // }))
     }),
 
     getRequestParam: z.object({
@@ -22,4 +22,4 @@ export const MarketSchema = {
 
 export type MarketResponse = z.infer<typeof MarketSchema.response>
 
-export type MarketGetRequest = z.infer<typeof MarketSchema.getRequestParam>
+export type GetMarketRequest = z.infer<typeof MarketSchema.getRequestParam>

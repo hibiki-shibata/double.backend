@@ -17,11 +17,11 @@ export class CachedWalletRepository implements WalletRepository {
         const userWallet: Wallet | null = await this.cacheService.getByKey<Wallet>(walletCacheKey)
         if (userWallet !== null) return userWallet
         const dbWallet: Wallet = await this.walletRepository.getByUserId(userId)
-        await this.cacheService.setByKey<Wallet>(
-            walletCacheKey,
-            dbWallet,
-            this.cacheTtls.wallet
-        )
+        await this.cacheService.set<Wallet>({
+            key: walletCacheKey,
+            value: dbWallet,
+            ttlSec: this.cacheTtls.wallet
+        })
         return dbWallet
     }
 
@@ -29,6 +29,7 @@ export class CachedWalletRepository implements WalletRepository {
         const dbWallet: Wallet = await this.walletRepository.safeDepositBalance({
             amount: dto.amount,
             walletId: dto.walletId,
+            allowedWalletStatus: dto.allowedWalletStatus,
             tx: dto.tx,
         })
         const walletCacheKey: string = this.cacheKeys.wallet.byUserId(dbWallet.user_id)
@@ -40,6 +41,7 @@ export class CachedWalletRepository implements WalletRepository {
         const dbWallet: Wallet = await this.walletRepository.safeWithdrawBalance({
             amount: dto.amount,
             walletId: dto.walletId,
+            allowedWalletStatus: dto.allowedWalletStatus,
             tx: dto.tx,
         })
         const walletCacheKey: string = this.cacheKeys.wallet.byUserId(dbWallet.user_id)

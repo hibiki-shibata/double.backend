@@ -1,5 +1,5 @@
 import type { Request, Response } from "express"
-import type { MarketGetRequest, MarketResponse } from "../schema/market.schema.js";
+import type { GetMarketRequest, MarketResponse } from "../schema/market.schema.js";
 
 export interface MarketController {
     getOpenMarketList(
@@ -7,7 +7,7 @@ export interface MarketController {
         res: Response<MarketResponse[]>,
     ): Promise<void>
     getMarketDetail(
-        req: Request<MarketGetRequest, unknown, void>,
+        req: Request<GetMarketRequest, unknown, void>,
         res: Response<MarketResponse>,
     ): Promise<void>
 }

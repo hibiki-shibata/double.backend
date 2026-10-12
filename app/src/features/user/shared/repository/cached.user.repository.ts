@@ -16,31 +16,32 @@ export class CachedUserRepository implements UserRepository {
         const cachedUser: User | null = await this.cacheService.getByKey<User>(userCacheKey)
         if (cachedUser !== null) return cachedUser
         const dbUser: User = await this.userRepository.getById(userId)
-        await this.cacheService.setByKey<User>(
-            userCacheKey,
-            dbUser,
-            this.cacheTtlsSec.user
+        await this.cacheService.set<User>({
+            key: userCacheKey,
+            value: dbUser,
+            ttlSec: this.cacheTtlsSec.user
+        }
         )
         return dbUser
     }
 
     async getByEmail(emailAddress: string): Promise<User> {
         const dbUser: User = await this.userRepository.getByEmail(emailAddress)
-        await this.cacheService.setByKey<User>(
-            this.cacheKeys.user.byId(dbUser.id),
-            dbUser,
-            this.cacheTtlsSec.user
-        )
+        await this.cacheService.set<User>({
+            key: this.cacheKeys.user.byId(dbUser.id),
+            value: dbUser,
+            ttlSec: this.cacheTtlsSec.user
+        })
         return dbUser
     }
 
     async getByUserName(userName: string): Promise<User> {
         const dbUser: User = await this.userRepository.getByUserName(userName)
-        await this.cacheService.setByKey<User>(
-            this.cacheKeys.user.byId(dbUser.id),
-            dbUser,
-            this.cacheTtlsSec.user
-        )
+        await this.cacheService.set<User>({
+            key: this.cacheKeys.user.byId(dbUser.id),
+            value: dbUser,
+            ttlSec: this.cacheTtlsSec.user
+        })
         return dbUser
     }
 

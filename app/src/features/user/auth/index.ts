@@ -23,7 +23,9 @@ export function userAuthFeature(): Router {
     const cacheService: CacheService = new RedisCacheService(redisClient, loggerContext)
     const dbRepository: UserRepository = new PrismaUserRepository(prismaClient)
     const cachedRepository: UserRepository = new CachedUserRepository(dbRepository, cacheService, cacheKeys, cacheTtlsSec)
-    const service: UserAuthService = new UserAuthServiceV1(cachedRepository, passwordService, jwtTokenService, loggerContext)
+    const service: UserAuthService = new UserAuthServiceV1(
+        cachedRepository, passwordService, jwtTokenService, loggerContext, cacheService, cacheKeys, cacheTtlsSec
+    )
     const controller: UserAuthController = new UserAuthControllerV1(service, cookieOptions, loggerContext)
     return userAuthRouter(controller)
 }

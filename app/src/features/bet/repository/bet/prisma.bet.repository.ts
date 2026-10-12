@@ -6,14 +6,15 @@ export class PrismaBetRepository implements BetRepository {
         private readonly prismaClient: PrismaClient
     ) { }
 
-    async create(dto: BetRepositoryInput.Create): Promise<Bet> {
+    async create(dto: BetRepositoryInput.SafeCreate): Promise<Bet> {
         const data: Prisma.BetCreateInput = {
             bet_amount: dto.betAmount,
             user: { connect: { id: dto.userId } },
             prediction: { connect: { id: dto.predictionId } }
         }
         return await this.prismaClient.bet.create({
-            data: data
+            data: data,
+            include: { prediction: true }
         })
     }
 
@@ -40,7 +41,8 @@ export class PrismaBetRepository implements BetRepository {
             where: { id: betId },
             data: {
                 status: dto.status
-            }
+            },
+            include: { prediction: true }
         })
     }
 }
