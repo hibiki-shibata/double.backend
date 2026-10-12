@@ -7,7 +7,7 @@ import { prismaClient } from "@global-shared/infra/db/prismaClient.js";
 import { PrismaMarketRepository } from "./repository/prisma.market.repository.js";
 import { MarketServiceV1 } from "./service/market.service.v1.js";
 import { MarketControllerV1 } from "./controller/market.controller.v1.js";
-import { marketRouter } from "./routeter/market.router.js";
+import { marketRouter } from "./router/market.router.js";
 import { CachedMarketRepository } from "./repository/cached.market.repository.js";
 import { RedisCacheService } from "@global-shared/infra/cache/service/redis.service.js";
 import { redisClient } from "@global-shared/infra/cache/client/redisClient.js";
