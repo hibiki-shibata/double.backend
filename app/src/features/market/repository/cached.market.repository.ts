@@ -1,6 +1,7 @@
 import type { CacheService } from "@global-shared/infra/cache/service/cache.service.js";
-import type { MarketRepository, MarketRepositoryInput, MarketWithPredictions } from "./market.repository.js";
+import type { MarketRepository, MarketRepositoryInput } from "./market.repository.js";
 import type { CacheKeys, CacheTtlsSec } from "@global-shared/config/cache.config.js";
+import type { Market } from "@global-shared/infra/db/generated.prisma/client.js";
 
 export class CachedMarketRepository implements MarketRepository {
     constructor(
@@ -10,12 +11,12 @@ export class CachedMarketRepository implements MarketRepository {
         private readonly cacheTtlsSec: CacheTtlsSec
     ) { }
 
-    async getById(marketId: string): Promise<MarketWithPredictions> {
+    async getById(marketId: string): Promise<Market> {
         const cacheKey: string = this.cacheKeys.market.byId(marketId)
-        const cachedMarket: MarketWithPredictions | null = await this.cacheService.getByKey<MarketWithPredictions>(cacheKey)
+        const cachedMarket: Market | null = await this.cacheService.getByKey<Market>(cacheKey)
         if (cachedMarket !== null) return cachedMarket
-        const dbMarket: MarketWithPredictions = await this.marketRepository.getById(marketId)
-        await this.cacheService.set<MarketWithPredictions>({
+        const dbMarket: Market = await this.marketRepository.getById(marketId)
+        await this.cacheService.set<Market>({
             key: cacheKey,
             value: dbMarket,
             ttlSec: this.cacheTtlsSec.market
@@ -23,12 +24,12 @@ export class CachedMarketRepository implements MarketRepository {
         return dbMarket
     }
 
-    async getMany(dto: MarketRepositoryInput.GetMany): Promise<MarketWithPredictions[]> {
+    async getMany(dto: MarketRepositoryInput.GetMany): Promise<Market[]> {
         const cacheKey: string = this.cacheKeys.marketList.byPagination(dto.paginationInput)
-        const cachedMarket: MarketWithPredictions[] | null = await this.cacheService.getByKey<MarketWithPredictions[]>(cacheKey)
+        const cachedMarket: Market[] | null = await this.cacheService.getByKey<Market[]>(cacheKey)
         if (cachedMarket !== null) return cachedMarket
-        const dbMarkets: MarketWithPredictions[] = await this.marketRepository.getMany(dto)
-        await this.cacheService.set<MarketWithPredictions[]>({
+        const dbMarkets: Market[] = await this.marketRepository.getMany(dto)
+        await this.cacheService.set<Market[]>({
             key: cacheKey,
             value: dbMarkets,
             ttlSec: this.cacheTtlsSec.marketList

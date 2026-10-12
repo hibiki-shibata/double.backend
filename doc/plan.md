@@ -134,6 +134,7 @@
 
 - Admin page
 - unit test
+- edit BetServiceParams -> BetServiceArgs
 
 Quick 
 - DB level uniqueness -> migration
