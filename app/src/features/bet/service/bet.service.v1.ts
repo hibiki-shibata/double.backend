@@ -1,16 +1,18 @@
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
-import type { BetRepository } from "../repository/bet/bet.repository.js";
+import type { BetRepository } from "../repository/bet.repository.js";
 import type { BetService, BetServiceParams } from "./bet.service.js";
 import type { BetResponse } from "../schema/bet.schema.js";
-import type { PredictionRepository, PredictionWithMarket } from "../repository/prediction/prediction.repository.js";
 import type { Logger } from "pino";
-import { BetStatus, MarketStatus, PredictionStatus, type Bet } from "@global-shared/infra/db/generated.prisma/client.js";
+import { BetStatus, MarketStatus, PredictionStatus, type Bet, type Market, type Prediction } from "@global-shared/infra/db/generated.prisma/client.js";
 import { InvalidInputErr } from "@global-shared/error/httpErrors.js";
+import type { PredictionRepository } from "../../prediction/repository/prediction.repository.js";
+import type { MarketRepository } from "../../market/repository/market.repository.js";
 
 export class BetServiceV1 implements BetService {
     constructor(
         private readonly betRepository: BetRepository,
         private readonly predictionRepository: PredictionRepository,
+        private readonly marketRepository: MarketRepository,
         private readonly loggerContext: LoggerContext
     ) { }
 
@@ -19,8 +21,9 @@ export class BetServiceV1 implements BetService {
         logger.info({ predictionId: dto.predictionId }, 'creating bet')
 
         //  Race condition: It potentially allows creating bet after closing markets/prediction 
-        const predictionWithMarket: PredictionWithMarket = await this.predictionRepository.getById(dto.predictionId)
-        if (predictionWithMarket.status !== PredictionStatus.OPEN || predictionWithMarket.market.status !== MarketStatus.OPEN) {
+        const prediction: Prediction = await this.predictionRepository.getById(dto.predictionId)
+        const market: Market = await this.marketRepository.getById(prediction.market_id)
+        if (prediction.status !== PredictionStatus.OPEN || market.status !== MarketStatus.OPEN) {
             throw new InvalidInputErr('Predicton or Market status is not Open')
         }
 
