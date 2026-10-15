@@ -13,7 +13,7 @@ export class PrismaPredictionRepository implements PredictionRepository {
         })
     }
 
-    async getMany(dto: PredictionRepositoryInput.GetMany): Promise<Prediction[]> {
+    async getManyByMarketId(dto: PredictionRepositoryInput.GetManyByMarketId): Promise<Prediction[]> {
         return await this.prismaClient.prediction.findMany({
             where: { market_id: dto.marketId },
         })

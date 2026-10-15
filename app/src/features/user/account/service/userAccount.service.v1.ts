@@ -1,6 +1,6 @@
 import type { Logger } from "pino"
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js"
-import type { UserAccountService, UserAccountServiceParams } from "./userAccount.service.js"
+import type { UserAccountService, UserAccountServiceArgs } from "./userAccount.service.js"
 import type { UserRepository, UserRepositoryInput } from "../../shared/repository/user.repository.js"
 import type { UserAccountResponse } from "../schema/userAccount.schema.js"
 import type { PasswordService } from "@global-shared/auth/service/password.service.js"
@@ -17,14 +17,14 @@ export class UserAccountServiceV1 implements UserAccountService {
     ) { }
 
     public async getAccountDetail(
-        dto: UserAccountServiceParams.GetAccountDetail
+        dto: UserAccountServiceArgs.GetAccountDetail
     ): Promise<UserAccountResponse> {
         const dbUser: User = await this.verifyNonDeletedUserById(dto.userId)
         return this.toUserAccountResponse(dbUser)
     }
 
     public async updateAccountDetail(
-        dto: UserAccountServiceParams.UpdateAccountDetail
+        dto: UserAccountServiceArgs.UpdateAccountDetail
     ): Promise<UserAccountResponse> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Updating User from DB")
@@ -43,7 +43,7 @@ export class UserAccountServiceV1 implements UserAccountService {
     }
 
     public async deleteAccount(
-        dto: UserAccountServiceParams.DeleteAccount
+        dto: UserAccountServiceArgs.DeleteAccount
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Deleting User from DB")

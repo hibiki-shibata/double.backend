@@ -2,7 +2,7 @@ import type { Pagination } from "@global-shared/types/pagination.type.js"
 import type { BetResponse } from "../schema/bet.schema.js"
 import type { BetStatus } from "@global-shared/infra/db/generated.prisma/enums.js"
 
-export namespace BetServiceParams {
+export namespace BetServiceArgs {
     export type Create = {
         userId: string,
         predictionId: string,
@@ -22,7 +22,7 @@ export namespace BetServiceParams {
 }
 
 export interface BetService {
-    create(dto: BetServiceParams.Create): Promise<BetResponse>
-    cancel(dto: BetServiceParams.Cancel): Promise<BetResponse>
-    getUserBetMany(dto: BetServiceParams.GetUserBetMany): Promise<BetResponse[]>
+    create(dto: BetServiceArgs.Create): Promise<BetResponse>
+    cancel(dto: BetServiceArgs.Cancel): Promise<BetResponse>
+    getUserBetMany(dto: BetServiceArgs.GetUserBetMany): Promise<BetResponse[]>
 }

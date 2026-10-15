@@ -25,11 +25,11 @@ export class CachedPredictionRepository implements PredictionRepository {
     }
 
 
-    async getMany(dto: PredictionRepositoryInput.GetMany): Promise<Prediction[]> {
+    async getManyByMarketId(dto: PredictionRepositoryInput.GetManyByMarketId): Promise<Prediction[]> {
         const cacheKey: string = this.cacheKeys.predictions.byMarketId(dto.marketId)
         const cachedPrediction: Prediction[] | null = await this.cacheService.getByKey<Prediction[]>(cacheKey)
         if (cachedPrediction !== null) return cachedPrediction
-        const dbPredictions: Prediction[] = await this.predictionRepository.getMany(dto)
+        const dbPredictions: Prediction[] = await this.predictionRepository.getManyByMarketId(dto)
         await this.cacheService.set<Prediction[]>({
             key: cacheKey,
             value: dbPredictions,

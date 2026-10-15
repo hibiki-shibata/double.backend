@@ -1,5 +1,5 @@
 import type { Logger } from "pino"
-import type { UserAuthServceParams, UserAuthService } from "./userAuth.service.js"
+import type { UserAuthServceArgs, UserAuthService } from "./userAuth.service.js"
 import type { UserRepository } from "../../shared/repository/user.repository.js"
 import type { JwtTokens } from "../schema/userAuth.schema.js"
 import type { PasswordService } from "@global-shared/auth/service/password.service.js"
@@ -25,7 +25,7 @@ export class UserAuthServiceV1 implements UserAuthService {
     ) { }
 
     public async signup(
-        dto: UserAuthServceParams.Signup
+        dto: UserAuthServceArgs.Signup
     ): Promise<JwtTokens> {
         const logger: Logger = this.loggerContext.getLogger()
 
@@ -46,7 +46,7 @@ export class UserAuthServiceV1 implements UserAuthService {
     }
 
     public async login(
-        dto: UserAuthServceParams.Login
+        dto: UserAuthServceArgs.Login
     ): Promise<JwtTokens> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ userName: dto.userName }, "user login-ing")
@@ -61,7 +61,7 @@ export class UserAuthServiceV1 implements UserAuthService {
     }
 
     public async refreshToken(
-        dto: UserAuthServceParams.RefreshToken
+        dto: UserAuthServceArgs.RefreshToken
     ): Promise<JwtTokens> {
         const claim: RefreshTokenClaim = this.jwtService.verifyRefreshToken(dto.refreshToken)
 
@@ -72,7 +72,7 @@ export class UserAuthServiceV1 implements UserAuthService {
     }
     // fix
     public async logout(
-        dto: UserAuthServceParams.RefreshToken
+        dto: UserAuthServceArgs.RefreshToken
     ): Promise<null> {
         const claim: RefreshTokenClaim = this.jwtService.verifyRefreshToken(dto.refreshToken)
 

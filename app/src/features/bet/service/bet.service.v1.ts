@@ -1,6 +1,6 @@
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { BetRepository } from "../repository/bet.repository.js";
-import type { BetService, BetServiceParams } from "./bet.service.js";
+import type { BetService, BetServiceArgs } from "./bet.service.js";
 import type { BetResponse } from "../schema/bet.schema.js";
 import type { Logger } from "pino";
 import { BetStatus, MarketStatus, PredictionStatus, type Bet, type Market, type Prediction } from "@global-shared/infra/db/generated.prisma/client.js";
@@ -16,7 +16,7 @@ export class BetServiceV1 implements BetService {
         private readonly loggerContext: LoggerContext
     ) { }
 
-    async create(dto: BetServiceParams.Create): Promise<BetResponse> {
+    async create(dto: BetServiceArgs.Create): Promise<BetResponse> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ predictionId: dto.predictionId }, 'creating bet')
 
@@ -37,7 +37,7 @@ export class BetServiceV1 implements BetService {
         return this.toBetResponse(createdBet)
     }
 
-    async cancel(dto: BetServiceParams.Cancel): Promise<BetResponse> {
+    async cancel(dto: BetServiceArgs.Cancel): Promise<BetResponse> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ betId: dto.bedId }, 'cancelling bet')
         const cancelledBet: Bet = await this.betRepository.updateById(dto.bedId, {
@@ -47,7 +47,7 @@ export class BetServiceV1 implements BetService {
         return this.toBetResponse(cancelledBet)
     }
 
-    async getUserBetMany(dto: BetServiceParams.GetUserBetMany): Promise<BetResponse[]> {
+    async getUserBetMany(dto: BetServiceArgs.GetUserBetMany): Promise<BetResponse[]> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('getting many bets from db')
         const bets: Bet[] = await this.betRepository.getMany({

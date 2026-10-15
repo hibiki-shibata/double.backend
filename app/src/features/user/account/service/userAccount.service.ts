@@ -1,6 +1,6 @@
 import type { UserAccountResponse } from "../schema/userAccount.schema.js"
 
-export namespace UserAccountServiceParams {
+export namespace UserAccountServiceArgs {
     export type GetAccountDetail = {
         userId: string
     }
@@ -19,7 +19,7 @@ export namespace UserAccountServiceParams {
 
 
 export interface UserAccountService {
-    getAccountDetail(dto: UserAccountServiceParams.GetAccountDetail): Promise<UserAccountResponse>
-    updateAccountDetail(dto: UserAccountServiceParams.UpdateAccountDetail): Promise<UserAccountResponse>
-    deleteAccount(dto: UserAccountServiceParams.DeleteAccount): Promise<void>
+    getAccountDetail(dto: UserAccountServiceArgs.GetAccountDetail): Promise<UserAccountResponse>
+    updateAccountDetail(dto: UserAccountServiceArgs.UpdateAccountDetail): Promise<UserAccountResponse>
+    deleteAccount(dto: UserAccountServiceArgs.DeleteAccount): Promise<void>
 }
