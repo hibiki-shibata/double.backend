@@ -1,54 +1,57 @@
-// feature/bet/contract/bet.contract.ts
 import { openApiRegistry } from "@global-shared/openapi/registry.js";
 import { toOpenApiPath } from "@global-shared/openapi/toOpenApiPath.js";
 import { betSchema } from "../schema/bet.schema.js";
 import { paginationSchema } from "@global-shared/types/pagination.type.js";
-import { z } from "zod";
 import { ENDPOINT_PATH_PREFIX } from "@global-shared/config/env.config.js";
+import { z } from "zod";
 
-// Register components so they render as $ref in OpenAPI specs
-const BetResponseRef = openApiRegistry.register('BetResponse', betSchema.response);
+// Register components for $ref in OpenAPI docs
 
-// 1. Single Source of Truth for Feature Paths (Express format)
 export const BET_ROUTES = {
   CREATE: '/bets/create',
-  CANCEL: '/bets/:betId/cancel', // Note: Express route parameter matches cancelRequest.betId
+  CANCEL: '/bets/:betId/cancel',
   HISTORY: '/bets/history',
   MARKET_HISTORY: '/bets/history/markets/:marketId',
 } as const;
 
-// 2. Batch Register all Feature Endpoints into the Global Registry
+const BetResponseRef = openApiRegistry.register('BetResponse', betSchema.response);
+
+// 2. Register paths using ENDPOINT_PATH_PREFIX + BET_ROUTES
 export function registerBetContracts() {
-  // POST /api/v1/bets
   openApiRegistry.registerPath({
     method: 'post',
     path: toOpenApiPath(`${ENDPOINT_PATH_PREFIX}${BET_ROUTES.CREATE}`),
     summary: 'Create a new bet',
     tags: ['Bets'],
+    security: [{ bearerAuth: [] }],
     request: { body: { content: { 'application/json': { schema: betSchema.createRequest } } } },
     responses: {
       201: { description: 'Created', content: { 'application/json': { schema: BetResponseRef } } },
+      400: { description: 'Bad Request' },
+      401: { description: 'Unauthorized' },
     },
   });
 
-  // PUT /api/v1/bets/:betId
   openApiRegistry.registerPath({
     method: 'put',
     path: toOpenApiPath(`${ENDPOINT_PATH_PREFIX}${BET_ROUTES.CANCEL}`),
     summary: 'Cancel an existing bet',
     tags: ['Bets'],
+    security: [{ bearerAuth: [] }],
     request: { params: betSchema.cancelRequest },
     responses: {
       200: { description: 'Canceled', content: { 'application/json': { schema: BetResponseRef } } },
+      400: { description: 'Bad Request' },
+      401: { description: 'Unauthorized' },
     },
   });
 
-  // GET /api/v1/bets/history
   openApiRegistry.registerPath({
     method: 'get',
     path: toOpenApiPath(`${ENDPOINT_PATH_PREFIX}${BET_ROUTES.HISTORY}`),
     summary: 'Get user bet history',
     tags: ['Bets'],
+    security: [{ bearerAuth: [] }],
     request: { query: paginationSchema },
     responses: {
       200: {
@@ -59,15 +62,16 @@ export function registerBetContracts() {
           },
         },
       },
+      401: { description: 'Unauthorized' },
     },
   });
 
-  // GET /api/v1/bets/history/markets/:marketId
   openApiRegistry.registerPath({
     method: 'get',
     path: toOpenApiPath(`${ENDPOINT_PATH_PREFIX}${BET_ROUTES.MARKET_HISTORY}`),
     summary: 'Get bets by market ID',
     tags: ['Bets'],
+    security: [{ bearerAuth: [] }],
     request: { params: betSchema.getMarketBetRequestParam, query: paginationSchema },
     responses: {
       200: {
@@ -78,7 +82,9 @@ export function registerBetContracts() {
           },
         },
       },
+      401: { description: 'Unauthorized' },
     },
   });
 }
 
+registerBetContracts()
