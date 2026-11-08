@@ -1,7 +1,10 @@
 // src/openapi/registry.ts
-import { OpenAPIRegistry, OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
+import { OpenAPIRegistry, OpenApiGeneratorV3, extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
+import z from 'zod';
 
 export const openApiRegistry = new OpenAPIRegistry();
+
+extendZodWithOpenApi(z);
 
 // Register global components (Security, standard error responses, etc.)
 openApiRegistry.registerComponent('securitySchemes', 'bearerAuth', {

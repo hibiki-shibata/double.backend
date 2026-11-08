@@ -2,9 +2,8 @@ import { openApiRegistry } from "@global-shared/openapi/registry.js";
 import { toOpenApiPath } from "@global-shared/openapi/toOpenApiPath.js";
 import { PredictionSchema } from "../schema/prediction.schema.js";
 import { paginationSchema } from "@global-shared/types/pagination.type.js";
-import { ENDPOINT_PATH_PREFIX } from "@global-shared/config/env.config.js";
+import { ENDPOINT_PATH_PREFIX, FEATURE_PATH_PREFIX } from "@global-shared/config/routePath.config.js";
 import { z } from "zod";
-import { FEATURE_PATH_PREFIX } from "../../features.router.js";
 
 // Register components for $ref in OpenAPI docs
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.PREDICTION;

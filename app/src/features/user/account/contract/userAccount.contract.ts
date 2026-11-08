@@ -1,8 +1,7 @@
 import { openApiRegistry } from "@global-shared/openapi/registry.js";
 import { toOpenApiPath } from "@global-shared/openapi/toOpenApiPath.js";
 import { userAccountSchema } from "../schema/userAccount.schema.js";
-import { ENDPOINT_PATH_PREFIX } from "@global-shared/config/env.config.js";
-import { FEATURE_PATH_PREFIX } from "../../../features.router.js";
+import { ENDPOINT_PATH_PREFIX, FEATURE_PATH_PREFIX } from "@global-shared/config/routePath.config.js";
 
 // Register components for $ref in OpenAPI docs
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.USER;

@@ -4,7 +4,7 @@ import { rateLimit } from 'express-rate-limit'
 import { rateLimitOptions, corsOptions } from './shared/config/security.config.js'
 import helmet from 'helmet'
 import { addTraceHeader } from './shared/middleware/addTraceHeader.js'
-import { ENDPOINT_PATH_PREFIX } from '@global-shared/config/env.config.js'
+import { ENDPOINT_PATH_PREFIX } from "@global-shared/config/routePath.config.js";
 import { featuresRouter } from "./features/features.router.js"
 import { globalErrorHandler } from "./shared/middleware/globalErrorHandler.js"
 import cookieParser from 'cookie-parser'

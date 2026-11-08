@@ -5,15 +5,8 @@ import { walletFeature } from './wallet/index.js'
 import { marketFeature } from './market/index.js'
 import { betFeature } from './bet/index.js'
 import { PredictionFeature } from './prediction/index.js'
+import { FEATURE_PATH_PREFIX } from '@global-shared/config/routePath.config.js'
 
-export const FEATURE_PATH_PREFIX = {
-    MARKET: '/market',
-    PREDICTION: '/prediction',
-    AUTH: '/auth',
-    USER: '/user',
-    WALLET: '/wallet',
-    BET: '/bet',
-} as const;
 
 export function featuresRouter(): Router {
     const router: Router = Router()

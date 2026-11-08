@@ -24,6 +24,8 @@ export class PredictionServiceV1 implements PredictionService {
 
     private toPredictionResponse(data: Prediction): PredictionResponse {
         return {
+            id: data.id,
+            marketId: data.market_id,
             name: data.name,
             totalParticipants: data.total_participants,
             betSum: data.bet_sum,
