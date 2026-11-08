@@ -14,11 +14,12 @@ import { redisClient } from "@global-shared/infra/cache/client/redisClient.js";
 import { cacheKeys, cacheTtlsSec } from "@global-shared/config/cache.config.js";
 import { loggerContext } from "@global-shared/logger/logger.js";
 
+const cacheSerivice: CacheService = new RedisCacheService(redisClient, loggerContext)
+const dbRepository: PredictionRepository = new PrismaPredictionRepository(prismaClient)
+const cachedRepository: PredictionRepository = new CachedPredictionRepository(dbRepository, cacheSerivice, cacheKeys, cacheTtlsSec)
+const service: PredictionService = new PredictionServiceV1(cachedRepository, loggerContext)
+const controller: PredictionController = new PredictionControllerV1(service, loggerContext)
+
 export function PredictionFeature(): Router {
-    const cacheSerivice: CacheService = new RedisCacheService(redisClient, loggerContext)
-    const dbRepository: PredictionRepository = new PrismaPredictionRepository(prismaClient)
-    const cachedRepository: PredictionRepository = new CachedPredictionRepository(dbRepository, cacheSerivice, cacheKeys, cacheTtlsSec)
-    const service: PredictionService = new PredictionServiceV1(cachedRepository, loggerContext)
-    const controller: PredictionController = new PredictionControllerV1(service, loggerContext)
     return predictionRouter(controller)
 }

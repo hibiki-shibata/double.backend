@@ -1,13 +1,25 @@
 import { Router } from "express";
 import type { PredictionController } from "../controller/prediction.controller.js";
+import { PREDICTION_ROUTES } from "../contract/prediction.contract.js";
+import { validateRequest } from "@global-shared/middleware/validateRequest.js";
+import { PredictionSchema } from "../schema/prediction.schema.js";
+import { paginationSchema } from "@global-shared/types/pagination.type.js";
+import { authenticate } from "@global-shared/middleware/authenticate.js";
+import { authorize } from "@global-shared/middleware/authorize.js";
+import { UserRoles } from "@global-shared/infra/db/generated.prisma/enums.js";
 
 export function predictionRouter(
     controller: PredictionController
 ): Router {
-    const router: Router = Router()
+    const router = Router();
+
     router.get(
-        '/:marketId',
+        PREDICTION_ROUTES.GET_BY_MARKET_ID,
+        authenticate,
+        authorize({ requiredRoles: [UserRoles.USER] }),
+        validateRequest({ params: PredictionSchema.getRequestParam, query: paginationSchema }),
         controller.getPredictions
-    )
-    return router
+    );
+
+    return router;
 }
