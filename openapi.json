@@ -84,46 +84,6 @@
           "status"
         ]
       },
-      "MarketResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 80
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "UPCOMING",
-              "OPEN",
-              "CLOSED",
-              "RESOLVED",
-              "PAYOUT",
-              "CANCELLED"
-            ]
-          },
-          "closeAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "id",
-          "title",
-          "status",
-          "closeAt",
-          "createdAt"
-        ]
-      },
       "PredictionResponse": {
         "type": "object",
         "properties": {
@@ -534,6 +494,28 @@
         "parameters": [
           {
             "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 30
+            },
+            "required": false,
+            "name": "limit",
+            "in": "path"
+          },
+          {
+            "schema": {
               "type": "string",
               "format": "uuid"
             },
@@ -548,7 +530,44 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MarketResponse"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "UPCOMING",
+                        "OPEN",
+                        "CLOSED",
+                        "RESOLVED",
+                        "PAYOUT",
+                        "CANCELLED"
+                      ]
+                    },
+                    "closeAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "title",
+                    "status",
+                    "closeAt",
+                    "createdAt"
+                  ]
                 }
               }
             }
@@ -601,22 +620,47 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/MarketResponse"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "UPCOMING",
+                          "OPEN",
+                          "CLOSED",
+                          "RESOLVED",
+                          "PAYOUT",
+                          "CANCELLED"
+                        ]
+                      },
+                      "closeAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
                       }
                     },
-                    "total": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "items",
-                    "total"
-                  ]
+                    "required": [
+                      "id",
+                      "title",
+                      "status",
+                      "closeAt",
+                      "createdAt"
+                    ]
+                  }
                 }
               }
             }

@@ -1,4 +1,5 @@
 import { Currency, WalletStatus, WalletTransactionType } from "@global-shared/infra/db/generated.prisma/enums.js"
+import { paginationSchema } from "@global-shared/types/pagination.type.js"
 import z from "zod"
 
 export const walletSchema = {
@@ -30,12 +31,16 @@ export const walletSchema = {
         balanceBefore: z.bigint('balanceBefore amout must be non negative bigint').nonnegative(),
         balanceAfter: z.bigint('BalanceAfter amout must be non negative bigint').nonnegative(),
         createdAt: z.iso.datetime('wrong date format')
+    }),
+
+    transactionRequestQuery: paginationSchema.extend({
     })
 }
 
 // Request Types
 export type DepositRequest = z.infer<typeof walletSchema.depositRequest>
 export type WithdrawRequest = z.infer<typeof walletSchema.withdrawRequest>
+export type WalletTransactionHistoryRequestQuery = z.infer<typeof walletSchema.transactionRequestQuery>
 
 // Response Types
 export type WalletResponse = z.infer<typeof walletSchema.response>

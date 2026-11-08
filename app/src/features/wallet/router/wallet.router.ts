@@ -24,7 +24,7 @@ export function walletRouter(
         WALLET_ROUTES.HISTORY,
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        validateRequest({ query: paginationSchema }),
+        validateRequest({ query: walletSchema.transactionRequestQuery }),
         controller.getMyWalletHistory
     );
 
