@@ -13,7 +13,6 @@ export const MARKET_ROUTES = {
     LIST: '/',
 } as const;
 
-const MarketResponseRef = openApiRegistry.register('MarketResponse', MarketSchema.response);
 
 // Register paths using ENDPOINT_PATH_PREFIX + MARKET_ROUTES
 export function registerMarketContracts() {
@@ -25,7 +24,7 @@ export function registerMarketContracts() {
         // security: [{ bearerAuth: [] }],
         request: { params: MarketSchema.getRequestParam },
         responses: {
-            200: { description: 'Success', content: { 'application/json': { schema: MarketResponseRef } } },
+            200: { description: 'Success', content: { 'application/json': { schema: MarketSchema.response } } },
             400: { description: 'Bad Request' },
             401: { description: 'Unauthorized' },
             404: { description: 'Not Found' },
@@ -40,14 +39,7 @@ export function registerMarketContracts() {
         // security: [{ bearerAuth: [] }],
         request: { query: paginationSchema },
         responses: {
-            200: {
-                description: 'Success',
-                content: {
-                    'application/json': {
-                        schema: z.object({ items: z.array(MarketResponseRef), total: z.number() }),
-                    },
-                },
-            },
+            200: { description: 'Success', content: { 'application/json': { schema: z.array(MarketSchema.response) } } },
             401: { description: 'Unauthorized' },
         },
     });

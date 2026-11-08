@@ -1,4 +1,5 @@
 import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
+import { paginationSchema } from "@global-shared/types/pagination.type.js";
 import z from "zod";
 
 export const MarketSchema = {
@@ -10,10 +11,10 @@ export const MarketSchema = {
         createdAt: z.iso.datetime('wrong date format'),
     }),
 
-    getRequestParam: z.object({
+    getRequestParam: paginationSchema.extend({
         marketId: z.uuidv4('market id must be a uuid4'),
     })
 }
 
 export type MarketResponse = z.infer<typeof MarketSchema.response>
-export type GetMarketRequest = z.infer<typeof MarketSchema.getRequestParam>
+export type unknownGetMarketRequest = z.infer<typeof MarketSchema.getRequestParam>

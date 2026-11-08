@@ -156,59 +156,6 @@
           "betSum"
         ]
       },
-      "BetResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "predictionId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "betAmount": {
-            "type": "string",
-            "pattern": "^\\d+$"
-          },
-          "payoutAmount": {
-            "type": "string",
-            "pattern": "^\\d+$"
-          },
-          "currency": {
-            "type": "string",
-            "enum": [
-              "USD",
-              "EUR",
-              "JPY"
-            ]
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "PENDING",
-              "LOCKED",
-              "WON",
-              "LOST",
-              "PAYOUT",
-              "CANCELLED"
-            ]
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "id",
-          "predictionId",
-          "betAmount",
-          "payoutAmount",
-          "currency",
-          "status",
-          "createdAt"
-        ]
-      },
       "WalletResponse": {
         "type": "object",
         "properties": {
@@ -799,7 +746,57 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BetResponse"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "predictionId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "betAmount": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "payoutAmount": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "enum": [
+                        "USD",
+                        "EUR",
+                        "JPY"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PENDING",
+                        "LOCKED",
+                        "WON",
+                        "LOST",
+                        "PAYOUT",
+                        "CANCELLED"
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "predictionId",
+                    "betAmount",
+                    "payoutAmount",
+                    "currency",
+                    "status",
+                    "createdAt"
+                  ]
                 }
               }
             }
@@ -841,7 +838,57 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BetResponse"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "predictionId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "betAmount": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "payoutAmount": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "enum": [
+                        "USD",
+                        "EUR",
+                        "JPY"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PENDING",
+                        "LOCKED",
+                        "WON",
+                        "LOST",
+                        "PAYOUT",
+                        "CANCELLED"
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "predictionId",
+                    "betAmount",
+                    "payoutAmount",
+                    "currency",
+                    "status",
+                    "createdAt"
+                  ]
                 }
               }
             }
@@ -857,7 +904,7 @@
     },
     "/api/v1/bet/history": {
       "get": {
-        "summary": "Get user bet history",
+        "summary": "Get user bet history (supports optional market filtering)",
         "tags": [
           "Bets"
         ],
@@ -888,81 +935,14 @@
             "required": false,
             "name": "limit",
             "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/BetResponse"
-                      }
-                    },
-                    "total": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "items",
-                    "total"
-                  ]
-                }
-              }
-            }
           },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/api/v1/bet/history/markets/{marketId}": {
-      "get": {
-        "summary": "Get bets by market ID",
-        "tags": [
-          "Bets"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
           {
             "schema": {
               "type": "string",
               "format": "uuid"
             },
-            "required": true,
+            "required": false,
             "name": "marketId",
-            "in": "path"
-          },
-          {
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 1
-            },
-            "required": false,
-            "name": "page",
-            "in": "query"
-          },
-          {
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 30
-            },
-            "required": false,
-            "name": "limit",
             "in": "query"
           }
         ],
@@ -972,22 +952,60 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/BetResponse"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "predictionId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "betAmount": {
+                        "type": "string",
+                        "pattern": "^\\d+$"
+                      },
+                      "payoutAmount": {
+                        "type": "string",
+                        "pattern": "^\\d+$"
+                      },
+                      "currency": {
+                        "type": "string",
+                        "enum": [
+                          "USD",
+                          "EUR",
+                          "JPY"
+                        ]
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "PENDING",
+                          "LOCKED",
+                          "WON",
+                          "LOST",
+                          "PAYOUT",
+                          "CANCELLED"
+                        ]
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
                       }
                     },
-                    "total": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "items",
-                    "total"
-                  ]
+                    "required": [
+                      "id",
+                      "predictionId",
+                      "betAmount",
+                      "payoutAmount",
+                      "currency",
+                      "status",
+                      "createdAt"
+                    ]
+                  }
                 }
               }
             }
