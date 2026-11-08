@@ -20,18 +20,19 @@ import type { MarketRepository } from "../market/repository/market.repository.js
 import { PrismaMarketRepository } from "../market/repository/prisma.market.repository.js"
 import { CachedMarketRepository } from "../market/repository/cached.market.repository.js"
 
-export function betFeature(): Router {
-    const cacheService: CacheService = new RedisCacheService(redisClient, loggerContext)
-    // Prediction
-    const predictionRepository: PredictionRepository = new PrismaPredictionRepository(prismaClient)
-    const cachedPredictionRepository: PredictionRepository = new CachedPredictionRepository(predictionRepository, cacheService, cacheKeys, cacheTtlsSec)
-    // Market
-    const marketRepository: MarketRepository = new PrismaMarketRepository(prismaClient)
-    const cachedMarketRepository: MarketRepository = new CachedMarketRepository(marketRepository, cacheService, cacheKeys, cacheTtlsSec)
+const cacheService: CacheService = new RedisCacheService(redisClient, loggerContext)
+// Prediction
+const predictionRepository: PredictionRepository = new PrismaPredictionRepository(prismaClient)
+const cachedPredictionRepository: PredictionRepository = new CachedPredictionRepository(predictionRepository, cacheService, cacheKeys, cacheTtlsSec)
+// Market
+const marketRepository: MarketRepository = new PrismaMarketRepository(prismaClient)
+const cachedMarketRepository: MarketRepository = new CachedMarketRepository(marketRepository, cacheService, cacheKeys, cacheTtlsSec)
 
-    const betRepository: BetRepository = new PrismaBetRepository(prismaClient)
-    const cachedBetRepository: BetRepository = new CachedBetRepository(betRepository, cacheService, cacheKeys, cacheTtlsSec)
-    const Service: BetService = new BetServiceV1(cachedBetRepository, cachedPredictionRepository, cachedMarketRepository, loggerContext)
-    const controller: BetController = new BetControllerV1(Service, loggerContext)
+const betRepository: BetRepository = new PrismaBetRepository(prismaClient)
+const cachedBetRepository: BetRepository = new CachedBetRepository(betRepository, cacheService, cacheKeys, cacheTtlsSec)
+const Service: BetService = new BetServiceV1(cachedBetRepository, cachedPredictionRepository, cachedMarketRepository, loggerContext)
+const controller: BetController = new BetControllerV1(Service, loggerContext)
+
+export function betFeature(): Router {
     return betRouter(controller)
 }

@@ -4,14 +4,17 @@ import { betSchema } from "../schema/bet.schema.js";
 import { paginationSchema } from "@global-shared/types/pagination.type.js";
 import { ENDPOINT_PATH_PREFIX } from "@global-shared/config/env.config.js";
 import { z } from "zod";
+import { FEATURE_PATH_PREFIX } from "../../features.router.js";
 
 // Register components for $ref in OpenAPI docs
 
+const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.BET
+
 export const BET_ROUTES = {
-  CREATE: '/bets/create',
-  CANCEL: '/bets/:betId/cancel',
-  HISTORY: '/bets/history',
-  MARKET_HISTORY: '/bets/history/markets/:marketId',
+  CREATE: '/create',
+  CANCEL: '/:betId/cancel',
+  HISTORY: '/history',
+  MARKET_HISTORY: '/history/markets/:marketId',
 } as const;
 
 const BetResponseRef = openApiRegistry.register('BetResponse', betSchema.response);
@@ -20,7 +23,7 @@ const BetResponseRef = openApiRegistry.register('BetResponse', betSchema.respons
 export function registerBetContracts() {
   openApiRegistry.registerPath({
     method: 'post',
-    path: toOpenApiPath(`${ENDPOINT_PATH_PREFIX}${BET_ROUTES.CREATE}`),
+    path: toOpenApiPath(`${BASE_PATH}${BET_ROUTES.CREATE}`),
     summary: 'Create a new bet',
     tags: ['Bets'],
     security: [{ bearerAuth: [] }],
@@ -34,7 +37,7 @@ export function registerBetContracts() {
 
   openApiRegistry.registerPath({
     method: 'put',
-    path: toOpenApiPath(`${ENDPOINT_PATH_PREFIX}${BET_ROUTES.CANCEL}`),
+    path: toOpenApiPath(`${BASE_PATH}${BET_ROUTES.CANCEL}`),
     summary: 'Cancel an existing bet',
     tags: ['Bets'],
     security: [{ bearerAuth: [] }],
@@ -48,7 +51,7 @@ export function registerBetContracts() {
 
   openApiRegistry.registerPath({
     method: 'get',
-    path: toOpenApiPath(`${ENDPOINT_PATH_PREFIX}${BET_ROUTES.HISTORY}`),
+    path: toOpenApiPath(`${BASE_PATH}${BET_ROUTES.HISTORY}`),
     summary: 'Get user bet history',
     tags: ['Bets'],
     security: [{ bearerAuth: [] }],
@@ -68,7 +71,7 @@ export function registerBetContracts() {
 
   openApiRegistry.registerPath({
     method: 'get',
-    path: toOpenApiPath(`${ENDPOINT_PATH_PREFIX}${BET_ROUTES.MARKET_HISTORY}`),
+    path: toOpenApiPath(`${BASE_PATH}${BET_ROUTES.MARKET_HISTORY}`),
     summary: 'Get bets by market ID',
     tags: ['Bets'],
     security: [{ bearerAuth: [] }],
