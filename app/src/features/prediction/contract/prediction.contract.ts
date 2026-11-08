@@ -9,8 +9,6 @@ import { PREDICTION_ROUTES } from "../router/prediction.router.js";
 // Register components for $ref in OpenAPI docs
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.PREDICTION;
 
-const PredictionResponseRef = openApiRegistry.register('PredictionResponse', PredictionSchema.response);
-
 // Register paths using ENDPOINT_PATH_PREFIX + PREDICTION_ROUTES
 export function registerPredictionContracts() {
     openApiRegistry.registerPath({
@@ -19,13 +17,13 @@ export function registerPredictionContracts() {
         summary: 'Get predictions by market ID',
         tags: ['Predictions'],
         security: [{ bearerAuth: [] }],
-        request: { params: PredictionSchema.getRequestQuery, query: paginationSchema },
+        request: { query: PredictionSchema.getRequestQuery, },
         responses: {
             200: {
                 description: 'Success',
                 content: {
                     'application/json': {
-                        schema: z.array(PredictionResponseRef),
+                        schema: z.array(PredictionSchema.response),
                     },
                 },
             },

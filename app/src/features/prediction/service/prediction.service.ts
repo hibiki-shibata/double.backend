@@ -7,5 +7,5 @@ export namespace PredictionServiceArgs {
 }
 
 export interface PredictionService {
-    getPredictionsByMarketId(dto: PredictionServiceArgs.getPredictionsByMarketId): Promise<PredictionResponse[]>,
+    getList(dto: PredictionServiceArgs.getPredictionsByMarketId): Promise<PredictionResponse[]>,
 }

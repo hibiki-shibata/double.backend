@@ -10,7 +10,7 @@ export class PredictionServiceV1 implements PredictionService {
         private readonly loggerContext: LoggerContext
     ) { }
 
-    async getPredictionsByMarketId(
+    async getList(
         dto: PredictionServiceArgs.getPredictionsByMarketId
     ): Promise<PredictionResponse[]> {
         const logger = this.loggerContext.getLogger()

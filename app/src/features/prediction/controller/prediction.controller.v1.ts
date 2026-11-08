@@ -12,14 +12,18 @@ export class PredictionControllerV1 implements PredictionController {
     ) { }
 
     async getPredictions(
-        req: Request<GetPredictionListRequest, unknown, void, unknown>,
+        req: Request<unknown, unknown, void, GetPredictionListRequest>,
         res: Response<PredictionResponse[]>,
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
-        logger.info('Request to get Prediction arrived')
-        const availablePredictions: PredictionResponse[] = await this.PredictionService.getPredictionsByMarketId({
-            marketId: req.params.marketId
+        const { marketId } = req.query
+
+        logger.info({ marketId }, 'Request to get Prediction arrived')
+
+        const availablePredictions: PredictionResponse[] = await this.PredictionService.getList({
+            marketId: marketId
         })
+
         res.status(200).json(availablePredictions)
         logger.info('Response sucess get list of Prediction sent')
     }
