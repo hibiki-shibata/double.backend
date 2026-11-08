@@ -127,10 +127,10 @@
 
 ### Todo:
 - Google Oauth
-- Open API
-- payment/bank integration for deposit/withdrawal
 - logout/delete - revoke jwt token
 - some instance like repositories are duplicatedly created across features
+- payment/bank integration for deposit/withdrawal
+- Open API 
 
 - Admin page
 - unit/integration test
@@ -140,3 +140,35 @@ Quick
 - DB level uniqueness -> migration
 - create bet and deduct from wallet
 - prisma error handling
+
+
+### Endpoint:
+```txt
+<!-- User -->
+get /api/v1/user/me
+
+<!-- auth -->
+post /api/v1/auth/signup
+post /api/v1/auth/login
+post /api/v1/auth/refreshToken
+post /api/v1/auth/logout
+
+<!-- Bet -->
+post /api/v1/bet/create
+put /api/v1/bet/:bedId/cancel
+get /api/v1/bet/list?limit=1&&page=1&&marketId=1
+
+<!-- Market -->
+get /api/v1/market/list?limit=1&&page=1&&marketId=1
+get /api/v1/market/:marketId
+
+
+<!-- Prediction -->
+get /api/v1/prediction/list?limit=1&&page=1&&marketId=1
+
+<!-- Wallet -->
+get /api/v1/prediction/me
+get /api/v1/prediction/transaction-history?limit=1&&page=1
+put /api/v1/prediction/deposit
+put /api/v1/prediction/withdraw
+```
