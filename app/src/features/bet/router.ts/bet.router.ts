@@ -9,7 +9,7 @@ import { UserRoles } from '@global-shared/infra/db/generated.prisma/enums.js';
 export const BET_ROUTES = {
     CREATE: '/create',
     CANCEL: '/:betId/cancel',
-    HISTORY: '/history', // query
+    HISTORY: '/list', // query
 } as const;
 
 export function betRouter(controller: BetController): Router {

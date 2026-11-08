@@ -1,18 +1,13 @@
 import { openApiRegistry } from "@global-shared/openapi/registry.js";
 import { toOpenApiPath } from "@global-shared/openapi/toOpenApiPath.js";
-import { walletSchema } from "../schema/wallet.schema.js";
+import { WalletSchema } from "../schema/wallet.schema.js";
 import { paginationSchema } from "@global-shared/types/pagination.type.js";
 import { ENDPOINT_PATH_PREFIX, FEATURE_PATH_PREFIX } from "@global-shared/config/routePath.config.js";
 import { z } from "zod";
+import { WALLET_ROUTES } from "../router/wallet.router.js";
 
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.WALLET;
 
-export const WALLET_ROUTES = {
-    ME: '/me',
-    HISTORY: '/history',
-    DEPOSIT: '/deposit',
-    WITHDRAW: '/withdraw',
-} as const;
 
 export function registerWalletContracts() {
     openApiRegistry.registerPath({
@@ -22,7 +17,7 @@ export function registerWalletContracts() {
         tags: ['Wallet'],
         security: [{ bearerAuth: [] }],
         responses: {
-            200: { description: 'Success', content: { 'application/json': { schema: walletSchema.response } } },
+            200: { description: 'Success', content: { 'application/json': { schema: WalletSchema.response } } },
             401: { description: 'Unauthorized' },
             404: { description: 'Not Found' },
         },
@@ -38,11 +33,7 @@ export function registerWalletContracts() {
         responses: {
             200: {
                 description: 'Success',
-                content: {
-                    'application/json': {
-                        schema: z.array(walletSchema.transactionResponse),
-                    },
-                },
+                content: { 'application/json': { schema: z.array(WalletSchema.transactionResponse) } },
             },
             401: { description: 'Unauthorized' },
         },
@@ -54,9 +45,9 @@ export function registerWalletContracts() {
         summary: 'Deposit funds into wallet',
         tags: ['Wallet'],
         security: [{ bearerAuth: [] }],
-        request: { body: { content: { 'application/json': { schema: walletSchema.depositRequest } } } },
+        request: { body: { content: { 'application/json': { schema: WalletSchema.depositRequest } } } },
         responses: {
-            200: { description: 'Success', content: { 'application/json': { schema: walletSchema.response } } },
+            200: { description: 'Success', content: { 'application/json': { schema: WalletSchema.response } } },
             400: { description: 'Bad Request' },
             401: { description: 'Unauthorized' },
         },
@@ -68,9 +59,9 @@ export function registerWalletContracts() {
         summary: 'Withdraw funds from wallet',
         tags: ['Wallet'],
         security: [{ bearerAuth: [] }],
-        request: { body: { content: { 'application/json': { schema: walletSchema.withdrawRequest } } } },
+        request: { body: { content: { 'application/json': { schema: WalletSchema.withdrawRequest } } } },
         responses: {
-            200: { description: 'Success', content: { 'application/json': { schema: walletSchema.response } } },
+            200: { description: 'Success', content: { 'application/json': { schema: WalletSchema.response } } },
             400: { description: 'Bad Request' },
             401: { description: 'Unauthorized' },
         },

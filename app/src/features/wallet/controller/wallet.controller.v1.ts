@@ -4,7 +4,6 @@ import type { WalletController } from "./wallet.controller.js";
 import type { WalletService } from "../service/wallet.service.js";
 import type { DepositRequest, WalletResponse, WalletTransactionHistoryRequestQuery, WalletTransactionResponse, WithdrawRequest } from "../schema/wallet.schema.js";
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
-import type { Pagination } from "@global-shared/types/pagination.type.js";
 import type { AccessTokenClaim } from "@global-shared/auth/type/jwtToken.type.js";
 
 export class WalletControllerV1 implements WalletController {
@@ -18,24 +17,27 @@ export class WalletControllerV1 implements WalletController {
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request get my walletinfo arrived')
+
         const walletInfo: WalletResponse = await this.walletService.getWalletDetail({
             userId: req.accessTokenClaim.userId
         })
+
         res.status(200).json(walletInfo)
         logger.info('Response success get my walletinfo sent')
     }
 
-    async getMyWalletHistory(
+    async getMyTransactionHistory(
         req: Request<unknown, unknown, void, WalletTransactionHistoryRequestQuery> & { accessTokenClaim: AccessTokenClaim },
         res: Response<WalletTransactionResponse[]>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
-
         logger.info('Request get my wallet history arrived')
-        const walletHistory: WalletTransactionResponse[] = await this.walletService.getWalletHistory({
+
+        const walletHistory: WalletTransactionResponse[] = await this.walletService.getTransactionHistory({
             userId: req.accessTokenClaim.userId,
             pagination: req.query
         })
+
         res.status(200).json(walletHistory)
         logger.info('Response success get my wallet history sent')
     }
@@ -46,10 +48,12 @@ export class WalletControllerV1 implements WalletController {
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request deposit arrived')
+
         const walletInfo: WalletResponse = await this.walletService.deposit({
             userId: req.accessTokenClaim.userId,
             amount: req.body.amount
         })
+
         res.status(200).json(walletInfo)
         logger.info('Response success deposit sent')
     }
@@ -60,10 +64,12 @@ export class WalletControllerV1 implements WalletController {
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('Request withdraw arrived')
+
         const walletInfo: WalletResponse = await this.walletService.withdraw({
             userId: req.accessTokenClaim.userId,
             amount: req.body.amount
         })
+
         res.status(200).json(walletInfo)
         logger.info('Response success withdraw sent')
     }

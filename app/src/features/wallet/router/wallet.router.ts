@@ -1,11 +1,17 @@
 import { Router } from 'express';
 import type { WalletController } from '../controller/wallet.controller.js';
-import { WALLET_ROUTES } from '../contract/wallet.contract.js';
 import { validateRequest } from '@global-shared/middleware/validateRequest.js';
-import { walletSchema } from '../schema/wallet.schema.js';
+import { WalletSchema } from '../schema/wallet.schema.js';
 import { authenticate } from '@global-shared/middleware/authenticate.js';
 import { authorize } from '@global-shared/middleware/authorize.js';
 import { UserRoles } from '@global-shared/infra/db/generated.prisma/enums.js';
+
+export const WALLET_ROUTES = {
+    ME: '/me',
+    HISTORY: '/transaction-history', // query
+    DEPOSIT: '/deposit',
+    WITHDRAW: '/withdraw',
+} as const;
 
 export function walletRouter(
     controller: WalletController,
@@ -23,15 +29,15 @@ export function walletRouter(
         WALLET_ROUTES.HISTORY,
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        validateRequest({ query: walletSchema.transactionRequestQuery }),
-        controller.getMyWalletHistory
+        validateRequest({ query: WalletSchema.transactionRequestQuery }),
+        controller.getMyTransactionHistory
     );
 
     router.put(
         WALLET_ROUTES.DEPOSIT,
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        validateRequest({ body: walletSchema.depositRequest }),
+        validateRequest({ body: WalletSchema.depositRequest }),
         controller.deposit
     );
 
@@ -39,7 +45,7 @@ export function walletRouter(
         WALLET_ROUTES.WITHDRAW,
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        validateRequest({ body: walletSchema.withdrawRequest }),
+        validateRequest({ body: WalletSchema.withdrawRequest }),
         controller.withdraw
     );
 

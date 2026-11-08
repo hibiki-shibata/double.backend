@@ -2,7 +2,7 @@ import { Currency, WalletStatus, WalletTransactionType } from "@global-shared/in
 import { paginationSchema } from "@global-shared/types/pagination.type.js"
 import z from "zod"
 
-export const walletSchema = {
+export const WalletSchema = {
     depositRequest: z.object({
         amount: z.bigint('Deposit amount must be less than 10000000 at one transaction time. No negative value').max(10000000n).nonnegative()
     }),
@@ -38,10 +38,10 @@ export const walletSchema = {
 }
 
 // Request Types
-export type DepositRequest = z.infer<typeof walletSchema.depositRequest>
-export type WithdrawRequest = z.infer<typeof walletSchema.withdrawRequest>
-export type WalletTransactionHistoryRequestQuery = z.infer<typeof walletSchema.transactionRequestQuery>
+export type DepositRequest = z.infer<typeof WalletSchema.depositRequest>
+export type WithdrawRequest = z.infer<typeof WalletSchema.withdrawRequest>
+export type WalletTransactionHistoryRequestQuery = z.infer<typeof WalletSchema.transactionRequestQuery>
 
 // Response Types
-export type WalletResponse = z.infer<typeof walletSchema.response>
-export type WalletTransactionResponse = z.infer<typeof walletSchema.transactionResponse>
+export type WalletResponse = z.infer<typeof WalletSchema.response>
+export type WalletTransactionResponse = z.infer<typeof WalletSchema.transactionResponse>

@@ -23,7 +23,7 @@ export class WalletServiceV1 implements WalletService {
         return this.toWalletResponse(userWallet)
     }
 
-    async getWalletHistory(
+    async getTransactionHistory(
         dto: WalletServiceParams.GetWalletHistory
     ): Promise<WalletTransactionResponse[]> {
         const logger: Logger = this.loggerContext.getLogger()

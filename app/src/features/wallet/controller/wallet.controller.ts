@@ -6,7 +6,7 @@ export interface WalletController {
         req: Request<unknown, unknown, void>,
         res: Response<WalletResponse>
     ): Promise<void>
-    getMyWalletHistory(
+    getMyTransactionHistory(
         req: Request<unknown, unknown, void, unknown>,
         res: Response<WalletTransactionResponse[]>
     ): Promise<void>
