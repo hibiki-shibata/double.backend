@@ -126,14 +126,14 @@
 
 
 ### Todo:
-- document
 - Google Oauth
-- payment integration for deposit
-- bank withdrawal integration
+- Open API
+- payment/bank integration for deposit/withdrawal
 - logout/delete - revoke jwt token
+- some instance like repositories are duplicatedly created across features
 
 - Admin page
-- unit test
+- unit/integration test
 - edit BetServiceParams -> BetServiceArgs
 
 Quick 

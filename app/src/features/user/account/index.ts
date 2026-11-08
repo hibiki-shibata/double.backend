@@ -17,12 +17,13 @@ import { userAccountRouter } from "./router/userAccount.router.js"
 import { PasswordServiceV1 } from "@global-shared/auth/service/password.service.v1.js"
 import { passwordEncoderOptions } from "@global-shared/config/security.config.js"
 
+const cacheService: CacheService = new RedisCacheService(redisClient, loggerContext)
+const passwordService: PasswordService = new PasswordServiceV1(passwordEncoderOptions)
+const dbRepository: UserRepository = new PrismaUserRepository(prismaClient)
+const cachedRepository: UserRepository = new CachedUserRepository(dbRepository, cacheService, cacheKeys, cacheTtlsSec)
+const service: UserAccountService = new UserAccountServiceV1(cachedRepository, passwordService, loggerContext)
+const controller: UserAccountController = new UserAccountControllerV1(service, loggerContext)
+
 export function userAccountFeature(): Router {
-    const cacheService: CacheService = new RedisCacheService(redisClient, loggerContext)
-    const passwordService: PasswordService = new PasswordServiceV1(passwordEncoderOptions)
-    const dbRepository: UserRepository = new PrismaUserRepository(prismaClient)
-    const cachedRepository: UserRepository = new CachedUserRepository(dbRepository, cacheService, cacheKeys, cacheTtlsSec)
-    const service: UserAccountService = new UserAccountServiceV1(cachedRepository, passwordService, loggerContext)
-    const controller: UserAccountController = new UserAccountControllerV1(service, loggerContext)
     return userAccountRouter(controller)
 }

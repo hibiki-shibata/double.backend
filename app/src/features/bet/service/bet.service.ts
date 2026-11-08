@@ -10,7 +10,7 @@ export namespace BetServiceParams {
     }
 
     export type Cancel = {
-        bedId: string
+        betId: string
     }
 
     export type GetUserBetMany = {

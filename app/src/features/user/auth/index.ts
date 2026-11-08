@@ -18,14 +18,15 @@ import { cookieOptions, passwordEncoderOptions } from "@global-shared/config/sec
 import { UserAuthControllerV1 } from "./controller/userAuth.controller.v1.js"
 import { userAuthRouter } from "./router/userAuth.router.js"
 
+const passwordService: PasswordService = new PasswordServiceV1(passwordEncoderOptions)
+const cacheService: CacheService = new RedisCacheService(redisClient, loggerContext)
+const dbRepository: UserRepository = new PrismaUserRepository(prismaClient)
+const cachedRepository: UserRepository = new CachedUserRepository(dbRepository, cacheService, cacheKeys, cacheTtlsSec)
+const service: UserAuthService = new UserAuthServiceV1(
+    cachedRepository, passwordService, jwtTokenService, loggerContext, cacheService, cacheKeys, cacheTtlsSec
+)
+const controller: UserAuthController = new UserAuthControllerV1(service, cookieOptions, loggerContext)
+
 export function userAuthFeature(): Router {
-    const passwordService: PasswordService = new PasswordServiceV1(passwordEncoderOptions)
-    const cacheService: CacheService = new RedisCacheService(redisClient, loggerContext)
-    const dbRepository: UserRepository = new PrismaUserRepository(prismaClient)
-    const cachedRepository: UserRepository = new CachedUserRepository(dbRepository, cacheService, cacheKeys, cacheTtlsSec)
-    const service: UserAuthService = new UserAuthServiceV1(
-        cachedRepository, passwordService, jwtTokenService, loggerContext, cacheService, cacheKeys, cacheTtlsSec
-    )
-    const controller: UserAuthController = new UserAuthControllerV1(service, cookieOptions, loggerContext)
     return userAuthRouter(controller)
 }

@@ -11,33 +11,37 @@ export class MarketControllerV1 implements MarketController {
     constructor(
         private readonly marketService: MarketService,
         private readonly loggerContext: LoggerContext
-    ) { }
+    ) {
+        // Bind methods so they can be passed directly to Express routers safely
+        this.getOpenMarketList = this.getOpenMarketList.bind(this);
+        this.getMarketDetail = this.getMarketDetail.bind(this);
+    }
 
     async getOpenMarketList(
-        req: Request<unknown, unknown, void, unknown>,
+        req: Request<unknown, unknown, void, Pagination>,
         res: Response<MarketResponse[]>,
     ): Promise<void> {
-        const logger: Logger = this.loggerContext.getLogger()
-        logger.info('Request to get list of market arrived')
+        const logger: Logger = this.loggerContext.getLogger();
+        logger.info('Request to get list of market arrived');
         const availableMarkets: MarketResponse[] = await this.marketService.getMarketsByStatus({
             marketStatus: [MarketStatus.UPCOMING, MarketStatus.OPEN],
-            pagination: req.query as Pagination
-        })
-        res.status(200).json(availableMarkets)
-        logger.info('Response sucess get list of market sent')
+            pagination: req.query
+        });
+        res.status(200).json(availableMarkets);
+        logger.info('Response success get list of market sent');
     }
 
     async getMarketDetail(
-        req: Request<GetMarketRequest, unknown, void>,
+        req: Request<GetMarketRequest, unknown, void, unknown>,
         res: Response<MarketResponse>,
     ): Promise<void> {
-        const logger: Logger = this.loggerContext.getLogger()
-        logger.info('Request to get market detail arrived')
-        const marketId: string = req.params.marketId
+        const logger: Logger = this.loggerContext.getLogger();
+        logger.info('Request to get market detail arrived');
+        const marketId: string = req.params.marketId;
         const marketDetail: MarketResponse = await this.marketService.getMarketDetail({
             marketId: marketId
-        })
-        res.status(200).json(marketDetail)
-        logger.info('Response success get market detail sent')
+        });
+        res.status(200).json(marketDetail);
+        logger.info('Response success get market detail sent');
     }
 }

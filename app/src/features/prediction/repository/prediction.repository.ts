@@ -7,5 +7,6 @@ export namespace PredictionRepositoryInput {
 }
 
 export interface PredictionRepository {
+    getById(predictionId: string): Promise<Prediction>
     getMany(dto: PredictionRepositoryInput.GetMany): Promise<Prediction[]>
 }

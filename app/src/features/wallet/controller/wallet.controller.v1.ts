@@ -2,7 +2,7 @@ import type { Logger } from "pino";
 import type { Request, Response } from "express";
 import type { WalletController } from "./wallet.controller.js";
 import type { WalletService } from "../service/wallet.service.js";
-import type { DepositRequest, WalletResponse, WalletTransactionResponse, WithdrawRequest } from "../schema/wallet.schema.js";
+import type { DepositRequest, WalletResponse, WalletTransactionHistoryRequestQuery, WalletTransactionResponse, WithdrawRequest } from "../schema/wallet.schema.js";
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { Pagination } from "@global-shared/types/pagination.type.js";
 import type { AccessTokenClaim } from "@global-shared/auth/type/jwtToken.type.js";
@@ -26,7 +26,7 @@ export class WalletControllerV1 implements WalletController {
     }
 
     async getMyWalletHistory(
-        req: Request<unknown, unknown, void, unknown> & { accessTokenClaim: AccessTokenClaim },
+        req: Request<unknown, unknown, void, WalletTransactionHistoryRequestQuery> & { accessTokenClaim: AccessTokenClaim },
         res: Response<WalletTransactionResponse[]>
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
@@ -34,7 +34,7 @@ export class WalletControllerV1 implements WalletController {
         logger.info('Request get my wallet history arrived')
         const walletHistory: WalletTransactionResponse[] = await this.walletService.getWalletHistory({
             userId: req.accessTokenClaim.userId,
-            pagination: req.query as Pagination
+            pagination: req.query
         })
         res.status(200).json(walletHistory)
         logger.info('Response success get my wallet history sent')

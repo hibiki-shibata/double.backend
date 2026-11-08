@@ -6,6 +6,13 @@ export class PrismaPredictionRepository implements PredictionRepository {
         private readonly prismaClient: PrismaClient
     ) { }
 
+    async getById(predictionId: string): Promise<Prediction> {
+        return await this.prismaClient.prediction.findUniqueOrThrow({
+            where: { id: predictionId },
+            include: { market: true }
+        })
+    }
+
     async getMany(dto: PredictionRepositoryInput.GetMany): Promise<Prediction[]> {
         return await this.prismaClient.prediction.findMany({
             where: { market_id: dto.marketId },
