@@ -1,16 +1,14 @@
 import { openApiRegistry } from "@global-shared/openapi/registry.js";
 import { toOpenApiPath } from "@global-shared/openapi/toOpenApiPath.js";
-import { userAccountSchema } from "../schema/userAccount.schema.js";
+import { UserAccountSchema } from "../schema/userAccount.schema.js";
 import { ENDPOINT_PATH_PREFIX, FEATURE_PATH_PREFIX } from "@global-shared/config/routePath.config.js";
+import { USER_ACCOUNT_ROUTES } from "../router/userAccount.router.js";
 
 // Register components for $ref in OpenAPI docs
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.USER;
 
-export const USER_ACCOUNT_ROUTES = {
-    ME: '/me',
-} as const;
 
-const UserAccountResponseRef = openApiRegistry.register('UserAccountResponse', userAccountSchema.response);
+const UserAccountResponseRef = openApiRegistry.register('UserAccountResponse', UserAccountSchema.response);
 
 // Register paths using ENDPOINT_PATH_PREFIX + USER_ACCOUNT_ROUTES
 export function registerUserAccountContracts() {
@@ -33,7 +31,7 @@ export function registerUserAccountContracts() {
         summary: 'Update current user account',
         tags: ['User Account'],
         security: [{ bearerAuth: [] }],
-        request: { body: { content: { 'application/json': { schema: userAccountSchema.editRequest } } } },
+        request: { body: { content: { 'application/json': { schema: UserAccountSchema.editRequest } } } },
         responses: {
             200: { description: 'Updated', content: { 'application/json': { schema: UserAccountResponseRef } } },
             400: { description: 'Bad Request' },

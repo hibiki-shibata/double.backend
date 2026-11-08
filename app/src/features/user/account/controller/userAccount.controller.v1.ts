@@ -18,10 +18,12 @@ export class UserAccountControllerV1 implements UserAccountController {
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Request account data arrived")
+
         const user: UserAccountResponse = await this.userAccountService.getAccountDetail({
             userId: req.accessTokenClaim.userId
 
         })
+
         res.status(200).json(user)
         logger.info("Response account data sent")
     }
@@ -32,6 +34,7 @@ export class UserAccountControllerV1 implements UserAccountController {
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info("Request update account data arrived")
+        
         const updatedUser: UserAccountResponse = await this.userAccountService.updateAccountDetail({
             userId: req.accessTokenClaim.userId,
             name: req.body.name,
@@ -39,6 +42,7 @@ export class UserAccountControllerV1 implements UserAccountController {
             emailAddress: req.body.emailAddress,
             password: req.body.password
         })
+        
         res.status(200).json(updatedUser)
         logger.info("Response success updated Account data sent")
     }
