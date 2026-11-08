@@ -11,7 +11,7 @@ export const MarketSchema = {
         createdAt: z.iso.datetime('wrong date format'),
     }),
 
-    getRequestParam: paginationSchema.extend({
+    getRequestParam: z.object({
         marketId: z.uuidv4('market id must be a uuid4'),
     })
 }

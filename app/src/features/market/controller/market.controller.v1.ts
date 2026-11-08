@@ -5,6 +5,7 @@ import type { MarketController } from "./market.controller.js";
 import type { MarketService } from "../service/market.service.js";
 import type { GetMarketRequest, MarketResponse } from "../schema/market.schema.js";
 import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
+import type { Pagination } from "@global-shared/types/pagination.type.js";
 
 export class MarketControllerV1 implements MarketController {
     constructor(
@@ -17,7 +18,7 @@ export class MarketControllerV1 implements MarketController {
     }
 
     async getOpenMarketList(
-        req: Request<unknown, unknown, void, GetMarketRequest>,
+        req: Request<unknown, unknown, void, Pagination>,
         res: Response<MarketResponse[]>,
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger();

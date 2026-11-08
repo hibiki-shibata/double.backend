@@ -83,38 +83,6 @@
           "emailAddress",
           "status"
         ]
-      },
-      "PredictionResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "marketId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 80
-          },
-          "totalParticipants": {
-            "type": "number"
-          },
-          "betSum": {
-            "type": "string",
-            "pattern": "^\\d+$"
-          }
-        },
-        "required": [
-          "id",
-          "marketId",
-          "name",
-          "totalParticipants",
-          "betSum"
-        ]
       }
     },
     "parameters": {}
@@ -476,7 +444,7 @@
         }
       }
     },
-    "/api/v1/market/": {
+    "/api/v1/market/list": {
       "get": {
         "summary": "Get market list",
         "tags": [
@@ -563,7 +531,7 @@
         }
       }
     },
-    "/api/v1/prediction/{marketId}": {
+    "/api/v1/prediction/list": {
       "get": {
         "summary": "Get predictions by market ID",
         "tags": [
@@ -575,15 +543,6 @@
           }
         ],
         "parameters": [
-          {
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "required": true,
-            "name": "marketId",
-            "in": "path"
-          },
           {
             "schema": {
               "type": "integer",
@@ -605,6 +564,15 @@
             "required": false,
             "name": "limit",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "name": "marketId",
+            "in": "query"
           }
         ],
         "responses": {
@@ -613,22 +581,39 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/PredictionResponse"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "marketId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      "totalParticipants": {
+                        "type": "number"
+                      },
+                      "betSum": {
+                        "type": "string",
+                        "pattern": "^\\d+$"
                       }
                     },
-                    "total": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "items",
-                    "total"
-                  ]
+                    "required": [
+                      "id",
+                      "marketId",
+                      "name",
+                      "totalParticipants",
+                      "betSum"
+                    ]
+                  }
                 }
               }
             }
@@ -838,7 +823,7 @@
         }
       }
     },
-    "/api/v1/bet/history": {
+    "/api/v1/bet/list": {
       "get": {
         "summary": "Get user bet history (supports optional market filtering)",
         "tags": [
@@ -1029,7 +1014,7 @@
         }
       }
     },
-    "/api/v1/wallet/history": {
+    "/api/v1/wallet/transaction-history": {
       "get": {
         "summary": "Get wallet transaction history",
         "tags": [
