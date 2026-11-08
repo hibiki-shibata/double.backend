@@ -4,14 +4,10 @@ import { MarketSchema } from "../schema/market.schema.js";
 import { paginationSchema } from "@global-shared/types/pagination.type.js";
 import { ENDPOINT_PATH_PREFIX, FEATURE_PATH_PREFIX } from "@global-shared/config/routePath.config.js";
 import { z } from "zod";
+import { MARKET_ROUTES } from "../router/market.router.js";
 
 // Register components for $ref in OpenAPI docs
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.MARKET;
-
-export const MARKET_ROUTES = {
-    GET_BY_ID: '/:marketId',
-    LIST: '/',
-} as const;
 
 
 // Register paths using ENDPOINT_PATH_PREFIX + MARKET_ROUTES

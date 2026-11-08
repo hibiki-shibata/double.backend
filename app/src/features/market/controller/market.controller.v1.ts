@@ -4,7 +4,6 @@ import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { MarketController } from "./market.controller.js";
 import type { MarketService } from "../service/market.service.js";
 import type { GetMarketRequest, MarketResponse } from "../schema/market.schema.js";
-import type { Pagination } from "@global-shared/types/pagination.type.js";
 import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
 
 export class MarketControllerV1 implements MarketController {
@@ -18,15 +17,17 @@ export class MarketControllerV1 implements MarketController {
     }
 
     async getOpenMarketList(
-        req: Request<unknown, unknown, void, Pagination>,
+        req: Request<unknown, unknown, void, GetMarketRequest>,
         res: Response<MarketResponse[]>,
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger();
         logger.info('Request to get list of market arrived');
+
         const availableMarkets: MarketResponse[] = await this.marketService.getMarketsByStatus({
             marketStatus: [MarketStatus.UPCOMING, MarketStatus.OPEN],
             pagination: req.query
         });
+
         res.status(200).json(availableMarkets);
         logger.info('Response success get list of market sent');
     }
@@ -36,11 +37,14 @@ export class MarketControllerV1 implements MarketController {
         res: Response<MarketResponse>,
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger();
-        logger.info('Request to get market detail arrived');
         const marketId: string = req.params.marketId;
+
+        logger.info({ marketId }, 'Request to get market detail arrived');
+
         const marketDetail: MarketResponse = await this.marketService.getMarketDetail({
             marketId: marketId
-        });
+        })
+
         res.status(200).json(marketDetail);
         logger.info('Response success get market detail sent');
     }
