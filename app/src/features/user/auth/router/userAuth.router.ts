@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import type { UserAuthController } from '../controller/userAuth.controller.js'
 import { authenticate } from '@global-shared/middleware/authenticate.js'
-import { verifyRequestBody } from '@global-shared/middleware/verifyRequestBody.js'
+import { verifyRequestBody } from '@global-shared/middleware/deleteLater/verifyRequestBody.js'
 import { userAuthSchema } from '../schema/userAuth.schema.js'
 import { authorize } from '@global-shared/middleware/authorize.js'
 import { UserRoles } from '@global-shared/infra/db/generated.prisma/enums.js'

@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import type { WalletController } from '../controller/wallet.controller.js'
-import { verifyRequestBody } from '@global-shared/middleware/verifyRequestBody.js'
-import { verifyQueryParams } from '@global-shared/middleware/verifyQueryParams.js'
+import { verifyRequestBody } from '@global-shared/middleware/deleteLater/verifyRequestBody.js'
+import { verifyQueryParams } from '@global-shared/middleware/deleteLater/verifyQueryParams.js'
 import { walletSchema } from '../schema/wallet.schema.js'
 import { paginationSchema } from '@global-shared/types/pagination.type.js'
 

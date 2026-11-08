@@ -27,9 +27,7 @@ export const betSchema = {
 }
 
 export type BetResponse = z.infer<typeof betSchema.response>
-
 export type BetCancelRequest = z.infer<typeof betSchema.cancelRequest>
-
 export type BetCreateRequest = z.infer<typeof betSchema.createRequest>
-
 export type GetMarketBetRequest = z.infer<typeof betSchema.getMarketBetRequestParam>
+

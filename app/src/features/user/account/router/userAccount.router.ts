@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import type { UserAccountController } from '../controller/userAccount.controller.js'
 import { userAccountSchema } from '../schema/userAccount.schema.js'
-import { verifyRequestBody } from '@global-shared/middleware/verifyRequestBody.js'
+import { verifyRequestBody } from '@global-shared/middleware/deleteLater/verifyRequestBody.js'
 
 export function userAccountRouter(
     controller: UserAccountController,

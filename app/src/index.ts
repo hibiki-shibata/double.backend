@@ -1,4 +1,5 @@
 // Entry point
+import "./shared/openapi/registry.js"
 import { server, port } from './server.js'
 import { loggerContext } from './shared/logger/logger.js'
 import { prismaClient } from "./shared/infra/db/prismaClient.js"
