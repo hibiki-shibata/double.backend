@@ -7,7 +7,7 @@ import { authorize } from "@global-shared/middleware/authorize.js";
 import { UserRoles } from "@global-shared/infra/db/generated.prisma/enums.js";
 
 export const PREDICTION_ROUTES = {
-    GET_BY_MARKET_ID: '/', // Query
+    GET_BY_MARKET_ID: '/list', // Query
 } as const;
 
 export function predictionRouter(
