@@ -1,5 +1,4 @@
 import { MarketStatus } from "@global-shared/infra/db/generated.prisma/enums.js";
-import { paginationSchema } from "@global-shared/types/pagination.type.js";
 import z from "zod";
 
 export const MarketSchema = {

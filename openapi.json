@@ -354,28 +354,6 @@
         "parameters": [
           {
             "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 1
-            },
-            "required": false,
-            "name": "page",
-            "in": "path"
-          },
-          {
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 50,
-              "default": 30
-            },
-            "required": false,
-            "name": "limit",
-            "in": "path"
-          },
-          {
-            "schema": {
               "type": "string",
               "format": "uuid"
             },
