@@ -115,114 +115,6 @@
           "totalParticipants",
           "betSum"
         ]
-      },
-      "WalletResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "balance": {
-            "type": "string",
-            "pattern": "^\\d+$"
-          },
-          "currency": {
-            "type": "string",
-            "enum": [
-              "USD",
-              "EUR",
-              "JPY"
-            ]
-          },
-          "reservedAmount": {
-            "type": "string",
-            "pattern": "^\\d+$"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "ACTIVE",
-              "SUSPENDED"
-            ]
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "id",
-          "userId",
-          "balance",
-          "currency",
-          "reservedAmount",
-          "status",
-          "updatedAt"
-        ]
-      },
-      "WalletTransactionResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "walletId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "predictionId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "DEPOSIT",
-              "WITHDRAW",
-              "BET",
-              "PAYOUT",
-              "REFUND",
-              "CANCEL"
-            ]
-          },
-          "amount": {
-            "type": "string",
-            "pattern": "^\\d+$"
-          },
-          "balanceBefore": {
-            "type": "string",
-            "pattern": "^\\d+$"
-          },
-          "balanceAfter": {
-            "type": "string",
-            "pattern": "^\\d+$"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "id",
-          "userId",
-          "walletId",
-          "predictionId",
-          "type",
-          "amount",
-          "balanceBefore",
-          "balanceAfter",
-          "createdAt"
-        ]
       }
     },
     "parameters": {}
@@ -1077,7 +969,53 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WalletResponse"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "balance": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "enum": [
+                        "USD",
+                        "EUR",
+                        "JPY"
+                      ]
+                    },
+                    "reservedAmount": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "SUSPENDED"
+                      ]
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "userId",
+                    "balance",
+                    "currency",
+                    "reservedAmount",
+                    "status",
+                    "updatedAt"
+                  ]
                 }
               }
             }
@@ -1132,22 +1070,66 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "items": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/WalletTransactionResponse"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "walletId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "predictionId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "DEPOSIT",
+                          "WITHDRAW",
+                          "BET",
+                          "PAYOUT",
+                          "REFUND",
+                          "CANCEL"
+                        ]
+                      },
+                      "amount": {
+                        "type": "string",
+                        "pattern": "^\\d+$"
+                      },
+                      "balanceBefore": {
+                        "type": "string",
+                        "pattern": "^\\d+$"
+                      },
+                      "balanceAfter": {
+                        "type": "string",
+                        "pattern": "^\\d+$"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
                       }
                     },
-                    "total": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "items",
-                    "total"
-                  ]
+                    "required": [
+                      "id",
+                      "userId",
+                      "walletId",
+                      "predictionId",
+                      "type",
+                      "amount",
+                      "balanceBefore",
+                      "balanceAfter",
+                      "createdAt"
+                    ]
+                  }
                 }
               }
             }
@@ -1193,7 +1175,53 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WalletResponse"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "balance": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "enum": [
+                        "USD",
+                        "EUR",
+                        "JPY"
+                      ]
+                    },
+                    "reservedAmount": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "SUSPENDED"
+                      ]
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "userId",
+                    "balance",
+                    "currency",
+                    "reservedAmount",
+                    "status",
+                    "updatedAt"
+                  ]
                 }
               }
             }
@@ -1242,7 +1270,53 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WalletResponse"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "balance": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "enum": [
+                        "USD",
+                        "EUR",
+                        "JPY"
+                      ]
+                    },
+                    "reservedAmount": {
+                      "type": "string",
+                      "pattern": "^\\d+$"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "SUSPENDED"
+                      ]
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "userId",
+                    "balance",
+                    "currency",
+                    "reservedAmount",
+                    "status",
+                    "updatedAt"
+                  ]
                 }
               }
             }
