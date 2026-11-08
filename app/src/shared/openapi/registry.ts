@@ -1,6 +1,5 @@
 // src/openapi/registry.ts
 import { OpenAPIRegistry, OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
-import type { OpenAPIObject } from '@asteasolutions/zod-to-openapi/dist/types.js';
 
 export const openApiRegistry = new OpenAPIRegistry();
 
