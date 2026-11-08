@@ -1,11 +1,16 @@
 import { Router } from 'express';
 import type { BetController } from '../controller/bet.controller.js';
-import { BET_ROUTES } from '../contract/bet.contract.js';
 import { validateRequest } from '@global-shared/middleware/validateRequest.js';
-import { betSchema } from '../schema/bet.schema.js';
+import { BetSchema } from '../schema/bet.schema.js';
 import { authenticate } from '@global-shared/middleware/authenticate.js';
 import { authorize } from '@global-shared/middleware/authorize.js';
 import { UserRoles } from '@global-shared/infra/db/generated.prisma/enums.js';
+
+export const BET_ROUTES = {
+    CREATE: '/create',
+    CANCEL: '/:betId/cancel',
+    HISTORY: '/history', // query
+} as const;
 
 export function betRouter(controller: BetController): Router {
     const router = Router();
@@ -14,7 +19,7 @@ export function betRouter(controller: BetController): Router {
         BET_ROUTES.CREATE,
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        validateRequest({ body: betSchema.createRequest }),
+        validateRequest({ body: BetSchema.createRequest }),
         controller.createMyBet
     );
 
@@ -22,7 +27,7 @@ export function betRouter(controller: BetController): Router {
         BET_ROUTES.CANCEL,
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        validateRequest({ params: betSchema.cancelRequest }),
+        validateRequest({ params: BetSchema.cancelRequest }),
         controller.cancelMyBet
     );
 
@@ -30,7 +35,7 @@ export function betRouter(controller: BetController): Router {
         BET_ROUTES.HISTORY,
         authenticate,
         authorize({ requiredRoles: [UserRoles.USER] }),
-        validateRequest({ query: betSchema.getBetHistoryRequestQuery }),
+        validateRequest({ query: BetSchema.getBetHistoryRequestQuery }),
         controller.getMyBetHistory
     );
 

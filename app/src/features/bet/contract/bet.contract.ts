@@ -1,16 +1,11 @@
 import { openApiRegistry } from "@global-shared/openapi/registry.js";
 import { toOpenApiPath } from "@global-shared/openapi/toOpenApiPath.js";
-import { betSchema } from "../schema/bet.schema.js";
+import { BetSchema } from "../schema/bet.schema.js";
 import { ENDPOINT_PATH_PREFIX, FEATURE_PATH_PREFIX } from "@global-shared/config/routePath.config.js";
 import z from "zod";
+import { BET_ROUTES } from "../router.ts/bet.router.js";
 
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.BET;
-
-export const BET_ROUTES = {
-  CREATE: '/create',
-  CANCEL: '/:betId/cancel',
-  HISTORY: '/history', // Unified history endpoint handling optional marketId filtering
-} as const;
 
 export function registerBetContracts() {
   openApiRegistry.registerPath({
@@ -19,13 +14,13 @@ export function registerBetContracts() {
     summary: 'Create a new bet',
     tags: ['Bets'],
     security: [{ bearerAuth: [] }],
-    request: { 
-      body: { 
-        content: { 'application/json': { schema: betSchema.createRequest } } 
-      } 
+    request: {
+      body: {
+        content: { 'application/json': { schema: BetSchema.createRequest } }
+      }
     },
     responses: {
-      201: { description: 'Created', content: { 'application/json': { schema: betSchema.response } } },
+      201: { description: 'Created', content: { 'application/json': { schema: BetSchema.response } } },
       400: { description: 'Bad Request' },
       401: { description: 'Unauthorized' },
     },
@@ -37,11 +32,11 @@ export function registerBetContracts() {
     summary: 'Cancel an existing bet',
     tags: ['Bets'],
     security: [{ bearerAuth: [] }],
-    request: { 
-      params: betSchema.cancelRequest 
+    request: {
+      params: BetSchema.cancelRequest
     },
     responses: {
-      200: { description: 'Canceled', content: { 'application/json': { schema: betSchema.response } } },
+      200: { description: 'Canceled', content: { 'application/json': { schema: BetSchema.response } } },
       400: { description: 'Bad Request' },
       401: { description: 'Unauthorized' },
     },
@@ -54,13 +49,13 @@ export function registerBetContracts() {
     tags: ['Bets'],
     security: [{ bearerAuth: [] }],
     request: {
-      query: betSchema.getBetHistoryRequestQuery,
+      query: BetSchema.getBetHistoryRequestQuery,
     },
     responses: {
       200: {
         description: 'Success',
         content: {
-          'application/json': { schema: z.array(betSchema.response) },
+          'application/json': { schema: z.array(BetSchema.response) },
         },
       },
       401: { description: 'Unauthorized' },

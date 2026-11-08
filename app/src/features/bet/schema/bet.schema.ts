@@ -2,7 +2,7 @@ import z from "zod"
 import { BetStatus, Currency } from "@global-shared/infra/db/generated.prisma/enums.js"
 import { paginationSchema } from "@global-shared/types/pagination.type.js"
 
-export const betSchema = {
+export const BetSchema = {
     response: z.object({
         id: z.uuidv4('bet id must be a uuid4'),
         predictionId: z.uuidv4('prediction id must be a uuid4'),
@@ -28,7 +28,7 @@ export const betSchema = {
     }),
 }
 
-export type BetResponse = z.infer<typeof betSchema.response>
-export type CancelBetRequest = z.infer<typeof betSchema.cancelRequest>
-export type CreateBetRequest = z.infer<typeof betSchema.createRequest>
-export type GetBetHistoryRequest = z.infer<typeof betSchema.getBetHistoryRequestQuery>
+export type BetResponse = z.infer<typeof BetSchema.response>
+export type CancelBetRequest = z.infer<typeof BetSchema.cancelRequest>
+export type CreateBetRequest = z.infer<typeof BetSchema.createRequest>
+export type GetBetHistoryRequest = z.infer<typeof BetSchema.getBetHistoryRequestQuery>
