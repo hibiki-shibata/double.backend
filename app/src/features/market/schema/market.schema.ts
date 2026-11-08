@@ -17,4 +17,4 @@ export const MarketSchema = {
 }
 
 export type MarketResponse = z.infer<typeof MarketSchema.response>
-export type unknownGetMarketRequest = z.infer<typeof MarketSchema.getRequestParam>
+export type GetMarketRequest = z.infer<typeof MarketSchema.getRequestParam>
