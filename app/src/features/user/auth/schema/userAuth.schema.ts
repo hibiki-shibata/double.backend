@@ -1,18 +1,18 @@
 import z from "zod"
 import { jwtOptions } from "@global-shared/config/security.config.js"
-import { userShape } from "../../shared/schema/user.schema.shape.js"
+import { UserShape } from "../../shared/schema/user.schema.shape.js"
 
 const jwtTokenShape = z.jwt({ alg: jwtOptions.algorithm })
 
 export const UserAuthSchema = {
     SignupRequest: z.object({
-        userName: userShape.name,
-        password: userShape.password
+        userName: UserShape.name,
+        password: UserShape.password
     }),
 
     loginRequest: z.object({
-        userName: userShape.name,
-        password: userShape.password
+        userName: UserShape.name,
+        password: UserShape.password
     }),
 
     accessTokenResponse: z.object({

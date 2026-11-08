@@ -1,22 +1,22 @@
 import z from "zod"
-import { userShape } from "../../shared/schema/user.schema.shape.js"
+import { UserShape } from "../../shared/schema/user.schema.shape.js"
 
-export const userAccountSchema = {
+export const UserAccountSchema = {
     editRequest: z.object({
-        name: userShape.name,
-        displayName: userShape.displayName,
-        emailAddress: userShape.emailAddress,
-        password: userShape.password.optional(),
+        name: UserShape.name,
+        displayName: UserShape.displayName,
+        emailAddress: UserShape.emailAddress,
+        password: UserShape.password.optional(),
     }),
 
     response: z.object({
-        id: userShape.id,
-        name: userShape.name,
-        displayName: userShape.displayName,
-        emailAddress: userShape.emailAddress,
-        status: userShape.status
+        id: UserShape.id,
+        name: UserShape.name,
+        displayName: UserShape.displayName,
+        emailAddress: UserShape.emailAddress,
+        status: UserShape.status
     })
 }
 
-export type UserAccountEditRequest = z.infer<typeof userAccountSchema.editRequest>
-export type UserAccountResponse = z.infer<typeof userAccountSchema.response>
+export type UserAccountEditRequest = z.infer<typeof UserAccountSchema.editRequest>
+export type UserAccountResponse = z.infer<typeof UserAccountSchema.response>

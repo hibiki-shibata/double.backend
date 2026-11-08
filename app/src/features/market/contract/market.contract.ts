@@ -18,7 +18,7 @@ export function registerMarketContracts() {
         summary: 'Get market by ID',
         tags: ['Markets'],
         // security: [{ bearerAuth: [] }],
-        request: { params: MarketSchema.getRequestQuery },
+        request: { params: MarketSchema.getRequestParam },
         responses: {
             200: { description: 'Success', content: { 'application/json': { schema: MarketSchema.response } } },
             400: { description: 'Bad Request' },
