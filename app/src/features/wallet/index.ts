@@ -17,14 +17,15 @@ import { WalletServiceV1 } from "./service/wallet.service.v1.js";
 import { WalletControllerV1 } from "./controller/wallet.controller.v1.js";
 import { walletRouter } from "./router/wallet.router.js";
 
+const cacheService: CacheService = new RedisCacheService(redisClient, loggerContext)
+const ledgerDBRepository: WalletTransactionRepository = new PrismaWalletTransactionRepository(prismaClient)
+const ledgerRepository: WalletTransactionRepository = new CachedWaletTransactionRepository(ledgerDBRepository, cacheService, cacheKeys, cacheTtlsSec)
+const dbRepository: WalletRepository = new PrismaWalletRepository(prismaClient)
+const cachedRepository: WalletRepository = new CachedWalletRepository(dbRepository, cacheService, cacheKeys, cacheTtlsSec)
+const service: WalletService = new WalletServiceV1(cachedRepository, ledgerRepository, prismaClient, loggerContext)
+const controller: WalletController = new WalletControllerV1(service, loggerContext)
+
 export function walletFeature(): Router {
-    const cacheService: CacheService = new RedisCacheService(redisClient, loggerContext)
-    const ledgerDBRepository: WalletTransactionRepository = new PrismaWalletTransactionRepository(prismaClient)
-    const ledgerRepository: WalletTransactionRepository = new CachedWaletTransactionRepository(ledgerDBRepository, cacheService, cacheKeys, cacheTtlsSec)
-    const dbRepository: WalletRepository = new PrismaWalletRepository(prismaClient)
-    const cachedRepository: WalletRepository = new CachedWalletRepository(dbRepository, cacheService, cacheKeys, cacheTtlsSec)
-    const service: WalletService = new WalletServiceV1(cachedRepository, ledgerRepository, prismaClient, loggerContext)
-    const controller: WalletController = new WalletControllerV1(service, loggerContext)
     return walletRouter(controller)
 }
 
