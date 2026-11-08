@@ -3,7 +3,6 @@ import type { WalletController } from '../controller/wallet.controller.js';
 import { WALLET_ROUTES } from '../contract/wallet.contract.js';
 import { validateRequest } from '@global-shared/middleware/validateRequest.js';
 import { walletSchema } from '../schema/wallet.schema.js';
-import { paginationSchema } from '@global-shared/types/pagination.type.js';
 import { authenticate } from '@global-shared/middleware/authenticate.js';
 import { authorize } from '@global-shared/middleware/authorize.js';
 import { UserRoles } from '@global-shared/infra/db/generated.prisma/enums.js';
