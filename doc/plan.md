@@ -139,3 +139,11 @@
     - wallet history - time filter?
     - notification?
     - support feature(intercom integration)?
+
+
+Quick 
+    - middleware - query paramter
+    - create wallet when user is created?
+    - index file namings
+    - auth repository name
+- auth zod schema

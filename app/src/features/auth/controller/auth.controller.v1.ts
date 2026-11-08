@@ -1,23 +1,23 @@
 import type { Logger } from "pino"
-import type { UserAuthService } from "../service/userAuth.service.js"
 import type { Response, Request, CookieOptions } from "express"
-import type { JwtTokens, AccessTokenResponse, UserLoginRequest, UserSignupRequest } from "../schema/userAuth.schema.js"
-import type { UserAuthController } from "./userAuth.controller.js"
+import type { AuthController } from "./auth.controller.js"
+import type { AuthService } from "../service/auth.service.js"
+import type { AccessTokenResponse, JwtTokens, LoginRequest, SignupRequest } from "../schema/auth.schema.js"
 
-export class UserAuthControllerV1 implements UserAuthController {
+export class AuthControllerV1 implements AuthController {
     private readonly REFRESH_TOKEN_COOKIE_HEADER = 'refreshToken'
     constructor(
-        private readonly userAuthService: UserAuthService,
+        private readonly authService: AuthService,
         private readonly cookieOptions: CookieOptions,
         private readonly log: Logger,
     ) { }
 
     async signup(
-        req: Request<{}, {}, UserSignupRequest>,
+        req: Request<{}, {}, SignupRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         this.log.info({ userName: req.body.userName }, "Request signup arrived")
-        const jwtTokens: JwtTokens = await this.userAuthService.signup({
+        const jwtTokens: JwtTokens = await this.authService.signup({
             userName: req.body.userName,
             password: req.body.password
         })
@@ -29,11 +29,11 @@ export class UserAuthControllerV1 implements UserAuthController {
     }
 
     async login(
-        req: Request<{}, {}, UserLoginRequest>,
+        req: Request<{}, {}, LoginRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         this.log.info({ userName: req.body.userName }, "Request Login arrived")
-        const jwtTokens: JwtTokens = await this.userAuthService.login({
+        const jwtTokens: JwtTokens = await this.authService.login({
             userName: req.body.userName,
             password: req.body.password
         })
@@ -48,7 +48,7 @@ export class UserAuthControllerV1 implements UserAuthController {
         req: Request,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
-        const jwtTokens: JwtTokens = await this.userAuthService.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
+        const jwtTokens: JwtTokens = await this.authService.refreshToken(req.cookies[this.REFRESH_TOKEN_COOKIE_HEADER])
         res
             .cookie(this.REFRESH_TOKEN_COOKIE_HEADER, jwtTokens.refreshToken, this.cookieOptions)
             .status(200)

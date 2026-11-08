@@ -1,23 +1,25 @@
 import { Router } from 'express'
-import type { UserAuthController } from '../controller/userAuth.controller.js'
+
 import { authenticate } from '@global-shared/middleware/authenticate.js'
 import { verifyRequestBody } from '@global-shared/middleware/verifyRequestBody.js'
-import { UserLoginRequestSchema, UserSignupRequestSchema } from '../schema/userAuth.schema.js'
+
 import { authorize } from '@global-shared/middleware/authorize.js'
 import { UserRoles } from '@global-shared/infra/db/generated.prisma/enums.js'
+import type { AuthController } from '../controller/auth.controller.js'
+import { LoginRequestSchema, SignupRequestSchema } from '../schema/auth.schema.js'
 
-export function userAuthRouter(
-    controller: UserAuthController
+export function authRouter(
+    controller: AuthController
 ): Router {
     const router: Router = Router()
     router.post(
         '/signup',
-        verifyRequestBody(UserSignupRequestSchema),
+        verifyRequestBody(SignupRequestSchema),
         controller.signup
     )
     router.post(
         '/login',
-        verifyRequestBody(UserLoginRequestSchema),
+        verifyRequestBody(LoginRequestSchema),
         controller.login
     )
     router.post(

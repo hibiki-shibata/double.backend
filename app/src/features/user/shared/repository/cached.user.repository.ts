@@ -1,7 +1,7 @@
 import type { User } from "@global-shared/infra/db/generated.prisma/client.js";
 import type { CacheKeys, CacheTtlsSec } from "@global-shared/config/cache.config.js";
 import type { CacheService } from "@global-shared/infra/cache/service/cache.service.js";
-import type { CreateUserInput, UpdateUserInput, UserRepository } from "./user.repository.js";
+import type { UpdateUserInput, UserRepository } from "./user.repository.js";
 
 export class CachedUserRepository implements UserRepository {
     constructor(
@@ -22,30 +22,6 @@ export class CachedUserRepository implements UserRepository {
             this.cacheTtlsSec.user
         )
         return dbUser
-    }
-
-    async getByEmail(emailAddress: string): Promise<User> {
-        const dbUser: User = await this.userRepository.getByEmail(emailAddress)
-        await this.cacheService.setByKey<User>(
-            this.cacheKeys.user.byId(dbUser.id),
-            dbUser,
-            this.cacheTtlsSec.user
-        )
-        return dbUser
-    }
-
-    async getByUserName(userName: string): Promise<User> {
-        const dbUser: User = await this.userRepository.getByUserName(userName)
-        await this.cacheService.setByKey<User>(
-            this.cacheKeys.user.byId(dbUser.id),
-            dbUser,
-            this.cacheTtlsSec.user
-        )
-        return dbUser
-    }
-
-    async createUser(input: CreateUserInput): Promise<User> {
-        return await this.userRepository.createUser(input)
     }
 
     async updateUserById(userId: string, input: UpdateUserInput): Promise<User> {

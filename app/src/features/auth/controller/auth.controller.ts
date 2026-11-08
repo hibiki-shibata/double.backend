@@ -1,6 +1,6 @@
 import type { Request, Response } from "express"
 
-export interface UserAuthController {
+export interface AuthController {
     signup(req: Request, res: Response): Promise<void>
     login(req: Request, res: Response): Promise<void>
     signup(req: Request, res: Response): Promise<void>

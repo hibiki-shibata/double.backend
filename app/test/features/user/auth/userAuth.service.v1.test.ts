@@ -1,11 +1,11 @@
 import { vi, describe, test, expect, afterEach } from 'vitest'
 import { type User, UserRoles, UserStatus } from '../../../../src/shared/infra/db/generated.prisma/client.js'
-import { UserAuthServiceV1 } from '../../../../src/features/user/auth/service/userAuth.service.v1.js'
+import { authServiceV1 } from '../../../../src/features/user/auth/service/auth.service.v1.js'
 import { logger } from '../../../../src/shared/logger/logger.js'
 import type { UserRepository } from '../../../../src/features/user/shared/repository/user.repository.js'
 import type { PasswordService } from '../../../../src/shared/auth/service/password.service.js'
 import type { JwtTokenService } from '../../../../src/shared/auth/service/jwtToken.service.js'
-import type { UserLoginRequest } from '../../../../src/features/user/auth/dto/userAuth.dto.js'
+import type { UserLoginRequest } from '../../../../src/features/user/auth/dto/auth.dto.js'
 import { TokenType } from '../../../../src/shared/auth/type/jwtToken.type.js'
 
 const testUser: User = {
@@ -51,11 +51,11 @@ const testLoginRequest: UserLoginRequest = {
     password: 'password123',
 }
 
-const testService = new UserAuthServiceV1(testRepository, testPasswordService, testJwtService, logger)
+const testService = new authServiceV1(testRepository, testPasswordService, testJwtService, logger)
 
 afterEach(() => vi.clearAllMocks())
 
-describe('UserAuthServiceV1.login()', () => {
+describe('authServiceV1.login()', () => {
 
     test('repository error should propagate', async () => {
         vi.spyOn(testRepository, 'getUserByUserName').mockRejectedValueOnce(new Error())
@@ -98,7 +98,7 @@ describe('UserAuthServiceV1.login()', () => {
 
 
 
-describe('UserAuthServiceV1.refreshToken()', () => {
+describe('authServiceV1.refreshToken()', () => {
 
     test('invalid refresh token should propagate verifyRefreshToken error', async () => {
         vi.spyOn(testJwtService, 'verifyRefreshToken').mockImplementationOnce(() => { throw new Error('Invalid token') })
