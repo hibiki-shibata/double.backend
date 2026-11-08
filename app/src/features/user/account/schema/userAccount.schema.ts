@@ -16,7 +16,6 @@ export const userAccountSchema = {
         emailAddress: userShape.emailAddress,
         status: userShape.status
     })
-
 }
 
 export type UserAccountEditRequest = z.infer<typeof userAccountSchema.editRequest>
