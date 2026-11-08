@@ -24,7 +24,7 @@ export namespace WalletServiceParams {
 
 export interface WalletService {
     getWalletDetail(dto: WalletServiceParams.GetWalletDetail): Promise<WalletResponse>
-    getWalletHistory(dto: WalletServiceParams.GetWalletHistory): Promise<WalletTransactionResponse[]>
+    getTransactionHistory(dto: WalletServiceParams.GetWalletHistory): Promise<WalletTransactionResponse[]>
     deposit(dto: WalletServiceParams.Deposit): Promise<WalletResponse>
     withdraw(dto: WalletServiceParams.Withdraw): Promise<WalletResponse>
 }

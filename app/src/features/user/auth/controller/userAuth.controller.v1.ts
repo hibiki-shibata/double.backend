@@ -75,7 +75,7 @@ export class UserAuthControllerV1 implements UserAuthController {
             .clearCookie(this.REFRESH_TOKEN_COOKIE_HEADER, this.cookieOptions)
             .status(200)
             .end()
-            
+
         logger.info("Response success Logout sent")
     }
 
