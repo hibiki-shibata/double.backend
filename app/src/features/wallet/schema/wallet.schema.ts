@@ -33,12 +33,10 @@ export const walletSchema = {
     })
 }
 
-// Request
+// Request Types
 export type DepositRequest = z.infer<typeof walletSchema.depositRequest>
-
 export type WithdrawRequest = z.infer<typeof walletSchema.withdrawRequest>
 
-// Response
+// Response Types
 export type WalletResponse = z.infer<typeof walletSchema.response>
-
 export type WalletTransactionResponse = z.infer<typeof walletSchema.transactionResponse>
