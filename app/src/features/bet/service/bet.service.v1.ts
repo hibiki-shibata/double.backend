@@ -20,11 +20,10 @@ export class BetServiceV1 implements BetService {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info({ predictionId: dto.predictionId }, 'creating bet')
 
-        //  Race condition: It potentially allows creating bet after closing markets/prediction 
         const prediction: Prediction = await this.predictionRepository.getById(dto.predictionId)
         const market: Market = await this.marketRepository.getById(prediction.market_id)
         if (prediction.status !== PredictionStatus.OPEN || market.status !== MarketStatus.OPEN) {
-            throw new InvalidInputErr('Predicton or Market status is not Open')
+            throw new InvalidInputErr('Prediction or Market status is not Open')
         }
 
         const createdBet: Bet = await this.betRepository.create({
@@ -39,17 +38,20 @@ export class BetServiceV1 implements BetService {
 
     async cancel(dto: BetServiceParams.Cancel): Promise<BetResponse> {
         const logger: Logger = this.loggerContext.getLogger()
-        logger.info({ betId: dto.bedId }, 'cancelling bet')
-        const cancelledBet: Bet = await this.betRepository.updateById(dto.bedId, {
+        logger.info({ betId: dto.betId }, 'cancelling bet')
+
+        const cancelledBet: Bet = await this.betRepository.updateById(dto.betId, {
             status: BetStatus.CANCELLED
         })
-        logger.info({ betId: dto.bedId }, 'success cancelling bet')
+
+        logger.info({ betId: dto.betId }, 'success cancelling bet')
         return this.toBetResponse(cancelledBet)
     }
 
     async getUserBetMany(dto: BetServiceParams.GetUserBetMany): Promise<BetResponse[]> {
         const logger: Logger = this.loggerContext.getLogger()
         logger.info('getting many bets from db')
+
         const bets: Bet[] = await this.betRepository.getMany({
             userId: dto.userId,
             marketId: dto.marketId ?? null,
@@ -59,6 +61,7 @@ export class BetServiceV1 implements BetService {
                 limit: (Math.abs(dto.pagination.limit) <= 50) ? dto.pagination.limit : 30
             }
         })
+
         logger.info('success getting many bets from db')
         return bets.map((bet) => this.toBetResponse(bet))
     }

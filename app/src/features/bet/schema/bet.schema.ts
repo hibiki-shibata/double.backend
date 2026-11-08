@@ -1,5 +1,6 @@
 import z from "zod"
 import { BetStatus, Currency } from "@global-shared/infra/db/generated.prisma/enums.js"
+import { paginationSchema } from "@global-shared/types/pagination.type.js"
 
 export const betSchema = {
     response: z.object({
@@ -21,12 +22,13 @@ export const betSchema = {
         betAmount: z.bigint('amount must be bigint of 1 to 100000').min(1n).max(100000n).positive()
     }),
 
-    getMarketBetRequestParam: z.object({
-        marketId: z.uuidv4('bet id must be a uuid4'),
-    })
+    // Unified query schema for GET /history (supports pagination + optional market filtering)
+    getBetHistoryRequestQuery: paginationSchema.extend({
+        marketId: z.uuidv4('market id must be a uuid4').optional(),
+    }),
 }
 
 export type BetResponse = z.infer<typeof betSchema.response>
-export type BetCancelRequest = z.infer<typeof betSchema.cancelRequest>
-export type BetCreateRequest = z.infer<typeof betSchema.createRequest>
-export type GetMarketBetRequest = z.infer<typeof betSchema.getMarketBetRequestParam>
+export type CancelBetRequest = z.infer<typeof betSchema.cancelRequest>
+export type CreateBetRequest = z.infer<typeof betSchema.createRequest>
+export type GetBetHistoryRequest = z.infer<typeof betSchema.getBetHistoryRequestQuery>
