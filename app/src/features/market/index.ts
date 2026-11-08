@@ -14,11 +14,12 @@ import { redisClient } from "@global-shared/infra/cache/client/redisClient.js";
 import { cacheKeys, cacheTtlsSec } from "@global-shared/config/cache.config.js";
 import { loggerContext } from "@global-shared/logger/logger.js";
 
+const cacheSerivice: CacheService = new RedisCacheService(redisClient, loggerContext)
+const dbRepository: MarketRepository = new PrismaMarketRepository(prismaClient)
+const cachedRepository: MarketRepository = new CachedMarketRepository(dbRepository, cacheSerivice, cacheKeys, cacheTtlsSec)
+const service: MarketService = new MarketServiceV1(cachedRepository, loggerContext)
+const controller: MarketController = new MarketControllerV1(service, loggerContext)
+
 export function marketFeature(): Router {
-    const cacheSerivice: CacheService = new RedisCacheService(redisClient, loggerContext)
-    const dbRepository: MarketRepository = new PrismaMarketRepository(prismaClient)
-    const cachedRepository: MarketRepository = new CachedMarketRepository(dbRepository, cacheSerivice, cacheKeys, cacheTtlsSec)
-    const service: MarketService = new MarketServiceV1(cachedRepository, loggerContext)
-    const controller: MarketController = new MarketControllerV1(service, loggerContext)
     return marketRouter(controller)
 }
