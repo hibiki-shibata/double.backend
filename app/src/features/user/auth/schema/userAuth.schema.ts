@@ -4,7 +4,7 @@ import { userShape } from "../../shared/schema/user.schema.shape.js"
 
 const jwtTokenShape = z.jwt({ alg: jwtOptions.algorithm })
 
-export const userAuthSchema = {
+export const UserAuthSchema = {
     SignupRequest: z.object({
         userName: userShape.name,
         password: userShape.password
@@ -26,9 +26,8 @@ export const userAuthSchema = {
 }
 
 // Request Types
-export type UserSignupRequest = z.infer<typeof userAuthSchema.SignupRequest>
-export type UserLoginRequest = z.infer<typeof userAuthSchema.loginRequest>
-
+export type UserSignupRequest = z.infer<typeof UserAuthSchema.SignupRequest>
+export type UserLoginRequest = z.infer<typeof UserAuthSchema.loginRequest>
 // Response Types
-export type AccessTokenResponse = z.infer<typeof userAuthSchema.accessTokenResponse>
-export type JwtTokens = z.infer<typeof userAuthSchema.jwtTokens>
+export type AccessTokenResponse = z.infer<typeof UserAuthSchema.accessTokenResponse>
+export type JwtTokens = z.infer<typeof UserAuthSchema.jwtTokens>

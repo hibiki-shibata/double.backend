@@ -1,20 +1,15 @@
 import { openApiRegistry } from "@global-shared/openapi/registry.js";
 import { toOpenApiPath } from "@global-shared/openapi/toOpenApiPath.js";
-import { userAuthSchema } from "../schema/userAuth.schema.js";
+import { UserAuthSchema } from "../schema/userAuth.schema.js";
 import { ENDPOINT_PATH_PREFIX, FEATURE_PATH_PREFIX } from "@global-shared/config/routePath.config.js";
+import { USER_AUTH_ROUTES } from "../router/userAuth.router.js";
 
 // Register components for $ref in OpenAPI docs
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.AUTH;
 
-export const USER_AUTH_ROUTES = {
-  SIGNUP: '/signup',
-  LOGIN: '/login',
-  REFRESH_TOKEN: '/refreshToken',
-  LOGOUT: '/logout',
-} as const;
 
-const AccessTokenResponseRef = openApiRegistry.register('AccessTokenResponse', userAuthSchema.accessTokenResponse);
-const JwtTokensRef = openApiRegistry.register('JwtTokens', userAuthSchema.jwtTokens);
+const AccessTokenResponseRef = openApiRegistry.register('AccessTokenResponse', UserAuthSchema.accessTokenResponse);
+const JwtTokensRef = openApiRegistry.register('JwtTokens', UserAuthSchema.jwtTokens);
 
 // Register paths using ENDPOINT_PATH_PREFIX + USER_AUTH_ROUTES
 export function registerUserAuthContracts() {
@@ -23,7 +18,7 @@ export function registerUserAuthContracts() {
     path: toOpenApiPath(`${BASE_PATH}${USER_AUTH_ROUTES.SIGNUP}`),
     summary: 'User signup',
     tags: ['User Auth'],
-    request: { body: { content: { 'application/json': { schema: userAuthSchema.SignupRequest } } } },
+    request: { body: { content: { 'application/json': { schema: UserAuthSchema.SignupRequest } } } },
     responses: {
       201: { description: 'Created', content: { 'application/json': { schema: JwtTokensRef } } },
       400: { description: 'Bad Request' },
@@ -35,7 +30,7 @@ export function registerUserAuthContracts() {
     path: toOpenApiPath(`${BASE_PATH}${USER_AUTH_ROUTES.LOGIN}`),
     summary: 'User login',
     tags: ['User Auth'],
-    request: { body: { content: { 'application/json': { schema: userAuthSchema.loginRequest } } } },
+    request: { body: { content: { 'application/json': { schema: UserAuthSchema.loginRequest } } } },
     responses: {
       200: { description: 'Success', content: { 'application/json': { schema: JwtTokensRef } } },
       400: { description: 'Bad Request' },
