@@ -1,9 +1,13 @@
 // Entry point
-import "./shared/openapi/registry.js"
+import './shared/openapi/registry.js'
+import { generateOpenApiDocument } from "@global-shared/openapi/generateJson.js"
 import { server, port } from './server.js'
 import { loggerContext } from './shared/logger/logger.js'
 import { prismaClient } from "./shared/infra/db/prismaClient.js"
 import { redisClient } from "./shared/infra/cache/client/redisClient.js"
+
+
+generateOpenApiDocument();
 
 const logger = loggerContext.getLogger()
 

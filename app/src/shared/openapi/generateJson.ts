@@ -10,7 +10,7 @@ import '../../features/prediction/contract/prediction.contract.js';
 import '../../features/bet/contract/bet.contract.js';
 import '../../features/wallet/contract/wallet.contract.js';
 
-function generateOpenApiDocument() {
+export function generateOpenApiDocument() {
   const generator = new OpenApiGeneratorV3(openApiRegistry.definitions);
 
   const document = generator.generateDocument({
@@ -36,5 +36,3 @@ function generateOpenApiDocument() {
   writeFileSync(outputPath, JSON.stringify(document, null, 2), 'utf-8');
   console.log(`✅ OpenAPI JSON successfully exported to: ${outputPath}`);
 }
-
-generateOpenApiDocument();
