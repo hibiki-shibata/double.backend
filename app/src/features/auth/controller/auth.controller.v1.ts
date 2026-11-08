@@ -13,7 +13,7 @@ export class AuthControllerV1 implements AuthController {
     ) { }
 
     async signup(
-        req: Request<{}, {}, SignupRequest>,
+        req: Request<any, any, SignupRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         this.log.info({ userName: req.body.userName }, "Request signup arrived")
@@ -29,7 +29,7 @@ export class AuthControllerV1 implements AuthController {
     }
 
     async login(
-        req: Request<{}, {}, LoginRequest>,
+        req: Request<any, any, LoginRequest>,
         res: Response<AccessTokenResponse>
     ): Promise<void> {
         this.log.info({ userName: req.body.userName }, "Request Login arrived")
