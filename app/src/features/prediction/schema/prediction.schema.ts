@@ -1,3 +1,4 @@
+import { paginationSchema } from "@global-shared/types/pagination.type.js";
 import z from "zod";
 
 export const PredictionSchema = {
@@ -9,10 +10,10 @@ export const PredictionSchema = {
         betSum: z.bigint('total participants must be bigint'),
     }),
 
-    getRequestParam: z.object({
+    getRequestQuery: paginationSchema.extend({
         marketId: z.uuidv4('market id must be a uuid4'),
     })
 }
 
 export type PredictionResponse = z.infer<typeof PredictionSchema.response>
-export type GetPredictionRequest = z.infer<typeof PredictionSchema.getRequestParam>
+export type GetPredictionListRequest = z.infer<typeof PredictionSchema.getRequestQuery>

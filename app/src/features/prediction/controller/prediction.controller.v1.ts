@@ -3,7 +3,7 @@ import type { Logger } from "pino";
 import type { LoggerContext } from "@global-shared/logger/loggerContext.js";
 import type { PredictionController } from "./prediction.controller.js";
 import type { PredictionService } from "../service/prediction.service.js";
-import type { GetPredictionRequest, PredictionResponse } from "../schema/prediction.schema.js";
+import type { GetPredictionListRequest, PredictionResponse } from "../schema/prediction.schema.js";
 
 export class PredictionControllerV1 implements PredictionController {
     constructor(
@@ -12,7 +12,7 @@ export class PredictionControllerV1 implements PredictionController {
     ) { }
 
     async getPredictions(
-        req: Request<GetPredictionRequest, unknown, void, unknown>,
+        req: Request<GetPredictionListRequest, unknown, void, unknown>,
         res: Response<PredictionResponse[]>,
     ): Promise<void> {
         const logger: Logger = this.loggerContext.getLogger()

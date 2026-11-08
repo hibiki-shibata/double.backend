@@ -4,13 +4,10 @@ import { PredictionSchema } from "../schema/prediction.schema.js";
 import { paginationSchema } from "@global-shared/types/pagination.type.js";
 import { ENDPOINT_PATH_PREFIX, FEATURE_PATH_PREFIX } from "@global-shared/config/routePath.config.js";
 import { z } from "zod";
+import { PREDICTION_ROUTES } from "../router/prediction.router.js";
 
 // Register components for $ref in OpenAPI docs
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.PREDICTION;
-
-export const PREDICTION_ROUTES = {
-    GET_BY_MARKET_ID: '/:marketId',
-} as const;
 
 const PredictionResponseRef = openApiRegistry.register('PredictionResponse', PredictionSchema.response);
 
@@ -22,13 +19,13 @@ export function registerPredictionContracts() {
         summary: 'Get predictions by market ID',
         tags: ['Predictions'],
         security: [{ bearerAuth: [] }],
-        request: { params: PredictionSchema.getRequestParam, query: paginationSchema },
+        request: { params: PredictionSchema.getRequestQuery, query: paginationSchema },
         responses: {
             200: {
                 description: 'Success',
                 content: {
                     'application/json': {
-                        schema: z.object({ items: z.array(PredictionResponseRef), total: z.number() }),
+                        schema: z.array(PredictionResponseRef),
                     },
                 },
             },
