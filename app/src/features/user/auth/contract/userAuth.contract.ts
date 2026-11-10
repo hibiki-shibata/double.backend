@@ -21,7 +21,7 @@ export function registerUserAuthContracts() {
     request: { body: { content: { 'application/json': { schema: UserAuthSchema.SignupRequest } } } },
     responses: {
       201: { description: 'Created', content: { 'application/json': { schema: JwtTokensRef } } },
-      400: { description: 'Bad Request' },
+      // 400: { description: 'Bad Request' },
     },
   });
 

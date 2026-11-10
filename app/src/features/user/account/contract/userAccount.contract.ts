@@ -7,9 +7,6 @@ import { USER_ACCOUNT_ROUTES } from "../router/userAccount.router.js";
 // Register components for $ref in OpenAPI docs
 const BASE_PATH = ENDPOINT_PATH_PREFIX + FEATURE_PATH_PREFIX.USER;
 
-
-const UserAccountResponseRef = openApiRegistry.register('UserAccountResponse', UserAccountSchema.response);
-
 // Register paths using ENDPOINT_PATH_PREFIX + USER_ACCOUNT_ROUTES
 export function registerUserAccountContracts() {
     openApiRegistry.registerPath({
@@ -19,7 +16,7 @@ export function registerUserAccountContracts() {
         tags: ['User Account'],
         security: [{ bearerAuth: [] }],
         responses: {
-            200: { description: 'Success', content: { 'application/json': { schema: UserAccountResponseRef } } },
+            200: { description: 'Success', content: { 'application/json': { schema: UserAccountSchema.response } } },
             401: { description: 'Unauthorized' },
             404: { description: 'Not Found' },
         },
@@ -33,7 +30,7 @@ export function registerUserAccountContracts() {
         security: [{ bearerAuth: [] }],
         request: { body: { content: { 'application/json': { schema: UserAccountSchema.editRequest } } } },
         responses: {
-            200: { description: 'Updated', content: { 'application/json': { schema: UserAccountResponseRef } } },
+            200: { description: 'Updated', content: { 'application/json': { schema: UserAccountSchema.response } } },
             400: { description: 'Bad Request' },
             401: { description: 'Unauthorized' },
         },
@@ -47,7 +44,7 @@ export function registerUserAccountContracts() {
         security: [{ bearerAuth: [] }],
         responses: {
             200: { description: 'Deleted' },
-            401: { description: 'Unauthorized' },
+            // 401: { description: 'Unauthorized' },
         },
     });
 }

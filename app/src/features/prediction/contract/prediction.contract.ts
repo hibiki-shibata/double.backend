@@ -20,14 +20,10 @@ export function registerPredictionContracts() {
         responses: {
             200: {
                 description: 'Success',
-                content: {
-                    'application/json': {
-                        schema: z.array(PredictionSchema.response),
-                    },
-                },
+                content: { 'application/json': { schema: z.array(PredictionSchema.response) } }
             },
-            400: { description: 'Bad Request' },
-            401: { description: 'Unauthorized' },
+            // 400: { description: 'Bad Request' },
+            // 401: { description: 'Unauthorized' },
         },
     });
 }

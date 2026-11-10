@@ -17,13 +17,13 @@ export function registerMarketContracts() {
         path: toOpenApiPath(`${BASE_PATH}${MARKET_ROUTES.GET_BY_ID}`),
         summary: 'Get market by ID',
         tags: ['Markets'],
-        // security: [{ bearerAuth: [] }],
+        security: [],
         request: { params: MarketSchema.getRequestParam },
         responses: {
             200: { description: 'Success', content: { 'application/json': { schema: MarketSchema.response } } },
-            400: { description: 'Bad Request' },
-            401: { description: 'Unauthorized' },
-            404: { description: 'Not Found' },
+            // 400: { description: 'Bad Request' },
+            // 401: { description: 'Unauthorized' },
+            // 404: { description: 'Not Found' },
         },
     });
 
@@ -32,11 +32,11 @@ export function registerMarketContracts() {
         path: toOpenApiPath(`${BASE_PATH}${MARKET_ROUTES.LIST}`),
         summary: 'Get market list',
         tags: ['Markets'],
-        // security: [{ bearerAuth: [] }],
+        security: [],
         request: { query: paginationSchema },
         responses: {
             200: { description: 'Success', content: { 'application/json': { schema: z.array(MarketSchema.response) } } },
-            401: { description: 'Unauthorized' },
+            // 401: { description: 'Unauthorized' },
         },
     });
 }
