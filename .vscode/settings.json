@@ -1,3 +1,14 @@
 {
-    "window.density.editorTabHeight": "compact"
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "workbench.statusBar.visible": false,
+    "editor.minimap.enabled": false,
+    "breadcrumbs.enabled": true,
+    "workbench.editor.showTabs": "none",
+    "window.menuBarVisibility": "hidden",
+    "chat.titleBar.signIn.enabled": false,
+    "workbench.browser.showInTitleBar": false,
+    "chat.titleBar.openInAgentsWindow.enabled": false,
+    "workbench.layoutControl.enabled": false,
+    "workbench.editor.editorActionsLocation": "hidden",
+    "workbench.activityBar.location": "hidden"
 }

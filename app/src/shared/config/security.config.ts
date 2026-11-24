@@ -10,12 +10,22 @@ export type PasswordEncoderOptions = {
     minSaltRound: number,
     saltRound: number
 }
+const MIN_SALT_ROUND = 10
+const MAX_SALT_ROUND = 15
+
 export const passwordEncoderOptions: PasswordEncoderOptions = {
-    maxSaltRound: 15,
-    minSaltRound: 10,
+    minSaltRound: MIN_SALT_ROUND,
+    maxSaltRound: MAX_SALT_ROUND,
     saltRound: (() => {
-        const saltRound: number = parseInt(process.env.BCRYPT_SALT_ROUNDS ?? '12', 10)
-        if (saltRound <= 10 || saltRound >= 15) throw new Error('BCRYPT_SALT_ROUTNDS must be between 10 and 15 characters')
+        const raw = process.env.BCRYPT_SALT_ROUNDS ?? '12'
+        const saltRound = Number(raw)
+
+        if (!Number.isInteger(saltRound) || saltRound < MIN_SALT_ROUND || saltRound > MAX_SALT_ROUND) {
+            throw new Error(
+                `BCRYPT_SALT_ROUNDS must be an integer between ${MIN_SALT_ROUND} and ${MAX_SALT_ROUND} (received: "${raw}")`
+            )
+        }
+
         return saltRound
     })()
 }
