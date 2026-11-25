@@ -1,8 +1,8 @@
 import pino, { type DestinationStream, type LoggerOptions } from "pino"
-import { isDevMode } from "./env.config.js"
+import { env, isDevMode } from "./env.js"
 
 export const loggerOptions: LoggerOptions = {
-    level: process.env.LOG_LEVEL ?? "info",
+    level: env.LOG_LEVEL,
     formatters: {
         level(label) {
             return { level: label }
@@ -10,9 +10,10 @@ export const loggerOptions: LoggerOptions = {
     },
     base: {
         service: "double-backend",
-        isDevMode: isDevMode
+        isDevMode: isDevMode,
+        env: env.APP_ENV,
     },
-    redact: ['password_hash', 'password'],
+    redact: ['password_hash', 'password', 'req.headers.authorization'],
     timestamp: pino.stdTimeFunctions.isoTime,
 }
 

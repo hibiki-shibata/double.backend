@@ -1,5 +1,9 @@
 import type { PoolConfig } from "pg"
+import { env, isProdMode } from "./env.js"
 
 export const prismaAdapterConfig: PoolConfig = {
-    connectionString: process.env.DATABASE_URL
+    connectionString: env.DATABASE_URL,
+    max: isProdMode ? 20 : 5,
+    idleTimeoutMillis: 30_000,
+    connectionTimeoutMillis: 5_000,
 }

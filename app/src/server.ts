@@ -8,8 +8,9 @@ import { ENDPOINT_PATH_PREFIX } from "@global-shared/config/routePath.config.js"
 import { featuresRouter } from "./features/features.router.js"
 import { globalErrorHandler } from "./shared/middleware/globalErrorHandler.js"
 import cookieParser from 'cookie-parser'
+import { env } from '@global-shared/config/env.js'
 
-export const port: string = process.env.PORT_NUMBER ?? "5000"
+export const port: string = env.PORT.toString()
 export const server: Express = express()
 
 server.use(rateLimit(rateLimitOptions))

@@ -1,12 +1,13 @@
 import type { RedisOptions } from "ioredis";
 import type { PaginationDBInput } from "@global-shared/types/pagination.type.js";
+import { env } from "./env.js";
 
 export const redisOptions: RedisOptions = {
-    host: process.env.REDIS_HOST ?? 'localhost',
-    port: Number(process.env.REDIS_PORT) ?? 6379,
-    username: process.env.REDIS_USERNAME ?? 'default',
-    password: process.env.REDIS_PASSWORD,
-    db: 0,
+    host: env.REDIS_HOST,
+    port: env.REDIS_PORT,
+    username: env.REDIS_USERNAME,
+    password: env.REDIS_PASSWORD,
+    db: env.REDIS_DB,
     offlineQueue: false,
     maxRetriesPerRequest: 2,
     maxLoadingRetryTime: 2,
@@ -82,4 +83,3 @@ export const cacheTtlsSec: CacheTtlsSec = {
     prediction: 60 * 10,
     refreshBlocklist: 60 * 60 * 24 * 7,
 }
-
